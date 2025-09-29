@@ -1,0 +1,20 @@
+{
+  "title": "Dashboard",
+  "welcome": "Bem-vindo de volta, {{name}}!",
+  "stats": {
+    "totalChatbots": "Total de Chatbots",
+    "activeConversations": "Conversas Ativas",
+    "monthlyMessages": "Mensagens Mensais",
+    "successRate": "Taxa de Sucesso"
+  },
+  "quickActions": {
+    "title": "Ações Rápidas",
+    "createChatbot": "Criar Novo Chatbot",
+    "viewAnalytics": "Ver Análises",
+    "manageSettings": "Gerenciar Configurações"
+  },
+  "recentActivity": {
+    "title": "Atividade Recente",
+    "noActivity": "Nenhuma atividade recente"
+  }
+}

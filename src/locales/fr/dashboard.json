@@ -1,0 +1,46 @@
+{
+  "title": "Tableau de bord",
+  "subtitle": "Gérez vos chatbots et analysez les performances",
+  "overview": {
+    "title": "Aperçu",
+    "totalChatbots": "Total des chatbots",
+    "activeConversations": "Conversations actives",
+    "messagesThisMonth": "Messages ce mois",
+    "storageUsed": "Stockage utilisé"
+  },
+  "stats": {
+    "performance": "Performance",
+    "usage": "Utilisation",
+    "engagement": "Engagement",
+    "growth": "Croissance"
+  },
+  "chatbots": {
+    "title": "Mes Chatbots",
+    "subtitle": "Gérez tous vos chatbots en un seul endroit",
+    "empty": "Aucun chatbot trouvé",
+    "emptyDescription": "Commencez par créer votre premier chatbot",
+    "createFirst": "Créer mon premier chatbot",
+    "card": {
+      "status": "Statut",
+      "messages": "{{count}} message",
+      "messages_plural": "{{count}} messages",
+      "storage": "{{size}} de stockage",
+      "lastActivity": "Dernière activité: {{date}}",
+      "configure": "Configurer",
+      "analytics": "Analyses",
+      "preview": "Aperçu"
+    }
+  },
+  "recentActivity": {
+    "title": "Activité récente",
+    "noActivity": "Aucune activité récente",
+    "viewAll": "Voir tout"
+  },
+  "quickActions": {
+    "title": "Actions rapides",
+    "createChatbot": "Créer un chatbot",
+    "viewAnalytics": "Voir les analyses",
+    "uploadData": "Téléverser des données",
+    "manageSources": "Gérer les sources"
+  }
+}

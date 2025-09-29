@@ -1,0 +1,152 @@
+{
+  "buttons": {
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit",
+    "create": "Create",
+    "back": "Back",
+    "next": "Next",
+    "previous": "Previous",
+    "submit": "Submit"
+  },
+  "status": {
+    "loading": "Loading...",
+    "error": "Error",
+    "success": "Success",
+    "processing": "Processing...",
+    "submitting": "Submitting..."
+  },
+  "navigation": {
+    "home": "Home",
+    "dashboard": "Dashboard",
+    "settings": "Settings",
+    "profile": "Profile",
+    "logout": "Logout"
+  },
+  "header": {
+    "createWorkplace": "Create Workplace",
+    "switchEnterprise": "Switch Enterprise",
+    "userMenu": "User Menu"
+  },
+  "sidebar": {
+    "mainMenu": "Main Menu",
+    "chatbots": "Chatbots",
+    "knowledgeBase": "Knowledge Base",
+    "companies": "Companies",
+    "addCompany": "Add company",
+    "usages": "Usage Analytics",
+    "workplaceSettings": "Settings",
+    "general": "General",
+    "members": "Members",
+    "plans": "Plans",
+    "billing": "Billing",
+    "security": "Security"
+  },
+  "chatbots": {
+    "title": "Chatbots",
+    "newAgent": "New chatbot",
+    "lastTrained": "Last trained {{time}} ago",
+    "createTitle": "Create New Chatbot",
+    "createDescription": "Configure a new chatbot by selecting a knowledge base",
+    "selectKnowledgeBaseTitle": "Select Knowledge Base",
+    "selectKnowledgeBaseDescription": "Choose how you want to set up the knowledge base for your chatbot",
+    "createNewKnowledgeBase": "Create New Knowledge Base",
+    "createNewKnowledgeBaseDescription": "Start from scratch with a new custom knowledge base",
+    "useExistingKnowledgeBase": "Use Existing Knowledge Base",
+    "useExistingKnowledgeBaseDescription": "Select one or more already created knowledge bases",
+    "available": "available",
+    "availableKnowledgeBases": "Available Knowledge Bases",
+    "selectKnowledgeBaseFirst": "Select a Knowledge Base",
+    "selectKnowledgeBaseFirstDescription": "To continue creating your chatbot, you need to first select a knowledge base",
+    "selectKnowledgeBase": "Select Knowledge Base",
+    "actions": {
+      "edit": "Edit",
+      "duplicate": "Duplicate",
+      "share": "Share",
+      "delete": "Delete"
+    }
+  },
+  "usages": {
+    "title": "Usage Analytics",
+    "totalMessages": "Total Messages",
+    "activeUsers": "Active Users",
+    "totalChatbots": "Total Chatbots",
+    "avgResponseTime": "Avg Response Time",
+    "thisMonth": "this month",
+    "thisWeek": "this week",
+    "newThisMonth": "new this month",
+    "improved": "improved",
+    "weeklyActivity": "Weekly Message Activity",
+    "chartPlaceholder": "Chart will be implemented with backend integration",
+    "recentActivity": "Recent Activity",
+    "messages": "messages"
+  },
+  "settings": {
+    "general": {
+      "workspaceDetails": "Workspace details",
+      "workspaceName": "Workspace name",
+      "workspaceUrl": "Workspace URL",
+      "urlWarning": "Changing the workspace URL will redirect you to the new address",
+      "save": "Save",
+      "dangerZone": "DANGER ZONE",
+      "deleteWorkspace": "Delete workspace",
+      "deleteWarning1": "Once you delete your workspace, there is no going back. Please be certain.",
+      "deleteWarning2": "All your uploaded data and trained agents will be deleted.",
+      "delete": "Delete"
+    },
+    "members": {
+      "manage": "Manage",
+      "user": "User",
+      "memberSince": "Member since",
+      "role": "Role",
+      "actions": "Actions",
+      "changeRole": "Change role",
+      "viewProfile": "View profile",
+      "removeMember": "Remove member",
+      "inviteMembers": "Invite members"
+    }
+  },
+  "knowledgeBase": {
+    "selectTitle": "Choose a Knowledge Base",
+    "selectDescription": "Select an existing knowledge base or create a new one for your chatbot",
+    "manageDescription": "Manage your knowledge bases and organize content for your chatbots",
+    "createNew": "Create New Knowledge Base",
+    "createNewDescription": "Start from scratch by adding documents, texts or websites",
+    "createButton": "Create New",
+    "existing": "Existing Knowledge Bases",
+    "selectButton": "Select",
+    "sources": "sources",
+    "totalBases": "Total Bases",
+    "totalSources": "Total Sources",
+    "totalSize": "Total Size",
+    "lastUpdated": "Updated",
+    "actions": "Actions",
+    "edit": "Edit",
+    "duplicate": "Duplicate",
+    "export": "Export",
+    "delete": "Delete",
+    "types": {
+      "documents": "Documents",
+      "website": "Website",
+      "mixed": "Mixed"
+    }
+  },
+  "breadcrumb": {
+    "selectWorkspace": "Select workspace",
+    "createWorkspace": "Create workspace",
+    "selectChatbot": "Select chatbot",
+    "createChatbot": "Create chatbot",
+    "selectKnowledgeBase": "Select knowledge base",
+    "createKnowledgeBase": "Create knowledge base"
+  },
+  "errors": {
+    "serverError": "Server error. Please try again later.",
+    "invalidCredentials": "Invalid credentials",
+    "networkError": "Network error. Check your connection.",
+    "emailAlreadyExists": "This email is already in use",
+    "invalidToken": "Invalid or expired token",
+    "emailAlreadyVerified": "This email is already verified",
+    "userNotFound": "User not found"
+  }
+}

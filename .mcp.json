@@ -1,0 +1,58 @@
+{
+  "mcpServers": {
+    "context7": {
+      "command": "npx",
+      "args": ["@upstash/context7-mcp"],
+      "env": {}
+    },
+    "filesystem": {
+      "command": "npx",
+      "args": ["@modelcontextprotocol/server-filesystem", "."],
+      "env": {}
+    },
+    "chrome-devtools": {
+      "command": "npx",
+      "args": [
+        "chrome-devtools-mcp@latest",
+        "--headless=true",
+        "--isolated=true"
+      ],
+      "env": {}
+    },
+    "prisma-local": {
+      "command": "npx",
+      "args": ["-y", "prisma", "mcp"],
+      "env": {}
+    },
+    "prisma-remote": {
+      "command": "npx",
+      "args": ["-y", "mcp-remote", "https://mcp.prisma.io/mcp"],
+      "env": {}
+    },
+    "shadcn-ui": {
+      "command": "npx",
+      "args": ["@heilgar/shadcn-ui-mcp-server"],
+      "env": {}
+    },
+    "ref-tools": {
+      "command": "npx",
+      "args": ["ref-tools-mcp@latest"],
+      "env": {}
+    },
+    "semgrep": {
+      "command": "uvx",
+      "args": ["semgrep-mcp"],
+      "env": {}
+    },
+    "pieces": {
+      "command": "npx",
+      "args": ["@pieces.app/mcp-server"],
+      "env": {}
+    },
+    "docker-mcp": {
+      "command": "npx",
+      "args": ["@quantgeekdev/docker-mcp"],
+      "env": {}
+    }
+  }
+}
