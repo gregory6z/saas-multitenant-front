@@ -3,12 +3,12 @@ import { useNavigate } from "@tanstack/react-router";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
 import { api } from "@/lib/axios";
+import { getAuthToken, setAuthToken, removeAuthToken, isAuthenticated as checkIsAuthenticated } from "@/lib/auth-storage";
 import type { LoginFormData, RegisterFormData, VerifyEmailFormData } from "@/schemas/auth";
 
 interface AuthResponse {
   token: string;
 }
-
 
 interface VerifyEmailResponse {
   success: boolean;
@@ -19,8 +19,8 @@ export function useAuth() {
   const navigate = useNavigate();
   const { t: tAuth } = useTranslation("auth");
 
-  const getToken = () => localStorage.getItem("ragboost:token");
-  const isAuthenticated = !!getToken();
+  const getToken = getAuthToken;
+  const isAuthenticated = checkIsAuthenticated();
 
   const registerMutation = useMutation({
     mutationFn: async (data: RegisterFormData): Promise<void> => {
@@ -59,10 +59,47 @@ export function useAuth() {
       const response = await api.post("/sessions", data);
       return response.data;
     },
-    onSuccess: (data) => {
-      localStorage.setItem("ragboost:token", data.token);
+    onSuccess: async (data) => {
+      setAuthToken(data.token);
       toast.success(tAuth("login.success.title"));
-      navigate({ to: "/dashboard/chatbots" });
+
+      // Wait a bit for cookie to be set before redirecting
+      await new Promise(resolve => setTimeout(resolve, 100));
+
+      // Check if user has tenants before redirecting
+      try {
+        const tenantsResponse = await api.get("/tenants");
+        const tenants = tenantsResponse.data.tenants || [];
+
+        if (tenants.length === 0) {
+          // No tenants, redirect to tenant creation
+          navigate({ to: "/tenants/create" });
+        } else {
+          // Has tenants
+          const currentHost = window.location.host;
+          
+          if (currentHost.includes("localhost")) {
+            // Development: Don't use subdomains, just go to dashboard
+            console.log("Development mode: redirecting to dashboard");
+            navigate({ to: "/dashboard/chatbots" });
+          } else {
+            // Production: redirect to first tenant's subdomain
+            const firstTenant = tenants[0];
+            const protocol = window.location.protocol;
+            const subdomainUrl = `${protocol}//${firstTenant.subdomain}.multisaas.app/dashboard/chatbots`;
+            
+            console.log("Production mode: redirecting to:", subdomainUrl);
+            console.log("Token before redirect:", getAuthToken());
+            
+            // Redirect to subdomain
+            window.location.href = subdomainUrl;
+          }
+        }
+      } catch (error) {
+        console.warn("Erro ao verificar tenants:", error);
+        // If tenant check fails, redirect to tenant creation as fallback
+        navigate({ to: "/tenants/create" });
+      }
     },
     onError: (error: Error & { response?: { status: number } }) => {
       // Handle 400 errors (invalid credentials)
@@ -133,14 +170,28 @@ export function useAuth() {
       }
     },
     onSuccess: () => {
-      localStorage.removeItem("ragboost:token");
+      removeAuthToken();
       queryClient.clear();
-      navigate({ to: "/auth/login" });
+      
+      // Redirect to main domain login
+      const protocol = window.location.protocol;
+      if (window.location.host.includes("localhost")) {
+        window.location.href = `${protocol}//localhost:3000/auth/login`;
+      } else {
+        window.location.href = `${protocol}//multisaas.app/auth/login`;
+      }
     },
     onError: () => {
-      localStorage.removeItem("ragboost:token");
+      removeAuthToken();
       queryClient.clear();
-      navigate({ to: "/auth/login" });
+      
+      // Redirect to main domain login even on error
+      const protocol = window.location.protocol;
+      if (window.location.host.includes("localhost")) {
+        window.location.href = `${protocol}//localhost:3000/auth/login`;
+      } else {
+        window.location.href = `${protocol}//multisaas.app/auth/login`;
+      }
     },
     // Logout optimizations
     retry: false, // Never retry logout

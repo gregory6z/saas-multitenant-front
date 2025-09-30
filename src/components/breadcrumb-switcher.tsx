@@ -26,7 +26,12 @@ interface BreadcrumbSwitcherProps {
     subtitle?: string;
     icon?: React.ElementType;
   };
-  onItemChange?: (item: { id: string; name: string; subtitle?: string; icon?: React.ElementType }) => void;
+  onItemChange?: (item: {
+    id: string;
+    name: string;
+    subtitle?: string;
+    icon?: React.ElementType;
+  }) => void;
   createUrl?: string;
   createLabel?: string;
 }

@@ -11,6 +11,7 @@
 import { createFileRoute } from '@tanstack/react-router'
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as AuthenticatedRouteImport } from './routes/_authenticated'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as DashboardLayoutRouteImport } from './routes/dashboard/_layout'
 import { Route as DashboardLayoutIndexRouteImport } from './routes/dashboard/_layout/index'
@@ -26,6 +27,7 @@ import { Route as DashboardChatbotsIdRouteImport } from './routes/dashboard/chat
 import { Route as DashboardLayoutUsagesRouteImport } from './routes/dashboard/_layout/usages'
 import { Route as DashboardLayoutKnowledgeBaseRouteImport } from './routes/dashboard/_layout/knowledge-base'
 import { Route as DashboardLayoutChatbotsRouteImport } from './routes/dashboard/_layout/chatbots'
+import { Route as AuthenticatedTenantsCreateRouteImport } from './routes/_authenticated/tenants/create'
 import { Route as DashboardKnowledgeBaseCreateIndexRouteImport } from './routes/dashboard/knowledge-base/create/index'
 import { Route as DashboardChatbotsCreateIndexRouteImport } from './routes/dashboard/chatbots/create/index'
 import { Route as DashboardChatbotsIdIndexRouteImport } from './routes/dashboard/chatbots/$id/index'
@@ -61,6 +63,10 @@ const DashboardRouteImport = createFileRoute('/dashboard')()
 const DashboardRoute = DashboardRouteImport.update({
   id: '/dashboard',
   path: '/dashboard',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedRoute = AuthenticatedRouteImport.update({
+  id: '/_authenticated',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -139,6 +145,12 @@ const DashboardLayoutChatbotsRoute = DashboardLayoutChatbotsRouteImport.update({
   path: '/chatbots',
   getParentRoute: () => DashboardLayoutRoute,
 } as any)
+const AuthenticatedTenantsCreateRoute =
+  AuthenticatedTenantsCreateRouteImport.update({
+    id: '/tenants/create',
+    path: '/tenants/create',
+    getParentRoute: () => AuthenticatedRoute,
+  } as any)
 const DashboardKnowledgeBaseCreateIndexRoute =
   DashboardKnowledgeBaseCreateIndexRouteImport.update({
     id: '/',
@@ -317,6 +329,7 @@ const DashboardChatbotsIdSettingsAiRoute =
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/dashboard': typeof DashboardLayoutRouteWithChildren
+  '/tenants/create': typeof AuthenticatedTenantsCreateRoute
   '/dashboard/chatbots': typeof DashboardLayoutChatbotsRoute
   '/dashboard/knowledge-base': typeof DashboardLayoutKnowledgeBaseRoute
   '/dashboard/usages': typeof DashboardLayoutUsagesRoute
@@ -363,6 +376,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/dashboard': typeof DashboardLayoutIndexRoute
+  '/tenants/create': typeof AuthenticatedTenantsCreateRoute
   '/dashboard/chatbots': typeof DashboardLayoutChatbotsRoute
   '/dashboard/knowledge-base': typeof DashboardLayoutKnowledgeBaseRoute
   '/dashboard/usages': typeof DashboardLayoutUsagesRoute
@@ -404,8 +418,10 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/_authenticated': typeof AuthenticatedRouteWithChildren
   '/dashboard': typeof DashboardRouteWithChildren
   '/dashboard/_layout': typeof DashboardLayoutRouteWithChildren
+  '/_authenticated/tenants/create': typeof AuthenticatedTenantsCreateRoute
   '/dashboard/_layout/chatbots': typeof DashboardLayoutChatbotsRoute
   '/dashboard/_layout/knowledge-base': typeof DashboardLayoutKnowledgeBaseRoute
   '/dashboard/_layout/usages': typeof DashboardLayoutUsagesRoute
@@ -454,6 +470,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/dashboard'
+    | '/tenants/create'
     | '/dashboard/chatbots'
     | '/dashboard/knowledge-base'
     | '/dashboard/usages'
@@ -500,6 +517,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/dashboard'
+    | '/tenants/create'
     | '/dashboard/chatbots'
     | '/dashboard/knowledge-base'
     | '/dashboard/usages'
@@ -540,8 +558,10 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/_authenticated'
     | '/dashboard'
     | '/dashboard/_layout'
+    | '/_authenticated/tenants/create'
     | '/dashboard/_layout/chatbots'
     | '/dashboard/_layout/knowledge-base'
     | '/dashboard/_layout/usages'
@@ -588,6 +608,7 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AuthenticatedRoute: typeof AuthenticatedRouteWithChildren
   DashboardRoute: typeof DashboardRouteWithChildren
   AuthLoginIndexRoute: typeof AuthLoginIndexRoute
   AuthRegisterIndexRoute: typeof AuthRegisterIndexRoute
@@ -603,6 +624,13 @@ declare module '@tanstack/react-router' {
       path: '/dashboard'
       fullPath: '/dashboard'
       preLoaderRoute: typeof DashboardRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated': {
+      id: '/_authenticated'
+      path: ''
+      fullPath: ''
+      preLoaderRoute: typeof AuthenticatedRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -709,6 +737,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/dashboard/chatbots'
       preLoaderRoute: typeof DashboardLayoutChatbotsRouteImport
       parentRoute: typeof DashboardLayoutRoute
+    }
+    '/_authenticated/tenants/create': {
+      id: '/_authenticated/tenants/create'
+      path: '/tenants/create'
+      fullPath: '/tenants/create'
+      preLoaderRoute: typeof AuthenticatedTenantsCreateRouteImport
+      parentRoute: typeof AuthenticatedRoute
     }
     '/dashboard/knowledge-base/create/': {
       id: '/dashboard/knowledge-base/create/'
@@ -916,6 +951,18 @@ declare module '@tanstack/react-router' {
   }
 }
 
+interface AuthenticatedRouteChildren {
+  AuthenticatedTenantsCreateRoute: typeof AuthenticatedTenantsCreateRoute
+}
+
+const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
+  AuthenticatedTenantsCreateRoute: AuthenticatedTenantsCreateRoute,
+}
+
+const AuthenticatedRouteWithChildren = AuthenticatedRoute._addFileChildren(
+  AuthenticatedRouteChildren,
+)
+
 interface DashboardLayoutRouteChildren {
   DashboardLayoutChatbotsRoute: typeof DashboardLayoutChatbotsRoute
   DashboardLayoutKnowledgeBaseRoute: typeof DashboardLayoutKnowledgeBaseRoute
@@ -1073,6 +1120,7 @@ const DashboardRouteWithChildren = DashboardRoute._addFileChildren(
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AuthenticatedRoute: AuthenticatedRouteWithChildren,
   DashboardRoute: DashboardRouteWithChildren,
   AuthLoginIndexRoute: AuthLoginIndexRoute,
   AuthRegisterIndexRoute: AuthRegisterIndexRoute,

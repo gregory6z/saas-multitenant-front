@@ -32,31 +32,36 @@ export function useUser() {
       const validatedData = UserResponseSchema.parse(response.data);
       return validatedData.user;
     },
-    // Cache configuration for user data
-    staleTime: 15 * 60 * 1000, // 15 minutes - user data changes less frequently
-    gcTime: 30 * 60 * 1000, // 30 minutes
+    // Performance optimizations - user data only changes when user explicitly updates it
+    staleTime: 30 * 60 * 1000, // 30 minutes - user data rarely changes externally
+    gcTime: 60 * 60 * 1000, // 1 hour - keep in cache for entire session
     retry: (failureCount, error: Error & { response?: { status: number } }) => {
       const status = error.response?.status;
-      // Don't retry on authentication errors (401, 403)
+      // Don't retry on authentication errors (401, 403) - critical for auth flows
       if (status === 401 || status === 403) {
         return false;
       }
-      // Don't retry on other client errors (400-499)
+      // Don't retry on client errors (400-499) - likely permanent issues
       if (status && status >= 400 && status < 500) {
         return false;
       }
-      // Retry up to 2 times on server errors or network issues
+      // Retry up to 2 times on server errors (500+) or network issues
       return failureCount < 2;
     },
-    networkMode: "online",
-    refetchOnWindowFocus: false,
-    refetchOnMount: false,
-    refetchInterval: false,
+    retryDelay: (attemptIndex) => Math.min(1000 * 2 ** attemptIndex, 30000), // Exponential backoff
+    networkMode: "online", // Only fetch when online
+    refetchOnWindowFocus: false, // User data doesn't change externally
+    refetchOnMount: false, // Use cached data if available (only changes via mutations)
+    refetchInterval: false, // Never poll - user data only changes via explicit actions
     refetchIntervalInBackground: false,
+    // Enable persisting to localStorage for better offline UX
+    meta: {
+      persist: true,
+    },
   });
 }
 
-// Hook para atualizar dados do usuário
+// Hook para atualizar dados do usuário com otimizações
 export function useUpdateUser() {
   const queryClient = useQueryClient();
 
@@ -67,9 +72,34 @@ export function useUpdateUser() {
       const validatedResponse = UserResponseSchema.parse(response.data);
       return validatedResponse.user;
     },
-    onSuccess: () => {
-      // Invalidate user queries to refetch fresh data
-      queryClient.invalidateQueries({ queryKey: ["user"] });
+    // Optimistic updates for better UX
+    onMutate: async (newUserData) => {
+      // Cancel any outgoing refetches (so they don't overwrite our optimistic update)
+      await queryClient.cancelQueries({ queryKey: ["user", "me"] });
+
+      // Snapshot the previous value
+      const previousUser = queryClient.getQueryData<User>(["user", "me"]);
+
+      // Optimistically update to the new value
+      if (previousUser) {
+        queryClient.setQueryData<User>(["user", "me"], {
+          ...previousUser,
+          ...newUserData,
+        });
+      }
+
+      // Return a context object with the snapshotted value
+      return { previousUser };
+    },
+    onError: (_err, _newUserData, context) => {
+      // If the mutation fails, use the context returned from onMutate to roll back
+      if (context?.previousUser) {
+        queryClient.setQueryData(["user", "me"], context.previousUser);
+      }
+    },
+    onSettled: () => {
+      // Always refetch after error or success to ensure consistency
+      queryClient.invalidateQueries({ queryKey: ["user", "me"] });
     },
   });
 }

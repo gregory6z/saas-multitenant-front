@@ -89,7 +89,7 @@ export function VerifyEmailForm({ className, ...props }: React.ComponentProps<"d
           </Button>
 
           <Link to="/auth/login">
-            <Button 
+            <Button
               variant="outline"
               className="w-full h-12 text-base font-medium rounded-xl border-2 hover:bg-gray-50 transition-all duration-200"
             >

@@ -1,5 +1,6 @@
 import axios from "axios";
 import i18n from "./i18n";
+import { getAuthToken, removeAuthToken } from "./auth-storage";
 
 // Router reference for navigation from interceptors
 let routerNavigate: ((options: { to: string }) => void) | null = null;
@@ -17,16 +18,28 @@ export const api = axios.create({
   },
 });
 
-// Request interceptor - add access token from localStorage + send httpOnly cookies
+// Request interceptor - add access token from auth storage + send cookies
 api.interceptors.request.use(
   (config) => {
-    // Add access token from localStorage to Authorization header
-    const token = localStorage.getItem("token");
+    // Add access token from auth storage (cookie/localStorage) to Authorization header
+    const token = getAuthToken();
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
 
-    // Include credentials to send httpOnly cookies (refresh token 'ragboost:token')
+    // Add tenant context for API calls
+    // In development: we'll add this via a custom header
+    // In production: backend can extract from subdomain
+    const isLocalhost = typeof window !== "undefined" && window.location.host.includes("localhost");
+    if (isLocalhost) {
+      // For development, we'll add tenant ID if available in the request config
+      // This will be set by individual API calls that need tenant context
+      if (config.tenantId) {
+        config.headers["X-Tenant-ID"] = config.tenantId;
+      }
+    }
+
+    // Include credentials to send cookies across subdomains
     config.withCredentials = true;
     return config;
   },
@@ -43,15 +56,15 @@ api.interceptors.response.use(
   async (error) => {
     // Handle 401 errors (unauthorized)
     if (error.response?.status === 401) {
-      // Clear access token from localStorage
-      localStorage.removeItem("token");
-      // Refresh token httpOnly cookie 'ragboost:token' será limpo pelo servidor
+      // Clear auth token from all storage
+      removeAuthToken();
 
-      if (routerNavigate) {
-        routerNavigate({ to: "/auth/login" });
+      // Redirect to main domain login
+      const protocol = window.location.protocol;
+      if (window.location.host.includes("localhost")) {
+        window.location.href = `${protocol}//localhost:3000/auth/login`;
       } else {
-        // Fallback to window.location only if router is not available
-        window.location.href = "/auth/login";
+        window.location.href = `${protocol}//multisaas.app/auth/login`;
       }
     }
 

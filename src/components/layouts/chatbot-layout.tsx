@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { Building2, ChevronRight } from "lucide-react";
+import { Bot, Building2, ChevronRight } from "lucide-react";
 import type { ReactNode } from "react";
 import { CompanySwitcher } from "@/components/company-switcher";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -72,8 +72,16 @@ export function ChatbotLayout({ breadcrumbs, sidebarSections, children }: Chatbo
       <div className="fixed top-0 left-0 right-0 z-50 bg-card h-[60px]">
         <header className="bg-card border-b border-border px-4 py-2">
           <div className="flex items-center justify-between h-[44px]">
-            {/* Left side - Company Switcher + Custom Breadcrumb */}
-            <div className="flex items-center gap-3">
+            {/* Left side - Logo + Company Switcher + Custom Breadcrumb */}
+            <div className="flex items-center gap-4">
+              {/* RagBoost Logo */}
+              <Link to="/dashboard" className="flex items-center justify-center">
+                <Bot className="w-8 h-8 text-primary hover:text-primary/80 transition-colors" />
+              </Link>
+              
+              {/* Separator */}
+              <div className="w-px h-6 bg-border"></div>
+              
               <CompanySwitcher teams={teams} />
 
               {/* Dynamic Breadcrumb */}

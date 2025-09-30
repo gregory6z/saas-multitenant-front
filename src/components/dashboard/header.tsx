@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { Building2, LogOut, Settings } from "lucide-react";
+import { Bot, Building2, LogOut, Settings } from "lucide-react";
 
 import { CompanySwitcher } from "@/components/company-switcher";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -15,20 +15,25 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { useAuth } from "@/hooks/use-auth";
 import { useTenants } from "@/hooks/use-tenants";
 import { useUser } from "@/hooks/use-users";
+import { useSubdomain } from "@/hooks/use-subdomain";
 
 export function DashboardHeader() {
   const { logout } = useAuth();
   const { data: tenants, isLoading: tenantsLoading, error: tenantsError } = useTenants();
   const { data: user, isLoading: userLoading, error: userError } = useUser();
+  const { data: currentTenant } = useSubdomain();
 
   // Transform tenants data to teams format for CompanySwitcher
-  const teams = tenants?.map((tenant) => ({
-    id: tenant.id,
-    name: tenant.name,
-    logo: Building2,
-    plan: tenant.status === "active" ? "Active" : "Inactive",
-    subdomain: tenant.subdomain,
-  })) ?? [];
+  // Prioritize current tenant and mark it as selected
+  const teams =
+    tenants?.map((tenant) => ({
+      id: tenant.id,
+      name: tenant.name,
+      logo: Building2,
+      plan: tenant.status === "active" ? "Active" : "Inactive",
+      subdomain: tenant.subdomain,
+      isCurrent: currentTenant?.id === tenant.id,
+    })) ?? [];
 
   // Use real user data or fallback to default
   const userData = user ?? {
@@ -51,8 +56,15 @@ export function DashboardHeader() {
   return (
     <header className="bg-card border-b border-border px-4 py-2">
       <div className="flex items-center justify-between h-[44px]">
-        {/* Left side - Company Switcher + Breadcrumb */}
-        <div className="flex items-center gap-3">
+        {/* Left side - Logo + Company Switcher + Breadcrumb */}
+        <div className="flex items-center gap-4">
+          {/* RagBoost Logo */}
+          <Link to="/dashboard" className="flex items-center justify-center">
+            <Bot className="w-8 h-8 text-primary hover:text-primary/80 transition-colors" />
+          </Link>
+          
+          {/* Separator */}
+          <div className="w-px h-6 bg-border"></div>
           {tenantsLoading ? (
             <Skeleton className="h-10 w-64" />
           ) : tenantsError ? (
@@ -78,7 +90,7 @@ export function DashboardHeader() {
           ) : (
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <button 
+                <button
                   type="button"
                   className="flex items-center gap-3 hover:bg-accent/50 rounded-lg p-1 transition-colors"
                 >

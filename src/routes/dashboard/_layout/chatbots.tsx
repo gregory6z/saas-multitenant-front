@@ -12,10 +12,6 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
-export const Route = createFileRoute("/dashboard/_layout/chatbots")({
-  component: ChatbotsPage,
-});
-
 // Mock data for chatbots
 const chatbots = [
   {
@@ -37,6 +33,10 @@ const chatbots = [
     type: "agent",
   },
 ];
+
+export const Route = createFileRoute("/dashboard/_layout/chatbots")({
+  component: ChatbotsPage,
+});
 
 function ChatbotsPage() {
   const { t } = useTranslation("common");
