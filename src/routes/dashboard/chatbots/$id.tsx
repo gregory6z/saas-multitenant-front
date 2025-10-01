@@ -1,4 +1,4 @@
-import { createFileRoute, Outlet, useLocation } from "@tanstack/react-router";
+import { createFileRoute, Outlet, useMatches } from "@tanstack/react-router";
 import {
   Code,
   Database,
@@ -17,15 +17,17 @@ export const Route = createFileRoute("/dashboard/chatbots/$id")({
 
 function ChatbotLayoutComponent() {
   const { id } = Route.useParams();
-  const location = useLocation();
+  const matches = useMatches();
 
-  // Determinar qual seção está ativa baseada na URL
+  // Use TanStack Router's match system instead of string parsing
   const getCurrentSection = () => {
-    const path = location.pathname;
-    if (path.includes("/sources")) return "sources";
-    if (path.includes("/settings")) return "settings";
-    if (path.includes("/playground")) return "playground";
-    if (path.includes("/widget")) return "widget";
+    const routeIds = matches.map(m => m.routeId);
+
+    if (routeIds.some(id => id.includes('sources'))) return "sources";
+    if (routeIds.some(id => id.includes('settings'))) return "settings";
+    if (routeIds.some(id => id.includes('widget'))) return "widget";
+    if (routeIds.some(id => id.includes('playground'))) return "playground";
+
     return "playground";
   };
 
@@ -33,7 +35,13 @@ function ChatbotLayoutComponent() {
 
   // Configurar sidebar baseado na seção atual
   const getSidebarConfig = () => {
-    // Sempre usar sidebar completa com accordions para manter consistência
+    const routeIds = matches.map(m => m.routeId);
+
+    // Helper to check if route is active using matches
+    const isRouteActive = (path: string) => {
+      return routeIds.some(id => id.includes(path));
+    };
+
     return {
       title:
         currentSection === "playground"
@@ -56,7 +64,7 @@ function ChatbotLayoutComponent() {
                 : currentSection === "settings"
                   ? "Settings"
                   : "Widget",
-          href: location.pathname,
+          href: `/dashboard/chatbots/${id}/${currentSection}`,
         },
       ],
       sidebarSections: [
@@ -74,25 +82,25 @@ function ChatbotLayoutComponent() {
             {
               title: "Files",
               href: `/dashboard/chatbots/${id}/sources/files`,
-              isActive: location.pathname.includes("/sources/files"),
+              isActive: isRouteActive("files"),
               icon: FileText,
             },
             {
               title: "Text",
               href: `/dashboard/chatbots/${id}/sources/text`,
-              isActive: location.pathname.includes("/sources/text"),
+              isActive: isRouteActive("text"),
               icon: Type,
             },
             {
               title: "Websites",
               href: `/dashboard/chatbots/${id}/sources/websites`,
-              isActive: location.pathname.includes("/sources/websites"),
+              isActive: isRouteActive("websites"),
               icon: Globe,
             },
             {
               title: "Knowledge Bases",
               href: `/dashboard/chatbots/${id}/sources/knowledge-bases`,
-              isActive: location.pathname.includes("/sources/knowledge-bases"),
+              isActive: isRouteActive("knowledge-bases"),
               icon: Database,
             },
           ],
@@ -111,25 +119,25 @@ function ChatbotLayoutComponent() {
             {
               title: "General",
               href: `/dashboard/chatbots/${id}/settings/general`,
-              isActive: location.pathname.includes("/settings/general"),
+              isActive: isRouteActive("general"),
               icon: Settings,
             },
             {
               title: "AI",
               href: `/dashboard/chatbots/${id}/settings/ai`,
-              isActive: location.pathname.includes("/settings/ai"),
+              isActive: isRouteActive("ai"),
               icon: MessageSquare,
             },
             {
               title: "Chat Interface",
               href: `/dashboard/chatbots/${id}/settings/chat-interface`,
-              isActive: location.pathname.includes("/settings/chat-interface"),
+              isActive: isRouteActive("chat-interface"),
               icon: Monitor,
             },
             {
               title: "Security",
               href: `/dashboard/chatbots/${id}/settings/security`,
-              isActive: location.pathname.includes("/settings/security"),
+              isActive: isRouteActive("security"),
               icon: Settings,
             },
           ],

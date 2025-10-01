@@ -3,7 +3,7 @@ import { DashboardHeader } from "@/components/dashboard/header";
 import { CreateTenantForm } from "@/components/forms/create-tenant-form";
 import { useAuth } from "@/hooks/use-auth";
 
-export const Route = createFileRoute("/_authenticated/tenants/create")({
+export const Route = createFileRoute("/dashboard/tenants/create")({
   component: CreateTenantPage,
 });
 

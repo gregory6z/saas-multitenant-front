@@ -20,6 +20,7 @@ import { Route as AuthResetPasswordIndexRouteImport } from './routes/auth/reset-
 import { Route as AuthRenewPasswordIndexRouteImport } from './routes/auth/renew-password/index'
 import { Route as AuthRegisterIndexRouteImport } from './routes/auth/register/index'
 import { Route as AuthLoginIndexRouteImport } from './routes/auth/login/index'
+import { Route as DashboardTenantsCreateRouteImport } from './routes/dashboard/tenants/create'
 import { Route as DashboardKnowledgeBaseCreateRouteImport } from './routes/dashboard/knowledge-base/create'
 import { Route as DashboardChatbotsDemoRouteImport } from './routes/dashboard/chatbots/demo'
 import { Route as DashboardChatbotsCreateRouteImport } from './routes/dashboard/chatbots/create'
@@ -27,7 +28,6 @@ import { Route as DashboardChatbotsIdRouteImport } from './routes/dashboard/chat
 import { Route as DashboardLayoutUsagesRouteImport } from './routes/dashboard/_layout/usages'
 import { Route as DashboardLayoutKnowledgeBaseRouteImport } from './routes/dashboard/_layout/knowledge-base'
 import { Route as DashboardLayoutChatbotsRouteImport } from './routes/dashboard/_layout/chatbots'
-import { Route as AuthenticatedTenantsCreateRouteImport } from './routes/_authenticated/tenants/create'
 import { Route as DashboardKnowledgeBaseCreateIndexRouteImport } from './routes/dashboard/knowledge-base/create/index'
 import { Route as DashboardChatbotsCreateIndexRouteImport } from './routes/dashboard/chatbots/create/index'
 import { Route as DashboardChatbotsIdIndexRouteImport } from './routes/dashboard/chatbots/$id/index'
@@ -108,6 +108,11 @@ const AuthLoginIndexRoute = AuthLoginIndexRouteImport.update({
   path: '/auth/login/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const DashboardTenantsCreateRoute = DashboardTenantsCreateRouteImport.update({
+  id: '/tenants/create',
+  path: '/tenants/create',
+  getParentRoute: () => DashboardRoute,
+} as any)
 const DashboardKnowledgeBaseCreateRoute =
   DashboardKnowledgeBaseCreateRouteImport.update({
     id: '/knowledge-base/create',
@@ -145,12 +150,6 @@ const DashboardLayoutChatbotsRoute = DashboardLayoutChatbotsRouteImport.update({
   path: '/chatbots',
   getParentRoute: () => DashboardLayoutRoute,
 } as any)
-const AuthenticatedTenantsCreateRoute =
-  AuthenticatedTenantsCreateRouteImport.update({
-    id: '/tenants/create',
-    path: '/tenants/create',
-    getParentRoute: () => AuthenticatedRoute,
-  } as any)
 const DashboardKnowledgeBaseCreateIndexRoute =
   DashboardKnowledgeBaseCreateIndexRouteImport.update({
     id: '/',
@@ -329,7 +328,6 @@ const DashboardChatbotsIdSettingsAiRoute =
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/dashboard': typeof DashboardLayoutRouteWithChildren
-  '/tenants/create': typeof AuthenticatedTenantsCreateRoute
   '/dashboard/chatbots': typeof DashboardLayoutChatbotsRoute
   '/dashboard/knowledge-base': typeof DashboardLayoutKnowledgeBaseRoute
   '/dashboard/usages': typeof DashboardLayoutUsagesRoute
@@ -337,6 +335,7 @@ export interface FileRoutesByFullPath {
   '/dashboard/chatbots/create': typeof DashboardChatbotsCreateRouteWithChildren
   '/dashboard/chatbots/demo': typeof DashboardChatbotsDemoRoute
   '/dashboard/knowledge-base/create': typeof DashboardKnowledgeBaseCreateRouteWithChildren
+  '/dashboard/tenants/create': typeof DashboardTenantsCreateRoute
   '/auth/login': typeof AuthLoginIndexRoute
   '/auth/register': typeof AuthRegisterIndexRoute
   '/auth/renew-password': typeof AuthRenewPasswordIndexRoute
@@ -376,11 +375,11 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/dashboard': typeof DashboardLayoutIndexRoute
-  '/tenants/create': typeof AuthenticatedTenantsCreateRoute
   '/dashboard/chatbots': typeof DashboardLayoutChatbotsRoute
   '/dashboard/knowledge-base': typeof DashboardLayoutKnowledgeBaseRoute
   '/dashboard/usages': typeof DashboardLayoutUsagesRoute
   '/dashboard/chatbots/demo': typeof DashboardChatbotsDemoRoute
+  '/dashboard/tenants/create': typeof DashboardTenantsCreateRoute
   '/auth/login': typeof AuthLoginIndexRoute
   '/auth/register': typeof AuthRegisterIndexRoute
   '/auth/renew-password': typeof AuthRenewPasswordIndexRoute
@@ -418,10 +417,9 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/_authenticated': typeof AuthenticatedRouteWithChildren
+  '/_authenticated': typeof AuthenticatedRoute
   '/dashboard': typeof DashboardRouteWithChildren
   '/dashboard/_layout': typeof DashboardLayoutRouteWithChildren
-  '/_authenticated/tenants/create': typeof AuthenticatedTenantsCreateRoute
   '/dashboard/_layout/chatbots': typeof DashboardLayoutChatbotsRoute
   '/dashboard/_layout/knowledge-base': typeof DashboardLayoutKnowledgeBaseRoute
   '/dashboard/_layout/usages': typeof DashboardLayoutUsagesRoute
@@ -429,6 +427,7 @@ export interface FileRoutesById {
   '/dashboard/chatbots/create': typeof DashboardChatbotsCreateRouteWithChildren
   '/dashboard/chatbots/demo': typeof DashboardChatbotsDemoRoute
   '/dashboard/knowledge-base/create': typeof DashboardKnowledgeBaseCreateRouteWithChildren
+  '/dashboard/tenants/create': typeof DashboardTenantsCreateRoute
   '/auth/login/': typeof AuthLoginIndexRoute
   '/auth/register/': typeof AuthRegisterIndexRoute
   '/auth/renew-password/': typeof AuthRenewPasswordIndexRoute
@@ -470,7 +469,6 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/dashboard'
-    | '/tenants/create'
     | '/dashboard/chatbots'
     | '/dashboard/knowledge-base'
     | '/dashboard/usages'
@@ -478,6 +476,7 @@ export interface FileRouteTypes {
     | '/dashboard/chatbots/create'
     | '/dashboard/chatbots/demo'
     | '/dashboard/knowledge-base/create'
+    | '/dashboard/tenants/create'
     | '/auth/login'
     | '/auth/register'
     | '/auth/renew-password'
@@ -517,11 +516,11 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/dashboard'
-    | '/tenants/create'
     | '/dashboard/chatbots'
     | '/dashboard/knowledge-base'
     | '/dashboard/usages'
     | '/dashboard/chatbots/demo'
+    | '/dashboard/tenants/create'
     | '/auth/login'
     | '/auth/register'
     | '/auth/renew-password'
@@ -561,7 +560,6 @@ export interface FileRouteTypes {
     | '/_authenticated'
     | '/dashboard'
     | '/dashboard/_layout'
-    | '/_authenticated/tenants/create'
     | '/dashboard/_layout/chatbots'
     | '/dashboard/_layout/knowledge-base'
     | '/dashboard/_layout/usages'
@@ -569,6 +567,7 @@ export interface FileRouteTypes {
     | '/dashboard/chatbots/create'
     | '/dashboard/chatbots/demo'
     | '/dashboard/knowledge-base/create'
+    | '/dashboard/tenants/create'
     | '/auth/login/'
     | '/auth/register/'
     | '/auth/renew-password/'
@@ -608,7 +607,7 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  AuthenticatedRoute: typeof AuthenticatedRouteWithChildren
+  AuthenticatedRoute: typeof AuthenticatedRoute
   DashboardRoute: typeof DashboardRouteWithChildren
   AuthLoginIndexRoute: typeof AuthLoginIndexRoute
   AuthRegisterIndexRoute: typeof AuthRegisterIndexRoute
@@ -689,6 +688,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthLoginIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/dashboard/tenants/create': {
+      id: '/dashboard/tenants/create'
+      path: '/tenants/create'
+      fullPath: '/dashboard/tenants/create'
+      preLoaderRoute: typeof DashboardTenantsCreateRouteImport
+      parentRoute: typeof DashboardRoute
+    }
     '/dashboard/knowledge-base/create': {
       id: '/dashboard/knowledge-base/create'
       path: '/knowledge-base/create'
@@ -737,13 +743,6 @@ declare module '@tanstack/react-router' {
       fullPath: '/dashboard/chatbots'
       preLoaderRoute: typeof DashboardLayoutChatbotsRouteImport
       parentRoute: typeof DashboardLayoutRoute
-    }
-    '/_authenticated/tenants/create': {
-      id: '/_authenticated/tenants/create'
-      path: '/tenants/create'
-      fullPath: '/tenants/create'
-      preLoaderRoute: typeof AuthenticatedTenantsCreateRouteImport
-      parentRoute: typeof AuthenticatedRoute
     }
     '/dashboard/knowledge-base/create/': {
       id: '/dashboard/knowledge-base/create/'
@@ -951,18 +950,6 @@ declare module '@tanstack/react-router' {
   }
 }
 
-interface AuthenticatedRouteChildren {
-  AuthenticatedTenantsCreateRoute: typeof AuthenticatedTenantsCreateRoute
-}
-
-const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
-  AuthenticatedTenantsCreateRoute: AuthenticatedTenantsCreateRoute,
-}
-
-const AuthenticatedRouteWithChildren = AuthenticatedRoute._addFileChildren(
-  AuthenticatedRouteChildren,
-)
-
 interface DashboardLayoutRouteChildren {
   DashboardLayoutChatbotsRoute: typeof DashboardLayoutChatbotsRoute
   DashboardLayoutKnowledgeBaseRoute: typeof DashboardLayoutKnowledgeBaseRoute
@@ -1103,6 +1090,7 @@ interface DashboardRouteChildren {
   DashboardChatbotsCreateRoute: typeof DashboardChatbotsCreateRouteWithChildren
   DashboardChatbotsDemoRoute: typeof DashboardChatbotsDemoRoute
   DashboardKnowledgeBaseCreateRoute: typeof DashboardKnowledgeBaseCreateRouteWithChildren
+  DashboardTenantsCreateRoute: typeof DashboardTenantsCreateRoute
 }
 
 const DashboardRouteChildren: DashboardRouteChildren = {
@@ -1112,6 +1100,7 @@ const DashboardRouteChildren: DashboardRouteChildren = {
   DashboardChatbotsDemoRoute: DashboardChatbotsDemoRoute,
   DashboardKnowledgeBaseCreateRoute:
     DashboardKnowledgeBaseCreateRouteWithChildren,
+  DashboardTenantsCreateRoute: DashboardTenantsCreateRoute,
 }
 
 const DashboardRouteWithChildren = DashboardRoute._addFileChildren(
@@ -1120,7 +1109,7 @@ const DashboardRouteWithChildren = DashboardRoute._addFileChildren(
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  AuthenticatedRoute: AuthenticatedRouteWithChildren,
+  AuthenticatedRoute: AuthenticatedRoute,
   DashboardRoute: DashboardRouteWithChildren,
   AuthLoginIndexRoute: AuthLoginIndexRoute,
   AuthRegisterIndexRoute: AuthRegisterIndexRoute,
