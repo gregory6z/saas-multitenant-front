@@ -27,9 +27,9 @@ function getCurrentSubdomain(): string | null {
  * Enhanced API client that automatically includes tenant context
  */
 export const apiWithTenant = {
-  get: (url: string, config = {}) => {
+  get: (url: string, config: Record<string, any> = {}) => {
     const subdomain = getCurrentSubdomain();
-    
+
     return api.get(url, {
       ...config,
       headers: {
@@ -39,9 +39,9 @@ export const apiWithTenant = {
     });
   },
 
-  post: (url: string, data?: any, config = {}) => {
+  post: (url: string, data?: any, config: Record<string, any> = {}) => {
     const subdomain = getCurrentSubdomain();
-    
+
     return api.post(url, data, {
       ...config,
       headers: {
@@ -51,9 +51,9 @@ export const apiWithTenant = {
     });
   },
 
-  put: (url: string, data?: any, config = {}) => {
+  put: (url: string, data?: any, config: Record<string, any> = {}) => {
     const subdomain = getCurrentSubdomain();
-    
+
     return api.put(url, data, {
       ...config,
       headers: {
@@ -63,9 +63,9 @@ export const apiWithTenant = {
     });
   },
 
-  delete: (url: string, config = {}) => {
+  delete: (url: string, config: Record<string, any> = {}) => {
     const subdomain = getCurrentSubdomain();
-    
+
     return api.delete(url, {
       ...config,
       headers: {
@@ -75,9 +75,9 @@ export const apiWithTenant = {
     });
   },
 
-  patch: (url: string, data?: any, config = {}) => {
+  patch: (url: string, data?: any, config: Record<string, any> = {}) => {
     const subdomain = getCurrentSubdomain();
-    
+
     return api.patch(url, data, {
       ...config,
       headers: {

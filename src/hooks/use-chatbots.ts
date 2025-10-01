@@ -138,7 +138,7 @@ export function useCreateChatbot() {
 
       return { previousChatbots };
     },
-    onError: (err, newChatbot, context) => {
+    onError: (_err, _newChatbot, context) => {
       // Rollback on error
       if (context?.previousChatbots) {
         queryClient.setQueryData(
@@ -230,7 +230,7 @@ export function useDeleteChatbot() {
 
       return { previousChatbots };
     },
-    onError: (err, deletedId, context) => {
+    onError: (_err, _deletedId, context) => {
       // Rollback on error
       if (context?.previousChatbots) {
         queryClient.setQueryData(
@@ -239,7 +239,7 @@ export function useDeleteChatbot() {
         );
       }
     },
-    onSuccess: (data, deletedId) => {
+    onSuccess: (_data, deletedId) => {
       // Remove from individual cache
       queryClient.removeQueries({
         queryKey: ["chatbots", currentTenant?.id, deletedId]

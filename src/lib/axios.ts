@@ -1,13 +1,12 @@
 import axios from "axios";
+import type { InternalAxiosRequestConfig } from "axios";
 import i18n from "./i18n";
 import { getAuthToken, removeAuthToken } from "./auth-storage";
 
-// Router reference for navigation from interceptors
-let routerNavigate: ((options: { to: string }) => void) | null = null;
-
-export const setRouterNavigate = (navigate: (options: { to: string }) => void) => {
-  routerNavigate = navigate;
-};
+// Extend Axios config to include tenantId
+interface ExtendedAxiosRequestConfig extends InternalAxiosRequestConfig {
+  tenantId?: string;
+}
 
 // Create axios instance with base configuration
 export const api = axios.create({
@@ -20,7 +19,7 @@ export const api = axios.create({
 
 // Request interceptor - add access token from auth storage + send cookies
 api.interceptors.request.use(
-  (config) => {
+  (config: ExtendedAxiosRequestConfig) => {
     // Add access token from auth storage (cookie/localStorage) to Authorization header
     const token = getAuthToken();
     if (token) {

@@ -13,7 +13,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { useCreateTenant } from "@/hooks/use-tenants";
+import { useTenants } from "@/hooks/use-tenants";
 
 // Form schema based on API requirements
 const createTenantFormSchema = z.object({
@@ -35,7 +35,7 @@ const createTenantFormSchema = z.object({
 type CreateTenantFormData = z.infer<typeof createTenantFormSchema>;
 
 export function CreateTenantForm() {
-  const createTenant = useCreateTenant();
+  const { createTenant } = useTenants();
 
   const form = useForm<CreateTenantFormData>({
     resolver: zodResolver(createTenantFormSchema),

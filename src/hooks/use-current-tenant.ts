@@ -9,7 +9,7 @@ import { useTenants } from "@/hooks/use-tenants";
  */
 export function useCurrentTenant() {
   const { data: subdomainTenant, isLoading: subdomainLoading } = useSubdomain();
-  const { data: userTenants, isLoading: tenantsLoading } = useTenants();
+  const { tenants: userTenants, isLoading: tenantsLoading } = useTenants();
 
   const isLocalhost = typeof window !== "undefined" && window.location.host.includes("localhost");
 

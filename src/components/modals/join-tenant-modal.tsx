@@ -20,7 +20,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { useJoinTenant } from "@/hooks/use-tenant-invite";
+import { useTenants } from "@/hooks/use-tenants";
 
 // Form schema for joining tenant
 const joinTenantFormSchema = z.object({
@@ -38,7 +38,7 @@ interface JoinTenantModalProps {
 }
 
 export function JoinTenantModal({ isOpen, onClose }: JoinTenantModalProps) {
-  const joinTenant = useJoinTenant();
+  const { joinTenant } = useTenants();
 
   const form = useForm<JoinTenantFormData>({
     resolver: zodResolver(joinTenantFormSchema),

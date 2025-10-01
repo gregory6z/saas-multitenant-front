@@ -19,7 +19,7 @@ import { useSubdomain } from "@/hooks/use-subdomain";
 
 export function DashboardHeader() {
   const { logout } = useAuth();
-  const { data: tenants, isLoading: tenantsLoading, error: tenantsError } = useTenants();
+  const { tenants, isLoading: tenantsLoading, error: tenantsError } = useTenants();
   const { data: user, isLoading: userLoading, error: userError } = useUser();
   const { data: currentTenant } = useSubdomain();
 
