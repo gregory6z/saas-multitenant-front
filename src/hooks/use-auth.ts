@@ -7,7 +7,7 @@ import {
   removeAuthToken,
   isAuthenticated as checkIsAuthenticated,
 } from "@/auth/storage";
-import { isLocalhost, getTenantSubdomainUrl, getLoginUrl } from "@/lib/url-utils";
+import { getTenantSubdomainUrl, getLoginUrl } from "@/lib/url-utils";
 import type { LoginFormData, RegisterFormData, VerifyEmailFormData } from "@/schemas/auth";
 
 interface AuthResponse {
@@ -91,13 +91,19 @@ export function useAuth() {
    */
   const loginMutation = useMutation({
     mutationFn: async (data: LoginFormData): Promise<AuthResponse> => {
+      console.log('[LOGIN] Mutation started with data:', { email: data.email });
       const response = await api.post("/sessions", data);
+      console.log('[LOGIN] Mutation response:', response.data);
       return response.data;
     },
 
     onSuccess: async (data) => {
+      console.log('[LOGIN] ========= onSuccess START =========');
+      console.log('[LOGIN] Token received:', data.token?.substring(0, 20) + '...');
+
       // 1. Salva token IMEDIATAMENTE
       setAuthToken(data.token);
+      console.log('[LOGIN] Token saved to cookie');
 
       // 2. Prefetch de tenants para decidir redirecionamento
       // Aguarda um pouco para o token ser setado nos headers
@@ -117,29 +123,28 @@ export function useAuth() {
         });
 
         // 4. Redirecionamento baseado em tenants
-        if (tenants.length === 0) {
-          // Sem tenants → criação de tenant
-          navigate({ to: "/tenants/create" });
-        } else {
-          // Com tenants → dashboard
-          if (isLocalhost()) {
-            // Development: sem subdomains, apenas navega
-            navigate({ to: "/dashboard/chatbots" });
-          } else {
-            // Production: redireciona para subdomain do primeiro tenant
-            const firstTenant = tenants[0];
-            const subdomainUrl = getTenantSubdomainUrl(
-              firstTenant.subdomain,
-              "/dashboard/chatbots"
-            );
+        console.log('[LOGIN] Tenants fetched:', tenants.length);
 
-            window.location.href = subdomainUrl;
-          }
+        if (tenants.length === 0) {
+          console.log('[LOGIN] No tenants, redirecting to create');
+          // Sem tenants → criação de tenant
+          navigate({ to: "/dashboard/tenants/create" });
+        } else {
+          // Com tenants → redireciona para subdomain do primeiro tenant
+          const firstTenant = tenants[0];
+          const subdomainUrl = getTenantSubdomainUrl(
+            firstTenant.subdomain,
+            "/dashboard/chatbots"
+          );
+
+          console.log('[LOGIN] Redirecting to subdomain:', subdomainUrl);
+          // Tanto em dev (tenant1.localhost:5173) quanto prod (tenant1.multisaas.app)
+          window.location.href = subdomainUrl;
         }
       } catch (error) {
         console.warn("Erro ao verificar tenants após login:", error);
         // Fallback: redireciona para criação de tenant
-        navigate({ to: "/tenants/create" });
+        navigate({ to: "/dashboard/tenants/create" });
       }
     },
 

@@ -24,8 +24,15 @@ export function LoginForm({ className, ...props }: React.ComponentProps<"form">)
     },
   });
 
+  // NOTA: Redirect de usuários autenticados é feito pelo SubdomainRedirect component
+  // Não fazemos redirect aqui para evitar loops
+
   const onSubmit = (data: LoginFormData) => {
+    console.log('[FORM] onSubmit called with:', { email: data.email });
+    console.log('[FORM] login.isPending:', login.isPending);
+    console.log('[FORM] login.isError:', login.isError);
     login.mutate(data);
+    console.log('[FORM] login.mutate() called');
   };
 
   return (

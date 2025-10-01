@@ -7,36 +7,35 @@ import type { CookieOptions } from "./types";
 
 const isDev = import.meta.env.DEV;
 
-let cachedDomain: string | null = null;
-
 /**
- * Get the appropriate cookie domain for current environment (memoized)
+ * Get the appropriate cookie domain for current environment
+ * IMPORTANTE: Não cachear para funcionar corretamente quando trocar de subdomain
+ *
+ * Development: .lvh.me (domínio mágico que resolve para 127.0.0.1)
+ * Production: .multisaas.app (domínio real)
+ *
+ * NOTA: .localhost não funciona pois Chrome bloqueia wildcard cookies nesse domínio
  */
 export function getCookieDomain(): string {
-  if (cachedDomain) return cachedDomain;
-
   if (typeof window === "undefined") return "";
 
   const hostname = window.location.hostname;
 
-  // Development: usa MAIN_DOMAIN do .env (ex: localhost:3000)
-  // Remove porta para cookie domain
+  // Development: usa MAIN_DOMAIN do .env (ex: lvh.me:3000)
+  // Remove porta e adiciona ponto inicial para wildcard subdomain
   const mainDomainHost = MAIN_DOMAIN.split(":")[0];
   if (hostname.includes(mainDomainHost)) {
-    cachedDomain = mainDomainHost;
-    return cachedDomain;
+    return `.${mainDomainHost}`;  // .lvh.me para funcionar em subdomains
   }
 
   // Production: usa PRODUCTION_DOMAIN do .env (ex: multisaas.app)
   // Adiciona ponto inicial para wildcard subdomain
   if (hostname.includes(PRODUCTION_DOMAIN)) {
-    cachedDomain = `.${PRODUCTION_DOMAIN}`;
-    return cachedDomain;
+    return `.${PRODUCTION_DOMAIN}`;
   }
 
   // Fallback: current domain
-  cachedDomain = hostname;
-  return cachedDomain;
+  return hostname;
 }
 
 /**
@@ -68,10 +67,26 @@ export function setCookie(options: CookieOptions): void {
   }
 
   const cookieString = cookieParts.join("; ");
+
+  console.log(`[Cookie] ========= SETTING COOKIE =========`);
+  console.log(`[Cookie] Name: ${name}`);
+  console.log(`[Cookie] Domain: ${domain}`);
+  console.log(`[Cookie] Secure: ${secure}`);
+  console.log(`[Cookie] SameSite: ${sameSite}`);
+  console.log(`[Cookie] Expires: ${expires.toUTCString()}`);
+  console.log(`[Cookie] Current hostname: ${window.location.hostname}`);
+  console.log(`[Cookie] Full cookie string: ${cookieString}`);
+
   document.cookie = cookieString;
 
-  if (isDev) {
-    console.log(`[Cookie] Set: ${name} (domain: ${domain})`);
+  // Verifica se foi setado
+  const wasSet = document.cookie.includes(`${name}=`);
+  console.log(`[Cookie] Was set successfully: ${wasSet}`);
+  if (!wasSet) {
+    console.error(`[Cookie] ❌ FAILED to set cookie!`);
+    console.error(`[Cookie] Current cookies: ${document.cookie}`);
+  } else {
+    console.log(`[Cookie] ✅ Cookie set successfully!`);
   }
 }
 

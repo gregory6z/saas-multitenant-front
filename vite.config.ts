@@ -14,5 +14,15 @@ export default defineConfig({
   },
   server: {
     port: 3000,
+    host: '0.0.0.0', // Permite acesso via qualquer hostname
+    strictPort: false,
+    allowedHosts: [
+      'lvh.me',
+      '.lvh.me', // Wildcard para todos os subdomains (tenant1.lvh.me, gregory-test.lvh.me)
+      'localhost',
+    ],
+    hmr: {
+      host: 'localhost', // HMR via localhost
+    },
   },
 });

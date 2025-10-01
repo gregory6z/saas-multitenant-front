@@ -1,11 +1,14 @@
 import axios from "axios";
 import type { InternalAxiosRequestConfig } from "axios";
 import i18n from "./i18n";
-import { getAuthToken, removeAuthToken } from "@/auth/storage";
+import { getAuthToken, removeAuthToken, setAuthToken } from "@/auth/storage";
+import { getLoginUrl } from "@/lib/url-utils";
 
-// Extend Axios config to include tenantId
-interface ExtendedAxiosRequestConfig extends InternalAxiosRequestConfig {
+// Extend Axios config to include tenantId, retry count, and refresh tracking
+export interface ExtendedAxiosRequestConfig extends InternalAxiosRequestConfig {
   tenantId?: string;
+  retry?: number;
+  _isRetryAfterRefresh?: boolean; // Flag to prevent infinite refresh loops
 }
 
 // Create axios instance with base configuration
@@ -15,6 +18,7 @@ export const api = axios.create({
   headers: {
     "Content-Type": "application/json",
   },
+  validateStatus: (status) => status >= 200 && status < 300,
 });
 
 // Request interceptor - add access token from auth storage + send cookies
@@ -26,17 +30,16 @@ api.interceptors.request.use(
       config.headers.Authorization = `Bearer ${token}`;
     }
 
-    // Add tenant context for API calls
-    // In development: we'll add this via a custom header
-    // In production: backend can extract from subdomain
-    const isLocalhost = typeof window !== "undefined" && window.location.host.includes("localhost");
-    if (isLocalhost) {
-      // For development, we'll add tenant ID if available in the request config
-      // This will be set by individual API calls that need tenant context
-      if (config.tenantId) {
-        config.headers["X-Tenant-ID"] = config.tenantId;
-      }
+    // Tenant context strategy:
+    // 1. X-Tenant-ID header (prioridade máxima) - quando passado explicitamente
+    // 2. Origin header (automático) - backend extrai subdomain (ex: http://gregory-test.lvh.me:3000 → gregory-test)
+    // 3. Host header (produção) - quando frontend e backend no mesmo domínio
+    //
+    // Apenas envia X-Tenant-ID se for passado explicitamente via config
+    if (config.tenantId) {
+      config.headers["X-Tenant-ID"] = config.tenantId;
     }
+    // Caso contrário, backend extrai do Origin (dev) ou Host (prod) automaticamente
 
     // Include credentials to send cookies across subdomains
     config.withCredentials = true;
@@ -47,23 +50,52 @@ api.interceptors.request.use(
   }
 );
 
-// Response interceptor - handle common errors
+// Response interceptor - handle common errors with retry logic
 api.interceptors.response.use(
   (response) => {
     return response;
   },
   async (error) => {
-    // Handle 401 errors (unauthorized)
-    if (error.response?.status === 401) {
-      // Clear auth token from all storage
-      removeAuthToken();
+    const config = error.config as ExtendedAxiosRequestConfig;
 
-      // Redirect to main domain login
-      const protocol = window.location.protocol;
-      if (window.location.host.includes("localhost")) {
-        window.location.href = `${protocol}//localhost:3000/auth/login`;
-      } else {
-        window.location.href = `${protocol}//multisaas.app/auth/login`;
+    // Handle 401 errors (unauthorized) - try refresh token first
+    if (error.response?.status === 401) {
+      // Previne loop infinito: se já tentou refresh e ainda deu 401, desloga
+      if (config._isRetryAfterRefresh) {
+        removeAuthToken();
+        if (!window.location.pathname.includes("/auth/")) {
+          window.location.href = getLoginUrl();
+        }
+        return Promise.reject(error);
+      }
+
+      // Tenta fazer refresh do token
+      try {
+        // Chama endpoint de refresh (cookie httpOnly vai automaticamente)
+        const { data } = await axios.patch(
+          `${import.meta.env.VITE_API_URL || "http://localhost:3333"}/refresh-token`,
+          {},
+          { withCredentials: true }
+        );
+
+        // Salva o novo access token
+        setAuthToken(data.token);
+
+        // Marca que esta requisição já passou pelo refresh
+        config._isRetryAfterRefresh = true;
+
+        // Atualiza o header com o novo token
+        config.headers.Authorization = `Bearer ${data.token}`;
+
+        // Retenta a requisição original
+        return api(config);
+      } catch (refreshError) {
+        // Refresh falhou, desloga o usuário
+        removeAuthToken();
+        if (!window.location.pathname.includes("/auth/")) {
+          window.location.href = getLoginUrl();
+        }
+        return Promise.reject(refreshError);
       }
     }
 
@@ -72,10 +104,30 @@ api.interceptors.response.use(
       error.message = i18n.t("common:errors.serverError");
     }
 
-    // Handle network errors (connection refused, timeout, etc.)
+    // Handle network errors (connection refused, timeout, etc.) with retry logic
     if (!error.response) {
       // Network error (ERR_CONNECTION_REFUSED, ERR_NETWORK, timeout, etc.)
       error.message = i18n.t("common:errors.networkError");
+
+      // Retry logic for network errors
+      if (config) {
+        // Initialize retry counter
+        if (!config.retry) {
+          config.retry = 0;
+        }
+
+        // Max 3 retries
+        if (config.retry < 3) {
+          config.retry += 1;
+
+          // Exponential backoff: 2^retry * 1000ms (1s, 2s, 4s)
+          const delay = 2 ** config.retry * 1000;
+          await new Promise((resolve) => setTimeout(resolve, delay));
+
+          // Retry the request
+          return api(config);
+        }
+      }
     }
 
     return Promise.reject(error);

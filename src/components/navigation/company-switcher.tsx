@@ -12,6 +12,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { JoinTenantModal } from "@/components/modals/join-tenant-modal";
+import { getTenantSubdomainUrl } from "@/lib/url-utils";
 
 export function CompanySwitcher({
   teams,
@@ -25,8 +26,18 @@ export function CompanySwitcher({
   }[];
 }) {
   const { t } = useTranslation("common");
-  const [activeTeam, setActiveTeam] = React.useState(teams[0]);
   const [isJoinModalOpen, setIsJoinModalOpen] = React.useState(false);
+
+  // Detecta tenant ativo baseado no subdomain da URL atual
+  const hostname = window.location.hostname;
+  const currentSubdomain = hostname.includes('.localhost')
+    ? hostname.split('.localhost')[0]
+    : hostname.split('.')[0];
+
+  // Encontra o team ativo pelo subdomain da URL
+  const activeTeam = React.useMemo(() => {
+    return teams.find(team => team.subdomain === currentSubdomain) || teams[0];
+  }, [teams, currentSubdomain]);
 
   if (!activeTeam) {
     return null;
@@ -73,7 +84,14 @@ export function CompanySwitcher({
         {teams.map((team) => (
           <DropdownMenuItem
             key={team.id || team.name}
-            onClick={() => setActiveTeam(team)}
+            onClick={() => {
+              // Redireciona para o subdomain do tenant selecionado
+              if (team.subdomain) {
+                const currentPath = window.location.pathname + window.location.search + window.location.hash;
+                const subdomainUrl = getTenantSubdomainUrl(team.subdomain, currentPath);
+                window.location.href = subdomainUrl;
+              }
+            }}
             className="gap-2 p-2"
           >
             <div className="flex size-6 items-center justify-center rounded-md border">
@@ -87,7 +105,7 @@ export function CompanySwitcher({
           Gerenciar organizações
         </DropdownMenuLabel>
         <DropdownMenuItem asChild className="gap-2 p-2">
-          <Link to="/tenants/create">
+          <Link to="/dashboard/tenants/create">
             <div className="flex size-6 items-center justify-center rounded-md border bg-transparent">
               <Plus className="size-4" />
             </div>

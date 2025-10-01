@@ -1,4 +1,3 @@
-import { MAIN_DOMAIN } from "@/lib/env";
 import { getCookie, setCookie, deleteCookie } from "./cookie";
 import { emitAuthEvent } from "./events";
 import { extractTokenMetadata, isTokenExpired } from "./jwt";
@@ -29,6 +28,11 @@ function debugWarn(...args: unknown[]): void {
 
 /**
  * Store authentication token with metadata and validation
+ *
+ * ESTRATÉGIA FINAL:
+ * - Access token salvo em COOKIE JavaScript (Domain=.localhost)
+ * - Cookie compartilhado entre TODOS os subdomains
+ * - NÃO usar localStorage (isolado por subdomain)
  */
 export function setAuthToken(token: string): void {
   // Validate token format
@@ -42,26 +46,16 @@ export function setAuthToken(token: string): void {
     throw new AuthStorageError("Cannot store expired token");
   }
 
-  // Store in localStorage (always works)
-  if (typeof localStorage !== "undefined") {
-    try {
-      localStorage.setItem(TOKEN_KEY, token);
-      localStorage.setItem(TOKEN_METADATA_KEY, JSON.stringify(metadata));
-      debugLog("Token saved to localStorage");
-    } catch (error) {
-      throw new AuthStorageError("Failed to store token in localStorage", error);
-    }
-  }
-
-  // Store in cookie for cross-subdomain access
+  // Store APENAS em cookie (compartilhado entre subdomains)
   try {
     setCookie({
       name: COOKIE_NAME,
       value: token,
       days: COOKIE_EXPIRATION_DAYS,
     });
+    debugLog("Token saved to cookie");
   } catch (error) {
-    debugWarn("Failed to set cookie (non-critical):", error);
+    throw new AuthStorageError("Failed to store token in cookie", error);
   }
 
   // Emit event
@@ -70,32 +64,23 @@ export function setAuthToken(token: string): void {
 
 /**
  * Get authentication token with automatic expiration validation
+ *
+ * ESTRATÉGIA FINAL:
+ * - Lê access token do COOKIE JavaScript (compartilhado entre subdomains)
  */
 export function getAuthToken(): string | null {
-  let token: string | null = null;
+  const token = getCookie(COOKIE_NAME);
 
-  // For development (MAIN_DOMAIN), use localStorage only (simpler)
-  const mainDomainHost = MAIN_DOMAIN.split(":")[0];
-  if (typeof window !== "undefined" && window.location.hostname.includes(mainDomainHost)) {
-    if (typeof localStorage !== "undefined") {
-      token = localStorage.getItem(TOKEN_KEY);
-      debugLog("Token retrieved from localStorage (dev):", token ? "found" : "not found");
-    }
-  } else {
-    // Production: Try cookie first (cross-subdomain)
-    const cookieToken = getCookie(COOKIE_NAME);
-    if (cookieToken) {
-      token = cookieToken;
-      debugLog("Token retrieved from cookie");
-    } else if (typeof localStorage !== "undefined") {
-      // Fallback to localStorage
-      token = localStorage.getItem(TOKEN_KEY);
-      debugLog("Token retrieved from localStorage (fallback)");
-    }
+  if (!token) {
+    debugLog("No token found in cookie");
+    return null;
   }
 
+  // REMOVED: verbose log that pollutes console
+  // debugLog("Token retrieved from cookie");
+
   // Validate token expiration
-  if (token && isTokenExpired(token)) {
+  if (isTokenExpired(token)) {
     debugLog("Token expired, removing...");
     removeAuthToken();
     emitAuthEvent("token_expired");
@@ -106,22 +91,18 @@ export function getAuthToken(): string | null {
 }
 
 /**
- * Remove authentication token completely (cookie + localStorage)
+ * Remove authentication token completely
  */
 export function removeAuthToken(): void {
-  // Remove cookie
+  // Remove access token cookie (gerenciado pelo frontend)
   deleteCookie(COOKIE_NAME);
+  debugLog("Access token removed from cookie");
 
-  // Remove from localStorage
-  if (typeof localStorage !== "undefined") {
-    localStorage.removeItem(TOKEN_KEY);
-    localStorage.removeItem(TOKEN_METADATA_KEY);
-  }
+  // NOTA: refreshToken (httpOnly) é gerenciado pelo backend
+  // Será removido automaticamente quando expirar ou no logout do backend
 
   // Emit event
   emitAuthEvent("token_removed");
-
-  debugLog("Token removed completely");
 }
 
 /**
@@ -137,22 +118,11 @@ export function isAuthenticated(): boolean {
  * Get token metadata (expiration, userId, etc.)
  */
 export function getTokenMetadata(): TokenMetadata | null {
-  if (typeof localStorage === "undefined") return null;
+  const token = getAuthToken();
+  if (!token) return null;
 
   try {
-    const metadataStr = localStorage.getItem(TOKEN_METADATA_KEY);
-    if (!metadataStr) return null;
-
-    const metadata = JSON.parse(metadataStr) as TokenMetadata;
-
-    // Verify token hasn't changed
-    const currentToken = getAuthToken();
-    if (currentToken !== metadata.token) {
-      localStorage.removeItem(TOKEN_METADATA_KEY);
-      return null;
-    }
-
-    return metadata;
+    return extractTokenMetadata(token);
   } catch {
     return null;
   }

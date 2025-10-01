@@ -8,7 +8,7 @@ const TenantSchema = z.object({
   id: z.string(),
   name: z.string(),
   subdomain: z.string(),
-  status: z.enum(["active", "inactive"]),
+  status: z.enum(["active", "inactive"]).optional(), // Backend não retorna status no PUT /tenants
   ownerId: z.string(),
   createdAt: z.string(),
   updatedAt: z.string(),
@@ -91,6 +91,9 @@ const InviteSchema = z.object({
 const InvitesResponseSchema = z.object({
   invites: z.array(InviteSchema),
 });
+
+// Export schemas for use in forms with zodResolver
+export { UpdateTenantRequestSchema, CreateTenantRequestSchema };
 
 export type Tenant = z.infer<typeof TenantSchema>;
 export type TenantsResponse = z.infer<typeof TenantsResponseSchema>;
@@ -251,9 +254,10 @@ export function useTenants() {
 
   // Mutation para atualizar tenant com optimistic updates
   const updateTenant = useMutation({
-    mutationFn: async ({ id, data }: { id: string; data: UpdateTenantRequest }) => {
+    mutationFn: async ({ data }: { id: string; data: UpdateTenantRequest }) => {
       const validatedData = UpdateTenantRequestSchema.parse(data);
-      const response = await api.put(`/tenants/${id}`, validatedData);
+      // Backend extrai tenant do Origin header automaticamente (lvh.me)
+      const response = await api.put(`/tenants`, validatedData);
       const validatedResponse = UpdateTenantResponseSchema.parse(response.data);
       return validatedResponse.tenant;
     },
@@ -299,7 +303,7 @@ export function useTenants() {
       }
     },
 
-    onSuccess: (updatedTenant) => {
+    onSuccess: (updatedTenant, variables) => {
       // Atualiza com dados reais do servidor (sem invalidação desnecessária)
       queryClient.setQueryData(["tenant", updatedTenant.id], updatedTenant);
 
@@ -309,6 +313,43 @@ export function useTenants() {
           tenant.id === updatedTenant.id ? updatedTenant : tenant
         );
       });
+
+      // Verifica se estamos em um subdomain e se mudou
+      const currentHostname = window.location.hostname;
+      const currentSubdomain = currentHostname.split('.')[0];
+
+      // Se subdomain foi alterado E estamos em subdomain, redireciona
+      if (
+        variables.data.subdomain &&
+        currentHostname.includes('.') &&
+        currentSubdomain !== updatedTenant.subdomain
+      ) {
+        // Constrói nova URL com novo subdomain
+        const protocol = window.location.protocol;
+        const port = window.location.port ? `:${window.location.port}` : '';
+        const pathname = window.location.pathname;
+        const search = window.location.search;
+        const hash = window.location.hash;
+
+        // Detecta domínio base (lvh.me, multisaas.app, localhost)
+        let baseDomain = 'lvh.me';
+        if (currentHostname.includes('multisaas.app')) {
+          baseDomain = 'multisaas.app';
+        } else if (currentHostname.includes('localhost')) {
+          baseDomain = 'localhost';
+        } else if (currentHostname.includes('lvh.me')) {
+          baseDomain = 'lvh.me';
+        }
+
+        const newUrl = `${protocol}//${updatedTenant.subdomain}.${baseDomain}${port}${pathname}${search}${hash}`;
+
+        console.log('[UpdateTenant] Subdomain changed, redirecting to:', newUrl);
+
+        // Aguarda um pouco para garantir que cache foi atualizado
+        setTimeout(() => {
+          window.location.href = newUrl;
+        }, 500);
+      }
     },
 
     retry: (failureCount, error: Error & { response?: { status: number } }) => {
@@ -320,20 +361,20 @@ export function useTenants() {
     },
   });
 
-  // Mutation para deletar tenant
+  // NOTA: Endpoint DELETE /tenants/{id} NÃO existe no backend
+  // O único DELETE disponível é DELETE /tenants/users/{userId} para remover usuários
+  // Se precisar deletar tenant, endpoint precisa ser implementado no backend primeiro
+
+  // Mutation placeholder - não funcional até backend implementar endpoint
   const deleteTenant = useMutation({
-    mutationFn: async (id: string): Promise<void> => {
-      await api.delete(`/tenants/${id}`);
+    mutationFn: async (_id: string): Promise<void> => {
+      throw new Error("Endpoint DELETE /tenants não implementado no backend. Use a UI para deletar o tenant.");
     },
 
     onMutate: async (deletedId) => {
-      // Cancela refetches
       await queryClient.cancelQueries({ queryKey: ["tenants"] });
-
-      // Snapshot para rollback
       const previousTenants = queryClient.getQueryData<Tenant[]>(["tenants"]);
 
-      // Optimistic removal
       queryClient.setQueryData<Tenant[]>(["tenants"], (oldTenants) => {
         if (!oldTenants) return [];
         return oldTenants.filter((tenant) => tenant.id !== deletedId);
@@ -343,14 +384,12 @@ export function useTenants() {
     },
 
     onError: (_error, _deletedId, context) => {
-      // Rollback
       if (context?.previousTenants) {
         queryClient.setQueryData(["tenants"], context.previousTenants);
       }
     },
 
     onSuccess: (_data, deletedId) => {
-      // Remove do cache individual
       queryClient.removeQueries({
         queryKey: ["tenant", deletedId],
       });
