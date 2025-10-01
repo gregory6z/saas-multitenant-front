@@ -1,16 +1,16 @@
-import { FilesContent } from "@/components/content/files-content";
-import { IndexContent } from "@/components/content/index-content";
-import { KnowledgeContent } from "@/components/content/knowledge-content";
-import { TextContent } from "@/components/content/text-content";
-import { WebsitesContent } from "@/components/content/websites-content";
-import { SourcesSidebar } from "@/components/sources-sidebar";
+import { FilesContent } from "@/components/knowledge/sources/files-content";
+import { IndexContent } from "@/components/knowledge/sources/index-content";
+import { KnowledgeContent } from "@/components/knowledge/sources/knowledge-content";
+import { TextContent } from "@/components/knowledge/sources/text-content";
+import { WebsitesContent } from "@/components/knowledge/sources/websites-content";
+import { SourcesSidebar } from "@/components/chatbot/sources-sidebar";
 
-interface CreationPageProps {
+interface CreationLayoutProps {
   mode: "knowledge-base" | "chatbot";
   type: "index" | "files" | "text" | "websites" | "knowledge";
 }
 
-export function CreationPage({ mode, type }: CreationPageProps) {
+export function CreationLayout({ mode, type }: CreationLayoutProps) {
   const renderContent = () => {
     switch (type) {
       case "index":

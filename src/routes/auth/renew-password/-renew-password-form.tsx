@@ -16,7 +16,7 @@ import {
   useFormField,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { cn } from "@/lib/utils";
+import { cn } from "@/utils/cn";
 import { createRenewPasswordSchema, type RenewPasswordFormData } from "@/schemas/auth";
 
 // Custom FormMessage component that translates validation messages

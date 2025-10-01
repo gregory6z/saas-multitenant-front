@@ -1,7 +1,7 @@
 import { useTranslation } from "react-i18next";
 
 import { useFormField } from "@/components/ui/form";
-import { cn } from "@/lib/utils";
+import { cn } from "@/utils/cn";
 
 interface TranslatedFormMessageProps extends React.ComponentProps<"p"> {
   namespace?: string;

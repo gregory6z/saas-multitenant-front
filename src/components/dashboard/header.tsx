@@ -1,7 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { Bot, Building2, LogOut, Settings } from "lucide-react";
 
-import { CompanySwitcher } from "@/components/company-switcher";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   DropdownMenu,
@@ -16,6 +15,7 @@ import { useAuth } from "@/hooks/use-auth";
 import { useTenants } from "@/hooks/use-tenants";
 import { useUser } from "@/hooks/use-users";
 import { useSubdomain } from "@/hooks/use-subdomain";
+import { CompanySwitcher } from "@/components/navigation/company-switcher";
 
 export function DashboardHeader() {
   const { logout } = useAuth();

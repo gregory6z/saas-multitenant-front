@@ -5,7 +5,7 @@ import { useTranslation } from "react-i18next";
 
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/hooks/use-auth";
-import { cn } from "@/lib/utils";
+import { cn } from "@/utils/cn";
 
 export function VerifyEmailForm({ className, ...props }: React.ComponentProps<"div">) {
   const { t } = useTranslation("auth");

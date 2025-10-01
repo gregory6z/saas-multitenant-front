@@ -1,10 +1,10 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { CreationPage } from "@/components/creation-page";
+import { CreationLayout } from "@/components/layouts/creation-layout";
 
 export const Route = createFileRoute("/dashboard/knowledge-base/create/websites")({
   component: CreateKnowledgeBaseWebsitesPage,
 });
 
 function CreateKnowledgeBaseWebsitesPage() {
-  return <CreationPage mode="knowledge-base" type="websites" />;
+  return <CreationLayout mode="knowledge-base" type="websites" />;
 }

@@ -1,6 +1,6 @@
 import { createFileRoute, Navigate, Outlet } from "@tanstack/react-router";
 
-import { AppSidebar } from "@/components/app-sidebar";
+import { AppSidebar } from "@/components/navigation/app-sidebar";
 import { DashboardHeader } from "@/components/dashboard/header";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { useAuth } from "@/hooks/use-auth";

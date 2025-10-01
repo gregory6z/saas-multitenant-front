@@ -10,7 +10,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel } from "@/components/
 import { Input } from "@/components/ui/input";
 import { TranslatedFormMessage } from "@/components/ui/translated-form-message";
 import { useAuth } from "@/hooks/use-auth";
-import { cn } from "@/lib/utils";
+import { cn } from "@/utils/cn";
 import { createRegisterSchema, type RegisterFormData } from "@/schemas/auth";
 
 export function RegisterForm({ className, ...props }: React.ComponentProps<"form">) {

@@ -3,8 +3,8 @@ import { BarChart3, Bot, Database, Settings } from "lucide-react";
 import type * as React from "react";
 import { useTranslation } from "react-i18next";
 
-import { NavMain } from "@/components/nav-main";
-import { NavProjects } from "@/components/nav-projects";
+import { NavMain } from "@/components/navigation/nav-main";
+import { NavProjects } from "@/components/navigation/nav-projects";
 import { Sidebar, SidebarContent, SidebarRail } from "@/components/ui/sidebar";
 
 // Simplified sidebar data

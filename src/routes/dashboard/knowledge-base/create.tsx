@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { KnowledgeCreationLayout } from "@/components/knowledge-creation-layout";
+import { KnowledgeCreationLayout } from "@/components/layouts/knowledge-creation-layout";
 
 export const Route = createFileRoute("/dashboard/knowledge-base/create")({
   component: CreateKnowledgeBasePage,

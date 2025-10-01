@@ -1,7 +1,7 @@
 import { Link, Outlet } from "@tanstack/react-router";
 import { Bot, Building2, Home } from "lucide-react";
-import { ChatbotCreationSidebar } from "@/components/chatbot-creation-sidebar";
-import { CompanySwitcher } from "@/components/company-switcher";
+import { ChatbotCreationSidebar } from "@/components/chatbot/chatbot-creation-sidebar";
+import { CompanySwitcher } from "@/components/navigation/company-switcher";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { SidebarProvider } from "@/components/ui/sidebar";

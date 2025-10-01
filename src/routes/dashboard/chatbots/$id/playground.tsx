@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { PlaygroundContent } from "@/components/chatbot-content/playground-content";
+import { PlaygroundContent } from "@/components/chatbot/content/playground-content";
 
 export const Route = createFileRoute("/dashboard/chatbots/$id/playground")({
   component: PlaygroundPageComponent,

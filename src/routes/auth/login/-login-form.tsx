@@ -9,7 +9,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel } from "@/components/
 import { Input } from "@/components/ui/input";
 import { TranslatedFormMessage } from "@/components/ui/translated-form-message";
 import { useAuth } from "@/hooks/use-auth";
-import { cn } from "@/lib/utils";
+import { cn } from "@/utils/cn";
 import { createLoginSchema, type LoginFormData } from "@/schemas/auth";
 
 export function LoginForm({ className, ...props }: React.ComponentProps<"form">) {

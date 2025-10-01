@@ -1,7 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { Bot, Building2, ChevronRight } from "lucide-react";
 import type { ReactNode } from "react";
-import { CompanySwitcher } from "@/components/company-switcher";
+import { CompanySwitcher } from "@/components/navigation/company-switcher";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";

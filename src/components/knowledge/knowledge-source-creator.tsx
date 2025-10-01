@@ -1,6 +1,6 @@
 import { Database, FileText, Globe, MoreHorizontal, Search, Type, Upload } from "lucide-react";
 import { useState } from "react";
-import { ChatbotCreationSidebar } from "@/components/chatbot-creation-sidebar";
+import { ChatbotCreationSidebar } from "@/components/chatbot/chatbot-creation-sidebar";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";

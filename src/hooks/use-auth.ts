@@ -6,7 +6,7 @@ import {
   setAuthToken,
   removeAuthToken,
   isAuthenticated as checkIsAuthenticated,
-} from "@/lib/auth-storage";
+} from "@/auth/storage";
 import { isLocalhost, getTenantSubdomainUrl, getLoginUrl } from "@/lib/url-utils";
 import type { LoginFormData, RegisterFormData, VerifyEmailFormData } from "@/schemas/auth";
 

@@ -1,7 +1,7 @@
 import axios from "axios";
 import type { InternalAxiosRequestConfig } from "axios";
 import i18n from "./i18n";
-import { getAuthToken, removeAuthToken } from "./auth-storage";
+import { getAuthToken, removeAuthToken } from "@/auth/storage";
 
 // Extend Axios config to include tenantId
 interface ExtendedAxiosRequestConfig extends InternalAxiosRequestConfig {

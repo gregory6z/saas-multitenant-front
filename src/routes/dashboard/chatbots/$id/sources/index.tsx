@@ -1,5 +1,5 @@
 import { createFileRoute, redirect } from "@tanstack/react-router";
-import { FilesContent } from "@/components/content/files-content";
+import { FilesContent } from "@/components/knowledge/sources/files-content";
 
 export const Route = createFileRoute("/dashboard/chatbots/$id/sources/")({
   beforeLoad: ({ params }) => {

@@ -1,5 +1,5 @@
 import { createFileRoute, redirect } from "@tanstack/react-router";
-import { CreationPage } from "@/components/creation-page";
+import { CreationLayout } from "@/components/layouts/creation-layout";
 
 export const Route = createFileRoute("/dashboard/chatbots/create/")({
   beforeLoad: () => {
@@ -9,5 +9,5 @@ export const Route = createFileRoute("/dashboard/chatbots/create/")({
 });
 
 function CreateChatbotIndexPage() {
-  return <CreationPage mode="chatbot" type="index" />;
+  return <CreationLayout mode="chatbot" type="index" />;
 }
