@@ -13,58 +13,55 @@ import { createFileRoute } from '@tanstack/react-router'
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as AuthenticatedRouteImport } from './routes/_authenticated'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as DashboardLayoutRouteImport } from './routes/dashboard/_layout'
-import { Route as DashboardLayoutIndexRouteImport } from './routes/dashboard/_layout/index'
 import { Route as AuthVerifyEmailIndexRouteImport } from './routes/auth/verify-email/index'
 import { Route as AuthResetPasswordIndexRouteImport } from './routes/auth/reset-password/index'
 import { Route as AuthRenewPasswordIndexRouteImport } from './routes/auth/renew-password/index'
 import { Route as AuthRegisterIndexRouteImport } from './routes/auth/register/index'
 import { Route as AuthLoginIndexRouteImport } from './routes/auth/login/index'
-import { Route as DashboardTenantsCreateRouteImport } from './routes/dashboard/tenants/create'
-import { Route as DashboardKnowledgeBaseCreateRouteImport } from './routes/dashboard/knowledge-base/create'
-import { Route as DashboardChatbotsDemoRouteImport } from './routes/dashboard/chatbots/demo'
-import { Route as DashboardChatbotsCreateRouteImport } from './routes/dashboard/chatbots/create'
-import { Route as DashboardChatbotsIdRouteImport } from './routes/dashboard/chatbots/$id'
-import { Route as DashboardLayoutUsagesRouteImport } from './routes/dashboard/_layout/usages'
-import { Route as DashboardLayoutKnowledgeBaseRouteImport } from './routes/dashboard/_layout/knowledge-base'
-import { Route as DashboardLayoutChatbotsRouteImport } from './routes/dashboard/_layout/chatbots'
-import { Route as DashboardKnowledgeBaseCreateIndexRouteImport } from './routes/dashboard/knowledge-base/create/index'
-import { Route as DashboardChatbotsCreateIndexRouteImport } from './routes/dashboard/chatbots/create/index'
-import { Route as DashboardChatbotsIdIndexRouteImport } from './routes/dashboard/chatbots/$id/index'
-import { Route as DashboardKnowledgeBaseCreateWebsitesRouteImport } from './routes/dashboard/knowledge-base/create/websites'
-import { Route as DashboardKnowledgeBaseCreateTextRouteImport } from './routes/dashboard/knowledge-base/create/text'
-import { Route as DashboardKnowledgeBaseCreateKnowledgeRouteImport } from './routes/dashboard/knowledge-base/create/knowledge'
-import { Route as DashboardKnowledgeBaseCreateFilesRouteImport } from './routes/dashboard/knowledge-base/create/files'
-import { Route as DashboardChatbotsCreateWebsitesRouteImport } from './routes/dashboard/chatbots/create/websites'
-import { Route as DashboardChatbotsCreateTextRouteImport } from './routes/dashboard/chatbots/create/text'
-import { Route as DashboardChatbotsCreateKnowledgeRouteImport } from './routes/dashboard/chatbots/create/knowledge'
-import { Route as DashboardChatbotsCreateFilesRouteImport } from './routes/dashboard/chatbots/create/files'
-import { Route as DashboardChatbotsIdWidgetRouteImport } from './routes/dashboard/chatbots/$id/widget'
-import { Route as DashboardChatbotsIdSettingsRouteImport } from './routes/dashboard/chatbots/$id/settings'
-import { Route as DashboardChatbotsIdPlaygroundRouteImport } from './routes/dashboard/chatbots/$id/playground'
-import { Route as DashboardLayoutSettingsSecurityRouteImport } from './routes/dashboard/_layout/settings/security'
-import { Route as DashboardLayoutSettingsPlansRouteImport } from './routes/dashboard/_layout/settings/plans'
-import { Route as DashboardLayoutSettingsMembersRouteImport } from './routes/dashboard/_layout/settings/members'
-import { Route as DashboardLayoutSettingsGeneralRouteImport } from './routes/dashboard/_layout/settings/general'
-import { Route as DashboardLayoutSettingsBillingRouteImport } from './routes/dashboard/_layout/settings/billing'
-import { Route as DashboardChatbotsIdSourcesIndexRouteImport } from './routes/dashboard/chatbots/$id/sources/index'
-import { Route as DashboardChatbotsIdSettingsIndexRouteImport } from './routes/dashboard/chatbots/$id/settings/index'
-import { Route as DashboardChatbotsIdSourcesWebsitesRouteImport } from './routes/dashboard/chatbots/$id/sources/websites'
-import { Route as DashboardChatbotsIdSourcesTextRouteImport } from './routes/dashboard/chatbots/$id/sources/text'
-import { Route as DashboardChatbotsIdSourcesKnowledgeBasesRouteImport } from './routes/dashboard/chatbots/$id/sources/knowledge-bases'
-import { Route as DashboardChatbotsIdSourcesFilesRouteImport } from './routes/dashboard/chatbots/$id/sources/files'
-import { Route as DashboardChatbotsIdSettingsSecurityRouteImport } from './routes/dashboard/chatbots/$id/settings/security'
-import { Route as DashboardChatbotsIdSettingsGeneralRouteImport } from './routes/dashboard/chatbots/$id/settings/general'
-import { Route as DashboardChatbotsIdSettingsChatInterfaceRouteImport } from './routes/dashboard/chatbots/$id/settings/chat-interface'
-import { Route as DashboardChatbotsIdSettingsAiRouteImport } from './routes/dashboard/chatbots/$id/settings/ai'
+import { Route as AuthenticatedDashboardLayoutRouteImport } from './routes/_authenticated.dashboard/_layout'
+import { Route as AuthenticatedDashboardLayoutIndexRouteImport } from './routes/_authenticated.dashboard/_layout/index'
+import { Route as AuthenticatedDashboardTenantsCreateRouteImport } from './routes/_authenticated.dashboard/tenants/create'
+import { Route as AuthenticatedDashboardKnowledgeBaseCreateRouteImport } from './routes/_authenticated.dashboard/knowledge-base/create'
+import { Route as AuthenticatedDashboardChatbotsDemoRouteImport } from './routes/_authenticated.dashboard/chatbots/demo'
+import { Route as AuthenticatedDashboardChatbotsCreateRouteImport } from './routes/_authenticated.dashboard/chatbots/create'
+import { Route as AuthenticatedDashboardChatbotsIdRouteImport } from './routes/_authenticated.dashboard/chatbots/$id'
+import { Route as AuthenticatedDashboardLayoutUsagesRouteImport } from './routes/_authenticated.dashboard/_layout/usages'
+import { Route as AuthenticatedDashboardLayoutKnowledgeBaseRouteImport } from './routes/_authenticated.dashboard/_layout/knowledge-base'
+import { Route as AuthenticatedDashboardLayoutChatbotsRouteImport } from './routes/_authenticated.dashboard/_layout/chatbots'
+import { Route as AuthenticatedDashboardKnowledgeBaseCreateIndexRouteImport } from './routes/_authenticated.dashboard/knowledge-base/create/index'
+import { Route as AuthenticatedDashboardChatbotsCreateIndexRouteImport } from './routes/_authenticated.dashboard/chatbots/create/index'
+import { Route as AuthenticatedDashboardChatbotsIdIndexRouteImport } from './routes/_authenticated.dashboard/chatbots/$id/index'
+import { Route as AuthenticatedDashboardKnowledgeBaseCreateWebsitesRouteImport } from './routes/_authenticated.dashboard/knowledge-base/create/websites'
+import { Route as AuthenticatedDashboardKnowledgeBaseCreateTextRouteImport } from './routes/_authenticated.dashboard/knowledge-base/create/text'
+import { Route as AuthenticatedDashboardKnowledgeBaseCreateKnowledgeRouteImport } from './routes/_authenticated.dashboard/knowledge-base/create/knowledge'
+import { Route as AuthenticatedDashboardKnowledgeBaseCreateFilesRouteImport } from './routes/_authenticated.dashboard/knowledge-base/create/files'
+import { Route as AuthenticatedDashboardChatbotsCreateWebsitesRouteImport } from './routes/_authenticated.dashboard/chatbots/create/websites'
+import { Route as AuthenticatedDashboardChatbotsCreateTextRouteImport } from './routes/_authenticated.dashboard/chatbots/create/text'
+import { Route as AuthenticatedDashboardChatbotsCreateKnowledgeRouteImport } from './routes/_authenticated.dashboard/chatbots/create/knowledge'
+import { Route as AuthenticatedDashboardChatbotsCreateFilesRouteImport } from './routes/_authenticated.dashboard/chatbots/create/files'
+import { Route as AuthenticatedDashboardChatbotsIdWidgetRouteImport } from './routes/_authenticated.dashboard/chatbots/$id/widget'
+import { Route as AuthenticatedDashboardChatbotsIdSettingsRouteImport } from './routes/_authenticated.dashboard/chatbots/$id/settings'
+import { Route as AuthenticatedDashboardChatbotsIdPlaygroundRouteImport } from './routes/_authenticated.dashboard/chatbots/$id/playground'
+import { Route as AuthenticatedDashboardLayoutSettingsSecurityRouteImport } from './routes/_authenticated.dashboard/_layout/settings/security'
+import { Route as AuthenticatedDashboardLayoutSettingsPlansRouteImport } from './routes/_authenticated.dashboard/_layout/settings/plans'
+import { Route as AuthenticatedDashboardLayoutSettingsMembersRouteImport } from './routes/_authenticated.dashboard/_layout/settings/members'
+import { Route as AuthenticatedDashboardLayoutSettingsGeneralRouteImport } from './routes/_authenticated.dashboard/_layout/settings/general'
+import { Route as AuthenticatedDashboardLayoutSettingsBillingRouteImport } from './routes/_authenticated.dashboard/_layout/settings/billing'
+import { Route as AuthenticatedDashboardChatbotsIdSourcesIndexRouteImport } from './routes/_authenticated.dashboard/chatbots/$id/sources/index'
+import { Route as AuthenticatedDashboardChatbotsIdSettingsIndexRouteImport } from './routes/_authenticated.dashboard/chatbots/$id/settings/index'
+import { Route as AuthenticatedDashboardChatbotsIdSourcesWebsitesRouteImport } from './routes/_authenticated.dashboard/chatbots/$id/sources/websites'
+import { Route as AuthenticatedDashboardChatbotsIdSourcesTextRouteImport } from './routes/_authenticated.dashboard/chatbots/$id/sources/text'
+import { Route as AuthenticatedDashboardChatbotsIdSourcesKnowledgeBasesRouteImport } from './routes/_authenticated.dashboard/chatbots/$id/sources/knowledge-bases'
+import { Route as AuthenticatedDashboardChatbotsIdSourcesFilesRouteImport } from './routes/_authenticated.dashboard/chatbots/$id/sources/files'
+import { Route as AuthenticatedDashboardChatbotsIdSettingsSecurityRouteImport } from './routes/_authenticated.dashboard/chatbots/$id/settings/security'
+import { Route as AuthenticatedDashboardChatbotsIdSettingsGeneralRouteImport } from './routes/_authenticated.dashboard/chatbots/$id/settings/general'
+import { Route as AuthenticatedDashboardChatbotsIdSettingsChatInterfaceRouteImport } from './routes/_authenticated.dashboard/chatbots/$id/settings/chat-interface'
+import { Route as AuthenticatedDashboardChatbotsIdSettingsAiRouteImport } from './routes/_authenticated.dashboard/chatbots/$id/settings/ai'
 
-const DashboardRouteImport = createFileRoute('/dashboard')()
+const AuthenticatedDashboardRouteImport = createFileRoute(
+  '/_authenticated/dashboard',
+)()
 
-const DashboardRoute = DashboardRouteImport.update({
-  id: '/dashboard',
-  path: '/dashboard',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const AuthenticatedRoute = AuthenticatedRouteImport.update({
   id: '/_authenticated',
   getParentRoute: () => rootRouteImport,
@@ -74,14 +71,10 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const DashboardLayoutRoute = DashboardLayoutRouteImport.update({
-  id: '/_layout',
-  getParentRoute: () => DashboardRoute,
-} as any)
-const DashboardLayoutIndexRoute = DashboardLayoutIndexRouteImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => DashboardLayoutRoute,
+const AuthenticatedDashboardRoute = AuthenticatedDashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
+  getParentRoute: () => AuthenticatedRoute,
 } as any)
 const AuthVerifyEmailIndexRoute = AuthVerifyEmailIndexRouteImport.update({
   id: '/auth/verify-email/',
@@ -108,367 +101,389 @@ const AuthLoginIndexRoute = AuthLoginIndexRouteImport.update({
   path: '/auth/login/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const DashboardTenantsCreateRoute = DashboardTenantsCreateRouteImport.update({
-  id: '/tenants/create',
-  path: '/tenants/create',
-  getParentRoute: () => DashboardRoute,
-} as any)
-const DashboardKnowledgeBaseCreateRoute =
-  DashboardKnowledgeBaseCreateRouteImport.update({
+const AuthenticatedDashboardLayoutRoute =
+  AuthenticatedDashboardLayoutRouteImport.update({
+    id: '/_layout',
+    getParentRoute: () => AuthenticatedDashboardRoute,
+  } as any)
+const AuthenticatedDashboardLayoutIndexRoute =
+  AuthenticatedDashboardLayoutIndexRouteImport.update({
+    id: '/',
+    path: '/',
+    getParentRoute: () => AuthenticatedDashboardLayoutRoute,
+  } as any)
+const AuthenticatedDashboardTenantsCreateRoute =
+  AuthenticatedDashboardTenantsCreateRouteImport.update({
+    id: '/tenants/create',
+    path: '/tenants/create',
+    getParentRoute: () => AuthenticatedDashboardRoute,
+  } as any)
+const AuthenticatedDashboardKnowledgeBaseCreateRoute =
+  AuthenticatedDashboardKnowledgeBaseCreateRouteImport.update({
     id: '/knowledge-base/create',
     path: '/knowledge-base/create',
-    getParentRoute: () => DashboardRoute,
+    getParentRoute: () => AuthenticatedDashboardRoute,
   } as any)
-const DashboardChatbotsDemoRoute = DashboardChatbotsDemoRouteImport.update({
-  id: '/chatbots/demo',
-  path: '/chatbots/demo',
-  getParentRoute: () => DashboardRoute,
-} as any)
-const DashboardChatbotsCreateRoute = DashboardChatbotsCreateRouteImport.update({
-  id: '/chatbots/create',
-  path: '/chatbots/create',
-  getParentRoute: () => DashboardRoute,
-} as any)
-const DashboardChatbotsIdRoute = DashboardChatbotsIdRouteImport.update({
-  id: '/chatbots/$id',
-  path: '/chatbots/$id',
-  getParentRoute: () => DashboardRoute,
-} as any)
-const DashboardLayoutUsagesRoute = DashboardLayoutUsagesRouteImport.update({
-  id: '/usages',
-  path: '/usages',
-  getParentRoute: () => DashboardLayoutRoute,
-} as any)
-const DashboardLayoutKnowledgeBaseRoute =
-  DashboardLayoutKnowledgeBaseRouteImport.update({
+const AuthenticatedDashboardChatbotsDemoRoute =
+  AuthenticatedDashboardChatbotsDemoRouteImport.update({
+    id: '/chatbots/demo',
+    path: '/chatbots/demo',
+    getParentRoute: () => AuthenticatedDashboardRoute,
+  } as any)
+const AuthenticatedDashboardChatbotsCreateRoute =
+  AuthenticatedDashboardChatbotsCreateRouteImport.update({
+    id: '/chatbots/create',
+    path: '/chatbots/create',
+    getParentRoute: () => AuthenticatedDashboardRoute,
+  } as any)
+const AuthenticatedDashboardChatbotsIdRoute =
+  AuthenticatedDashboardChatbotsIdRouteImport.update({
+    id: '/chatbots/$id',
+    path: '/chatbots/$id',
+    getParentRoute: () => AuthenticatedDashboardRoute,
+  } as any)
+const AuthenticatedDashboardLayoutUsagesRoute =
+  AuthenticatedDashboardLayoutUsagesRouteImport.update({
+    id: '/usages',
+    path: '/usages',
+    getParentRoute: () => AuthenticatedDashboardLayoutRoute,
+  } as any)
+const AuthenticatedDashboardLayoutKnowledgeBaseRoute =
+  AuthenticatedDashboardLayoutKnowledgeBaseRouteImport.update({
     id: '/knowledge-base',
     path: '/knowledge-base',
-    getParentRoute: () => DashboardLayoutRoute,
+    getParentRoute: () => AuthenticatedDashboardLayoutRoute,
   } as any)
-const DashboardLayoutChatbotsRoute = DashboardLayoutChatbotsRouteImport.update({
-  id: '/chatbots',
-  path: '/chatbots',
-  getParentRoute: () => DashboardLayoutRoute,
-} as any)
-const DashboardKnowledgeBaseCreateIndexRoute =
-  DashboardKnowledgeBaseCreateIndexRouteImport.update({
+const AuthenticatedDashboardLayoutChatbotsRoute =
+  AuthenticatedDashboardLayoutChatbotsRouteImport.update({
+    id: '/chatbots',
+    path: '/chatbots',
+    getParentRoute: () => AuthenticatedDashboardLayoutRoute,
+  } as any)
+const AuthenticatedDashboardKnowledgeBaseCreateIndexRoute =
+  AuthenticatedDashboardKnowledgeBaseCreateIndexRouteImport.update({
     id: '/',
     path: '/',
-    getParentRoute: () => DashboardKnowledgeBaseCreateRoute,
+    getParentRoute: () => AuthenticatedDashboardKnowledgeBaseCreateRoute,
   } as any)
-const DashboardChatbotsCreateIndexRoute =
-  DashboardChatbotsCreateIndexRouteImport.update({
+const AuthenticatedDashboardChatbotsCreateIndexRoute =
+  AuthenticatedDashboardChatbotsCreateIndexRouteImport.update({
     id: '/',
     path: '/',
-    getParentRoute: () => DashboardChatbotsCreateRoute,
+    getParentRoute: () => AuthenticatedDashboardChatbotsCreateRoute,
   } as any)
-const DashboardChatbotsIdIndexRoute =
-  DashboardChatbotsIdIndexRouteImport.update({
+const AuthenticatedDashboardChatbotsIdIndexRoute =
+  AuthenticatedDashboardChatbotsIdIndexRouteImport.update({
     id: '/',
     path: '/',
-    getParentRoute: () => DashboardChatbotsIdRoute,
+    getParentRoute: () => AuthenticatedDashboardChatbotsIdRoute,
   } as any)
-const DashboardKnowledgeBaseCreateWebsitesRoute =
-  DashboardKnowledgeBaseCreateWebsitesRouteImport.update({
+const AuthenticatedDashboardKnowledgeBaseCreateWebsitesRoute =
+  AuthenticatedDashboardKnowledgeBaseCreateWebsitesRouteImport.update({
     id: '/websites',
     path: '/websites',
-    getParentRoute: () => DashboardKnowledgeBaseCreateRoute,
+    getParentRoute: () => AuthenticatedDashboardKnowledgeBaseCreateRoute,
   } as any)
-const DashboardKnowledgeBaseCreateTextRoute =
-  DashboardKnowledgeBaseCreateTextRouteImport.update({
+const AuthenticatedDashboardKnowledgeBaseCreateTextRoute =
+  AuthenticatedDashboardKnowledgeBaseCreateTextRouteImport.update({
     id: '/text',
     path: '/text',
-    getParentRoute: () => DashboardKnowledgeBaseCreateRoute,
+    getParentRoute: () => AuthenticatedDashboardKnowledgeBaseCreateRoute,
   } as any)
-const DashboardKnowledgeBaseCreateKnowledgeRoute =
-  DashboardKnowledgeBaseCreateKnowledgeRouteImport.update({
+const AuthenticatedDashboardKnowledgeBaseCreateKnowledgeRoute =
+  AuthenticatedDashboardKnowledgeBaseCreateKnowledgeRouteImport.update({
     id: '/knowledge',
     path: '/knowledge',
-    getParentRoute: () => DashboardKnowledgeBaseCreateRoute,
+    getParentRoute: () => AuthenticatedDashboardKnowledgeBaseCreateRoute,
   } as any)
-const DashboardKnowledgeBaseCreateFilesRoute =
-  DashboardKnowledgeBaseCreateFilesRouteImport.update({
+const AuthenticatedDashboardKnowledgeBaseCreateFilesRoute =
+  AuthenticatedDashboardKnowledgeBaseCreateFilesRouteImport.update({
     id: '/files',
     path: '/files',
-    getParentRoute: () => DashboardKnowledgeBaseCreateRoute,
+    getParentRoute: () => AuthenticatedDashboardKnowledgeBaseCreateRoute,
   } as any)
-const DashboardChatbotsCreateWebsitesRoute =
-  DashboardChatbotsCreateWebsitesRouteImport.update({
+const AuthenticatedDashboardChatbotsCreateWebsitesRoute =
+  AuthenticatedDashboardChatbotsCreateWebsitesRouteImport.update({
     id: '/websites',
     path: '/websites',
-    getParentRoute: () => DashboardChatbotsCreateRoute,
+    getParentRoute: () => AuthenticatedDashboardChatbotsCreateRoute,
   } as any)
-const DashboardChatbotsCreateTextRoute =
-  DashboardChatbotsCreateTextRouteImport.update({
+const AuthenticatedDashboardChatbotsCreateTextRoute =
+  AuthenticatedDashboardChatbotsCreateTextRouteImport.update({
     id: '/text',
     path: '/text',
-    getParentRoute: () => DashboardChatbotsCreateRoute,
+    getParentRoute: () => AuthenticatedDashboardChatbotsCreateRoute,
   } as any)
-const DashboardChatbotsCreateKnowledgeRoute =
-  DashboardChatbotsCreateKnowledgeRouteImport.update({
+const AuthenticatedDashboardChatbotsCreateKnowledgeRoute =
+  AuthenticatedDashboardChatbotsCreateKnowledgeRouteImport.update({
     id: '/knowledge',
     path: '/knowledge',
-    getParentRoute: () => DashboardChatbotsCreateRoute,
+    getParentRoute: () => AuthenticatedDashboardChatbotsCreateRoute,
   } as any)
-const DashboardChatbotsCreateFilesRoute =
-  DashboardChatbotsCreateFilesRouteImport.update({
+const AuthenticatedDashboardChatbotsCreateFilesRoute =
+  AuthenticatedDashboardChatbotsCreateFilesRouteImport.update({
     id: '/files',
     path: '/files',
-    getParentRoute: () => DashboardChatbotsCreateRoute,
+    getParentRoute: () => AuthenticatedDashboardChatbotsCreateRoute,
   } as any)
-const DashboardChatbotsIdWidgetRoute =
-  DashboardChatbotsIdWidgetRouteImport.update({
+const AuthenticatedDashboardChatbotsIdWidgetRoute =
+  AuthenticatedDashboardChatbotsIdWidgetRouteImport.update({
     id: '/widget',
     path: '/widget',
-    getParentRoute: () => DashboardChatbotsIdRoute,
+    getParentRoute: () => AuthenticatedDashboardChatbotsIdRoute,
   } as any)
-const DashboardChatbotsIdSettingsRoute =
-  DashboardChatbotsIdSettingsRouteImport.update({
+const AuthenticatedDashboardChatbotsIdSettingsRoute =
+  AuthenticatedDashboardChatbotsIdSettingsRouteImport.update({
     id: '/settings',
     path: '/settings',
-    getParentRoute: () => DashboardChatbotsIdRoute,
+    getParentRoute: () => AuthenticatedDashboardChatbotsIdRoute,
   } as any)
-const DashboardChatbotsIdPlaygroundRoute =
-  DashboardChatbotsIdPlaygroundRouteImport.update({
+const AuthenticatedDashboardChatbotsIdPlaygroundRoute =
+  AuthenticatedDashboardChatbotsIdPlaygroundRouteImport.update({
     id: '/playground',
     path: '/playground',
-    getParentRoute: () => DashboardChatbotsIdRoute,
+    getParentRoute: () => AuthenticatedDashboardChatbotsIdRoute,
   } as any)
-const DashboardLayoutSettingsSecurityRoute =
-  DashboardLayoutSettingsSecurityRouteImport.update({
+const AuthenticatedDashboardLayoutSettingsSecurityRoute =
+  AuthenticatedDashboardLayoutSettingsSecurityRouteImport.update({
     id: '/settings/security',
     path: '/settings/security',
-    getParentRoute: () => DashboardLayoutRoute,
+    getParentRoute: () => AuthenticatedDashboardLayoutRoute,
   } as any)
-const DashboardLayoutSettingsPlansRoute =
-  DashboardLayoutSettingsPlansRouteImport.update({
+const AuthenticatedDashboardLayoutSettingsPlansRoute =
+  AuthenticatedDashboardLayoutSettingsPlansRouteImport.update({
     id: '/settings/plans',
     path: '/settings/plans',
-    getParentRoute: () => DashboardLayoutRoute,
+    getParentRoute: () => AuthenticatedDashboardLayoutRoute,
   } as any)
-const DashboardLayoutSettingsMembersRoute =
-  DashboardLayoutSettingsMembersRouteImport.update({
+const AuthenticatedDashboardLayoutSettingsMembersRoute =
+  AuthenticatedDashboardLayoutSettingsMembersRouteImport.update({
     id: '/settings/members',
     path: '/settings/members',
-    getParentRoute: () => DashboardLayoutRoute,
+    getParentRoute: () => AuthenticatedDashboardLayoutRoute,
   } as any)
-const DashboardLayoutSettingsGeneralRoute =
-  DashboardLayoutSettingsGeneralRouteImport.update({
+const AuthenticatedDashboardLayoutSettingsGeneralRoute =
+  AuthenticatedDashboardLayoutSettingsGeneralRouteImport.update({
     id: '/settings/general',
     path: '/settings/general',
-    getParentRoute: () => DashboardLayoutRoute,
+    getParentRoute: () => AuthenticatedDashboardLayoutRoute,
   } as any)
-const DashboardLayoutSettingsBillingRoute =
-  DashboardLayoutSettingsBillingRouteImport.update({
+const AuthenticatedDashboardLayoutSettingsBillingRoute =
+  AuthenticatedDashboardLayoutSettingsBillingRouteImport.update({
     id: '/settings/billing',
     path: '/settings/billing',
-    getParentRoute: () => DashboardLayoutRoute,
+    getParentRoute: () => AuthenticatedDashboardLayoutRoute,
   } as any)
-const DashboardChatbotsIdSourcesIndexRoute =
-  DashboardChatbotsIdSourcesIndexRouteImport.update({
+const AuthenticatedDashboardChatbotsIdSourcesIndexRoute =
+  AuthenticatedDashboardChatbotsIdSourcesIndexRouteImport.update({
     id: '/sources/',
     path: '/sources/',
-    getParentRoute: () => DashboardChatbotsIdRoute,
+    getParentRoute: () => AuthenticatedDashboardChatbotsIdRoute,
   } as any)
-const DashboardChatbotsIdSettingsIndexRoute =
-  DashboardChatbotsIdSettingsIndexRouteImport.update({
+const AuthenticatedDashboardChatbotsIdSettingsIndexRoute =
+  AuthenticatedDashboardChatbotsIdSettingsIndexRouteImport.update({
     id: '/',
     path: '/',
-    getParentRoute: () => DashboardChatbotsIdSettingsRoute,
+    getParentRoute: () => AuthenticatedDashboardChatbotsIdSettingsRoute,
   } as any)
-const DashboardChatbotsIdSourcesWebsitesRoute =
-  DashboardChatbotsIdSourcesWebsitesRouteImport.update({
+const AuthenticatedDashboardChatbotsIdSourcesWebsitesRoute =
+  AuthenticatedDashboardChatbotsIdSourcesWebsitesRouteImport.update({
     id: '/sources/websites',
     path: '/sources/websites',
-    getParentRoute: () => DashboardChatbotsIdRoute,
+    getParentRoute: () => AuthenticatedDashboardChatbotsIdRoute,
   } as any)
-const DashboardChatbotsIdSourcesTextRoute =
-  DashboardChatbotsIdSourcesTextRouteImport.update({
+const AuthenticatedDashboardChatbotsIdSourcesTextRoute =
+  AuthenticatedDashboardChatbotsIdSourcesTextRouteImport.update({
     id: '/sources/text',
     path: '/sources/text',
-    getParentRoute: () => DashboardChatbotsIdRoute,
+    getParentRoute: () => AuthenticatedDashboardChatbotsIdRoute,
   } as any)
-const DashboardChatbotsIdSourcesKnowledgeBasesRoute =
-  DashboardChatbotsIdSourcesKnowledgeBasesRouteImport.update({
+const AuthenticatedDashboardChatbotsIdSourcesKnowledgeBasesRoute =
+  AuthenticatedDashboardChatbotsIdSourcesKnowledgeBasesRouteImport.update({
     id: '/sources/knowledge-bases',
     path: '/sources/knowledge-bases',
-    getParentRoute: () => DashboardChatbotsIdRoute,
+    getParentRoute: () => AuthenticatedDashboardChatbotsIdRoute,
   } as any)
-const DashboardChatbotsIdSourcesFilesRoute =
-  DashboardChatbotsIdSourcesFilesRouteImport.update({
+const AuthenticatedDashboardChatbotsIdSourcesFilesRoute =
+  AuthenticatedDashboardChatbotsIdSourcesFilesRouteImport.update({
     id: '/sources/files',
     path: '/sources/files',
-    getParentRoute: () => DashboardChatbotsIdRoute,
+    getParentRoute: () => AuthenticatedDashboardChatbotsIdRoute,
   } as any)
-const DashboardChatbotsIdSettingsSecurityRoute =
-  DashboardChatbotsIdSettingsSecurityRouteImport.update({
+const AuthenticatedDashboardChatbotsIdSettingsSecurityRoute =
+  AuthenticatedDashboardChatbotsIdSettingsSecurityRouteImport.update({
     id: '/security',
     path: '/security',
-    getParentRoute: () => DashboardChatbotsIdSettingsRoute,
+    getParentRoute: () => AuthenticatedDashboardChatbotsIdSettingsRoute,
   } as any)
-const DashboardChatbotsIdSettingsGeneralRoute =
-  DashboardChatbotsIdSettingsGeneralRouteImport.update({
+const AuthenticatedDashboardChatbotsIdSettingsGeneralRoute =
+  AuthenticatedDashboardChatbotsIdSettingsGeneralRouteImport.update({
     id: '/general',
     path: '/general',
-    getParentRoute: () => DashboardChatbotsIdSettingsRoute,
+    getParentRoute: () => AuthenticatedDashboardChatbotsIdSettingsRoute,
   } as any)
-const DashboardChatbotsIdSettingsChatInterfaceRoute =
-  DashboardChatbotsIdSettingsChatInterfaceRouteImport.update({
+const AuthenticatedDashboardChatbotsIdSettingsChatInterfaceRoute =
+  AuthenticatedDashboardChatbotsIdSettingsChatInterfaceRouteImport.update({
     id: '/chat-interface',
     path: '/chat-interface',
-    getParentRoute: () => DashboardChatbotsIdSettingsRoute,
+    getParentRoute: () => AuthenticatedDashboardChatbotsIdSettingsRoute,
   } as any)
-const DashboardChatbotsIdSettingsAiRoute =
-  DashboardChatbotsIdSettingsAiRouteImport.update({
+const AuthenticatedDashboardChatbotsIdSettingsAiRoute =
+  AuthenticatedDashboardChatbotsIdSettingsAiRouteImport.update({
     id: '/ai',
     path: '/ai',
-    getParentRoute: () => DashboardChatbotsIdSettingsRoute,
+    getParentRoute: () => AuthenticatedDashboardChatbotsIdSettingsRoute,
   } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/dashboard': typeof DashboardLayoutRouteWithChildren
-  '/dashboard/chatbots': typeof DashboardLayoutChatbotsRoute
-  '/dashboard/knowledge-base': typeof DashboardLayoutKnowledgeBaseRoute
-  '/dashboard/usages': typeof DashboardLayoutUsagesRoute
-  '/dashboard/chatbots/$id': typeof DashboardChatbotsIdRouteWithChildren
-  '/dashboard/chatbots/create': typeof DashboardChatbotsCreateRouteWithChildren
-  '/dashboard/chatbots/demo': typeof DashboardChatbotsDemoRoute
-  '/dashboard/knowledge-base/create': typeof DashboardKnowledgeBaseCreateRouteWithChildren
-  '/dashboard/tenants/create': typeof DashboardTenantsCreateRoute
+  '/dashboard': typeof AuthenticatedDashboardLayoutRouteWithChildren
   '/auth/login': typeof AuthLoginIndexRoute
   '/auth/register': typeof AuthRegisterIndexRoute
   '/auth/renew-password': typeof AuthRenewPasswordIndexRoute
   '/auth/reset-password': typeof AuthResetPasswordIndexRoute
   '/auth/verify-email': typeof AuthVerifyEmailIndexRoute
-  '/dashboard/': typeof DashboardLayoutIndexRoute
-  '/dashboard/settings/billing': typeof DashboardLayoutSettingsBillingRoute
-  '/dashboard/settings/general': typeof DashboardLayoutSettingsGeneralRoute
-  '/dashboard/settings/members': typeof DashboardLayoutSettingsMembersRoute
-  '/dashboard/settings/plans': typeof DashboardLayoutSettingsPlansRoute
-  '/dashboard/settings/security': typeof DashboardLayoutSettingsSecurityRoute
-  '/dashboard/chatbots/$id/playground': typeof DashboardChatbotsIdPlaygroundRoute
-  '/dashboard/chatbots/$id/settings': typeof DashboardChatbotsIdSettingsRouteWithChildren
-  '/dashboard/chatbots/$id/widget': typeof DashboardChatbotsIdWidgetRoute
-  '/dashboard/chatbots/create/files': typeof DashboardChatbotsCreateFilesRoute
-  '/dashboard/chatbots/create/knowledge': typeof DashboardChatbotsCreateKnowledgeRoute
-  '/dashboard/chatbots/create/text': typeof DashboardChatbotsCreateTextRoute
-  '/dashboard/chatbots/create/websites': typeof DashboardChatbotsCreateWebsitesRoute
-  '/dashboard/knowledge-base/create/files': typeof DashboardKnowledgeBaseCreateFilesRoute
-  '/dashboard/knowledge-base/create/knowledge': typeof DashboardKnowledgeBaseCreateKnowledgeRoute
-  '/dashboard/knowledge-base/create/text': typeof DashboardKnowledgeBaseCreateTextRoute
-  '/dashboard/knowledge-base/create/websites': typeof DashboardKnowledgeBaseCreateWebsitesRoute
-  '/dashboard/chatbots/$id/': typeof DashboardChatbotsIdIndexRoute
-  '/dashboard/chatbots/create/': typeof DashboardChatbotsCreateIndexRoute
-  '/dashboard/knowledge-base/create/': typeof DashboardKnowledgeBaseCreateIndexRoute
-  '/dashboard/chatbots/$id/settings/ai': typeof DashboardChatbotsIdSettingsAiRoute
-  '/dashboard/chatbots/$id/settings/chat-interface': typeof DashboardChatbotsIdSettingsChatInterfaceRoute
-  '/dashboard/chatbots/$id/settings/general': typeof DashboardChatbotsIdSettingsGeneralRoute
-  '/dashboard/chatbots/$id/settings/security': typeof DashboardChatbotsIdSettingsSecurityRoute
-  '/dashboard/chatbots/$id/sources/files': typeof DashboardChatbotsIdSourcesFilesRoute
-  '/dashboard/chatbots/$id/sources/knowledge-bases': typeof DashboardChatbotsIdSourcesKnowledgeBasesRoute
-  '/dashboard/chatbots/$id/sources/text': typeof DashboardChatbotsIdSourcesTextRoute
-  '/dashboard/chatbots/$id/sources/websites': typeof DashboardChatbotsIdSourcesWebsitesRoute
-  '/dashboard/chatbots/$id/settings/': typeof DashboardChatbotsIdSettingsIndexRoute
-  '/dashboard/chatbots/$id/sources': typeof DashboardChatbotsIdSourcesIndexRoute
+  '/dashboard/chatbots': typeof AuthenticatedDashboardLayoutChatbotsRoute
+  '/dashboard/knowledge-base': typeof AuthenticatedDashboardLayoutKnowledgeBaseRoute
+  '/dashboard/usages': typeof AuthenticatedDashboardLayoutUsagesRoute
+  '/dashboard/chatbots/$id': typeof AuthenticatedDashboardChatbotsIdRouteWithChildren
+  '/dashboard/chatbots/create': typeof AuthenticatedDashboardChatbotsCreateRouteWithChildren
+  '/dashboard/chatbots/demo': typeof AuthenticatedDashboardChatbotsDemoRoute
+  '/dashboard/knowledge-base/create': typeof AuthenticatedDashboardKnowledgeBaseCreateRouteWithChildren
+  '/dashboard/tenants/create': typeof AuthenticatedDashboardTenantsCreateRoute
+  '/dashboard/': typeof AuthenticatedDashboardLayoutIndexRoute
+  '/dashboard/settings/billing': typeof AuthenticatedDashboardLayoutSettingsBillingRoute
+  '/dashboard/settings/general': typeof AuthenticatedDashboardLayoutSettingsGeneralRoute
+  '/dashboard/settings/members': typeof AuthenticatedDashboardLayoutSettingsMembersRoute
+  '/dashboard/settings/plans': typeof AuthenticatedDashboardLayoutSettingsPlansRoute
+  '/dashboard/settings/security': typeof AuthenticatedDashboardLayoutSettingsSecurityRoute
+  '/dashboard/chatbots/$id/playground': typeof AuthenticatedDashboardChatbotsIdPlaygroundRoute
+  '/dashboard/chatbots/$id/settings': typeof AuthenticatedDashboardChatbotsIdSettingsRouteWithChildren
+  '/dashboard/chatbots/$id/widget': typeof AuthenticatedDashboardChatbotsIdWidgetRoute
+  '/dashboard/chatbots/create/files': typeof AuthenticatedDashboardChatbotsCreateFilesRoute
+  '/dashboard/chatbots/create/knowledge': typeof AuthenticatedDashboardChatbotsCreateKnowledgeRoute
+  '/dashboard/chatbots/create/text': typeof AuthenticatedDashboardChatbotsCreateTextRoute
+  '/dashboard/chatbots/create/websites': typeof AuthenticatedDashboardChatbotsCreateWebsitesRoute
+  '/dashboard/knowledge-base/create/files': typeof AuthenticatedDashboardKnowledgeBaseCreateFilesRoute
+  '/dashboard/knowledge-base/create/knowledge': typeof AuthenticatedDashboardKnowledgeBaseCreateKnowledgeRoute
+  '/dashboard/knowledge-base/create/text': typeof AuthenticatedDashboardKnowledgeBaseCreateTextRoute
+  '/dashboard/knowledge-base/create/websites': typeof AuthenticatedDashboardKnowledgeBaseCreateWebsitesRoute
+  '/dashboard/chatbots/$id/': typeof AuthenticatedDashboardChatbotsIdIndexRoute
+  '/dashboard/chatbots/create/': typeof AuthenticatedDashboardChatbotsCreateIndexRoute
+  '/dashboard/knowledge-base/create/': typeof AuthenticatedDashboardKnowledgeBaseCreateIndexRoute
+  '/dashboard/chatbots/$id/settings/ai': typeof AuthenticatedDashboardChatbotsIdSettingsAiRoute
+  '/dashboard/chatbots/$id/settings/chat-interface': typeof AuthenticatedDashboardChatbotsIdSettingsChatInterfaceRoute
+  '/dashboard/chatbots/$id/settings/general': typeof AuthenticatedDashboardChatbotsIdSettingsGeneralRoute
+  '/dashboard/chatbots/$id/settings/security': typeof AuthenticatedDashboardChatbotsIdSettingsSecurityRoute
+  '/dashboard/chatbots/$id/sources/files': typeof AuthenticatedDashboardChatbotsIdSourcesFilesRoute
+  '/dashboard/chatbots/$id/sources/knowledge-bases': typeof AuthenticatedDashboardChatbotsIdSourcesKnowledgeBasesRoute
+  '/dashboard/chatbots/$id/sources/text': typeof AuthenticatedDashboardChatbotsIdSourcesTextRoute
+  '/dashboard/chatbots/$id/sources/websites': typeof AuthenticatedDashboardChatbotsIdSourcesWebsitesRoute
+  '/dashboard/chatbots/$id/settings/': typeof AuthenticatedDashboardChatbotsIdSettingsIndexRoute
+  '/dashboard/chatbots/$id/sources': typeof AuthenticatedDashboardChatbotsIdSourcesIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/dashboard': typeof DashboardLayoutIndexRoute
-  '/dashboard/chatbots': typeof DashboardLayoutChatbotsRoute
-  '/dashboard/knowledge-base': typeof DashboardLayoutKnowledgeBaseRoute
-  '/dashboard/usages': typeof DashboardLayoutUsagesRoute
-  '/dashboard/chatbots/demo': typeof DashboardChatbotsDemoRoute
-  '/dashboard/tenants/create': typeof DashboardTenantsCreateRoute
+  '/dashboard': typeof AuthenticatedDashboardLayoutIndexRoute
   '/auth/login': typeof AuthLoginIndexRoute
   '/auth/register': typeof AuthRegisterIndexRoute
   '/auth/renew-password': typeof AuthRenewPasswordIndexRoute
   '/auth/reset-password': typeof AuthResetPasswordIndexRoute
   '/auth/verify-email': typeof AuthVerifyEmailIndexRoute
-  '/dashboard/settings/billing': typeof DashboardLayoutSettingsBillingRoute
-  '/dashboard/settings/general': typeof DashboardLayoutSettingsGeneralRoute
-  '/dashboard/settings/members': typeof DashboardLayoutSettingsMembersRoute
-  '/dashboard/settings/plans': typeof DashboardLayoutSettingsPlansRoute
-  '/dashboard/settings/security': typeof DashboardLayoutSettingsSecurityRoute
-  '/dashboard/chatbots/$id/playground': typeof DashboardChatbotsIdPlaygroundRoute
-  '/dashboard/chatbots/$id/widget': typeof DashboardChatbotsIdWidgetRoute
-  '/dashboard/chatbots/create/files': typeof DashboardChatbotsCreateFilesRoute
-  '/dashboard/chatbots/create/knowledge': typeof DashboardChatbotsCreateKnowledgeRoute
-  '/dashboard/chatbots/create/text': typeof DashboardChatbotsCreateTextRoute
-  '/dashboard/chatbots/create/websites': typeof DashboardChatbotsCreateWebsitesRoute
-  '/dashboard/knowledge-base/create/files': typeof DashboardKnowledgeBaseCreateFilesRoute
-  '/dashboard/knowledge-base/create/knowledge': typeof DashboardKnowledgeBaseCreateKnowledgeRoute
-  '/dashboard/knowledge-base/create/text': typeof DashboardKnowledgeBaseCreateTextRoute
-  '/dashboard/knowledge-base/create/websites': typeof DashboardKnowledgeBaseCreateWebsitesRoute
-  '/dashboard/chatbots/$id': typeof DashboardChatbotsIdIndexRoute
-  '/dashboard/chatbots/create': typeof DashboardChatbotsCreateIndexRoute
-  '/dashboard/knowledge-base/create': typeof DashboardKnowledgeBaseCreateIndexRoute
-  '/dashboard/chatbots/$id/settings/ai': typeof DashboardChatbotsIdSettingsAiRoute
-  '/dashboard/chatbots/$id/settings/chat-interface': typeof DashboardChatbotsIdSettingsChatInterfaceRoute
-  '/dashboard/chatbots/$id/settings/general': typeof DashboardChatbotsIdSettingsGeneralRoute
-  '/dashboard/chatbots/$id/settings/security': typeof DashboardChatbotsIdSettingsSecurityRoute
-  '/dashboard/chatbots/$id/sources/files': typeof DashboardChatbotsIdSourcesFilesRoute
-  '/dashboard/chatbots/$id/sources/knowledge-bases': typeof DashboardChatbotsIdSourcesKnowledgeBasesRoute
-  '/dashboard/chatbots/$id/sources/text': typeof DashboardChatbotsIdSourcesTextRoute
-  '/dashboard/chatbots/$id/sources/websites': typeof DashboardChatbotsIdSourcesWebsitesRoute
-  '/dashboard/chatbots/$id/settings': typeof DashboardChatbotsIdSettingsIndexRoute
-  '/dashboard/chatbots/$id/sources': typeof DashboardChatbotsIdSourcesIndexRoute
+  '/dashboard/chatbots': typeof AuthenticatedDashboardLayoutChatbotsRoute
+  '/dashboard/knowledge-base': typeof AuthenticatedDashboardLayoutKnowledgeBaseRoute
+  '/dashboard/usages': typeof AuthenticatedDashboardLayoutUsagesRoute
+  '/dashboard/chatbots/demo': typeof AuthenticatedDashboardChatbotsDemoRoute
+  '/dashboard/tenants/create': typeof AuthenticatedDashboardTenantsCreateRoute
+  '/dashboard/settings/billing': typeof AuthenticatedDashboardLayoutSettingsBillingRoute
+  '/dashboard/settings/general': typeof AuthenticatedDashboardLayoutSettingsGeneralRoute
+  '/dashboard/settings/members': typeof AuthenticatedDashboardLayoutSettingsMembersRoute
+  '/dashboard/settings/plans': typeof AuthenticatedDashboardLayoutSettingsPlansRoute
+  '/dashboard/settings/security': typeof AuthenticatedDashboardLayoutSettingsSecurityRoute
+  '/dashboard/chatbots/$id/playground': typeof AuthenticatedDashboardChatbotsIdPlaygroundRoute
+  '/dashboard/chatbots/$id/widget': typeof AuthenticatedDashboardChatbotsIdWidgetRoute
+  '/dashboard/chatbots/create/files': typeof AuthenticatedDashboardChatbotsCreateFilesRoute
+  '/dashboard/chatbots/create/knowledge': typeof AuthenticatedDashboardChatbotsCreateKnowledgeRoute
+  '/dashboard/chatbots/create/text': typeof AuthenticatedDashboardChatbotsCreateTextRoute
+  '/dashboard/chatbots/create/websites': typeof AuthenticatedDashboardChatbotsCreateWebsitesRoute
+  '/dashboard/knowledge-base/create/files': typeof AuthenticatedDashboardKnowledgeBaseCreateFilesRoute
+  '/dashboard/knowledge-base/create/knowledge': typeof AuthenticatedDashboardKnowledgeBaseCreateKnowledgeRoute
+  '/dashboard/knowledge-base/create/text': typeof AuthenticatedDashboardKnowledgeBaseCreateTextRoute
+  '/dashboard/knowledge-base/create/websites': typeof AuthenticatedDashboardKnowledgeBaseCreateWebsitesRoute
+  '/dashboard/chatbots/$id': typeof AuthenticatedDashboardChatbotsIdIndexRoute
+  '/dashboard/chatbots/create': typeof AuthenticatedDashboardChatbotsCreateIndexRoute
+  '/dashboard/knowledge-base/create': typeof AuthenticatedDashboardKnowledgeBaseCreateIndexRoute
+  '/dashboard/chatbots/$id/settings/ai': typeof AuthenticatedDashboardChatbotsIdSettingsAiRoute
+  '/dashboard/chatbots/$id/settings/chat-interface': typeof AuthenticatedDashboardChatbotsIdSettingsChatInterfaceRoute
+  '/dashboard/chatbots/$id/settings/general': typeof AuthenticatedDashboardChatbotsIdSettingsGeneralRoute
+  '/dashboard/chatbots/$id/settings/security': typeof AuthenticatedDashboardChatbotsIdSettingsSecurityRoute
+  '/dashboard/chatbots/$id/sources/files': typeof AuthenticatedDashboardChatbotsIdSourcesFilesRoute
+  '/dashboard/chatbots/$id/sources/knowledge-bases': typeof AuthenticatedDashboardChatbotsIdSourcesKnowledgeBasesRoute
+  '/dashboard/chatbots/$id/sources/text': typeof AuthenticatedDashboardChatbotsIdSourcesTextRoute
+  '/dashboard/chatbots/$id/sources/websites': typeof AuthenticatedDashboardChatbotsIdSourcesWebsitesRoute
+  '/dashboard/chatbots/$id/settings': typeof AuthenticatedDashboardChatbotsIdSettingsIndexRoute
+  '/dashboard/chatbots/$id/sources': typeof AuthenticatedDashboardChatbotsIdSourcesIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/_authenticated': typeof AuthenticatedRoute
-  '/dashboard': typeof DashboardRouteWithChildren
-  '/dashboard/_layout': typeof DashboardLayoutRouteWithChildren
-  '/dashboard/_layout/chatbots': typeof DashboardLayoutChatbotsRoute
-  '/dashboard/_layout/knowledge-base': typeof DashboardLayoutKnowledgeBaseRoute
-  '/dashboard/_layout/usages': typeof DashboardLayoutUsagesRoute
-  '/dashboard/chatbots/$id': typeof DashboardChatbotsIdRouteWithChildren
-  '/dashboard/chatbots/create': typeof DashboardChatbotsCreateRouteWithChildren
-  '/dashboard/chatbots/demo': typeof DashboardChatbotsDemoRoute
-  '/dashboard/knowledge-base/create': typeof DashboardKnowledgeBaseCreateRouteWithChildren
-  '/dashboard/tenants/create': typeof DashboardTenantsCreateRoute
+  '/_authenticated': typeof AuthenticatedRouteWithChildren
+  '/_authenticated/dashboard': typeof AuthenticatedDashboardRouteWithChildren
+  '/_authenticated/dashboard/_layout': typeof AuthenticatedDashboardLayoutRouteWithChildren
   '/auth/login/': typeof AuthLoginIndexRoute
   '/auth/register/': typeof AuthRegisterIndexRoute
   '/auth/renew-password/': typeof AuthRenewPasswordIndexRoute
   '/auth/reset-password/': typeof AuthResetPasswordIndexRoute
   '/auth/verify-email/': typeof AuthVerifyEmailIndexRoute
-  '/dashboard/_layout/': typeof DashboardLayoutIndexRoute
-  '/dashboard/_layout/settings/billing': typeof DashboardLayoutSettingsBillingRoute
-  '/dashboard/_layout/settings/general': typeof DashboardLayoutSettingsGeneralRoute
-  '/dashboard/_layout/settings/members': typeof DashboardLayoutSettingsMembersRoute
-  '/dashboard/_layout/settings/plans': typeof DashboardLayoutSettingsPlansRoute
-  '/dashboard/_layout/settings/security': typeof DashboardLayoutSettingsSecurityRoute
-  '/dashboard/chatbots/$id/playground': typeof DashboardChatbotsIdPlaygroundRoute
-  '/dashboard/chatbots/$id/settings': typeof DashboardChatbotsIdSettingsRouteWithChildren
-  '/dashboard/chatbots/$id/widget': typeof DashboardChatbotsIdWidgetRoute
-  '/dashboard/chatbots/create/files': typeof DashboardChatbotsCreateFilesRoute
-  '/dashboard/chatbots/create/knowledge': typeof DashboardChatbotsCreateKnowledgeRoute
-  '/dashboard/chatbots/create/text': typeof DashboardChatbotsCreateTextRoute
-  '/dashboard/chatbots/create/websites': typeof DashboardChatbotsCreateWebsitesRoute
-  '/dashboard/knowledge-base/create/files': typeof DashboardKnowledgeBaseCreateFilesRoute
-  '/dashboard/knowledge-base/create/knowledge': typeof DashboardKnowledgeBaseCreateKnowledgeRoute
-  '/dashboard/knowledge-base/create/text': typeof DashboardKnowledgeBaseCreateTextRoute
-  '/dashboard/knowledge-base/create/websites': typeof DashboardKnowledgeBaseCreateWebsitesRoute
-  '/dashboard/chatbots/$id/': typeof DashboardChatbotsIdIndexRoute
-  '/dashboard/chatbots/create/': typeof DashboardChatbotsCreateIndexRoute
-  '/dashboard/knowledge-base/create/': typeof DashboardKnowledgeBaseCreateIndexRoute
-  '/dashboard/chatbots/$id/settings/ai': typeof DashboardChatbotsIdSettingsAiRoute
-  '/dashboard/chatbots/$id/settings/chat-interface': typeof DashboardChatbotsIdSettingsChatInterfaceRoute
-  '/dashboard/chatbots/$id/settings/general': typeof DashboardChatbotsIdSettingsGeneralRoute
-  '/dashboard/chatbots/$id/settings/security': typeof DashboardChatbotsIdSettingsSecurityRoute
-  '/dashboard/chatbots/$id/sources/files': typeof DashboardChatbotsIdSourcesFilesRoute
-  '/dashboard/chatbots/$id/sources/knowledge-bases': typeof DashboardChatbotsIdSourcesKnowledgeBasesRoute
-  '/dashboard/chatbots/$id/sources/text': typeof DashboardChatbotsIdSourcesTextRoute
-  '/dashboard/chatbots/$id/sources/websites': typeof DashboardChatbotsIdSourcesWebsitesRoute
-  '/dashboard/chatbots/$id/settings/': typeof DashboardChatbotsIdSettingsIndexRoute
-  '/dashboard/chatbots/$id/sources/': typeof DashboardChatbotsIdSourcesIndexRoute
+  '/_authenticated/dashboard/_layout/chatbots': typeof AuthenticatedDashboardLayoutChatbotsRoute
+  '/_authenticated/dashboard/_layout/knowledge-base': typeof AuthenticatedDashboardLayoutKnowledgeBaseRoute
+  '/_authenticated/dashboard/_layout/usages': typeof AuthenticatedDashboardLayoutUsagesRoute
+  '/_authenticated/dashboard/chatbots/$id': typeof AuthenticatedDashboardChatbotsIdRouteWithChildren
+  '/_authenticated/dashboard/chatbots/create': typeof AuthenticatedDashboardChatbotsCreateRouteWithChildren
+  '/_authenticated/dashboard/chatbots/demo': typeof AuthenticatedDashboardChatbotsDemoRoute
+  '/_authenticated/dashboard/knowledge-base/create': typeof AuthenticatedDashboardKnowledgeBaseCreateRouteWithChildren
+  '/_authenticated/dashboard/tenants/create': typeof AuthenticatedDashboardTenantsCreateRoute
+  '/_authenticated/dashboard/_layout/': typeof AuthenticatedDashboardLayoutIndexRoute
+  '/_authenticated/dashboard/_layout/settings/billing': typeof AuthenticatedDashboardLayoutSettingsBillingRoute
+  '/_authenticated/dashboard/_layout/settings/general': typeof AuthenticatedDashboardLayoutSettingsGeneralRoute
+  '/_authenticated/dashboard/_layout/settings/members': typeof AuthenticatedDashboardLayoutSettingsMembersRoute
+  '/_authenticated/dashboard/_layout/settings/plans': typeof AuthenticatedDashboardLayoutSettingsPlansRoute
+  '/_authenticated/dashboard/_layout/settings/security': typeof AuthenticatedDashboardLayoutSettingsSecurityRoute
+  '/_authenticated/dashboard/chatbots/$id/playground': typeof AuthenticatedDashboardChatbotsIdPlaygroundRoute
+  '/_authenticated/dashboard/chatbots/$id/settings': typeof AuthenticatedDashboardChatbotsIdSettingsRouteWithChildren
+  '/_authenticated/dashboard/chatbots/$id/widget': typeof AuthenticatedDashboardChatbotsIdWidgetRoute
+  '/_authenticated/dashboard/chatbots/create/files': typeof AuthenticatedDashboardChatbotsCreateFilesRoute
+  '/_authenticated/dashboard/chatbots/create/knowledge': typeof AuthenticatedDashboardChatbotsCreateKnowledgeRoute
+  '/_authenticated/dashboard/chatbots/create/text': typeof AuthenticatedDashboardChatbotsCreateTextRoute
+  '/_authenticated/dashboard/chatbots/create/websites': typeof AuthenticatedDashboardChatbotsCreateWebsitesRoute
+  '/_authenticated/dashboard/knowledge-base/create/files': typeof AuthenticatedDashboardKnowledgeBaseCreateFilesRoute
+  '/_authenticated/dashboard/knowledge-base/create/knowledge': typeof AuthenticatedDashboardKnowledgeBaseCreateKnowledgeRoute
+  '/_authenticated/dashboard/knowledge-base/create/text': typeof AuthenticatedDashboardKnowledgeBaseCreateTextRoute
+  '/_authenticated/dashboard/knowledge-base/create/websites': typeof AuthenticatedDashboardKnowledgeBaseCreateWebsitesRoute
+  '/_authenticated/dashboard/chatbots/$id/': typeof AuthenticatedDashboardChatbotsIdIndexRoute
+  '/_authenticated/dashboard/chatbots/create/': typeof AuthenticatedDashboardChatbotsCreateIndexRoute
+  '/_authenticated/dashboard/knowledge-base/create/': typeof AuthenticatedDashboardKnowledgeBaseCreateIndexRoute
+  '/_authenticated/dashboard/chatbots/$id/settings/ai': typeof AuthenticatedDashboardChatbotsIdSettingsAiRoute
+  '/_authenticated/dashboard/chatbots/$id/settings/chat-interface': typeof AuthenticatedDashboardChatbotsIdSettingsChatInterfaceRoute
+  '/_authenticated/dashboard/chatbots/$id/settings/general': typeof AuthenticatedDashboardChatbotsIdSettingsGeneralRoute
+  '/_authenticated/dashboard/chatbots/$id/settings/security': typeof AuthenticatedDashboardChatbotsIdSettingsSecurityRoute
+  '/_authenticated/dashboard/chatbots/$id/sources/files': typeof AuthenticatedDashboardChatbotsIdSourcesFilesRoute
+  '/_authenticated/dashboard/chatbots/$id/sources/knowledge-bases': typeof AuthenticatedDashboardChatbotsIdSourcesKnowledgeBasesRoute
+  '/_authenticated/dashboard/chatbots/$id/sources/text': typeof AuthenticatedDashboardChatbotsIdSourcesTextRoute
+  '/_authenticated/dashboard/chatbots/$id/sources/websites': typeof AuthenticatedDashboardChatbotsIdSourcesWebsitesRoute
+  '/_authenticated/dashboard/chatbots/$id/settings/': typeof AuthenticatedDashboardChatbotsIdSettingsIndexRoute
+  '/_authenticated/dashboard/chatbots/$id/sources/': typeof AuthenticatedDashboardChatbotsIdSourcesIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
     | '/dashboard'
+    | '/auth/login'
+    | '/auth/register'
+    | '/auth/renew-password'
+    | '/auth/reset-password'
+    | '/auth/verify-email'
     | '/dashboard/chatbots'
     | '/dashboard/knowledge-base'
     | '/dashboard/usages'
@@ -477,11 +492,6 @@ export interface FileRouteTypes {
     | '/dashboard/chatbots/demo'
     | '/dashboard/knowledge-base/create'
     | '/dashboard/tenants/create'
-    | '/auth/login'
-    | '/auth/register'
-    | '/auth/renew-password'
-    | '/auth/reset-password'
-    | '/auth/verify-email'
     | '/dashboard/'
     | '/dashboard/settings/billing'
     | '/dashboard/settings/general'
@@ -516,16 +526,16 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/dashboard'
-    | '/dashboard/chatbots'
-    | '/dashboard/knowledge-base'
-    | '/dashboard/usages'
-    | '/dashboard/chatbots/demo'
-    | '/dashboard/tenants/create'
     | '/auth/login'
     | '/auth/register'
     | '/auth/renew-password'
     | '/auth/reset-password'
     | '/auth/verify-email'
+    | '/dashboard/chatbots'
+    | '/dashboard/knowledge-base'
+    | '/dashboard/usages'
+    | '/dashboard/chatbots/demo'
+    | '/dashboard/tenants/create'
     | '/dashboard/settings/billing'
     | '/dashboard/settings/general'
     | '/dashboard/settings/members'
@@ -558,57 +568,56 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/_authenticated'
-    | '/dashboard'
-    | '/dashboard/_layout'
-    | '/dashboard/_layout/chatbots'
-    | '/dashboard/_layout/knowledge-base'
-    | '/dashboard/_layout/usages'
-    | '/dashboard/chatbots/$id'
-    | '/dashboard/chatbots/create'
-    | '/dashboard/chatbots/demo'
-    | '/dashboard/knowledge-base/create'
-    | '/dashboard/tenants/create'
+    | '/_authenticated/dashboard'
+    | '/_authenticated/dashboard/_layout'
     | '/auth/login/'
     | '/auth/register/'
     | '/auth/renew-password/'
     | '/auth/reset-password/'
     | '/auth/verify-email/'
-    | '/dashboard/_layout/'
-    | '/dashboard/_layout/settings/billing'
-    | '/dashboard/_layout/settings/general'
-    | '/dashboard/_layout/settings/members'
-    | '/dashboard/_layout/settings/plans'
-    | '/dashboard/_layout/settings/security'
-    | '/dashboard/chatbots/$id/playground'
-    | '/dashboard/chatbots/$id/settings'
-    | '/dashboard/chatbots/$id/widget'
-    | '/dashboard/chatbots/create/files'
-    | '/dashboard/chatbots/create/knowledge'
-    | '/dashboard/chatbots/create/text'
-    | '/dashboard/chatbots/create/websites'
-    | '/dashboard/knowledge-base/create/files'
-    | '/dashboard/knowledge-base/create/knowledge'
-    | '/dashboard/knowledge-base/create/text'
-    | '/dashboard/knowledge-base/create/websites'
-    | '/dashboard/chatbots/$id/'
-    | '/dashboard/chatbots/create/'
-    | '/dashboard/knowledge-base/create/'
-    | '/dashboard/chatbots/$id/settings/ai'
-    | '/dashboard/chatbots/$id/settings/chat-interface'
-    | '/dashboard/chatbots/$id/settings/general'
-    | '/dashboard/chatbots/$id/settings/security'
-    | '/dashboard/chatbots/$id/sources/files'
-    | '/dashboard/chatbots/$id/sources/knowledge-bases'
-    | '/dashboard/chatbots/$id/sources/text'
-    | '/dashboard/chatbots/$id/sources/websites'
-    | '/dashboard/chatbots/$id/settings/'
-    | '/dashboard/chatbots/$id/sources/'
+    | '/_authenticated/dashboard/_layout/chatbots'
+    | '/_authenticated/dashboard/_layout/knowledge-base'
+    | '/_authenticated/dashboard/_layout/usages'
+    | '/_authenticated/dashboard/chatbots/$id'
+    | '/_authenticated/dashboard/chatbots/create'
+    | '/_authenticated/dashboard/chatbots/demo'
+    | '/_authenticated/dashboard/knowledge-base/create'
+    | '/_authenticated/dashboard/tenants/create'
+    | '/_authenticated/dashboard/_layout/'
+    | '/_authenticated/dashboard/_layout/settings/billing'
+    | '/_authenticated/dashboard/_layout/settings/general'
+    | '/_authenticated/dashboard/_layout/settings/members'
+    | '/_authenticated/dashboard/_layout/settings/plans'
+    | '/_authenticated/dashboard/_layout/settings/security'
+    | '/_authenticated/dashboard/chatbots/$id/playground'
+    | '/_authenticated/dashboard/chatbots/$id/settings'
+    | '/_authenticated/dashboard/chatbots/$id/widget'
+    | '/_authenticated/dashboard/chatbots/create/files'
+    | '/_authenticated/dashboard/chatbots/create/knowledge'
+    | '/_authenticated/dashboard/chatbots/create/text'
+    | '/_authenticated/dashboard/chatbots/create/websites'
+    | '/_authenticated/dashboard/knowledge-base/create/files'
+    | '/_authenticated/dashboard/knowledge-base/create/knowledge'
+    | '/_authenticated/dashboard/knowledge-base/create/text'
+    | '/_authenticated/dashboard/knowledge-base/create/websites'
+    | '/_authenticated/dashboard/chatbots/$id/'
+    | '/_authenticated/dashboard/chatbots/create/'
+    | '/_authenticated/dashboard/knowledge-base/create/'
+    | '/_authenticated/dashboard/chatbots/$id/settings/ai'
+    | '/_authenticated/dashboard/chatbots/$id/settings/chat-interface'
+    | '/_authenticated/dashboard/chatbots/$id/settings/general'
+    | '/_authenticated/dashboard/chatbots/$id/settings/security'
+    | '/_authenticated/dashboard/chatbots/$id/sources/files'
+    | '/_authenticated/dashboard/chatbots/$id/sources/knowledge-bases'
+    | '/_authenticated/dashboard/chatbots/$id/sources/text'
+    | '/_authenticated/dashboard/chatbots/$id/sources/websites'
+    | '/_authenticated/dashboard/chatbots/$id/settings/'
+    | '/_authenticated/dashboard/chatbots/$id/sources/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  AuthenticatedRoute: typeof AuthenticatedRoute
-  DashboardRoute: typeof DashboardRouteWithChildren
+  AuthenticatedRoute: typeof AuthenticatedRouteWithChildren
   AuthLoginIndexRoute: typeof AuthLoginIndexRoute
   AuthRegisterIndexRoute: typeof AuthRegisterIndexRoute
   AuthRenewPasswordIndexRoute: typeof AuthRenewPasswordIndexRoute
@@ -618,13 +627,6 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/dashboard': {
-      id: '/dashboard'
-      path: '/dashboard'
-      fullPath: '/dashboard'
-      preLoaderRoute: typeof DashboardRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/_authenticated': {
       id: '/_authenticated'
       path: ''
@@ -639,19 +641,12 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/dashboard/_layout': {
-      id: '/dashboard/_layout'
+    '/_authenticated/dashboard': {
+      id: '/_authenticated/dashboard'
       path: '/dashboard'
       fullPath: '/dashboard'
-      preLoaderRoute: typeof DashboardLayoutRouteImport
-      parentRoute: typeof DashboardRoute
-    }
-    '/dashboard/_layout/': {
-      id: '/dashboard/_layout/'
-      path: '/'
-      fullPath: '/dashboard/'
-      preLoaderRoute: typeof DashboardLayoutIndexRouteImport
-      parentRoute: typeof DashboardLayoutRoute
+      preLoaderRoute: typeof AuthenticatedDashboardRouteImport
+      parentRoute: typeof AuthenticatedRoute
     }
     '/auth/verify-email/': {
       id: '/auth/verify-email/'
@@ -688,429 +683,486 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthLoginIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/dashboard/tenants/create': {
-      id: '/dashboard/tenants/create'
+    '/_authenticated/dashboard/_layout': {
+      id: '/_authenticated/dashboard/_layout'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof AuthenticatedDashboardLayoutRouteImport
+      parentRoute: typeof AuthenticatedDashboardRoute
+    }
+    '/_authenticated/dashboard/_layout/': {
+      id: '/_authenticated/dashboard/_layout/'
+      path: '/'
+      fullPath: '/dashboard/'
+      preLoaderRoute: typeof AuthenticatedDashboardLayoutIndexRouteImport
+      parentRoute: typeof AuthenticatedDashboardLayoutRoute
+    }
+    '/_authenticated/dashboard/tenants/create': {
+      id: '/_authenticated/dashboard/tenants/create'
       path: '/tenants/create'
       fullPath: '/dashboard/tenants/create'
-      preLoaderRoute: typeof DashboardTenantsCreateRouteImport
-      parentRoute: typeof DashboardRoute
+      preLoaderRoute: typeof AuthenticatedDashboardTenantsCreateRouteImport
+      parentRoute: typeof AuthenticatedDashboardRoute
     }
-    '/dashboard/knowledge-base/create': {
-      id: '/dashboard/knowledge-base/create'
+    '/_authenticated/dashboard/knowledge-base/create': {
+      id: '/_authenticated/dashboard/knowledge-base/create'
       path: '/knowledge-base/create'
       fullPath: '/dashboard/knowledge-base/create'
-      preLoaderRoute: typeof DashboardKnowledgeBaseCreateRouteImport
-      parentRoute: typeof DashboardRoute
+      preLoaderRoute: typeof AuthenticatedDashboardKnowledgeBaseCreateRouteImport
+      parentRoute: typeof AuthenticatedDashboardRoute
     }
-    '/dashboard/chatbots/demo': {
-      id: '/dashboard/chatbots/demo'
+    '/_authenticated/dashboard/chatbots/demo': {
+      id: '/_authenticated/dashboard/chatbots/demo'
       path: '/chatbots/demo'
       fullPath: '/dashboard/chatbots/demo'
-      preLoaderRoute: typeof DashboardChatbotsDemoRouteImport
-      parentRoute: typeof DashboardRoute
+      preLoaderRoute: typeof AuthenticatedDashboardChatbotsDemoRouteImport
+      parentRoute: typeof AuthenticatedDashboardRoute
     }
-    '/dashboard/chatbots/create': {
-      id: '/dashboard/chatbots/create'
+    '/_authenticated/dashboard/chatbots/create': {
+      id: '/_authenticated/dashboard/chatbots/create'
       path: '/chatbots/create'
       fullPath: '/dashboard/chatbots/create'
-      preLoaderRoute: typeof DashboardChatbotsCreateRouteImport
-      parentRoute: typeof DashboardRoute
+      preLoaderRoute: typeof AuthenticatedDashboardChatbotsCreateRouteImport
+      parentRoute: typeof AuthenticatedDashboardRoute
     }
-    '/dashboard/chatbots/$id': {
-      id: '/dashboard/chatbots/$id'
+    '/_authenticated/dashboard/chatbots/$id': {
+      id: '/_authenticated/dashboard/chatbots/$id'
       path: '/chatbots/$id'
       fullPath: '/dashboard/chatbots/$id'
-      preLoaderRoute: typeof DashboardChatbotsIdRouteImport
-      parentRoute: typeof DashboardRoute
+      preLoaderRoute: typeof AuthenticatedDashboardChatbotsIdRouteImport
+      parentRoute: typeof AuthenticatedDashboardRoute
     }
-    '/dashboard/_layout/usages': {
-      id: '/dashboard/_layout/usages'
+    '/_authenticated/dashboard/_layout/usages': {
+      id: '/_authenticated/dashboard/_layout/usages'
       path: '/usages'
       fullPath: '/dashboard/usages'
-      preLoaderRoute: typeof DashboardLayoutUsagesRouteImport
-      parentRoute: typeof DashboardLayoutRoute
+      preLoaderRoute: typeof AuthenticatedDashboardLayoutUsagesRouteImport
+      parentRoute: typeof AuthenticatedDashboardLayoutRoute
     }
-    '/dashboard/_layout/knowledge-base': {
-      id: '/dashboard/_layout/knowledge-base'
+    '/_authenticated/dashboard/_layout/knowledge-base': {
+      id: '/_authenticated/dashboard/_layout/knowledge-base'
       path: '/knowledge-base'
       fullPath: '/dashboard/knowledge-base'
-      preLoaderRoute: typeof DashboardLayoutKnowledgeBaseRouteImport
-      parentRoute: typeof DashboardLayoutRoute
+      preLoaderRoute: typeof AuthenticatedDashboardLayoutKnowledgeBaseRouteImport
+      parentRoute: typeof AuthenticatedDashboardLayoutRoute
     }
-    '/dashboard/_layout/chatbots': {
-      id: '/dashboard/_layout/chatbots'
+    '/_authenticated/dashboard/_layout/chatbots': {
+      id: '/_authenticated/dashboard/_layout/chatbots'
       path: '/chatbots'
       fullPath: '/dashboard/chatbots'
-      preLoaderRoute: typeof DashboardLayoutChatbotsRouteImport
-      parentRoute: typeof DashboardLayoutRoute
+      preLoaderRoute: typeof AuthenticatedDashboardLayoutChatbotsRouteImport
+      parentRoute: typeof AuthenticatedDashboardLayoutRoute
     }
-    '/dashboard/knowledge-base/create/': {
-      id: '/dashboard/knowledge-base/create/'
+    '/_authenticated/dashboard/knowledge-base/create/': {
+      id: '/_authenticated/dashboard/knowledge-base/create/'
       path: '/'
       fullPath: '/dashboard/knowledge-base/create/'
-      preLoaderRoute: typeof DashboardKnowledgeBaseCreateIndexRouteImport
-      parentRoute: typeof DashboardKnowledgeBaseCreateRoute
+      preLoaderRoute: typeof AuthenticatedDashboardKnowledgeBaseCreateIndexRouteImport
+      parentRoute: typeof AuthenticatedDashboardKnowledgeBaseCreateRoute
     }
-    '/dashboard/chatbots/create/': {
-      id: '/dashboard/chatbots/create/'
+    '/_authenticated/dashboard/chatbots/create/': {
+      id: '/_authenticated/dashboard/chatbots/create/'
       path: '/'
       fullPath: '/dashboard/chatbots/create/'
-      preLoaderRoute: typeof DashboardChatbotsCreateIndexRouteImport
-      parentRoute: typeof DashboardChatbotsCreateRoute
+      preLoaderRoute: typeof AuthenticatedDashboardChatbotsCreateIndexRouteImport
+      parentRoute: typeof AuthenticatedDashboardChatbotsCreateRoute
     }
-    '/dashboard/chatbots/$id/': {
-      id: '/dashboard/chatbots/$id/'
+    '/_authenticated/dashboard/chatbots/$id/': {
+      id: '/_authenticated/dashboard/chatbots/$id/'
       path: '/'
       fullPath: '/dashboard/chatbots/$id/'
-      preLoaderRoute: typeof DashboardChatbotsIdIndexRouteImport
-      parentRoute: typeof DashboardChatbotsIdRoute
+      preLoaderRoute: typeof AuthenticatedDashboardChatbotsIdIndexRouteImport
+      parentRoute: typeof AuthenticatedDashboardChatbotsIdRoute
     }
-    '/dashboard/knowledge-base/create/websites': {
-      id: '/dashboard/knowledge-base/create/websites'
+    '/_authenticated/dashboard/knowledge-base/create/websites': {
+      id: '/_authenticated/dashboard/knowledge-base/create/websites'
       path: '/websites'
       fullPath: '/dashboard/knowledge-base/create/websites'
-      preLoaderRoute: typeof DashboardKnowledgeBaseCreateWebsitesRouteImport
-      parentRoute: typeof DashboardKnowledgeBaseCreateRoute
+      preLoaderRoute: typeof AuthenticatedDashboardKnowledgeBaseCreateWebsitesRouteImport
+      parentRoute: typeof AuthenticatedDashboardKnowledgeBaseCreateRoute
     }
-    '/dashboard/knowledge-base/create/text': {
-      id: '/dashboard/knowledge-base/create/text'
+    '/_authenticated/dashboard/knowledge-base/create/text': {
+      id: '/_authenticated/dashboard/knowledge-base/create/text'
       path: '/text'
       fullPath: '/dashboard/knowledge-base/create/text'
-      preLoaderRoute: typeof DashboardKnowledgeBaseCreateTextRouteImport
-      parentRoute: typeof DashboardKnowledgeBaseCreateRoute
+      preLoaderRoute: typeof AuthenticatedDashboardKnowledgeBaseCreateTextRouteImport
+      parentRoute: typeof AuthenticatedDashboardKnowledgeBaseCreateRoute
     }
-    '/dashboard/knowledge-base/create/knowledge': {
-      id: '/dashboard/knowledge-base/create/knowledge'
+    '/_authenticated/dashboard/knowledge-base/create/knowledge': {
+      id: '/_authenticated/dashboard/knowledge-base/create/knowledge'
       path: '/knowledge'
       fullPath: '/dashboard/knowledge-base/create/knowledge'
-      preLoaderRoute: typeof DashboardKnowledgeBaseCreateKnowledgeRouteImport
-      parentRoute: typeof DashboardKnowledgeBaseCreateRoute
+      preLoaderRoute: typeof AuthenticatedDashboardKnowledgeBaseCreateKnowledgeRouteImport
+      parentRoute: typeof AuthenticatedDashboardKnowledgeBaseCreateRoute
     }
-    '/dashboard/knowledge-base/create/files': {
-      id: '/dashboard/knowledge-base/create/files'
+    '/_authenticated/dashboard/knowledge-base/create/files': {
+      id: '/_authenticated/dashboard/knowledge-base/create/files'
       path: '/files'
       fullPath: '/dashboard/knowledge-base/create/files'
-      preLoaderRoute: typeof DashboardKnowledgeBaseCreateFilesRouteImport
-      parentRoute: typeof DashboardKnowledgeBaseCreateRoute
+      preLoaderRoute: typeof AuthenticatedDashboardKnowledgeBaseCreateFilesRouteImport
+      parentRoute: typeof AuthenticatedDashboardKnowledgeBaseCreateRoute
     }
-    '/dashboard/chatbots/create/websites': {
-      id: '/dashboard/chatbots/create/websites'
+    '/_authenticated/dashboard/chatbots/create/websites': {
+      id: '/_authenticated/dashboard/chatbots/create/websites'
       path: '/websites'
       fullPath: '/dashboard/chatbots/create/websites'
-      preLoaderRoute: typeof DashboardChatbotsCreateWebsitesRouteImport
-      parentRoute: typeof DashboardChatbotsCreateRoute
+      preLoaderRoute: typeof AuthenticatedDashboardChatbotsCreateWebsitesRouteImport
+      parentRoute: typeof AuthenticatedDashboardChatbotsCreateRoute
     }
-    '/dashboard/chatbots/create/text': {
-      id: '/dashboard/chatbots/create/text'
+    '/_authenticated/dashboard/chatbots/create/text': {
+      id: '/_authenticated/dashboard/chatbots/create/text'
       path: '/text'
       fullPath: '/dashboard/chatbots/create/text'
-      preLoaderRoute: typeof DashboardChatbotsCreateTextRouteImport
-      parentRoute: typeof DashboardChatbotsCreateRoute
+      preLoaderRoute: typeof AuthenticatedDashboardChatbotsCreateTextRouteImport
+      parentRoute: typeof AuthenticatedDashboardChatbotsCreateRoute
     }
-    '/dashboard/chatbots/create/knowledge': {
-      id: '/dashboard/chatbots/create/knowledge'
+    '/_authenticated/dashboard/chatbots/create/knowledge': {
+      id: '/_authenticated/dashboard/chatbots/create/knowledge'
       path: '/knowledge'
       fullPath: '/dashboard/chatbots/create/knowledge'
-      preLoaderRoute: typeof DashboardChatbotsCreateKnowledgeRouteImport
-      parentRoute: typeof DashboardChatbotsCreateRoute
+      preLoaderRoute: typeof AuthenticatedDashboardChatbotsCreateKnowledgeRouteImport
+      parentRoute: typeof AuthenticatedDashboardChatbotsCreateRoute
     }
-    '/dashboard/chatbots/create/files': {
-      id: '/dashboard/chatbots/create/files'
+    '/_authenticated/dashboard/chatbots/create/files': {
+      id: '/_authenticated/dashboard/chatbots/create/files'
       path: '/files'
       fullPath: '/dashboard/chatbots/create/files'
-      preLoaderRoute: typeof DashboardChatbotsCreateFilesRouteImport
-      parentRoute: typeof DashboardChatbotsCreateRoute
+      preLoaderRoute: typeof AuthenticatedDashboardChatbotsCreateFilesRouteImport
+      parentRoute: typeof AuthenticatedDashboardChatbotsCreateRoute
     }
-    '/dashboard/chatbots/$id/widget': {
-      id: '/dashboard/chatbots/$id/widget'
+    '/_authenticated/dashboard/chatbots/$id/widget': {
+      id: '/_authenticated/dashboard/chatbots/$id/widget'
       path: '/widget'
       fullPath: '/dashboard/chatbots/$id/widget'
-      preLoaderRoute: typeof DashboardChatbotsIdWidgetRouteImport
-      parentRoute: typeof DashboardChatbotsIdRoute
+      preLoaderRoute: typeof AuthenticatedDashboardChatbotsIdWidgetRouteImport
+      parentRoute: typeof AuthenticatedDashboardChatbotsIdRoute
     }
-    '/dashboard/chatbots/$id/settings': {
-      id: '/dashboard/chatbots/$id/settings'
+    '/_authenticated/dashboard/chatbots/$id/settings': {
+      id: '/_authenticated/dashboard/chatbots/$id/settings'
       path: '/settings'
       fullPath: '/dashboard/chatbots/$id/settings'
-      preLoaderRoute: typeof DashboardChatbotsIdSettingsRouteImport
-      parentRoute: typeof DashboardChatbotsIdRoute
+      preLoaderRoute: typeof AuthenticatedDashboardChatbotsIdSettingsRouteImport
+      parentRoute: typeof AuthenticatedDashboardChatbotsIdRoute
     }
-    '/dashboard/chatbots/$id/playground': {
-      id: '/dashboard/chatbots/$id/playground'
+    '/_authenticated/dashboard/chatbots/$id/playground': {
+      id: '/_authenticated/dashboard/chatbots/$id/playground'
       path: '/playground'
       fullPath: '/dashboard/chatbots/$id/playground'
-      preLoaderRoute: typeof DashboardChatbotsIdPlaygroundRouteImport
-      parentRoute: typeof DashboardChatbotsIdRoute
+      preLoaderRoute: typeof AuthenticatedDashboardChatbotsIdPlaygroundRouteImport
+      parentRoute: typeof AuthenticatedDashboardChatbotsIdRoute
     }
-    '/dashboard/_layout/settings/security': {
-      id: '/dashboard/_layout/settings/security'
+    '/_authenticated/dashboard/_layout/settings/security': {
+      id: '/_authenticated/dashboard/_layout/settings/security'
       path: '/settings/security'
       fullPath: '/dashboard/settings/security'
-      preLoaderRoute: typeof DashboardLayoutSettingsSecurityRouteImport
-      parentRoute: typeof DashboardLayoutRoute
+      preLoaderRoute: typeof AuthenticatedDashboardLayoutSettingsSecurityRouteImport
+      parentRoute: typeof AuthenticatedDashboardLayoutRoute
     }
-    '/dashboard/_layout/settings/plans': {
-      id: '/dashboard/_layout/settings/plans'
+    '/_authenticated/dashboard/_layout/settings/plans': {
+      id: '/_authenticated/dashboard/_layout/settings/plans'
       path: '/settings/plans'
       fullPath: '/dashboard/settings/plans'
-      preLoaderRoute: typeof DashboardLayoutSettingsPlansRouteImport
-      parentRoute: typeof DashboardLayoutRoute
+      preLoaderRoute: typeof AuthenticatedDashboardLayoutSettingsPlansRouteImport
+      parentRoute: typeof AuthenticatedDashboardLayoutRoute
     }
-    '/dashboard/_layout/settings/members': {
-      id: '/dashboard/_layout/settings/members'
+    '/_authenticated/dashboard/_layout/settings/members': {
+      id: '/_authenticated/dashboard/_layout/settings/members'
       path: '/settings/members'
       fullPath: '/dashboard/settings/members'
-      preLoaderRoute: typeof DashboardLayoutSettingsMembersRouteImport
-      parentRoute: typeof DashboardLayoutRoute
+      preLoaderRoute: typeof AuthenticatedDashboardLayoutSettingsMembersRouteImport
+      parentRoute: typeof AuthenticatedDashboardLayoutRoute
     }
-    '/dashboard/_layout/settings/general': {
-      id: '/dashboard/_layout/settings/general'
+    '/_authenticated/dashboard/_layout/settings/general': {
+      id: '/_authenticated/dashboard/_layout/settings/general'
       path: '/settings/general'
       fullPath: '/dashboard/settings/general'
-      preLoaderRoute: typeof DashboardLayoutSettingsGeneralRouteImport
-      parentRoute: typeof DashboardLayoutRoute
+      preLoaderRoute: typeof AuthenticatedDashboardLayoutSettingsGeneralRouteImport
+      parentRoute: typeof AuthenticatedDashboardLayoutRoute
     }
-    '/dashboard/_layout/settings/billing': {
-      id: '/dashboard/_layout/settings/billing'
+    '/_authenticated/dashboard/_layout/settings/billing': {
+      id: '/_authenticated/dashboard/_layout/settings/billing'
       path: '/settings/billing'
       fullPath: '/dashboard/settings/billing'
-      preLoaderRoute: typeof DashboardLayoutSettingsBillingRouteImport
-      parentRoute: typeof DashboardLayoutRoute
+      preLoaderRoute: typeof AuthenticatedDashboardLayoutSettingsBillingRouteImport
+      parentRoute: typeof AuthenticatedDashboardLayoutRoute
     }
-    '/dashboard/chatbots/$id/sources/': {
-      id: '/dashboard/chatbots/$id/sources/'
+    '/_authenticated/dashboard/chatbots/$id/sources/': {
+      id: '/_authenticated/dashboard/chatbots/$id/sources/'
       path: '/sources'
       fullPath: '/dashboard/chatbots/$id/sources'
-      preLoaderRoute: typeof DashboardChatbotsIdSourcesIndexRouteImport
-      parentRoute: typeof DashboardChatbotsIdRoute
+      preLoaderRoute: typeof AuthenticatedDashboardChatbotsIdSourcesIndexRouteImport
+      parentRoute: typeof AuthenticatedDashboardChatbotsIdRoute
     }
-    '/dashboard/chatbots/$id/settings/': {
-      id: '/dashboard/chatbots/$id/settings/'
+    '/_authenticated/dashboard/chatbots/$id/settings/': {
+      id: '/_authenticated/dashboard/chatbots/$id/settings/'
       path: '/'
       fullPath: '/dashboard/chatbots/$id/settings/'
-      preLoaderRoute: typeof DashboardChatbotsIdSettingsIndexRouteImport
-      parentRoute: typeof DashboardChatbotsIdSettingsRoute
+      preLoaderRoute: typeof AuthenticatedDashboardChatbotsIdSettingsIndexRouteImport
+      parentRoute: typeof AuthenticatedDashboardChatbotsIdSettingsRoute
     }
-    '/dashboard/chatbots/$id/sources/websites': {
-      id: '/dashboard/chatbots/$id/sources/websites'
+    '/_authenticated/dashboard/chatbots/$id/sources/websites': {
+      id: '/_authenticated/dashboard/chatbots/$id/sources/websites'
       path: '/sources/websites'
       fullPath: '/dashboard/chatbots/$id/sources/websites'
-      preLoaderRoute: typeof DashboardChatbotsIdSourcesWebsitesRouteImport
-      parentRoute: typeof DashboardChatbotsIdRoute
+      preLoaderRoute: typeof AuthenticatedDashboardChatbotsIdSourcesWebsitesRouteImport
+      parentRoute: typeof AuthenticatedDashboardChatbotsIdRoute
     }
-    '/dashboard/chatbots/$id/sources/text': {
-      id: '/dashboard/chatbots/$id/sources/text'
+    '/_authenticated/dashboard/chatbots/$id/sources/text': {
+      id: '/_authenticated/dashboard/chatbots/$id/sources/text'
       path: '/sources/text'
       fullPath: '/dashboard/chatbots/$id/sources/text'
-      preLoaderRoute: typeof DashboardChatbotsIdSourcesTextRouteImport
-      parentRoute: typeof DashboardChatbotsIdRoute
+      preLoaderRoute: typeof AuthenticatedDashboardChatbotsIdSourcesTextRouteImport
+      parentRoute: typeof AuthenticatedDashboardChatbotsIdRoute
     }
-    '/dashboard/chatbots/$id/sources/knowledge-bases': {
-      id: '/dashboard/chatbots/$id/sources/knowledge-bases'
+    '/_authenticated/dashboard/chatbots/$id/sources/knowledge-bases': {
+      id: '/_authenticated/dashboard/chatbots/$id/sources/knowledge-bases'
       path: '/sources/knowledge-bases'
       fullPath: '/dashboard/chatbots/$id/sources/knowledge-bases'
-      preLoaderRoute: typeof DashboardChatbotsIdSourcesKnowledgeBasesRouteImport
-      parentRoute: typeof DashboardChatbotsIdRoute
+      preLoaderRoute: typeof AuthenticatedDashboardChatbotsIdSourcesKnowledgeBasesRouteImport
+      parentRoute: typeof AuthenticatedDashboardChatbotsIdRoute
     }
-    '/dashboard/chatbots/$id/sources/files': {
-      id: '/dashboard/chatbots/$id/sources/files'
+    '/_authenticated/dashboard/chatbots/$id/sources/files': {
+      id: '/_authenticated/dashboard/chatbots/$id/sources/files'
       path: '/sources/files'
       fullPath: '/dashboard/chatbots/$id/sources/files'
-      preLoaderRoute: typeof DashboardChatbotsIdSourcesFilesRouteImport
-      parentRoute: typeof DashboardChatbotsIdRoute
+      preLoaderRoute: typeof AuthenticatedDashboardChatbotsIdSourcesFilesRouteImport
+      parentRoute: typeof AuthenticatedDashboardChatbotsIdRoute
     }
-    '/dashboard/chatbots/$id/settings/security': {
-      id: '/dashboard/chatbots/$id/settings/security'
+    '/_authenticated/dashboard/chatbots/$id/settings/security': {
+      id: '/_authenticated/dashboard/chatbots/$id/settings/security'
       path: '/security'
       fullPath: '/dashboard/chatbots/$id/settings/security'
-      preLoaderRoute: typeof DashboardChatbotsIdSettingsSecurityRouteImport
-      parentRoute: typeof DashboardChatbotsIdSettingsRoute
+      preLoaderRoute: typeof AuthenticatedDashboardChatbotsIdSettingsSecurityRouteImport
+      parentRoute: typeof AuthenticatedDashboardChatbotsIdSettingsRoute
     }
-    '/dashboard/chatbots/$id/settings/general': {
-      id: '/dashboard/chatbots/$id/settings/general'
+    '/_authenticated/dashboard/chatbots/$id/settings/general': {
+      id: '/_authenticated/dashboard/chatbots/$id/settings/general'
       path: '/general'
       fullPath: '/dashboard/chatbots/$id/settings/general'
-      preLoaderRoute: typeof DashboardChatbotsIdSettingsGeneralRouteImport
-      parentRoute: typeof DashboardChatbotsIdSettingsRoute
+      preLoaderRoute: typeof AuthenticatedDashboardChatbotsIdSettingsGeneralRouteImport
+      parentRoute: typeof AuthenticatedDashboardChatbotsIdSettingsRoute
     }
-    '/dashboard/chatbots/$id/settings/chat-interface': {
-      id: '/dashboard/chatbots/$id/settings/chat-interface'
+    '/_authenticated/dashboard/chatbots/$id/settings/chat-interface': {
+      id: '/_authenticated/dashboard/chatbots/$id/settings/chat-interface'
       path: '/chat-interface'
       fullPath: '/dashboard/chatbots/$id/settings/chat-interface'
-      preLoaderRoute: typeof DashboardChatbotsIdSettingsChatInterfaceRouteImport
-      parentRoute: typeof DashboardChatbotsIdSettingsRoute
+      preLoaderRoute: typeof AuthenticatedDashboardChatbotsIdSettingsChatInterfaceRouteImport
+      parentRoute: typeof AuthenticatedDashboardChatbotsIdSettingsRoute
     }
-    '/dashboard/chatbots/$id/settings/ai': {
-      id: '/dashboard/chatbots/$id/settings/ai'
+    '/_authenticated/dashboard/chatbots/$id/settings/ai': {
+      id: '/_authenticated/dashboard/chatbots/$id/settings/ai'
       path: '/ai'
       fullPath: '/dashboard/chatbots/$id/settings/ai'
-      preLoaderRoute: typeof DashboardChatbotsIdSettingsAiRouteImport
-      parentRoute: typeof DashboardChatbotsIdSettingsRoute
+      preLoaderRoute: typeof AuthenticatedDashboardChatbotsIdSettingsAiRouteImport
+      parentRoute: typeof AuthenticatedDashboardChatbotsIdSettingsRoute
     }
   }
 }
 
-interface DashboardLayoutRouteChildren {
-  DashboardLayoutChatbotsRoute: typeof DashboardLayoutChatbotsRoute
-  DashboardLayoutKnowledgeBaseRoute: typeof DashboardLayoutKnowledgeBaseRoute
-  DashboardLayoutUsagesRoute: typeof DashboardLayoutUsagesRoute
-  DashboardLayoutIndexRoute: typeof DashboardLayoutIndexRoute
-  DashboardLayoutSettingsBillingRoute: typeof DashboardLayoutSettingsBillingRoute
-  DashboardLayoutSettingsGeneralRoute: typeof DashboardLayoutSettingsGeneralRoute
-  DashboardLayoutSettingsMembersRoute: typeof DashboardLayoutSettingsMembersRoute
-  DashboardLayoutSettingsPlansRoute: typeof DashboardLayoutSettingsPlansRoute
-  DashboardLayoutSettingsSecurityRoute: typeof DashboardLayoutSettingsSecurityRoute
+interface AuthenticatedDashboardLayoutRouteChildren {
+  AuthenticatedDashboardLayoutChatbotsRoute: typeof AuthenticatedDashboardLayoutChatbotsRoute
+  AuthenticatedDashboardLayoutKnowledgeBaseRoute: typeof AuthenticatedDashboardLayoutKnowledgeBaseRoute
+  AuthenticatedDashboardLayoutUsagesRoute: typeof AuthenticatedDashboardLayoutUsagesRoute
+  AuthenticatedDashboardLayoutIndexRoute: typeof AuthenticatedDashboardLayoutIndexRoute
+  AuthenticatedDashboardLayoutSettingsBillingRoute: typeof AuthenticatedDashboardLayoutSettingsBillingRoute
+  AuthenticatedDashboardLayoutSettingsGeneralRoute: typeof AuthenticatedDashboardLayoutSettingsGeneralRoute
+  AuthenticatedDashboardLayoutSettingsMembersRoute: typeof AuthenticatedDashboardLayoutSettingsMembersRoute
+  AuthenticatedDashboardLayoutSettingsPlansRoute: typeof AuthenticatedDashboardLayoutSettingsPlansRoute
+  AuthenticatedDashboardLayoutSettingsSecurityRoute: typeof AuthenticatedDashboardLayoutSettingsSecurityRoute
 }
 
-const DashboardLayoutRouteChildren: DashboardLayoutRouteChildren = {
-  DashboardLayoutChatbotsRoute: DashboardLayoutChatbotsRoute,
-  DashboardLayoutKnowledgeBaseRoute: DashboardLayoutKnowledgeBaseRoute,
-  DashboardLayoutUsagesRoute: DashboardLayoutUsagesRoute,
-  DashboardLayoutIndexRoute: DashboardLayoutIndexRoute,
-  DashboardLayoutSettingsBillingRoute: DashboardLayoutSettingsBillingRoute,
-  DashboardLayoutSettingsGeneralRoute: DashboardLayoutSettingsGeneralRoute,
-  DashboardLayoutSettingsMembersRoute: DashboardLayoutSettingsMembersRoute,
-  DashboardLayoutSettingsPlansRoute: DashboardLayoutSettingsPlansRoute,
-  DashboardLayoutSettingsSecurityRoute: DashboardLayoutSettingsSecurityRoute,
-}
-
-const DashboardLayoutRouteWithChildren = DashboardLayoutRoute._addFileChildren(
-  DashboardLayoutRouteChildren,
-)
-
-interface DashboardChatbotsIdSettingsRouteChildren {
-  DashboardChatbotsIdSettingsAiRoute: typeof DashboardChatbotsIdSettingsAiRoute
-  DashboardChatbotsIdSettingsChatInterfaceRoute: typeof DashboardChatbotsIdSettingsChatInterfaceRoute
-  DashboardChatbotsIdSettingsGeneralRoute: typeof DashboardChatbotsIdSettingsGeneralRoute
-  DashboardChatbotsIdSettingsSecurityRoute: typeof DashboardChatbotsIdSettingsSecurityRoute
-  DashboardChatbotsIdSettingsIndexRoute: typeof DashboardChatbotsIdSettingsIndexRoute
-}
-
-const DashboardChatbotsIdSettingsRouteChildren: DashboardChatbotsIdSettingsRouteChildren =
+const AuthenticatedDashboardLayoutRouteChildren: AuthenticatedDashboardLayoutRouteChildren =
   {
-    DashboardChatbotsIdSettingsAiRoute: DashboardChatbotsIdSettingsAiRoute,
-    DashboardChatbotsIdSettingsChatInterfaceRoute:
-      DashboardChatbotsIdSettingsChatInterfaceRoute,
-    DashboardChatbotsIdSettingsGeneralRoute:
-      DashboardChatbotsIdSettingsGeneralRoute,
-    DashboardChatbotsIdSettingsSecurityRoute:
-      DashboardChatbotsIdSettingsSecurityRoute,
-    DashboardChatbotsIdSettingsIndexRoute:
-      DashboardChatbotsIdSettingsIndexRoute,
+    AuthenticatedDashboardLayoutChatbotsRoute:
+      AuthenticatedDashboardLayoutChatbotsRoute,
+    AuthenticatedDashboardLayoutKnowledgeBaseRoute:
+      AuthenticatedDashboardLayoutKnowledgeBaseRoute,
+    AuthenticatedDashboardLayoutUsagesRoute:
+      AuthenticatedDashboardLayoutUsagesRoute,
+    AuthenticatedDashboardLayoutIndexRoute:
+      AuthenticatedDashboardLayoutIndexRoute,
+    AuthenticatedDashboardLayoutSettingsBillingRoute:
+      AuthenticatedDashboardLayoutSettingsBillingRoute,
+    AuthenticatedDashboardLayoutSettingsGeneralRoute:
+      AuthenticatedDashboardLayoutSettingsGeneralRoute,
+    AuthenticatedDashboardLayoutSettingsMembersRoute:
+      AuthenticatedDashboardLayoutSettingsMembersRoute,
+    AuthenticatedDashboardLayoutSettingsPlansRoute:
+      AuthenticatedDashboardLayoutSettingsPlansRoute,
+    AuthenticatedDashboardLayoutSettingsSecurityRoute:
+      AuthenticatedDashboardLayoutSettingsSecurityRoute,
   }
 
-const DashboardChatbotsIdSettingsRouteWithChildren =
-  DashboardChatbotsIdSettingsRoute._addFileChildren(
-    DashboardChatbotsIdSettingsRouteChildren,
+const AuthenticatedDashboardLayoutRouteWithChildren =
+  AuthenticatedDashboardLayoutRoute._addFileChildren(
+    AuthenticatedDashboardLayoutRouteChildren,
   )
 
-interface DashboardChatbotsIdRouteChildren {
-  DashboardChatbotsIdPlaygroundRoute: typeof DashboardChatbotsIdPlaygroundRoute
-  DashboardChatbotsIdSettingsRoute: typeof DashboardChatbotsIdSettingsRouteWithChildren
-  DashboardChatbotsIdWidgetRoute: typeof DashboardChatbotsIdWidgetRoute
-  DashboardChatbotsIdIndexRoute: typeof DashboardChatbotsIdIndexRoute
-  DashboardChatbotsIdSourcesFilesRoute: typeof DashboardChatbotsIdSourcesFilesRoute
-  DashboardChatbotsIdSourcesKnowledgeBasesRoute: typeof DashboardChatbotsIdSourcesKnowledgeBasesRoute
-  DashboardChatbotsIdSourcesTextRoute: typeof DashboardChatbotsIdSourcesTextRoute
-  DashboardChatbotsIdSourcesWebsitesRoute: typeof DashboardChatbotsIdSourcesWebsitesRoute
-  DashboardChatbotsIdSourcesIndexRoute: typeof DashboardChatbotsIdSourcesIndexRoute
+interface AuthenticatedDashboardChatbotsIdSettingsRouteChildren {
+  AuthenticatedDashboardChatbotsIdSettingsAiRoute: typeof AuthenticatedDashboardChatbotsIdSettingsAiRoute
+  AuthenticatedDashboardChatbotsIdSettingsChatInterfaceRoute: typeof AuthenticatedDashboardChatbotsIdSettingsChatInterfaceRoute
+  AuthenticatedDashboardChatbotsIdSettingsGeneralRoute: typeof AuthenticatedDashboardChatbotsIdSettingsGeneralRoute
+  AuthenticatedDashboardChatbotsIdSettingsSecurityRoute: typeof AuthenticatedDashboardChatbotsIdSettingsSecurityRoute
+  AuthenticatedDashboardChatbotsIdSettingsIndexRoute: typeof AuthenticatedDashboardChatbotsIdSettingsIndexRoute
 }
 
-const DashboardChatbotsIdRouteChildren: DashboardChatbotsIdRouteChildren = {
-  DashboardChatbotsIdPlaygroundRoute: DashboardChatbotsIdPlaygroundRoute,
-  DashboardChatbotsIdSettingsRoute:
-    DashboardChatbotsIdSettingsRouteWithChildren,
-  DashboardChatbotsIdWidgetRoute: DashboardChatbotsIdWidgetRoute,
-  DashboardChatbotsIdIndexRoute: DashboardChatbotsIdIndexRoute,
-  DashboardChatbotsIdSourcesFilesRoute: DashboardChatbotsIdSourcesFilesRoute,
-  DashboardChatbotsIdSourcesKnowledgeBasesRoute:
-    DashboardChatbotsIdSourcesKnowledgeBasesRoute,
-  DashboardChatbotsIdSourcesTextRoute: DashboardChatbotsIdSourcesTextRoute,
-  DashboardChatbotsIdSourcesWebsitesRoute:
-    DashboardChatbotsIdSourcesWebsitesRoute,
-  DashboardChatbotsIdSourcesIndexRoute: DashboardChatbotsIdSourcesIndexRoute,
-}
-
-const DashboardChatbotsIdRouteWithChildren =
-  DashboardChatbotsIdRoute._addFileChildren(DashboardChatbotsIdRouteChildren)
-
-interface DashboardChatbotsCreateRouteChildren {
-  DashboardChatbotsCreateFilesRoute: typeof DashboardChatbotsCreateFilesRoute
-  DashboardChatbotsCreateKnowledgeRoute: typeof DashboardChatbotsCreateKnowledgeRoute
-  DashboardChatbotsCreateTextRoute: typeof DashboardChatbotsCreateTextRoute
-  DashboardChatbotsCreateWebsitesRoute: typeof DashboardChatbotsCreateWebsitesRoute
-  DashboardChatbotsCreateIndexRoute: typeof DashboardChatbotsCreateIndexRoute
-}
-
-const DashboardChatbotsCreateRouteChildren: DashboardChatbotsCreateRouteChildren =
+const AuthenticatedDashboardChatbotsIdSettingsRouteChildren: AuthenticatedDashboardChatbotsIdSettingsRouteChildren =
   {
-    DashboardChatbotsCreateFilesRoute: DashboardChatbotsCreateFilesRoute,
-    DashboardChatbotsCreateKnowledgeRoute:
-      DashboardChatbotsCreateKnowledgeRoute,
-    DashboardChatbotsCreateTextRoute: DashboardChatbotsCreateTextRoute,
-    DashboardChatbotsCreateWebsitesRoute: DashboardChatbotsCreateWebsitesRoute,
-    DashboardChatbotsCreateIndexRoute: DashboardChatbotsCreateIndexRoute,
+    AuthenticatedDashboardChatbotsIdSettingsAiRoute:
+      AuthenticatedDashboardChatbotsIdSettingsAiRoute,
+    AuthenticatedDashboardChatbotsIdSettingsChatInterfaceRoute:
+      AuthenticatedDashboardChatbotsIdSettingsChatInterfaceRoute,
+    AuthenticatedDashboardChatbotsIdSettingsGeneralRoute:
+      AuthenticatedDashboardChatbotsIdSettingsGeneralRoute,
+    AuthenticatedDashboardChatbotsIdSettingsSecurityRoute:
+      AuthenticatedDashboardChatbotsIdSettingsSecurityRoute,
+    AuthenticatedDashboardChatbotsIdSettingsIndexRoute:
+      AuthenticatedDashboardChatbotsIdSettingsIndexRoute,
   }
 
-const DashboardChatbotsCreateRouteWithChildren =
-  DashboardChatbotsCreateRoute._addFileChildren(
-    DashboardChatbotsCreateRouteChildren,
+const AuthenticatedDashboardChatbotsIdSettingsRouteWithChildren =
+  AuthenticatedDashboardChatbotsIdSettingsRoute._addFileChildren(
+    AuthenticatedDashboardChatbotsIdSettingsRouteChildren,
   )
 
-interface DashboardKnowledgeBaseCreateRouteChildren {
-  DashboardKnowledgeBaseCreateFilesRoute: typeof DashboardKnowledgeBaseCreateFilesRoute
-  DashboardKnowledgeBaseCreateKnowledgeRoute: typeof DashboardKnowledgeBaseCreateKnowledgeRoute
-  DashboardKnowledgeBaseCreateTextRoute: typeof DashboardKnowledgeBaseCreateTextRoute
-  DashboardKnowledgeBaseCreateWebsitesRoute: typeof DashboardKnowledgeBaseCreateWebsitesRoute
-  DashboardKnowledgeBaseCreateIndexRoute: typeof DashboardKnowledgeBaseCreateIndexRoute
+interface AuthenticatedDashboardChatbotsIdRouteChildren {
+  AuthenticatedDashboardChatbotsIdPlaygroundRoute: typeof AuthenticatedDashboardChatbotsIdPlaygroundRoute
+  AuthenticatedDashboardChatbotsIdSettingsRoute: typeof AuthenticatedDashboardChatbotsIdSettingsRouteWithChildren
+  AuthenticatedDashboardChatbotsIdWidgetRoute: typeof AuthenticatedDashboardChatbotsIdWidgetRoute
+  AuthenticatedDashboardChatbotsIdIndexRoute: typeof AuthenticatedDashboardChatbotsIdIndexRoute
+  AuthenticatedDashboardChatbotsIdSourcesFilesRoute: typeof AuthenticatedDashboardChatbotsIdSourcesFilesRoute
+  AuthenticatedDashboardChatbotsIdSourcesKnowledgeBasesRoute: typeof AuthenticatedDashboardChatbotsIdSourcesKnowledgeBasesRoute
+  AuthenticatedDashboardChatbotsIdSourcesTextRoute: typeof AuthenticatedDashboardChatbotsIdSourcesTextRoute
+  AuthenticatedDashboardChatbotsIdSourcesWebsitesRoute: typeof AuthenticatedDashboardChatbotsIdSourcesWebsitesRoute
+  AuthenticatedDashboardChatbotsIdSourcesIndexRoute: typeof AuthenticatedDashboardChatbotsIdSourcesIndexRoute
 }
 
-const DashboardKnowledgeBaseCreateRouteChildren: DashboardKnowledgeBaseCreateRouteChildren =
+const AuthenticatedDashboardChatbotsIdRouteChildren: AuthenticatedDashboardChatbotsIdRouteChildren =
   {
-    DashboardKnowledgeBaseCreateFilesRoute:
-      DashboardKnowledgeBaseCreateFilesRoute,
-    DashboardKnowledgeBaseCreateKnowledgeRoute:
-      DashboardKnowledgeBaseCreateKnowledgeRoute,
-    DashboardKnowledgeBaseCreateTextRoute:
-      DashboardKnowledgeBaseCreateTextRoute,
-    DashboardKnowledgeBaseCreateWebsitesRoute:
-      DashboardKnowledgeBaseCreateWebsitesRoute,
-    DashboardKnowledgeBaseCreateIndexRoute:
-      DashboardKnowledgeBaseCreateIndexRoute,
+    AuthenticatedDashboardChatbotsIdPlaygroundRoute:
+      AuthenticatedDashboardChatbotsIdPlaygroundRoute,
+    AuthenticatedDashboardChatbotsIdSettingsRoute:
+      AuthenticatedDashboardChatbotsIdSettingsRouteWithChildren,
+    AuthenticatedDashboardChatbotsIdWidgetRoute:
+      AuthenticatedDashboardChatbotsIdWidgetRoute,
+    AuthenticatedDashboardChatbotsIdIndexRoute:
+      AuthenticatedDashboardChatbotsIdIndexRoute,
+    AuthenticatedDashboardChatbotsIdSourcesFilesRoute:
+      AuthenticatedDashboardChatbotsIdSourcesFilesRoute,
+    AuthenticatedDashboardChatbotsIdSourcesKnowledgeBasesRoute:
+      AuthenticatedDashboardChatbotsIdSourcesKnowledgeBasesRoute,
+    AuthenticatedDashboardChatbotsIdSourcesTextRoute:
+      AuthenticatedDashboardChatbotsIdSourcesTextRoute,
+    AuthenticatedDashboardChatbotsIdSourcesWebsitesRoute:
+      AuthenticatedDashboardChatbotsIdSourcesWebsitesRoute,
+    AuthenticatedDashboardChatbotsIdSourcesIndexRoute:
+      AuthenticatedDashboardChatbotsIdSourcesIndexRoute,
   }
 
-const DashboardKnowledgeBaseCreateRouteWithChildren =
-  DashboardKnowledgeBaseCreateRoute._addFileChildren(
-    DashboardKnowledgeBaseCreateRouteChildren,
+const AuthenticatedDashboardChatbotsIdRouteWithChildren =
+  AuthenticatedDashboardChatbotsIdRoute._addFileChildren(
+    AuthenticatedDashboardChatbotsIdRouteChildren,
   )
 
-interface DashboardRouteChildren {
-  DashboardLayoutRoute: typeof DashboardLayoutRouteWithChildren
-  DashboardChatbotsIdRoute: typeof DashboardChatbotsIdRouteWithChildren
-  DashboardChatbotsCreateRoute: typeof DashboardChatbotsCreateRouteWithChildren
-  DashboardChatbotsDemoRoute: typeof DashboardChatbotsDemoRoute
-  DashboardKnowledgeBaseCreateRoute: typeof DashboardKnowledgeBaseCreateRouteWithChildren
-  DashboardTenantsCreateRoute: typeof DashboardTenantsCreateRoute
+interface AuthenticatedDashboardChatbotsCreateRouteChildren {
+  AuthenticatedDashboardChatbotsCreateFilesRoute: typeof AuthenticatedDashboardChatbotsCreateFilesRoute
+  AuthenticatedDashboardChatbotsCreateKnowledgeRoute: typeof AuthenticatedDashboardChatbotsCreateKnowledgeRoute
+  AuthenticatedDashboardChatbotsCreateTextRoute: typeof AuthenticatedDashboardChatbotsCreateTextRoute
+  AuthenticatedDashboardChatbotsCreateWebsitesRoute: typeof AuthenticatedDashboardChatbotsCreateWebsitesRoute
+  AuthenticatedDashboardChatbotsCreateIndexRoute: typeof AuthenticatedDashboardChatbotsCreateIndexRoute
 }
 
-const DashboardRouteChildren: DashboardRouteChildren = {
-  DashboardLayoutRoute: DashboardLayoutRouteWithChildren,
-  DashboardChatbotsIdRoute: DashboardChatbotsIdRouteWithChildren,
-  DashboardChatbotsCreateRoute: DashboardChatbotsCreateRouteWithChildren,
-  DashboardChatbotsDemoRoute: DashboardChatbotsDemoRoute,
-  DashboardKnowledgeBaseCreateRoute:
-    DashboardKnowledgeBaseCreateRouteWithChildren,
-  DashboardTenantsCreateRoute: DashboardTenantsCreateRoute,
+const AuthenticatedDashboardChatbotsCreateRouteChildren: AuthenticatedDashboardChatbotsCreateRouteChildren =
+  {
+    AuthenticatedDashboardChatbotsCreateFilesRoute:
+      AuthenticatedDashboardChatbotsCreateFilesRoute,
+    AuthenticatedDashboardChatbotsCreateKnowledgeRoute:
+      AuthenticatedDashboardChatbotsCreateKnowledgeRoute,
+    AuthenticatedDashboardChatbotsCreateTextRoute:
+      AuthenticatedDashboardChatbotsCreateTextRoute,
+    AuthenticatedDashboardChatbotsCreateWebsitesRoute:
+      AuthenticatedDashboardChatbotsCreateWebsitesRoute,
+    AuthenticatedDashboardChatbotsCreateIndexRoute:
+      AuthenticatedDashboardChatbotsCreateIndexRoute,
+  }
+
+const AuthenticatedDashboardChatbotsCreateRouteWithChildren =
+  AuthenticatedDashboardChatbotsCreateRoute._addFileChildren(
+    AuthenticatedDashboardChatbotsCreateRouteChildren,
+  )
+
+interface AuthenticatedDashboardKnowledgeBaseCreateRouteChildren {
+  AuthenticatedDashboardKnowledgeBaseCreateFilesRoute: typeof AuthenticatedDashboardKnowledgeBaseCreateFilesRoute
+  AuthenticatedDashboardKnowledgeBaseCreateKnowledgeRoute: typeof AuthenticatedDashboardKnowledgeBaseCreateKnowledgeRoute
+  AuthenticatedDashboardKnowledgeBaseCreateTextRoute: typeof AuthenticatedDashboardKnowledgeBaseCreateTextRoute
+  AuthenticatedDashboardKnowledgeBaseCreateWebsitesRoute: typeof AuthenticatedDashboardKnowledgeBaseCreateWebsitesRoute
+  AuthenticatedDashboardKnowledgeBaseCreateIndexRoute: typeof AuthenticatedDashboardKnowledgeBaseCreateIndexRoute
 }
 
-const DashboardRouteWithChildren = DashboardRoute._addFileChildren(
-  DashboardRouteChildren,
+const AuthenticatedDashboardKnowledgeBaseCreateRouteChildren: AuthenticatedDashboardKnowledgeBaseCreateRouteChildren =
+  {
+    AuthenticatedDashboardKnowledgeBaseCreateFilesRoute:
+      AuthenticatedDashboardKnowledgeBaseCreateFilesRoute,
+    AuthenticatedDashboardKnowledgeBaseCreateKnowledgeRoute:
+      AuthenticatedDashboardKnowledgeBaseCreateKnowledgeRoute,
+    AuthenticatedDashboardKnowledgeBaseCreateTextRoute:
+      AuthenticatedDashboardKnowledgeBaseCreateTextRoute,
+    AuthenticatedDashboardKnowledgeBaseCreateWebsitesRoute:
+      AuthenticatedDashboardKnowledgeBaseCreateWebsitesRoute,
+    AuthenticatedDashboardKnowledgeBaseCreateIndexRoute:
+      AuthenticatedDashboardKnowledgeBaseCreateIndexRoute,
+  }
+
+const AuthenticatedDashboardKnowledgeBaseCreateRouteWithChildren =
+  AuthenticatedDashboardKnowledgeBaseCreateRoute._addFileChildren(
+    AuthenticatedDashboardKnowledgeBaseCreateRouteChildren,
+  )
+
+interface AuthenticatedDashboardRouteChildren {
+  AuthenticatedDashboardLayoutRoute: typeof AuthenticatedDashboardLayoutRouteWithChildren
+  AuthenticatedDashboardChatbotsIdRoute: typeof AuthenticatedDashboardChatbotsIdRouteWithChildren
+  AuthenticatedDashboardChatbotsCreateRoute: typeof AuthenticatedDashboardChatbotsCreateRouteWithChildren
+  AuthenticatedDashboardChatbotsDemoRoute: typeof AuthenticatedDashboardChatbotsDemoRoute
+  AuthenticatedDashboardKnowledgeBaseCreateRoute: typeof AuthenticatedDashboardKnowledgeBaseCreateRouteWithChildren
+  AuthenticatedDashboardTenantsCreateRoute: typeof AuthenticatedDashboardTenantsCreateRoute
+}
+
+const AuthenticatedDashboardRouteChildren: AuthenticatedDashboardRouteChildren =
+  {
+    AuthenticatedDashboardLayoutRoute:
+      AuthenticatedDashboardLayoutRouteWithChildren,
+    AuthenticatedDashboardChatbotsIdRoute:
+      AuthenticatedDashboardChatbotsIdRouteWithChildren,
+    AuthenticatedDashboardChatbotsCreateRoute:
+      AuthenticatedDashboardChatbotsCreateRouteWithChildren,
+    AuthenticatedDashboardChatbotsDemoRoute:
+      AuthenticatedDashboardChatbotsDemoRoute,
+    AuthenticatedDashboardKnowledgeBaseCreateRoute:
+      AuthenticatedDashboardKnowledgeBaseCreateRouteWithChildren,
+    AuthenticatedDashboardTenantsCreateRoute:
+      AuthenticatedDashboardTenantsCreateRoute,
+  }
+
+const AuthenticatedDashboardRouteWithChildren =
+  AuthenticatedDashboardRoute._addFileChildren(
+    AuthenticatedDashboardRouteChildren,
+  )
+
+interface AuthenticatedRouteChildren {
+  AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRouteWithChildren
+}
+
+const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
+  AuthenticatedDashboardRoute: AuthenticatedDashboardRouteWithChildren,
+}
+
+const AuthenticatedRouteWithChildren = AuthenticatedRoute._addFileChildren(
+  AuthenticatedRouteChildren,
 )
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  AuthenticatedRoute: AuthenticatedRoute,
-  DashboardRoute: DashboardRouteWithChildren,
+  AuthenticatedRoute: AuthenticatedRouteWithChildren,
   AuthLoginIndexRoute: AuthLoginIndexRoute,
   AuthRegisterIndexRoute: AuthRegisterIndexRoute,
   AuthRenewPasswordIndexRoute: AuthRenewPasswordIndexRoute,

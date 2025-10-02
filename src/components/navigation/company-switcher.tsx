@@ -39,6 +39,56 @@ export function CompanySwitcher({
     return teams.find((team) => team.subdomain === currentSubdomain) || teams[0];
   }, [teams, currentSubdomain]);
 
+  // Estado vazio: sem organizações
+  if (teams.length === 0) {
+    return (
+      <div className="flex items-center gap-1">
+        <button
+          type="button"
+          className="flex items-center gap-2 px-2 py-1 rounded-md hover:bg-gray-50 transition-colors"
+          disabled
+        >
+          <div className="bg-gray-300 text-white flex aspect-square size-6 items-center justify-center rounded-md">
+            <Plus className="size-3" />
+          </div>
+          <div className="font-medium text-muted-foreground text-base">
+            Adicionar organização
+          </div>
+        </button>
+
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="ghost" size="sm" className="h-8 w-8 p-0 hover:bg-gray-50">
+              <ChevronsUpDown className="size-4" />
+              <span className="sr-only">Gerenciar organizações</span>
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent className="w-[16rem] rounded-lg" align="start" sideOffset={4}>
+            <DropdownMenuLabel className="text-muted-foreground text-xs">
+              Gerenciar organizações
+            </DropdownMenuLabel>
+            <DropdownMenuItem asChild className="gap-2 p-2">
+              <Link to="/dashboard/tenants/create">
+                <div className="flex size-6 items-center justify-center rounded-md border bg-transparent">
+                  <Plus className="size-4" />
+                </div>
+                <div className="font-medium">Criar organização</div>
+              </Link>
+            </DropdownMenuItem>
+            <DropdownMenuItem className="gap-2 p-2" onClick={() => setIsJoinModalOpen(true)}>
+              <div className="flex size-6 items-center justify-center rounded-md border bg-transparent">
+                <Users className="size-4" />
+              </div>
+              <div className="font-medium">Juntar-se a organização</div>
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+
+        <JoinTenantModal isOpen={isJoinModalOpen} onClose={() => setIsJoinModalOpen(false)} />
+      </div>
+    );
+  }
+
   if (!activeTeam) {
     return null;
   }
@@ -58,7 +108,9 @@ export function CompanySwitcher({
           <activeTeam.logo className="size-3" />
         </div>
         <div className="flex items-center gap-2">
-          <div className="font-medium text-foreground text-base">{activeTeam.name}</div>
+          <div className="font-medium text-foreground text-base max-w-[180px] truncate">
+            {activeTeam.name}
+          </div>
           <span className="px-2 py-0.5 text-xs font-medium bg-blue-100 text-blue-700 rounded-full">
             {activeTeam.plan}
           </span>
@@ -94,7 +146,7 @@ export function CompanySwitcher({
               <div className="flex size-6 items-center justify-center rounded-md border">
                 <team.logo className="size-3.5 shrink-0" />
               </div>
-              {team.name}
+              <span className="truncate">{team.name}</span>
             </DropdownMenuItem>
           ))}
           <DropdownMenuSeparator />

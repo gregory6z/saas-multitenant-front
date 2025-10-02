@@ -17,3 +17,16 @@ export const API_URL = env.VITE_API_URL;
 export const APP_URL = env.VITE_APP_URL;
 export const MAIN_DOMAIN = env.VITE_MAIN_DOMAIN;
 export const PRODUCTION_DOMAIN = env.VITE_PRODUCTION_DOMAIN;
+
+/**
+ * Retorna o domínio base para exibição (sem porta)
+ * - Development: lvh.me
+ * - Production: multisaas.app
+ */
+export const getDisplayDomain = (): string => {
+  if (import.meta.env.DEV) {
+    // Remove porta do MAIN_DOMAIN (lvh.me:3000 → lvh.me)
+    return MAIN_DOMAIN.split(":")[0];
+  }
+  return PRODUCTION_DOMAIN;
+};

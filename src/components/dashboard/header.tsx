@@ -58,7 +58,7 @@ export function DashboardHeader() {
         {/* Left side - Logo + Company Switcher + Breadcrumb */}
         <div className="flex items-center gap-4">
           {/* RagBoost Logo */}
-          <Link to="/dashboard" className="flex items-center justify-center">
+          <Link to="/dashboard/chatbots" className="flex items-center justify-center">
             <Bot className="w-8 h-8 text-primary hover:text-primary/80 transition-colors" />
           </Link>
 

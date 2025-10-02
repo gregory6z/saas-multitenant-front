@@ -1,5 +1,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2 } from "lucide-react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { Button } from "@/components/ui/button";
@@ -14,6 +15,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { useTenants } from "@/hooks/use-tenants";
+import { getDisplayDomain } from "@/lib/env";
 
 // Form schema based on API requirements
 const createTenantFormSchema = z.object({
@@ -36,6 +38,7 @@ type CreateTenantFormData = z.infer<typeof createTenantFormSchema>;
 
 export function CreateTenantForm() {
   const { createTenant } = useTenants();
+  const [subdomainManuallyEdited, setSubdomainManuallyEdited] = useState(false);
 
   const form = useForm<CreateTenantFormData>({
     resolver: zodResolver(createTenantFormSchema),
@@ -58,17 +61,24 @@ export function CreateTenantForm() {
   const handleNameChange = (value: string) => {
     form.setValue("name", value);
 
-    // Auto-generate subdomain from name
-    const subdomain = value
-      .toLowerCase()
-      .replace(/[^a-z0-9\s-]/g, "") // Remove special chars
-      .replace(/\s+/g, "-") // Replace spaces with hyphens
-      .replace(/-+/g, "-") // Replace multiple hyphens with single
-      .replace(/^-|-$/g, ""); // Remove leading/trailing hyphens
+    // Only auto-populate if user hasn't manually edited the subdomain
+    if (!subdomainManuallyEdited) {
+      // Auto-generate subdomain from name
+      const subdomain = value
+        .toLowerCase()
+        .replace(/[^a-z0-9\s-]/g, "") // Remove special chars
+        .replace(/\s+/g, "-") // Replace spaces with hyphens
+        .replace(/-+/g, "-") // Replace multiple hyphens with single
+        .replace(/^-|-$/g, ""); // Remove leading/trailing hyphens
 
-    if (subdomain && !form.getValues("subdomain")) {
       form.setValue("subdomain", subdomain);
     }
+  };
+
+  // Track manual edits to subdomain
+  const handleSubdomainChange = (value: string) => {
+    form.setValue("subdomain", value);
+    setSubdomainManuallyEdited(true);
   };
 
   return (
@@ -104,10 +114,15 @@ export function CreateTenantForm() {
             <FormItem>
               <FormLabel>Subdomínio</FormLabel>
               <FormControl>
-                <div className="flex items-center">
-                  <Input placeholder="minha-empresa" {...field} className="rounded-r-none" />
-                  <div className="bg-muted text-muted-foreground px-3 py-2 border border-l-0 rounded-r-md text-sm">
-                    .multisaas.app
+                <div className="flex items-stretch">
+                  <Input
+                    placeholder="minha-empresa"
+                    {...field}
+                    onChange={(e) => handleSubdomainChange(e.target.value)}
+                    className="rounded-r-none"
+                  />
+                  <div className="bg-muted text-muted-foreground px-3 py-2 border border-l-0 rounded-r-md text-sm flex items-center min-w-fit">
+                    .{getDisplayDomain()}
                   </div>
                 </div>
               </FormControl>

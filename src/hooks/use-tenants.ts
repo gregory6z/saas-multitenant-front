@@ -1,5 +1,4 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { useNavigate } from "@tanstack/react-router";
 import { z } from "zod";
 import { api } from "@/lib/axios";
 
@@ -120,7 +119,6 @@ export type InvitesResponse = z.infer<typeof InvitesResponseSchema>;
  */
 export function useTenants() {
   const queryClient = useQueryClient();
-  const navigate = useNavigate();
 
   // Query principal para listar tenants
   const tenantsQuery = useQuery({
@@ -224,20 +222,15 @@ export function useTenants() {
       });
 
       // Redirect após criação bem-sucedida
-      const currentHost = window.location.host;
+      const protocol = window.location.protocol;
+      const mainDomain = import.meta.env.VITE_MAIN_DOMAIN || "lvh.me:3000";
+      const [baseDomain, port] = mainDomain.split(":");
+      const portSuffix = port ? `:${port}` : "";
 
-      if (currentHost.includes("localhost")) {
-        // Development: Não usa subdomains
-        console.log("Development mode: redirecting to dashboard after tenant creation");
-        navigate({ to: "/dashboard/chatbots" });
-      } else {
-        // Production: Redireciona para subdomain do tenant
-        const protocol = window.location.protocol;
-        const subdomainUrl = `${protocol}//${newTenant.subdomain}.multisaas.app/dashboard/chatbots`;
+      const subdomainUrl = `${protocol}//${newTenant.subdomain}.${baseDomain}${portSuffix}/dashboard/chatbots`;
 
-        console.log("Production mode: redirecting to tenant subdomain:", subdomainUrl);
-        window.location.href = subdomainUrl;
-      }
+      console.log("Redirecting to tenant subdomain:", subdomainUrl);
+      window.location.href = subdomainUrl;
     },
 
     // Retry strategy para mutations
@@ -457,18 +450,15 @@ export function useTenants() {
       queryClient.invalidateQueries({ queryKey: ["tenants"] });
 
       // Redirect para o tenant recém-adicionado
-      const currentHost = window.location.host;
+      const protocol = window.location.protocol;
+      const mainDomain = import.meta.env.VITE_MAIN_DOMAIN || "lvh.me:3000";
+      const [baseDomain, port] = mainDomain.split(":");
+      const portSuffix = port ? `:${port}` : "";
 
-      if (currentHost.includes("localhost")) {
-        console.log("Development mode: redirecting to dashboard after joining tenant");
-        navigate({ to: "/dashboard/chatbots" });
-      } else {
-        const protocol = window.location.protocol;
-        const subdomainUrl = `${protocol}//${result.tenant.subdomain}.multisaas.app/dashboard/chatbots`;
+      const subdomainUrl = `${protocol}//${result.tenant.subdomain}.${baseDomain}${portSuffix}/dashboard/chatbots`;
 
-        console.log("Production mode: redirecting to joined tenant:", subdomainUrl);
-        window.location.href = subdomainUrl;
-      }
+      console.log("Redirecting to joined tenant:", subdomainUrl);
+      window.location.href = subdomainUrl;
     },
 
     retry: (failureCount, error: Error & { response?: { status: number } }) => {

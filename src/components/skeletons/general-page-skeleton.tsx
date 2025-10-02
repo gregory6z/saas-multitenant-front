@@ -4,7 +4,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 export function GeneralPageSkeleton() {
   return (
-    <div className="max-w-4xl mx-auto space-y-8 pt-4 md:pt-8">
+    <div className="max-w-4xl mx-auto space-y-8 pt-4 md:pt-8 px-4 md:px-6 pb-8">
       {/* Header Skeleton */}
       <div className="flex items-center justify-between">
         <Skeleton className="h-8 w-48" />
