@@ -125,7 +125,11 @@ function GeneralPage() {
                     <FormLabel>Subdomínio</FormLabel>
                     <FormControl>
                       <div className="flex items-stretch">
-                        <Input placeholder="minha-empresa" {...field} className="rounded-r-none" />
+                        <Input
+                          placeholder="minha-empresa"
+                          {...field}
+                          className="rounded-r-none"
+                        />
                         <div className="bg-muted text-muted-foreground px-3 py-2 border border-l-0 rounded-r-md text-sm flex items-center min-w-fit">
                           .{getDisplayDomain()}
                         </div>

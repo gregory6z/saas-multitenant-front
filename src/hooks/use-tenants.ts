@@ -21,11 +21,23 @@ const CreateTenantRequestSchema = z.object({
   name: z.string().min(1, "Nome é obrigatório"),
   subdomain: z
     .string()
-    .min(3, "Subdomínio deve ter pelo menos 3 caracteres")
-    .max(63, "Subdomínio deve ter no máximo 63 caracteres")
-    .regex(
-      /^[a-z0-9]+(-[a-z0-9]+)*$/,
-      "Subdomínio deve conter apenas letras minúsculas, números e hífens"
+    .transform((val) =>
+      val
+        .toLowerCase()
+        .replace(/[^a-z0-9\s-]/g, "") // Remove special chars
+        .replace(/\s+/g, "-") // Replace spaces with hyphens
+        .replace(/-+/g, "-") // Replace multiple hyphens with single
+        .replace(/^-|-$/g, "") // Remove leading/trailing hyphens
+    )
+    .pipe(
+      z
+        .string()
+        .min(3, "Subdomínio deve ter pelo menos 3 caracteres")
+        .max(63, "Subdomínio deve ter no máximo 63 caracteres")
+        .regex(
+          /^[a-z0-9]+(-[a-z0-9]+)*$/,
+          "Subdomínio deve conter apenas letras minúsculas, números e hífens"
+        )
     ),
 });
 
@@ -37,15 +49,27 @@ const UpdateTenantRequestSchema = z.object({
   name: z.string().min(1, "Nome é obrigatório").optional(),
   subdomain: z
     .string()
-    .min(3, "Subdomínio deve ter pelo menos 3 caracteres")
-    .max(63, "Subdomínio deve ter no máximo 63 caracteres")
-    .regex(
-      /^[a-z0-9]([a-z0-9-]*[a-z0-9])?$/,
-      "Subdomínio deve conter apenas letras minúsculas, números e hífens"
+    .transform((val) =>
+      val
+        .toLowerCase()
+        .replace(/[^a-z0-9\s-]/g, "") // Remove special chars
+        .replace(/\s+/g, "-") // Replace spaces with hyphens
+        .replace(/-+/g, "-") // Replace multiple hyphens with single
+        .replace(/^-|-$/g, "") // Remove leading/trailing hyphens
     )
-    .refine(
-      (value) => !value.startsWith("-") && !value.endsWith("-"),
-      "Subdomínio não pode começar ou terminar com hífen"
+    .pipe(
+      z
+        .string()
+        .min(3, "Subdomínio deve ter pelo menos 3 caracteres")
+        .max(63, "Subdomínio deve ter no máximo 63 caracteres")
+        .regex(
+          /^[a-z0-9]([a-z0-9-]*[a-z0-9])?$/,
+          "Subdomínio deve conter apenas letras minúsculas, números e hífens"
+        )
+        .refine(
+          (value) => !value.startsWith("-") && !value.endsWith("-"),
+          "Subdomínio não pode começar ou terminar com hífen"
+        )
     )
     .optional(),
 });

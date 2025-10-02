@@ -2,7 +2,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2 } from "lucide-react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { z } from "zod";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -14,34 +13,18 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { useTenants } from "@/hooks/use-tenants";
+import { CreateTenantRequestSchema, useTenants } from "@/hooks/use-tenants";
 import { getDisplayDomain } from "@/lib/env";
+import type { z } from "zod";
 
-// Form schema based on API requirements
-const createTenantFormSchema = z.object({
-  name: z.string().min(1, "Nome da organização é obrigatório"),
-  subdomain: z
-    .string()
-    .min(3, "Subdomínio deve ter pelo menos 3 caracteres")
-    .max(63, "Subdomínio deve ter no máximo 63 caracteres")
-    .regex(
-      /^[a-z0-9]+(-[a-z0-9]+)*$/,
-      "Subdomínio deve conter apenas letras minúsculas, números e hífens"
-    )
-    .refine(
-      (value) => !value.startsWith("-") && !value.endsWith("-"),
-      "Subdomínio não pode começar ou terminar com hífen"
-    ),
-});
-
-type CreateTenantFormData = z.infer<typeof createTenantFormSchema>;
+type CreateTenantFormData = z.infer<typeof CreateTenantRequestSchema>;
 
 export function CreateTenantForm() {
   const { createTenant } = useTenants();
   const [subdomainManuallyEdited, setSubdomainManuallyEdited] = useState(false);
 
   const form = useForm<CreateTenantFormData>({
-    resolver: zodResolver(createTenantFormSchema),
+    resolver: zodResolver(CreateTenantRequestSchema),
     defaultValues: {
       name: "",
       subdomain: "",
@@ -63,22 +46,8 @@ export function CreateTenantForm() {
 
     // Only auto-populate if user hasn't manually edited the subdomain
     if (!subdomainManuallyEdited) {
-      // Auto-generate subdomain from name
-      const subdomain = value
-        .toLowerCase()
-        .replace(/[^a-z0-9\s-]/g, "") // Remove special chars
-        .replace(/\s+/g, "-") // Replace spaces with hyphens
-        .replace(/-+/g, "-") // Replace multiple hyphens with single
-        .replace(/^-|-$/g, ""); // Remove leading/trailing hyphens
-
-      form.setValue("subdomain", subdomain);
+      form.setValue("subdomain", value);
     }
-  };
-
-  // Track manual edits to subdomain
-  const handleSubdomainChange = (value: string) => {
-    form.setValue("subdomain", value);
-    setSubdomainManuallyEdited(true);
   };
 
   return (
@@ -118,7 +87,10 @@ export function CreateTenantForm() {
                   <Input
                     placeholder="minha-empresa"
                     {...field}
-                    onChange={(e) => handleSubdomainChange(e.target.value)}
+                    onChange={(e) => {
+                      field.onChange(e);
+                      setSubdomainManuallyEdited(true);
+                    }}
                     className="rounded-r-none"
                   />
                   <div className="bg-muted text-muted-foreground px-3 py-2 border border-l-0 rounded-r-md text-sm flex items-center min-w-fit">
