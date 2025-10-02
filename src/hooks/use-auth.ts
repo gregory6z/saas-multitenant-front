@@ -1,13 +1,13 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "@tanstack/react-router";
 import { useTranslation } from "react-i18next";
-import { api } from "@/lib/axios";
 import {
-  setAuthToken,
-  removeAuthToken,
   isAuthenticated as checkIsAuthenticated,
+  removeAuthToken,
+  setAuthToken,
 } from "@/auth/storage";
-import { getTenantSubdomainUrl, getLoginUrl } from "@/lib/url-utils";
+import { api } from "@/lib/axios";
+import { getLoginUrl, getTenantSubdomainUrl } from "@/lib/url-utils";
 import type { LoginFormData, RegisterFormData, VerifyEmailFormData } from "@/schemas/auth";
 
 interface AuthResponse {
@@ -91,19 +91,19 @@ export function useAuth() {
    */
   const loginMutation = useMutation({
     mutationFn: async (data: LoginFormData): Promise<AuthResponse> => {
-      console.log('[LOGIN] Mutation started with data:', { email: data.email });
+      console.log("[LOGIN] Mutation started with data:", { email: data.email });
       const response = await api.post("/sessions", data);
-      console.log('[LOGIN] Mutation response:', response.data);
+      console.log("[LOGIN] Mutation response:", response.data);
       return response.data;
     },
 
     onSuccess: async (data) => {
-      console.log('[LOGIN] ========= onSuccess START =========');
-      console.log('[LOGIN] Token received:', data.token?.substring(0, 20) + '...');
+      console.log("[LOGIN] ========= onSuccess START =========");
+      console.log("[LOGIN] Token received:", data.token?.substring(0, 20) + "...");
 
       // 1. Salva token IMEDIATAMENTE
       setAuthToken(data.token);
-      console.log('[LOGIN] Token saved to cookie');
+      console.log("[LOGIN] Token saved to cookie");
 
       // 2. Prefetch de tenants para decidir redirecionamento
       // Aguarda um pouco para o token ser setado nos headers
@@ -123,21 +123,18 @@ export function useAuth() {
         });
 
         // 4. Redirecionamento baseado em tenants
-        console.log('[LOGIN] Tenants fetched:', tenants.length);
+        console.log("[LOGIN] Tenants fetched:", tenants.length);
 
         if (tenants.length === 0) {
-          console.log('[LOGIN] No tenants, redirecting to create');
+          console.log("[LOGIN] No tenants, redirecting to create");
           // Sem tenants → criação de tenant
           navigate({ to: "/dashboard/tenants/create" });
         } else {
           // Com tenants → redireciona para subdomain do primeiro tenant
           const firstTenant = tenants[0];
-          const subdomainUrl = getTenantSubdomainUrl(
-            firstTenant.subdomain,
-            "/dashboard/chatbots"
-          );
+          const subdomainUrl = getTenantSubdomainUrl(firstTenant.subdomain, "/dashboard/chatbots");
 
-          console.log('[LOGIN] Redirecting to subdomain:', subdomainUrl);
+          console.log("[LOGIN] Redirecting to subdomain:", subdomainUrl);
           // Tanto em dev (tenant1.localhost:5173) quanto prod (tenant1.multisaas.app)
           window.location.href = subdomainUrl;
         }

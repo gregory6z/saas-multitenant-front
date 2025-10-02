@@ -1,7 +1,8 @@
+import { Link } from "@tanstack/react-router";
 import { ChevronsUpDown, Plus, Users } from "lucide-react";
 import * as React from "react";
 import { useTranslation } from "react-i18next";
-import { Link } from "@tanstack/react-router";
+import { JoinTenantModal } from "@/components/modals/join-tenant-modal";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -11,7 +12,6 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { JoinTenantModal } from "@/components/modals/join-tenant-modal";
 import { getTenantSubdomainUrl } from "@/lib/url-utils";
 
 export function CompanySwitcher({
@@ -30,13 +30,13 @@ export function CompanySwitcher({
 
   // Detecta tenant ativo baseado no subdomain da URL atual
   const hostname = window.location.hostname;
-  const currentSubdomain = hostname.includes('.localhost')
-    ? hostname.split('.localhost')[0]
-    : hostname.split('.')[0];
+  const currentSubdomain = hostname.includes(".localhost")
+    ? hostname.split(".localhost")[0]
+    : hostname.split(".")[0];
 
   // Encontra o team ativo pelo subdomain da URL
   const activeTeam = React.useMemo(() => {
-    return teams.find(team => team.subdomain === currentSubdomain) || teams[0];
+    return teams.find((team) => team.subdomain === currentSubdomain) || teams[0];
   }, [teams, currentSubdomain]);
 
   if (!activeTeam) {
@@ -68,67 +68,58 @@ export function CompanySwitcher({
       {/* Dropdown Trigger - Only the chevron */}
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Button
-            variant="ghost"
-            size="sm"
-            className="h-8 w-8 p-0 hover:bg-gray-50"
-          >
+          <Button variant="ghost" size="sm" className="h-8 w-8 p-0 hover:bg-gray-50">
             <ChevronsUpDown className="size-4" />
             <span className="sr-only">Trocar organização</span>
           </Button>
         </DropdownMenuTrigger>
-      <DropdownMenuContent className="w-[16rem] rounded-lg" align="start" sideOffset={4}>
-        <DropdownMenuLabel className="text-muted-foreground text-xs">
-          {t("sidebar.companies")}
-        </DropdownMenuLabel>
-        {teams.map((team) => (
-          <DropdownMenuItem
-            key={team.id || team.name}
-            onClick={() => {
-              // Redireciona para o subdomain do tenant selecionado
-              if (team.subdomain) {
-                const currentPath = window.location.pathname + window.location.search + window.location.hash;
-                const subdomainUrl = getTenantSubdomainUrl(team.subdomain, currentPath);
-                window.location.href = subdomainUrl;
-              }
-            }}
-            className="gap-2 p-2"
-          >
-            <div className="flex size-6 items-center justify-center rounded-md border">
-              <team.logo className="size-3.5 shrink-0" />
-            </div>
-            {team.name}
+        <DropdownMenuContent className="w-[16rem] rounded-lg" align="start" sideOffset={4}>
+          <DropdownMenuLabel className="text-muted-foreground text-xs">
+            {t("sidebar.companies")}
+          </DropdownMenuLabel>
+          {teams.map((team) => (
+            <DropdownMenuItem
+              key={team.id || team.name}
+              onClick={() => {
+                // Redireciona para o subdomain do tenant selecionado
+                if (team.subdomain) {
+                  const currentPath =
+                    window.location.pathname + window.location.search + window.location.hash;
+                  const subdomainUrl = getTenantSubdomainUrl(team.subdomain, currentPath);
+                  window.location.href = subdomainUrl;
+                }
+              }}
+              className="gap-2 p-2"
+            >
+              <div className="flex size-6 items-center justify-center rounded-md border">
+                <team.logo className="size-3.5 shrink-0" />
+              </div>
+              {team.name}
+            </DropdownMenuItem>
+          ))}
+          <DropdownMenuSeparator />
+          <DropdownMenuLabel className="text-muted-foreground text-xs">
+            Gerenciar organizações
+          </DropdownMenuLabel>
+          <DropdownMenuItem asChild className="gap-2 p-2">
+            <Link to="/dashboard/tenants/create">
+              <div className="flex size-6 items-center justify-center rounded-md border bg-transparent">
+                <Plus className="size-4" />
+              </div>
+              <div className="font-medium">Criar organização</div>
+            </Link>
           </DropdownMenuItem>
-        ))}
-        <DropdownMenuSeparator />
-        <DropdownMenuLabel className="text-muted-foreground text-xs">
-          Gerenciar organizações
-        </DropdownMenuLabel>
-        <DropdownMenuItem asChild className="gap-2 p-2">
-          <Link to="/dashboard/tenants/create">
+          <DropdownMenuItem className="gap-2 p-2" onClick={() => setIsJoinModalOpen(true)}>
             <div className="flex size-6 items-center justify-center rounded-md border bg-transparent">
-              <Plus className="size-4" />
+              <Users className="size-4" />
             </div>
-            <div className="font-medium">Criar organização</div>
-          </Link>
-        </DropdownMenuItem>
-        <DropdownMenuItem 
-          className="gap-2 p-2"
-          onClick={() => setIsJoinModalOpen(true)}
-        >
-          <div className="flex size-6 items-center justify-center rounded-md border bg-transparent">
-            <Users className="size-4" />
-          </div>
-          <div className="font-medium">Juntar-se a organização</div>
-        </DropdownMenuItem>
-      </DropdownMenuContent>
+            <div className="font-medium">Juntar-se a organização</div>
+          </DropdownMenuItem>
+        </DropdownMenuContent>
       </DropdownMenu>
 
       {/* Join Tenant Modal */}
-      <JoinTenantModal 
-        isOpen={isJoinModalOpen} 
-        onClose={() => setIsJoinModalOpen(false)} 
-      />
+      <JoinTenantModal isOpen={isJoinModalOpen} onClose={() => setIsJoinModalOpen(false)} />
     </div>
   );
 }

@@ -1,6 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { Bot, Building2, LogOut, Settings } from "lucide-react";
-
+import { CompanySwitcher } from "@/components/navigation/company-switcher";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   DropdownMenu,
@@ -12,10 +12,9 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useAuth } from "@/hooks/use-auth";
+import { useSubdomain } from "@/hooks/use-subdomain";
 import { useTenants } from "@/hooks/use-tenants";
 import { useUser } from "@/hooks/use-users";
-import { useSubdomain } from "@/hooks/use-subdomain";
-import { CompanySwitcher } from "@/components/navigation/company-switcher";
 
 export function DashboardHeader() {
   const { logout } = useAuth();
@@ -62,7 +61,7 @@ export function DashboardHeader() {
           <Link to="/dashboard" className="flex items-center justify-center">
             <Bot className="w-8 h-8 text-primary hover:text-primary/80 transition-colors" />
           </Link>
-          
+
           {/* Separator */}
           <div className="w-px h-6 bg-border"></div>
           {tenantsLoading ? (

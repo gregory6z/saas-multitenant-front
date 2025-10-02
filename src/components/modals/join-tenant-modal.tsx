@@ -119,10 +119,7 @@ export function JoinTenantModal({ isOpen, onClose }: JoinTenantModalProps) {
               >
                 Cancelar
               </Button>
-              <Button
-                type="submit"
-                disabled={joinTenant.isPending}
-              >
+              <Button type="submit" disabled={joinTenant.isPending}>
                 {joinTenant.isPending ? (
                   <>
                     <Loader2 className="w-4 h-4 mr-2 animate-spin" />

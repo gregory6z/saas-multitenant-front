@@ -25,7 +25,7 @@ export function getCookieDomain(): string {
   // Remove porta e adiciona ponto inicial para wildcard subdomain
   const mainDomainHost = MAIN_DOMAIN.split(":")[0];
   if (hostname.includes(mainDomainHost)) {
-    return `.${mainDomainHost}`;  // .lvh.me para funcionar em subdomains
+    return `.${mainDomainHost}`; // .lvh.me para funcionar em subdomains
   }
 
   // Production: usa PRODUCTION_DOMAIN do .env (ex: multisaas.app)

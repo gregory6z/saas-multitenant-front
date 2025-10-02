@@ -1,5 +1,4 @@
 import { useTenants } from "@/hooks/use-tenants";
-import type { Tenant } from "@/hooks/use-tenants";
 
 /**
  * Hook to detect current subdomain and return matching tenant
@@ -13,9 +12,8 @@ export function useSubdomain() {
   const subdomain = getCurrentSubdomain();
 
   // Find tenant that matches current subdomain
-  const currentTenant = subdomain && tenants
-    ? tenants.find((t) => t.subdomain === subdomain)
-    : null;
+  const currentTenant =
+    subdomain && tenants ? tenants.find((t) => t.subdomain === subdomain) : null;
 
   return {
     data: currentTenant || null,

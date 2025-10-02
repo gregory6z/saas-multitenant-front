@@ -21,12 +21,12 @@ function ChatbotLayoutComponent() {
 
   // Use TanStack Router's match system instead of string parsing
   const getCurrentSection = () => {
-    const routeIds = matches.map(m => m.routeId);
+    const routeIds = matches.map((m) => m.routeId);
 
-    if (routeIds.some(id => id.includes('sources'))) return "sources";
-    if (routeIds.some(id => id.includes('settings'))) return "settings";
-    if (routeIds.some(id => id.includes('widget'))) return "widget";
-    if (routeIds.some(id => id.includes('playground'))) return "playground";
+    if (routeIds.some((id) => id.includes("sources"))) return "sources";
+    if (routeIds.some((id) => id.includes("settings"))) return "settings";
+    if (routeIds.some((id) => id.includes("widget"))) return "widget";
+    if (routeIds.some((id) => id.includes("playground"))) return "playground";
 
     return "playground";
   };
@@ -35,11 +35,11 @@ function ChatbotLayoutComponent() {
 
   // Configurar sidebar baseado na seção atual
   const getSidebarConfig = () => {
-    const routeIds = matches.map(m => m.routeId);
+    const routeIds = matches.map((m) => m.routeId);
 
     // Helper to check if route is active using matches
     const isRouteActive = (path: string) => {
-      return routeIds.some(id => id.includes(path));
+      return routeIds.some((id) => id.includes(path));
     };
 
     return {

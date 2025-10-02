@@ -1,16 +1,16 @@
 import { createFileRoute, Outlet } from "@tanstack/react-router";
-import { api } from "@/lib/axios";
-import { AppSidebar } from "@/components/navigation/app-sidebar";
 import { DashboardHeader } from "@/components/dashboard/header";
+import { AppSidebar } from "@/components/navigation/app-sidebar";
 import { SidebarProvider } from "@/components/ui/sidebar";
-import { isLocalhost, getLoginUrl } from "@/lib/url-utils";
+import { api } from "@/lib/axios";
+import { getLoginUrl, isLocalhost } from "@/lib/url-utils";
 
 export const Route = createFileRoute("/dashboard/_layout")({
   // No need for beforeLoad here - _authenticated.tsx already handles auth
   // This loader only handles tenant validation
   loader: async ({ location }) => {
     // Skip tenant validation for /tenants/create (user doesn't have tenant yet)
-    if (location.pathname.includes('/tenants/create')) {
+    if (location.pathname.includes("/tenants/create")) {
       return { tenant: null };
     }
 

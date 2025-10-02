@@ -219,7 +219,7 @@ export function useTenants() {
         if (!oldTenants) return [newTenant];
 
         // Remove tenant temporário e adiciona o real
-        const withoutTemp = oldTenants.filter(t => !t.id.startsWith("temp-"));
+        const withoutTemp = oldTenants.filter((t) => !t.id.startsWith("temp-"));
         return [...withoutTemp, newTenant];
       });
 
@@ -274,9 +274,7 @@ export function useTenants() {
       // Optimistic update na lista de tenants
       if (previousTenants) {
         const updatedTenants = previousTenants.map((tenant) =>
-          tenant.id === id
-            ? { ...tenant, ...data, updatedAt: new Date().toISOString() }
-            : tenant
+          tenant.id === id ? { ...tenant, ...data, updatedAt: new Date().toISOString() } : tenant
         );
         queryClient.setQueryData(["tenants"], updatedTenants);
       }
@@ -316,34 +314,34 @@ export function useTenants() {
 
       // Verifica se estamos em um subdomain e se mudou
       const currentHostname = window.location.hostname;
-      const currentSubdomain = currentHostname.split('.')[0];
+      const currentSubdomain = currentHostname.split(".")[0];
 
       // Se subdomain foi alterado E estamos em subdomain, redireciona
       if (
         variables.data.subdomain &&
-        currentHostname.includes('.') &&
+        currentHostname.includes(".") &&
         currentSubdomain !== updatedTenant.subdomain
       ) {
         // Constrói nova URL com novo subdomain
         const protocol = window.location.protocol;
-        const port = window.location.port ? `:${window.location.port}` : '';
+        const port = window.location.port ? `:${window.location.port}` : "";
         const pathname = window.location.pathname;
         const search = window.location.search;
         const hash = window.location.hash;
 
         // Detecta domínio base (lvh.me, multisaas.app, localhost)
-        let baseDomain = 'lvh.me';
-        if (currentHostname.includes('multisaas.app')) {
-          baseDomain = 'multisaas.app';
-        } else if (currentHostname.includes('localhost')) {
-          baseDomain = 'localhost';
-        } else if (currentHostname.includes('lvh.me')) {
-          baseDomain = 'lvh.me';
+        let baseDomain = "lvh.me";
+        if (currentHostname.includes("multisaas.app")) {
+          baseDomain = "multisaas.app";
+        } else if (currentHostname.includes("localhost")) {
+          baseDomain = "localhost";
+        } else if (currentHostname.includes("lvh.me")) {
+          baseDomain = "lvh.me";
         }
 
         const newUrl = `${protocol}//${updatedTenant.subdomain}.${baseDomain}${port}${pathname}${search}${hash}`;
 
-        console.log('[UpdateTenant] Subdomain changed, redirecting to:', newUrl);
+        console.log("[UpdateTenant] Subdomain changed, redirecting to:", newUrl);
 
         // Aguarda um pouco para garantir que cache foi atualizado
         setTimeout(() => {
@@ -361,47 +359,88 @@ export function useTenants() {
     },
   });
 
-  // NOTA: Endpoint DELETE /tenants/{id} NÃO existe no backend
-  // O único DELETE disponível é DELETE /tenants/users/{userId} para remover usuários
-  // Se precisar deletar tenant, endpoint precisa ser implementado no backend primeiro
-
-  // Mutation placeholder - não funcional até backend implementar endpoint
+  /**
+   * Mutation para deletar tenant (AÇÃO DESTRUTIVA)
+   *
+   * DELETE /tenants
+   * - Backend identifica tenant pelo Origin header (subdomain)
+   * - Response: 204 No Content (sucesso) ou 403 Forbidden (sem permissão)
+   * - Deleta via CASCADE: chatbots, documents, invites, roles, subscriptions, etc.
+   * - Apenas OWNER pode deletar (única role com TENANT_DELETE permission)
+   */
   const deleteTenant = useMutation({
-    mutationFn: async (_id: string): Promise<void> => {
-      throw new Error("Endpoint DELETE /tenants não implementado no backend. Use a UI para deletar o tenant.");
+    mutationFn: async (): Promise<void> => {
+      // DELETE /tenants sem ID - backend extrai tenant do Origin header
+      await api.delete("/tenants");
+      // 204 No Content - sem body na resposta
     },
 
-    onMutate: async (deletedId) => {
+    onMutate: async () => {
+      // Cancela queries em andamento
       await queryClient.cancelQueries({ queryKey: ["tenants"] });
-      const previousTenants = queryClient.getQueryData<Tenant[]>(["tenants"]);
 
-      queryClient.setQueryData<Tenant[]>(["tenants"], (oldTenants) => {
-        if (!oldTenants) return [];
-        return oldTenants.filter((tenant) => tenant.id !== deletedId);
-      });
+      // Snapshot para rollback em caso de erro
+      const previousTenants = queryClient.getQueryData<Tenant[]>(["tenants"]);
 
       return { previousTenants };
     },
 
-    onError: (_error, _deletedId, context) => {
+    onError: (error, _variables, context) => {
+      // Rollback em caso de erro
       if (context?.previousTenants) {
         queryClient.setQueryData(["tenants"], context.previousTenants);
       }
-    },
 
-    onSuccess: (_data, deletedId) => {
-      queryClient.removeQueries({
-        queryKey: ["tenant", deletedId],
-      });
-    },
-
-    retry: (failureCount, error: Error & { response?: { status: number } }) => {
-      const status = error.response?.status;
-      if (status && status >= 400 && status < 500) {
-        return false;
+      // Adiciona mensagem de erro específica para 403
+      const axiosError = error as Error & { response?: { status: number } };
+      if (axiosError.response?.status === 403) {
+        axiosError.message =
+          "Você não tem permissão para deletar esta organização. Apenas o proprietário (owner) pode realizar esta ação.";
       }
-      return failureCount < 1;
     },
+
+    onSuccess: () => {
+      // Pega lista de tenants antes de limpar cache para decidir redirecionamento
+      const tenants = queryClient.getQueryData<Tenant[]>(["tenants"]) || [];
+      const currentHostname = window.location.hostname;
+      const currentSubdomain = currentHostname.split(".")[0];
+
+      // Remove tenant deletado da lista
+      const remainingTenants = tenants.filter((t) => t.subdomain !== currentSubdomain);
+
+      // Remove todas as queries relacionadas a tenants
+      queryClient.removeQueries({ queryKey: ["tenants"] });
+      queryClient.removeQueries({ queryKey: ["tenant"] });
+
+      // Remove outras queries relacionadas ao tenant
+      queryClient.removeQueries({ queryKey: ["chatbots"] });
+      queryClient.removeQueries({ queryKey: ["chatbot"] });
+
+      const protocol = window.location.protocol;
+      const mainDomain = import.meta.env.VITE_MAIN_DOMAIN || "lvh.me:3000";
+
+      let redirectUrl: string;
+
+      if (remainingTenants.length === 0) {
+        // Sem mais tenants → redireciona para criação de tenant
+        redirectUrl = `${protocol}//${mainDomain}/dashboard/tenants/create`;
+        console.log("[DeleteTenant] No more tenants, redirecting to tenant creation");
+      } else {
+        // Ainda há tenants → redireciona para o primeiro tenant disponível
+        const nextTenant = remainingTenants[0];
+        const [baseDomain, port] = mainDomain.split(":");
+        const portSuffix = port ? `:${port}` : "";
+        redirectUrl = `${protocol}//${nextTenant.subdomain}.${baseDomain}${portSuffix}/dashboard/chatbots`;
+        console.log("[DeleteTenant] Redirecting to next tenant:", nextTenant.subdomain);
+      }
+
+      // Pequeno delay para garantir que o toast aparece antes do redirect
+      setTimeout(() => {
+        window.location.href = redirectUrl;
+      }, 1000);
+    },
+
+    retry: false, // Nunca retry em deleção
   });
 
   // Mutation para juntar-se a tenant via convite

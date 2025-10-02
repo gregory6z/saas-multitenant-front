@@ -1,8 +1,8 @@
-import axios from "axios";
 import type { InternalAxiosRequestConfig } from "axios";
-import i18n from "./i18n";
+import axios from "axios";
 import { getAuthToken, removeAuthToken, setAuthToken } from "@/auth/storage";
 import { getLoginUrl } from "@/lib/url-utils";
+import i18n from "./i18n";
 
 // Extend Axios config to include tenantId, retry count, and refresh tracking
 export interface ExtendedAxiosRequestConfig extends InternalAxiosRequestConfig {

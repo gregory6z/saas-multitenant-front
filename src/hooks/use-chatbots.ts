@@ -1,7 +1,7 @@
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { z } from "zod";
-import { apiWithTenant } from "@/lib/api-with-tenant";
 import { useCurrentTenant } from "@/hooks/use-current-tenant";
+import { apiWithTenant } from "@/lib/api-with-tenant";
 
 // Chatbot schemas
 const ChatbotSchema = z.object({
@@ -50,7 +50,7 @@ export type UpdateChatbotData = z.infer<typeof UpdateChatbotSchema>;
  */
 export function useChatbots(page = 1, limit = 20) {
   const { currentTenant, isLoading: tenantLoading } = useCurrentTenant();
-  
+
   return useQuery({
     queryKey: ["chatbots", currentTenant?.id, page, limit],
     queryFn: async () => {
@@ -71,7 +71,7 @@ export function useChatbots(page = 1, limit = 20) {
  */
 export function useChatbot(id: string) {
   const { currentTenant, isLoading: tenantLoading } = useCurrentTenant();
-  
+
   return useQuery({
     queryKey: ["chatbots", currentTenant?.id, id],
     queryFn: async (): Promise<Chatbot> => {
@@ -98,8 +98,8 @@ export function useCreateChatbot() {
     },
     onMutate: async (newChatbot) => {
       // Cancel outgoing refetches
-      await queryClient.cancelQueries({ 
-        queryKey: ["chatbots", currentTenant?.id] 
+      await queryClient.cancelQueries({
+        queryKey: ["chatbots", currentTenant?.id],
       });
 
       // Snapshot previous value
@@ -124,39 +124,30 @@ export function useCreateChatbot() {
         system_prompt: newChatbot.system_prompt,
       };
 
-      queryClient.setQueryData(
-        ["chatbots", currentTenant?.id, 1, 20],
-        (old: any) => {
-          if (!old) return { chatbots: [tempChatbot], total: 1, page: 1, limit: 20 };
-          return {
-            ...old,
-            chatbots: [tempChatbot, ...old.chatbots],
-            total: old.total + 1,
-          };
-        }
-      );
+      queryClient.setQueryData(["chatbots", currentTenant?.id, 1, 20], (old: any) => {
+        if (!old) return { chatbots: [tempChatbot], total: 1, page: 1, limit: 20 };
+        return {
+          ...old,
+          chatbots: [tempChatbot, ...old.chatbots],
+          total: old.total + 1,
+        };
+      });
 
       return { previousChatbots };
     },
     onError: (_err, _newChatbot, context) => {
       // Rollback on error
       if (context?.previousChatbots) {
-        queryClient.setQueryData(
-          ["chatbots", currentTenant?.id, 1, 20],
-          context.previousChatbots
-        );
+        queryClient.setQueryData(["chatbots", currentTenant?.id, 1, 20], context.previousChatbots);
       }
     },
     onSuccess: (data) => {
       // Update with real data
-      queryClient.setQueryData(
-        ["chatbots", currentTenant?.id, data.id],
-        data
-      );
-      
+      queryClient.setQueryData(["chatbots", currentTenant?.id, data.id], data);
+
       // Invalidate and refetch chatbots list
-      queryClient.invalidateQueries({ 
-        queryKey: ["chatbots", currentTenant?.id] 
+      queryClient.invalidateQueries({
+        queryKey: ["chatbots", currentTenant?.id],
       });
     },
   });
@@ -170,26 +161,17 @@ export function useUpdateChatbot() {
   const { currentTenant } = useCurrentTenant();
 
   return useMutation({
-    mutationFn: async ({
-      id,
-      data,
-    }: {
-      id: string;
-      data: UpdateChatbotData;
-    }): Promise<Chatbot> => {
+    mutationFn: async ({ id, data }: { id: string; data: UpdateChatbotData }): Promise<Chatbot> => {
       const response = await apiWithTenant.put(`/chatbots/${id}`, data);
       return ChatbotSchema.parse(response.data.chatbot);
     },
     onSuccess: (data) => {
       // Update individual chatbot cache
-      queryClient.setQueryData(
-        ["chatbots", currentTenant?.id, data.id],
-        data
-      );
-      
+      queryClient.setQueryData(["chatbots", currentTenant?.id, data.id], data);
+
       // Invalidate chatbots list
-      queryClient.invalidateQueries({ 
-        queryKey: ["chatbots", currentTenant?.id] 
+      queryClient.invalidateQueries({
+        queryKey: ["chatbots", currentTenant?.id],
       });
     },
   });
@@ -208,46 +190,40 @@ export function useDeleteChatbot() {
     },
     onMutate: async (deletedId) => {
       // Cancel outgoing refetches
-      await queryClient.cancelQueries({ 
-        queryKey: ["chatbots", currentTenant?.id] 
+      await queryClient.cancelQueries({
+        queryKey: ["chatbots", currentTenant?.id],
       });
 
       // Snapshot previous value
       const previousChatbots = queryClient.getQueryData(["chatbots", currentTenant?.id, 1, 20]);
 
       // Optimistically remove chatbot
-      queryClient.setQueryData(
-        ["chatbots", currentTenant?.id, 1, 20],
-        (old: any) => {
-          if (!old) return old;
-          return {
-            ...old,
-            chatbots: old.chatbots.filter((chatbot: Chatbot) => chatbot.id !== deletedId),
-            total: old.total - 1,
-          };
-        }
-      );
+      queryClient.setQueryData(["chatbots", currentTenant?.id, 1, 20], (old: any) => {
+        if (!old) return old;
+        return {
+          ...old,
+          chatbots: old.chatbots.filter((chatbot: Chatbot) => chatbot.id !== deletedId),
+          total: old.total - 1,
+        };
+      });
 
       return { previousChatbots };
     },
     onError: (_err, _deletedId, context) => {
       // Rollback on error
       if (context?.previousChatbots) {
-        queryClient.setQueryData(
-          ["chatbots", currentTenant?.id, 1, 20],
-          context.previousChatbots
-        );
+        queryClient.setQueryData(["chatbots", currentTenant?.id, 1, 20], context.previousChatbots);
       }
     },
     onSuccess: (_data, deletedId) => {
       // Remove from individual cache
       queryClient.removeQueries({
-        queryKey: ["chatbots", currentTenant?.id, deletedId]
+        queryKey: ["chatbots", currentTenant?.id, deletedId],
       });
-      
+
       // Invalidate chatbots list
-      queryClient.invalidateQueries({ 
-        queryKey: ["chatbots", currentTenant?.id] 
+      queryClient.invalidateQueries({
+        queryKey: ["chatbots", currentTenant?.id],
       });
     },
   });
@@ -258,7 +234,7 @@ export function useDeleteChatbot() {
  */
 export function useChatbotStats(id: string) {
   const { currentTenant, isLoading: tenantLoading } = useCurrentTenant();
-  
+
   return useQuery({
     queryKey: ["chatbots", currentTenant?.id, id, "stats"],
     queryFn: async () => {

@@ -1,17 +1,30 @@
+import { zodResolver } from "@hookform/resolvers/zod";
 import { createFileRoute } from "@tanstack/react-router";
 import { Info, Loader2 } from "lucide-react";
-import { useTranslation } from "react-i18next";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
 import * as React from "react";
-
+import { useForm } from "react-hook-form";
+import { useTranslation } from "react-i18next";
+import { toast } from "sonner";
+import { DeleteTenantModal } from "@/components/modals/delete-tenant-modal";
+import { GeneralPageSkeleton } from "@/components/skeletons/general-page-skeleton";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { useCurrentTenant } from "@/hooks/use-current-tenant";
-import { useTenants, type UpdateTenantRequest, UpdateTenantRequestSchema } from "@/hooks/use-tenants";
+import {
+  type UpdateTenantRequest,
+  UpdateTenantRequestSchema,
+  useTenants,
+} from "@/hooks/use-tenants";
 
 type UpdateTenantFormData = UpdateTenantRequest;
 
@@ -22,7 +35,8 @@ export const Route = createFileRoute("/dashboard/_layout/settings/general")({
 function GeneralPage() {
   const { t } = useTranslation("common");
   const { currentTenant, isLoading: tenantLoading } = useCurrentTenant();
-  const { updateTenant } = useTenants();
+  const { updateTenant, deleteTenant } = useTenants();
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = React.useState(false);
 
   const form = useForm<UpdateTenantFormData>({
     resolver: zodResolver(UpdateTenantRequestSchema),
@@ -48,8 +62,7 @@ function GeneralPage() {
     if (!currentTenant) return false;
 
     return (
-      formValues.name !== currentTenant.name ||
-      formValues.subdomain !== currentTenant.subdomain
+      formValues.name !== currentTenant.name || formValues.subdomain !== currentTenant.subdomain
     );
   }, [formValues, currentTenant]);
 
@@ -59,18 +72,19 @@ function GeneralPage() {
     }
   };
 
+  const handleDeleteTenant = () => {
+    deleteTenant.mutate(undefined, {
+      onSuccess: () => {
+        toast.success("Organização excluída com sucesso");
+      },
+      onError: (error) => {
+        toast.error(error.message || "Erro ao excluir organização");
+      },
+    });
+  };
+
   if (tenantLoading) {
-    return (
-      <div className="max-w-4xl mx-auto space-y-8 pt-4 md:pt-8">
-        <div className="flex items-center justify-between">
-          <h1 className="text-2xl font-semibold text-foreground">{t("sidebar.general")}</h1>
-        </div>
-        
-        <div className="flex items-center justify-center py-12">
-          <Loader2 className="w-8 h-8 animate-spin text-muted-foreground" />
-        </div>
-      </div>
-    );
+    return <GeneralPageSkeleton />;
   }
 
   if (!currentTenant) {
@@ -124,11 +138,7 @@ function GeneralPage() {
                     <FormLabel>Subdomínio</FormLabel>
                     <FormControl>
                       <div className="flex items-stretch">
-                        <Input 
-                          placeholder="minha-empresa" 
-                          {...field} 
-                          className="rounded-r-none"
-                        />
+                        <Input placeholder="minha-empresa" {...field} className="rounded-r-none" />
                         <div className="bg-muted text-muted-foreground px-3 py-2 border border-l-0 rounded-r-md text-sm flex items-center min-w-fit">
                           .multisaas.app
                         </div>
@@ -146,7 +156,8 @@ function GeneralPage() {
               {/* Error Message */}
               {updateTenant.isError && (
                 <div className="text-sm text-red-600 bg-red-50 border border-red-200 rounded-md p-3">
-                  Erro ao atualizar organização: {(updateTenant.error as Error)?.message || "Erro desconhecido"}
+                  Erro ao atualizar organização:{" "}
+                  {(updateTenant.error as Error)?.message || "Erro desconhecido"}
                 </div>
               )}
 
@@ -158,10 +169,7 @@ function GeneralPage() {
               )}
 
               <div className="flex justify-end">
-                <Button
-                  type="submit"
-                  disabled={!hasChanges || updateTenant.isPending}
-                >
+                <Button type="submit" disabled={!hasChanges || updateTenant.isPending}>
                   {updateTenant.isPending ? (
                     <>
                       <Loader2 className="w-4 h-4 mr-2 animate-spin" />
@@ -181,9 +189,7 @@ function GeneralPage() {
       <div className="space-y-6">
         <div className="flex items-center">
           <Separator className="flex-1" />
-          <span className="px-6 text-red-600 text-sm font-medium">
-            Zona de Perigo
-          </span>
+          <span className="px-6 text-red-600 text-sm font-medium">Zona de Perigo</span>
           <Separator className="flex-1" />
         </div>
 
@@ -193,24 +199,32 @@ function GeneralPage() {
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="space-y-2 text-sm text-muted-foreground">
-              <p>Esta ação não pode ser desfeita. Todos os dados da organização serão permanentemente excluídos.</p>
+              <p>
+                Esta ação não pode ser desfeita. Todos os dados da organização serão permanentemente
+                excluídos.
+              </p>
               <p>Todos os chatbots, configurações e dados de usuários serão perdidos.</p>
             </div>
 
             <div className="flex justify-end">
-              <Button 
-                variant="destructive"
-                onClick={() => {
-                  // TODO: Implement delete tenant functionality
-                  alert("Funcionalidade de exclusão será implementada");
-                }}
-              >
+              <Button variant="destructive" onClick={() => setIsDeleteModalOpen(true)}>
                 Excluir Organização
               </Button>
             </div>
           </CardContent>
         </Card>
       </div>
+
+      {/* Delete Tenant Modal */}
+      {currentTenant && (
+        <DeleteTenantModal
+          open={isDeleteModalOpen}
+          onOpenChange={setIsDeleteModalOpen}
+          tenantName={currentTenant.name}
+          onConfirm={handleDeleteTenant}
+          isDeleting={deleteTenant.isPending}
+        />
+      )}
     </div>
   );
 }

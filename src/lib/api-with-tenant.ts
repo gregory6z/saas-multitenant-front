@@ -5,21 +5,21 @@ import { api } from "./axios";
  */
 function getCurrentSubdomain(): string | null {
   if (typeof window === "undefined") return null;
-  
+
   const hostname = window.location.hostname;
-  
+
   // Development: handle localhost with subdomain (tenant1.localhost)
   if (hostname.includes("localhost")) {
     const parts = hostname.split(".");
     return parts.length > 1 ? parts[0] : null;
   }
-  
+
   // Production: handle multisaas.app subdomains (tenant1.multisaas.app)
   if (hostname.includes("multisaas.app")) {
     const parts = hostname.split(".");
     return parts.length > 2 ? parts[0] : null;
   }
-  
+
   return null;
 }
 
@@ -94,7 +94,7 @@ export const apiWithTenant = {
 export function getTenantContext() {
   const subdomain = getCurrentSubdomain();
   const isLocalhost = typeof window !== "undefined" && window.location.host.includes("localhost");
-  
+
   return {
     subdomain,
     isLocalhost,

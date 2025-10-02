@@ -1,8 +1,8 @@
 import { Link } from "@tanstack/react-router";
 import { Bot, Building2, Home, MessageSquare } from "lucide-react";
 import { ChatbotCreationSidebar } from "@/components/chatbot/chatbot-creation-sidebar";
-import { CompanySwitcher } from "@/components/navigation/company-switcher";
 import { CreationLayout } from "@/components/layouts/creation-layout";
+import { CompanySwitcher } from "@/components/navigation/company-switcher";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { SidebarProvider } from "@/components/ui/sidebar";
@@ -51,10 +51,10 @@ export function ChatbotSourcesLayout({ chatbotId, type }: ChatbotSourcesLayoutPr
               <Link to="/dashboard" className="flex items-center justify-center">
                 <Bot className="w-8 h-8 text-primary hover:text-primary/80 transition-colors" />
               </Link>
-              
+
               {/* Separator */}
               <div className="w-px h-6 bg-border"></div>
-              
+
               <CompanySwitcher teams={teams} />
 
               {/* Custom Breadcrumb for Chatbot Sources */}

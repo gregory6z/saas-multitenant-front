@@ -1,4 +1,4 @@
-import { getCookie, setCookie, deleteCookie } from "./cookie";
+import { deleteCookie, getCookie, setCookie } from "./cookie";
 import { emitAuthEvent } from "./events";
 import { extractTokenMetadata, isTokenExpired } from "./jwt";
 import { AuthStorageError, type TokenMetadata } from "./types";
@@ -7,8 +7,6 @@ import { AuthStorageError, type TokenMetadata } from "./types";
  * Token storage management with JWT validation and cross-subdomain support
  */
 
-const TOKEN_KEY = "ragboost:token";
-const TOKEN_METADATA_KEY = "ragboost:token_metadata";
 const COOKIE_NAME = "ragboost_auth_token";
 const COOKIE_EXPIRATION_DAYS = 7;
 
@@ -17,12 +15,6 @@ const isDev = import.meta.env.DEV;
 function debugLog(...args: unknown[]): void {
   if (isDev) {
     console.log("[AuthStorage]", ...args);
-  }
-}
-
-function debugWarn(...args: unknown[]): void {
-  if (isDev) {
-    console.warn("[AuthStorage]", ...args);
   }
 }
 

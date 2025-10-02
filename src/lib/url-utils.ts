@@ -35,14 +35,14 @@ export const getCurrentSubdomain = (): string | null => {
   const hostname = window.location.hostname;
 
   // Development: tenant.lvh.me
-  const mainDomainHost = MAIN_DOMAIN.split(':')[0]; // lvh.me
+  const mainDomainHost = MAIN_DOMAIN.split(":")[0]; // lvh.me
   if (hostname.includes(`.${mainDomainHost}`)) {
     return hostname.split(`.${mainDomainHost}`)[0];
   }
 
   // Legacy localhost: tenant.localhost
-  if (hostname.includes('.localhost')) {
-    return hostname.split('.localhost')[0];
+  if (hostname.includes(".localhost")) {
+    return hostname.split(".localhost")[0];
   }
 
   // Production: tenant.multisaas.app
@@ -82,9 +82,9 @@ export const getTenantSubdomainUrl = (subdomain: string, path = ""): string => {
   if (isLocalhost()) {
     // Development: MAIN_DOMAIN já contém porta (lvh.me:3000)
     // Extrai base domain e adiciona subdomain
-    const [baseDomain, port] = MAIN_DOMAIN.split(':');
+    const [baseDomain, port] = MAIN_DOMAIN.split(":");
     const domainWithSubdomain = `${subdomain}.${baseDomain}`;
-    const portSuffix = port ? `:${port}` : '';
+    const portSuffix = port ? `:${port}` : "";
     return `${protocol}//${domainWithSubdomain}${portSuffix}${path}`;
   }
 

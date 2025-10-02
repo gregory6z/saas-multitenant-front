@@ -9,8 +9,8 @@ import { Form, FormControl, FormField, FormItem, FormLabel } from "@/components/
 import { Input } from "@/components/ui/input";
 import { TranslatedFormMessage } from "@/components/ui/translated-form-message";
 import { useAuth } from "@/hooks/use-auth";
-import { cn } from "@/utils/cn";
 import { createLoginSchema, type LoginFormData } from "@/schemas/auth";
+import { cn } from "@/utils/cn";
 
 export function LoginForm({ className, ...props }: React.ComponentProps<"form">) {
   const { t } = useTranslation("auth");
@@ -28,11 +28,11 @@ export function LoginForm({ className, ...props }: React.ComponentProps<"form">)
   // Não fazemos redirect aqui para evitar loops
 
   const onSubmit = (data: LoginFormData) => {
-    console.log('[FORM] onSubmit called with:', { email: data.email });
-    console.log('[FORM] login.isPending:', login.isPending);
-    console.log('[FORM] login.isError:', login.isError);
+    console.log("[FORM] onSubmit called with:", { email: data.email });
+    console.log("[FORM] login.isPending:", login.isPending);
+    console.log("[FORM] login.isError:", login.isError);
     login.mutate(data);
-    console.log('[FORM] login.mutate() called');
+    console.log("[FORM] login.mutate() called");
   };
 
   return (

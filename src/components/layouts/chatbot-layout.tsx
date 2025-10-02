@@ -78,10 +78,10 @@ export function ChatbotLayout({ breadcrumbs, sidebarSections, children }: Chatbo
               <Link to="/dashboard" className="flex items-center justify-center">
                 <Bot className="w-8 h-8 text-primary hover:text-primary/80 transition-colors" />
               </Link>
-              
+
               {/* Separator */}
               <div className="w-px h-6 bg-border"></div>
-              
+
               <CompanySwitcher teams={teams} />
 
               {/* Dynamic Breadcrumb */}

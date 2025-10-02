@@ -1,9 +1,9 @@
+import { SourcesSidebar } from "@/components/chatbot/sources-sidebar";
 import { FilesContent } from "@/components/knowledge/sources/files-content";
 import { IndexContent } from "@/components/knowledge/sources/index-content";
 import { KnowledgeContent } from "@/components/knowledge/sources/knowledge-content";
 import { TextContent } from "@/components/knowledge/sources/text-content";
 import { WebsitesContent } from "@/components/knowledge/sources/websites-content";
-import { SourcesSidebar } from "@/components/chatbot/sources-sidebar";
 
 interface CreationLayoutProps {
   mode: "knowledge-base" | "chatbot";

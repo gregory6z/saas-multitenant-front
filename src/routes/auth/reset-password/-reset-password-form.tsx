@@ -9,8 +9,8 @@ import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem, FormLabel } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { TranslatedFormMessage } from "@/components/ui/translated-form-message";
-import { cn } from "@/utils/cn";
 import { createResetPasswordSchema, type ResetPasswordFormData } from "@/schemas/auth";
+import { cn } from "@/utils/cn";
 
 export function ResetPasswordForm({ className, ...props }: React.ComponentProps<"form">) {
   const { t } = useTranslation("auth");
