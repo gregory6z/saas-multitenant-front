@@ -73,6 +73,19 @@ function GeneralPage() {
     }
   };
 
+  // Handle subdomain change with real-time transformation
+  const handleSubdomainChange = (value: string) => {
+    // Apply same transformation as Zod schema for real-time preview
+    const transformed = value
+      .toLowerCase()
+      .replace(/[^a-z0-9\s-]/g, "")
+      .replace(/\s+/g, "-")
+      .replace(/-+/g, "-")
+      .replace(/^-|-$/g, "");
+
+    form.setValue("subdomain", transformed);
+  };
+
   const handleDeleteTenant = () => {
     deleteTenant.mutate(undefined, {
       onSuccess: () => {
@@ -128,6 +141,7 @@ function GeneralPage() {
                         <Input
                           placeholder="minha-empresa"
                           {...field}
+                          onChange={(e) => handleSubdomainChange(e.target.value)}
                           className="rounded-r-none"
                         />
                         <div className="bg-muted text-muted-foreground px-3 py-2 border border-l-0 rounded-r-md text-sm flex items-center min-w-fit">
