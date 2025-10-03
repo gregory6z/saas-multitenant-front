@@ -31,15 +31,12 @@ api.interceptors.request.use(
     }
 
     // Tenant context strategy:
-    // 1. X-Tenant-ID header (prioridade máxima) - quando passado explicitamente
-    // 2. Origin header (automático) - backend extrai subdomain (ex: http://gregory-test.lvh.me:3000 → gregory-test)
-    // 3. Host header (produção) - quando frontend e backend no mesmo domínio
-    //
-    // Apenas envia X-Tenant-ID se for passado explicitamente via config
-    if (config.tenantId) {
-      config.headers["X-Tenant-ID"] = config.tenantId;
-    }
-    // Caso contrário, backend extrai do Origin (dev) ou Host (prod) automaticamente
+    // Backend extrai tenant do Origin header (enviado automaticamente pelo navegador)
+    // Navegador envia: Origin: http://<subdomain>.lvh.me:3000
+    // Backend extrai subdomain para identificar o tenant
+
+    // NOTA: Origin header é enviado automaticamente pelo navegador em requisições cross-origin
+    // Não precisamos adicionar manualmente - navegador já faz isso!
 
     // Include credentials to send cookies across subdomains
     config.withCredentials = true;

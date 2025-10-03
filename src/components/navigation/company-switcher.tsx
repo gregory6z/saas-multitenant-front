@@ -12,7 +12,16 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { useSubscription } from "@/hooks/use-subscription";
 import { getTenantSubdomainUrl } from "@/lib/url-utils";
+
+// Mapeamento de planId para nome legível (PT-BR)
+const PLAN_NAMES: Record<string, string> = {
+  "plan-trial": "Teste",
+  "plan-starter": "Inicial",
+  "plan-pro": "Profissional",
+  "plan-enterprise": "Empresarial",
+};
 
 export function CompanySwitcher({
   teams,
@@ -27,6 +36,7 @@ export function CompanySwitcher({
 }) {
   const { t } = useTranslation("common");
   const [isJoinModalOpen, setIsJoinModalOpen] = React.useState(false);
+  const { subscription, isLoading: subscriptionLoading } = useSubscription();
 
   // Detecta tenant ativo baseado no subdomain da URL atual
   const hostname = window.location.hostname;
@@ -38,6 +48,11 @@ export function CompanySwitcher({
   const activeTeam = React.useMemo(() => {
     return teams.find((team) => team.subdomain === currentSubdomain) || teams[0];
   }, [teams, currentSubdomain]);
+
+  // Obter nome do plano da subscription
+  const planName = subscription?.planId
+    ? PLAN_NAMES[subscription.planId] || subscription.planId
+    : "Carregando...";
 
   // Estado vazio: sem organizações
   if (teams.length === 0) {
@@ -111,9 +126,11 @@ export function CompanySwitcher({
           <div className="font-medium text-foreground text-base max-w-[180px] truncate">
             {activeTeam.name}
           </div>
-          <span className="px-2 py-0.5 text-xs font-medium bg-blue-100 text-blue-700 rounded-full">
-            {activeTeam.plan}
-          </span>
+          {!subscriptionLoading && (
+            <span className="px-2 py-0.5 text-xs font-medium bg-blue-100 text-blue-700 rounded-full">
+              {planName}
+            </span>
+          )}
         </div>
       </button>
 
