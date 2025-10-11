@@ -8,10 +8,10 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ### Key Features
 - 🤖 **Chatbot Builder**: Visual chatbot creation and configuration
-- 📊 **Analytics Dashboard**: Performance metrics and conversation analytics  
-- 👥 **Multi-tenant Architecture**: Isolated customer environments
+- 📊 **Analytics Dashboard**: Performance metrics and conversation analytics
+- 👥 **Multi-tenant Architecture**: Isolated customer environments with subdomain-based routing
 - 💬 **RAGFlow Integration**: Advanced retrieval-augmented generation backend
-- 🌐 **Multi-language Support**: French/English (primary), Portuguese
+- 🌐 **Multi-language Support**: Portuguese (primary), English, French, Spanish
 - 🎨 **Modern UI**: Inspired by Chatbase with contemporary design patterns
 
 ## AI Collaboration Guidelines
@@ -106,90 +106,165 @@ This is a React + TypeScript + Vite SaaS dashboard application for chatbot manag
 
 ```
 src/
-├── routes/           # Tanstack Router route definitions
-│   ├── index.tsx    # Landing/Login page
-│   ├── dashboard/   # Dashboard routes
-│   │   ├── index.tsx        # Dashboard overview
-│   │   ├── chatbots/        # Chatbot management
-│   │   │   ├── index.tsx    # Chatbots list
-│   │   │   ├── create.tsx   # Create chatbot
-│   │   │   └── $id/         # Individual chatbot
-│   │   │       ├── index.tsx    # Chatbot details
-│   │   │       ├── analytics.tsx # Analytics
-│   │   │       ├── settings.tsx  # Configuration
-│   │   │       └── training.tsx  # Training data
-│   │   ├── analytics/       # Global analytics
-│   │   └── settings/        # Account settings
-│   ├── auth/        # Authentication routes
-│   │   ├── login.tsx
-│   │   └── register.tsx
-│   └── __root.tsx   # Root layout
-├── components/       # Reusable UI components
-│   ├── ui/          # shadcn/ui components
-│   ├── forms/       # Form components (React Hook Form)
-│   ├── dashboard/   # Dashboard-specific components
+├── routes/                    # Tanstack Router route definitions
+│   ├── index.tsx             # Landing page (redirects to dashboard or login)
+│   ├── __root.tsx            # Root layout with providers
+│   ├── _authenticated.tsx    # Protected routes layout
+│   ├── auth/                 # Public authentication routes
+│   │   ├── login/
+│   │   │   ├── index.tsx     # Login page
+│   │   │   └── -login-form.tsx # Login form component
+│   │   ├── register/
+│   │   │   ├── index.tsx     # Registration page
+│   │   │   └── -register-form.tsx
+│   │   ├── verify-email/
+│   │   │   ├── index.tsx     # Email verification page
+│   │   │   └── -verify-email-form.tsx
+│   │   ├── reset-password/   # Password reset request
+│   │   └── renew-password/   # Password reset confirmation
+│   └── _authenticated.dashboard/ # Protected dashboard routes
+│       ├── _layout.tsx       # Dashboard layout with sidebar
+│       ├── _layout/          # Main dashboard routes
+│       │   ├── index.tsx     # Dashboard home
+│       │   ├── chatbots.tsx  # Chatbots list
+│       │   ├── knowledge-base.tsx # Knowledge base list
+│       │   ├── usages.tsx    # Usage statistics
+│       │   └── settings/     # Settings routes
+│       │       ├── general.tsx   # General settings
+│       │       ├── members.tsx   # Team members
+│       │       ├── plans.tsx     # Subscription plans
+│       │       ├── billing.tsx   # Billing info
+│       │       └── security.tsx  # Security settings
+│       ├── tenants/
+│       │   └── create.tsx    # Create new tenant
+│       ├── chatbots/
+│       │   └── demo.tsx      # Chatbot demo/preview
+│       └── knowledge-base/
+│           └── create/       # Knowledge base creation wizard
+│               ├── index.tsx     # Create overview
+│               ├── files.tsx     # File upload
+│               ├── websites.tsx  # Website sources
+│               ├── text.tsx      # Text input
+│               └── knowledge.tsx # Knowledge settings
+├── components/               # Reusable UI components
+│   ├── ui/                  # shadcn/ui base components
+│   │   ├── button.tsx
+│   │   ├── input.tsx
+│   │   ├── form.tsx
+│   │   ├── dialog.tsx
 │   │   ├── sidebar.tsx
-│   │   ├── header.tsx
-│   │   ├── stats-card.tsx
-│   │   └── chatbot-card.tsx
-│   ├── chatbot/     # Chatbot-related components
-│   │   ├── source-uploader.tsx
-│   │   ├── chat-preview.tsx
-│   │   ├── training-upload.tsx
-│   │   └── embed-code-modal.tsx
-│   ├── playground/  # Testing interface components
-│   │   ├── playground-chat.tsx
-│   │   ├── model-settings.tsx
-│   │   └── source-citations.tsx
-│   └── analytics/   # Analytics components
-│       ├── metrics-chart.tsx
-│       ├── conversation-table.tsx
-│       └── usage-metrics.tsx
-├── lib/             # Utility functions
-│   ├── utils.ts     # cn() utility for class merging
-│   ├── api.ts       # API client configuration
-│   ├── auth.ts      # Authentication utilities
-│   └── i18n.ts      # i18next configuration
-├── hooks/           # Custom React hooks
-│   ├── queries/     # Tanstack Query hooks (queries + mutations)
-│   │   ├── chatbots.ts     # Chatbot queries & mutations
-│   │   ├── analytics.ts    # Analytics queries
-│   │   └── auth.ts         # Auth queries & mutations
-│   └── use-auth.ts  # Authentication hook
-├── locales/         # Translation files
-│   ├── fr/          # French translations
+│   │   └── ...              # Other shadcn components
+│   ├── forms/               # Form components (React Hook Form)
+│   ├── navigation/          # Navigation components
+│   │   ├── app-sidebar.tsx      # Main application sidebar
+│   │   ├── nav-main.tsx         # Main navigation links
+│   │   ├── nav-user.tsx         # User dropdown menu
+│   │   ├── nav-projects.tsx     # Project switcher
+│   │   ├── team-switcher.tsx    # Tenant/team switcher
+│   │   ├── breadcrumb-switcher.tsx # Breadcrumb navigation
+│   │   └── navigation-breadcrumb.tsx
+│   ├── chatbot/             # Chatbot-related components
+│   │   ├── chatbot-creation-sidebar.tsx
+│   │   ├── sources-sidebar.tsx
+│   │   └── content/         # Chatbot content sections
+│   │       ├── playground-content.tsx
+│   │       ├── sources-content.tsx
+│   │       ├── settings-content.tsx
+│   │       └── widget-content.tsx
+│   ├── knowledge/           # Knowledge base components
+│   │   ├── knowledge-source-creator.tsx
+│   │   ├── settings/        # Knowledge base settings
+│   │   │   ├── general-settings-content.tsx
+│   │   │   ├── ai-settings-content.tsx
+│   │   │   ├── chat-interface-settings-content.tsx
+│   │   │   └── security-settings-content.tsx
+│   │   └── sources/         # Knowledge source types
+│   │       ├── index-content.tsx
+│   │       ├── files-content.tsx
+│   │       ├── files-sources-content.tsx
+│   │       ├── text-content.tsx
+│   │       ├── websites-content.tsx
+│   │       ├── websites-sources-content.tsx
+│   │       └── knowledge-content.tsx
+│   ├── layout/              # Layout components
+│   │   └── subdomain-redirect.tsx # Subdomain routing handler
+│   ├── layouts/             # Page layouts
+│   │   ├── auth-layout.tsx       # Authentication pages layout
+│   │   ├── creation-layout.tsx   # Creation wizard layout
+│   │   ├── knowledge-creation-layout.tsx
+│   │   └── chatbot-sources-layout.tsx
+│   ├── modals/              # Modal dialogs
+│   │   └── join-tenant-modal.tsx
+│   ├── shared/              # Shared components
+│   │   └── sources-list.tsx
+│   ├── dashboard/           # Dashboard-specific components
+│   └── skeletons/           # Loading skeleton components
+├── hooks/                   # Custom React hooks (with Tanstack Query)
+│   ├── use-auth.ts          # Authentication hook
+│   ├── use-chatbots.ts      # Chatbot queries & mutations
+│   ├── use-tenants.ts       # Tenant management
+│   ├── use-current-tenant.ts # Current tenant context
+│   ├── use-subscription.ts  # Subscription management
+│   ├── use-plans.ts         # Subscription plans
+│   ├── use-users.ts         # User management
+│   ├── use-subdomain.ts     # Subdomain utilities
+│   └── use-mobile.ts        # Mobile detection
+├── auth/                    # Authentication utilities
+│   ├── cookie.ts            # Cookie management
+│   ├── jwt.ts               # JWT token utilities
+│   ├── storage.ts           # Local/session storage for auth
+│   ├── events.ts            # Auth event handling
+│   ├── tenant.ts            # Tenant context for auth
+│   └── types.ts             # Auth type definitions
+├── lib/                     # Core utilities and configuration
+│   ├── axios.ts             # Axios client configuration
+│   ├── api-with-tenant.ts   # Multi-tenant API client
+│   ├── query-client.ts      # Tanstack Query client config
+│   ├── react-query-provider.tsx # Query provider component
+│   ├── i18n.ts              # i18next configuration
+│   ├── env.ts               # Environment variables
+│   ├── url-utils.ts         # URL utilities
+│   └── schemas/             # Shared Zod schemas
+│       ├── auth/
+│       │   └── index.ts     # Auth schemas
+│       └── users/
+│           └── index.ts     # User schemas
+├── schemas/                 # Additional Zod schemas
+│   └── auth.ts              # Authentication schemas
+├── utils/                   # Utility functions
+│   └── cn.ts                # cn() utility for class merging
+├── locales/                 # Translation files (i18next)
+│   ├── pt/                  # Portuguese (primary)
 │   │   ├── common.json
 │   │   ├── dashboard.json
-│   │   ├── chatbot.json
 │   │   └── auth.json
-│   ├── en/          # English translations
+│   ├── en/                  # English
 │   │   ├── common.json
 │   │   ├── dashboard.json
-│   │   ├── chatbot.json
 │   │   └── auth.json
-│   └── pt/          # Portuguese translations
-│       ├── common.json
-│       ├── dashboard.json
-│       ├── chatbot.json
-│       └── auth.json
-├── services/        # API calls and external services
-│   ├── chatbot.ts   # Chatbot API calls
-│   ├── analytics.ts # Analytics API calls
-│   └── auth.ts      # Authentication API calls
-├── constants/       # Application constants
-│   └── routes.ts    # Route constants
-└── assets/          # Static assets
+│   ├── fr/                  # French
+│   │   ├── common.json
+│   │   ├── dashboard.json
+│   │   └── auth.json
+│   └── es/                  # Spanish
+│       └── auth.json        # Partial translation
+└── assets/                  # Static assets
     ├── images/
     └── icons/
 ```
 
 ### Key Configuration Files
 
-- `components.json`: shadcn/ui configuration
-- `tailwind.config.js`: Tailwind CSS configuration with shadcn theme
-- `src/lib/utils.ts`: Utility functions including cn() for class merging
-- `src/lib/api.ts`: API client with axios/fetch configuration for backend
+- `components.json`: shadcn/ui configuration with @ alias mapping
+- `tailwind.config.js`: Tailwind CSS v4 configuration
+- `tsr.config.json`: Tanstack Router CLI configuration
+- `src/utils/cn.ts`: cn() utility for merging Tailwind classes (clsx + tailwind-merge)
+- `src/lib/axios.ts`: Axios client configuration with interceptors
+- `src/lib/api-with-tenant.ts`: Multi-tenant API client with subdomain support
+- `src/lib/query-client.ts`: Tanstack Query client configuration
+- `src/lib/i18n.ts`: i18next configuration with namespaces
 - `vite.config.ts`: Vite configuration with React plugin and path mapping (@)
+- `vitest.config.ts`: Vitest configuration for unit testing
 - `tsconfig.json`: Root TypeScript configuration with project references
 - `tsconfig.app.json`: App-specific TypeScript configuration with strict settings and @ path
 - `tsconfig.node.json`: Node.js-specific TypeScript configuration
@@ -204,9 +279,10 @@ The project uses `@/` alias for clean imports pointing to the `src/` directory:
 ```typescript
 // ✅ CORRECT - Always use @ alias:
 import { Button } from "@/components/ui/button"
-import { cn } from "@/lib/utils"
-import { useChatbots } from "@/hooks/queries/chatbots"
+import { cn } from "@/utils/cn"
+import { useChatbots } from "@/hooks/use-chatbots"
 import { ChatbotCard } from "@/components/chatbot/chatbot-card"
+import { apiWithTenant } from "@/lib/api-with-tenant"
 
 // ❌ WRONG - Never use these:
 import { Button } from "src/components/ui/button"        // Never use src/
@@ -232,13 +308,12 @@ import { Button } from "./components/ui/button"         // Never use relative pa
 - Zod schemas will be created for request/response validation
 - Real-time type safety between frontend and backend
 
-### Current Source Structure
-
-- `src/main.tsx`: Application entry point with React root mounting
-- `src/App.tsx`: Main application component (currently the default Vite+React template)
-- `src/index.css`: Global styles
-- `src/App.css`: Component-specific styles
-- `src/assets/`: Static assets like images
+#### Multi-tenant Architecture
+- **Subdomain Routing**: Each tenant has their own subdomain (e.g., `acme.saasbot.com`)
+- **Tenant Context**: Automatically extracted from subdomain and passed to API calls
+- **Isolated Data**: Each tenant's data is completely isolated
+- **Auth Management**: JWT tokens include tenant context for authorization
+- **Cookie-based Sessions**: Secure cookie management for authentication state
 
 ## Code Conventions
 
@@ -311,16 +386,19 @@ export const Route = createFileRoute('/posts/$postId')({
 ### Tanstack Query Patterns
 
 #### Data Fetching with Tanstack Query
-- Create custom hooks in `src/hooks/queries/`
+- Create custom hooks in `src/hooks/` (e.g., `use-chatbots.ts`, `use-auth.ts`)
+- Hooks combine both queries and mutations for each domain
 - Use Zod schemas for API response validation
 - Implement proper error handling and loading states
 - Leverage query keys for efficient caching
+- Use multi-tenant API client (`apiWithTenant`) for authenticated requests
 
 #### Query Hook Examples
 ```typescript
-// src/hooks/queries/useChatbots.ts
+// src/hooks/use-chatbots.ts
 import { useQuery, useMutation } from '@tanstack/react-query'
 import { z } from 'zod'
+import { apiWithTenant } from '@/lib/api-with-tenant'
 
 const ChatbotSchema = z.object({
   id: z.string(),
@@ -475,52 +553,77 @@ export function UserForm() {
 - Use JSON files for translation keys organized by context
 - **Namespaces explained**:
   - `common.json`: Traduções reutilizadas em todo o app (botões, ações, termos gerais)
-  - `forms.json`: Traduções específicas para formulários (labels, placeholders, erros)
-  - `dashboard.json`: Traduções específicas da dashboard
+  - `dashboard.json`: Traduções específicas da dashboard (chatbots, analytics, settings)
   - `auth.json`: Traduções de autenticação (login, registro, etc.)
 - Implement namespace-based organization for better maintainability
-- Support lazy loading of translation bundles
+- Support browser language detection with fallback to English
 
 #### i18next Configuration Example
 ```typescript
 // src/lib/i18n.ts
 import i18n from 'i18next'
+import LanguageDetector from 'i18next-browser-languagedetector'
 import { initReactI18next } from 'react-i18next'
 
 // Translation imports
-import commonFr from '@/locales/fr/common.json'
-import formsFr from '@/locales/fr/forms.json'
-import commonEn from '@/locales/en/common.json'
-import formsEn from '@/locales/en/forms.json'
-import commonPt from '@/locales/pt/common.json'
-import formsPt from '@/locales/pt/forms.json'
+import enAuth from '@/locales/en/auth.json'
+import enCommon from '@/locales/en/common.json'
+import enDashboard from '@/locales/en/dashboard.json'
+import esAuth from '@/locales/es/auth.json'
+import frAuth from '@/locales/fr/auth.json'
+import frCommon from '@/locales/fr/common.json'
+import frDashboard from '@/locales/fr/dashboard.json'
+import ptAuth from '@/locales/pt/auth.json'
+import ptCommon from '@/locales/pt/common.json'
+import ptDashboard from '@/locales/pt/dashboard.json'
 
 const resources = {
-  fr: {
-    common: commonFr,
-    forms: formsFr,
-  },
   en: {
-    common: commonEn,
-    forms: formsEn,
+    auth: enAuth,
+    common: enCommon,
+    dashboard: enDashboard,
+  },
+  es: {
+    auth: esAuth,
+    common: enCommon,      // Fallback to English
+    dashboard: enDashboard, // Fallback to English
+  },
+  fr: {
+    auth: frAuth,
+    common: frCommon,
+    dashboard: frDashboard,
   },
   pt: {
-    common: commonPt,
-    forms: formsPt,
+    auth: ptAuth,
+    common: ptCommon,
+    dashboard: ptDashboard,
   },
 }
 
 i18n
+  .use(LanguageDetector)
   .use(initReactI18next)
   .init({
     resources,
-    lng: 'fr', // default language (French)
+    lng: 'pt', // default language (Portuguese)
     fallbackLng: 'en',
-    interpolation: {
-      escapeValue: false,
+    detection: {
+      order: ['navigator', 'localStorage'],
+      lookupLocalStorage: 'i18nextLng',
+      caches: ['localStorage'],
+      convertDetectedLanguage: (lng: string) => {
+        // Extract only the language part (before the dash)
+        return lng.split('-')[0]
+      },
     },
-    ns: ['common', 'forms'],
-    defaultNS: 'common',
+    interpolation: {
+      escapeValue: false, // React already escapes values
+    },
+    ns: ['auth', 'common', 'dashboard'],
+    defaultNS: 'auth',
+    supportedLngs: ['en', 'es', 'fr', 'pt'],
+    cleanCode: true,
+    load: 'languageOnly', // Load only language code (fr, en) not region (fr-FR, en-US)
   })
 
 export default i18n
@@ -545,13 +648,14 @@ function MyComponent() {
 }
 
 // Namespace usage
-function UserForm() {
-  const { t } = useTranslation('forms')
-  
+function LoginPage() {
+  const { t } = useTranslation('auth')
+
   return (
     <form>
-      <label>{t('name.label')}</label>
-      <input placeholder={t('name.placeholder')} />
+      <h1>{t('login.title')}</h1>
+      <label>{t('login.email')}</label>
+      <input placeholder={t('login.emailPlaceholder')} />
     </form>
   )
 }
@@ -566,79 +670,109 @@ function WelcomeMessage({ userName }: { userName: string }) {
 
 #### Translation File Examples
 ```json
-// src/locales/fr/common.json - Traduções gerais reutilizáveis
+// src/locales/pt/common.json - Traduções gerais reutilizáveis
 {
-  "welcome": "Bienvenue",
-  "welcome_user": "Bienvenue, {{name}} !",
+  "welcome": "Bem-vindo",
+  "welcome_user": "Bem-vindo, {{name}}!",
   "actions": {
-    "save": "Enregistrer",
-    "cancel": "Annuler",
-    "delete": "Supprimer",
-    "edit": "Modifier",
-    "create": "Créer"
+    "save": "Salvar",
+    "cancel": "Cancelar",
+    "delete": "Excluir",
+    "edit": "Editar",
+    "create": "Criar",
+    "back": "Voltar",
+    "next": "Próximo"
   },
   "navigation": {
-    "home": "Accueil",
-    "dashboard": "Tableau de bord",
-    "settings": "Paramètres"
+    "home": "Início",
+    "dashboard": "Dashboard",
+    "settings": "Configurações",
+    "chatbots": "Chatbots",
+    "knowledgeBase": "Base de Conhecimento"
   },
   "status": {
-    "loading": "Chargement...",
-    "error": "Erreur",
-    "success": "Succès"
+    "loading": "Carregando...",
+    "error": "Erro",
+    "success": "Sucesso",
+    "pending": "Pendente"
   }
 }
 
-// src/locales/fr/forms.json - Form-specific translations
+// src/locales/pt/dashboard.json - Dashboard-specific translations
 {
-  "user": {
-    "name": {
-      "label": "Nom",
-      "placeholder": "Entrez votre nom",
-      "error": "Le nom est requis"
-    },
-    "email": {
-      "label": "Email",
-      "placeholder": "Entrez votre email",
-      "error": "Format d'email invalide"
+  "chatbots": {
+    "title": "Meus Chatbots",
+    "create": "Criar Chatbot",
+    "empty": "Nenhum chatbot encontrado",
+    "settings": {
+      "general": "Geral",
+      "ai": "IA",
+      "interface": "Interface",
+      "security": "Segurança"
     }
   },
-  "validation": {
-    "required": "Ce champ est obligatoire",
-    "minLength": "Minimum {{count}} caractères",
-    "maxLength": "Maximum {{count}} caractères"
+  "knowledgeBase": {
+    "title": "Base de Conhecimento",
+    "sources": "Fontes",
+    "files": "Arquivos",
+    "websites": "Sites",
+    "text": "Texto"
+  },
+  "settings": {
+    "general": "Configurações Gerais",
+    "members": "Membros da Equipe",
+    "plans": "Planos",
+    "billing": "Faturamento",
+    "security": "Segurança"
   }
 }
 
-// src/locales/fr/auth.json - Authentication translations
+// src/locales/pt/auth.json - Authentication translations
 {
   "login": {
-    "title": "Connexion",
-    "email": "Adresse email",
-    "password": "Mot de passe",
-    "submit": "Se connecter",
-    "forgotPassword": "Mot de passe oublié ?"
+    "title": "Entrar",
+    "email": "Email",
+    "emailPlaceholder": "seu@email.com",
+    "password": "Senha",
+    "passwordPlaceholder": "Digite sua senha",
+    "submit": "Entrar",
+    "forgotPassword": "Esqueceu a senha?",
+    "noAccount": "Não tem uma conta?"
   },
   "register": {
-    "title": "Inscription",
-    "confirmPassword": "Confirmer le mot de passe"
+    "title": "Criar Conta",
+    "name": "Nome",
+    "confirmPassword": "Confirmar Senha",
+    "submit": "Registrar",
+    "hasAccount": "Já tem uma conta?"
+  },
+  "verifyEmail": {
+    "title": "Verificar Email",
+    "description": "Enviamos um código para seu email"
+  },
+  "validation": {
+    "required": "Este campo é obrigatório",
+    "email": "Email inválido",
+    "minLength": "Mínimo de {{count}} caracteres",
+    "passwordMatch": "As senhas não coincidem"
   }
 }
 ```
 
 #### i18n Best Practices
-- Use descriptive, hierarchical keys (`forms.name.label`)
+- Use descriptive, hierarchical keys (`auth.login.title`, `dashboard.chatbots.create`)
 - Keep translations close to components when possible
 - Implement type-safe translation keys using TypeScript
-- Use interpolation for dynamic content
-- Provide fallback values for missing translations
+- Use interpolation for dynamic content (e.g., `{{name}}`, `{{count}}`)
+- Provide fallback values for missing translations (English is fallback)
 - Test all language variations
-- Use namespaces to organize translations by feature
+- Use namespaces to organize translations by feature (auth, common, dashboard)
+- Spanish (es) currently has partial translations with English fallbacks
 
 ### Component Patterns
 
 #### shadcn/ui Component Usage
-- Use `cn()` utility for merging Tailwind classes
+- Use `cn()` utility for merging Tailwind classes (located in `@/utils/cn`)
 - Follow shadcn/ui patterns for component composition
 - Place UI components in `src/components/ui/`
 - Use Zod schemas for form validation and data types
@@ -646,14 +780,14 @@ function WelcomeMessage({ userName }: { userName: string }) {
 
 Example:
 ```tsx
-import { cn } from "@/lib/utils"
+import { cn } from "@/utils/cn"
 import { Button } from "@/components/ui/button"
 
 export function CustomButton({ className, ...props }) {
   return (
-    <Button 
-      className={cn("custom-styles", className)} 
-      {...props} 
+    <Button
+      className={cn("custom-styles", className)}
+      {...props}
     />
   )
 }
@@ -677,23 +811,32 @@ export function CustomButton({ className, ...props }) {
 - Interfaces and types should be defined in their respective files where they're used
 - No separate `types/` folder - co-locate types with implementation
 - Use Zod schemas for runtime validation and infer TypeScript types
-- Co-locate API response schemas with their respective query hooks
+- Shared schemas live in `src/lib/schemas/` or `src/schemas/`
+- Co-locate API response schemas with their respective hooks
 - Example structure:
   ```typescript
-  // src/hooks/queries/useChatbots.ts
+  // src/hooks/use-chatbots.ts
   const ChatbotSchema = z.object({
     id: z.string(),
     name: z.string(),
     status: z.enum(['active', 'inactive']),
   })
   type Chatbot = z.infer<typeof ChatbotSchema>
-  
-  // src/services/chatbot.ts
-  const CreateChatbotSchema = z.object({
-    name: z.string().min(1),
-    description: z.string().optional(),
+
+  // src/lib/schemas/auth/index.ts - Shared auth schemas
+  export const LoginSchema = z.object({
+    email: z.string().email(),
+    password: z.string().min(6),
   })
-  type CreateChatbotRequest = z.infer<typeof CreateChatbotSchema>
+  export type LoginRequest = z.infer<typeof LoginSchema>
+
+  // src/schemas/auth.ts - Additional auth schemas
+  export const RegisterSchema = z.object({
+    name: z.string().min(2),
+    email: z.string().email(),
+    password: z.string().min(8),
+  })
+  export type RegisterRequest = z.infer<typeof RegisterSchema>
   ```
 
 ## Git Conventions
@@ -708,11 +851,14 @@ export function CustomButton({ className, ...props }) {
 
 ## Development Notes
 
-- The project currently contains the default Vite+React template code
 - HMR (Hot Module Replacement) is enabled for fast development
-- ESLint is configured to ignore the `dist` directory
 - The build process includes TypeScript compilation before bundling
-- Prepared for Tanstack Router integration (file-based routing)
+- Tanstack Router is fully integrated with file-based routing
+- Multi-tenant architecture with subdomain-based routing is implemented
+- Authentication system with JWT and refresh tokens is in place
+- i18next is configured with Portuguese as the default language
+- All UI components use Tailwind CSS v4 with shadcn/ui components
+- Vitest is configured for unit testing
 
 ## Error Handling Philosophy
 
@@ -727,3 +873,7 @@ export function CustomButton({ className, ...props }) {
 - Use React.memo for expensive components
 - Implement proper code splitting
 - Optimize bundle size with proper imports
+
+## Task Master AI Instructions
+**Import Task Master's development workflow commands and guidelines, treat as if import is in the main CLAUDE.md file.**
+@./.taskmaster/CLAUDE.md

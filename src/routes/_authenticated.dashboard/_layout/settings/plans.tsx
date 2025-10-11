@@ -1,173 +1,216 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Check, Crown, Zap } from "lucide-react";
+import * as React from "react";
 import { useTranslation } from "react-i18next";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { formatPrice, usePlans, type Plan } from "@/hooks/use-plans";
+import { useSubscription } from "@/hooks/use-subscription";
 
 export const Route = createFileRoute("/_authenticated/dashboard/_layout/settings/plans")({
   component: PlansPage,
 });
 
+type BillingInterval = "month" | "year";
+
+// Mapeamento de planId para nome legível (PT-BR)
+const PLAN_NAMES: Record<string, string> = {
+  "plan-trial": "Teste",
+  "plan-starter": "Inicial",
+  "plan-pro": "Profissional",
+  "plan-enterprise": "Empresarial",
+};
+
+// Mapeamento de status para português
+const STATUS_NAMES: Record<string, string> = {
+  active: "Ativo",
+  trialing: "Em teste",
+  canceled: "Cancelado",
+  incomplete: "Incompleto",
+  incomplete_expired: "Expirado",
+  past_due: "Atrasado",
+  unpaid: "Não pago",
+};
+
 function PlansPage() {
   const { t } = useTranslation("common");
+  const { plans, isLoading: plansLoading } = usePlans();
+  const { subscription, isLoading: subscriptionLoading } = useSubscription();
 
-  const plans = [
-    {
-      name: "Starter",
-      price: "$9",
-      period: "month",
-      description: "Perfect for individuals and small projects",
-      features: [
-        "Up to 3 chatbots",
-        "1,000 messages/month",
-        "Basic analytics",
-        "Email support",
-        "Standard integrations",
-      ],
-      popular: false,
-      current: false,
-    },
-    {
-      name: "Pro",
-      price: "$29",
-      period: "month",
-      description: "Best for growing businesses and teams",
-      features: [
-        "Up to 10 chatbots",
-        "10,000 messages/month",
-        "Advanced analytics",
-        "Priority support",
-        "All integrations",
-        "Custom branding",
-        "API access",
-      ],
-      popular: true,
-      current: true,
-    },
-    {
-      name: "Enterprise",
-      price: "$99",
-      period: "month",
-      description: "For large organizations with advanced needs",
-      features: [
-        "Unlimited chatbots",
-        "100,000 messages/month",
-        "Custom analytics",
-        "24/7 phone support",
-        "Enterprise integrations",
-        "White-label solution",
-        "Advanced API",
-        "Dedicated success manager",
-      ],
-      popular: false,
-      current: false,
-    },
-  ];
+  // Se o plano atual for trial, default para anual. Senão, mensal.
+  const defaultInterval: BillingInterval = subscription?.planId === "plan-trial" ? "year" : "month";
+  const [selectedInterval, setSelectedInterval] = React.useState<BillingInterval>(defaultInterval);
+
+  // Filtra planos pelo intervalo selecionado
+  const filteredPlans = plans.filter((plan) => plan.interval === selectedInterval);
+
+  // Identificar qual é o plano popular (Pro Mensal e Pro Anual)
+  const isPopularPlan = (plan: Plan): boolean => {
+    return plan.id === "plan-pro" || (plan.name.includes("Pro") && plan.interval === "year");
+  };
+
+  if (plansLoading || subscriptionLoading) {
+    return (
+      <div className="max-w-6xl mx-auto space-y-8 pt-4 md:pt-8">
+        <div className="flex items-center justify-center h-64">
+          <div className="text-muted-foreground">Carregando planos...</div>
+        </div>
+      </div>
+    );
+  }
 
   return (
-    <div className="max-w-6xl mx-auto space-y-8 pt-4 md:pt-8">
+    <div className="max-w-6xl mx-auto pt-4 md:pt-8 px-4 md:px-6 pb-16">
       {/* Header */}
-      <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-semibold text-foreground">{t("sidebar.plans")}</h1>
+      <div className="flex flex-col gap-6 mb-8">
+        {/* Título e Plano Atual */}
+        <div className="flex items-center justify-between">
+          <h1 className="text-2xl font-semibold text-foreground">{t("sidebar.plans")}</h1>
+
+          {/* Plano Atual Simplificado */}
+          {subscription && (
+            <div className="flex items-center gap-2 px-4 py-2 rounded-lg border border-blue-200 bg-blue-50 w-fit h-fit shadow-sm">
+              <Crown className="w-4 h-4 text-blue-600" />
+              <div className="flex items-center gap-2">
+                <span className="text-sm text-muted-foreground">Minha assinatura:</span>
+                <span className="text-sm font-semibold text-blue-700">
+                  {PLAN_NAMES[subscription.planId] || subscription.planId}
+                </span>
+              </div>
+              <Badge
+                variant={subscription.status === "active" ? "default" : "secondary"}
+                className={`text-xs font-medium ${
+                  subscription.status === "active"
+                    ? "bg-green-100 text-green-700 hover:bg-green-100"
+                    : subscription.status === "trialing"
+                    ? "bg-primary text-white hover:bg-primary"
+                    : "bg-gray-100 text-gray-700 hover:bg-gray-100"
+                }`}
+              >
+                {STATUS_NAMES[subscription.status] || subscription.status}
+              </Badge>
+            </div>
+          )}
+        </div>
+
+        {/* Tabs Centralizados */}
+        <div className="flex justify-center">
+          <Tabs
+            value={selectedInterval}
+            onValueChange={(value) => setSelectedInterval(value as BillingInterval)}
+            className="w-fit"
+          >
+            <TabsList>
+              <TabsTrigger value="month">Mensal</TabsTrigger>
+              <TabsTrigger value="year">
+                Anual
+                <Badge variant="secondary" className="ml-2 bg-green-100 text-green-700">
+                  -20%
+                </Badge>
+              </TabsTrigger>
+            </TabsList>
+          </Tabs>
+        </div>
       </div>
 
-      {/* Current Plan */}
-      <Card className="border-blue-200 bg-blue-50">
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <Crown className="w-5 h-5 text-blue-600" />
-            Current Plan: Pro
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-sm text-muted-foreground">
-                You're currently on the Pro plan with 7,340 messages used this month.
-              </p>
-            </div>
-            <Badge variant="secondary">Active</Badge>
-          </div>
-        </CardContent>
-      </Card>
-
       {/* Plans Grid */}
-      <div className="grid md:grid-cols-3 gap-6">
-        {plans.map((plan) => (
-          <Card
-            key={plan.name}
-            className={`relative ${plan.popular ? "border-blue-500 shadow-lg" : ""} ${plan.current ? "bg-blue-50 border-blue-200" : ""}`}
-          >
-            {plan.popular && (
-              <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
-                <Badge className="bg-blue-600 text-white">
-                  <Zap className="w-3 h-3 mr-1" />
-                  Most Popular
-                </Badge>
-              </div>
-            )}
+      <div className="grid md:grid-cols-3 gap-6 items-stretch">
+        {filteredPlans.map((plan) => {
+          const isPopular = isPopularPlan(plan);
+          const isCurrent = subscription?.planId === plan.id;
 
-            <CardHeader className="text-center">
-              <CardTitle className="text-2xl">{plan.name}</CardTitle>
-              <div className="space-y-2">
-                <div className="text-3xl font-bold">
-                  {plan.price}
-                  <span className="text-lg font-normal text-muted-foreground">/{plan.period}</span>
+          return (
+            <Card
+              key={plan.id}
+              className={`relative flex flex-col h-full ${isPopular ? "border-blue-500 shadow-lg" : ""} ${isCurrent ? "bg-blue-50 border-blue-200" : ""}`}
+            >
+              {isPopular && (
+                <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
+                  <Badge className="bg-blue-600 text-white">
+                    <Zap className="w-3 h-3 mr-1" />
+                    Mais Popular
+                  </Badge>
                 </div>
-                <p className="text-sm text-muted-foreground">{plan.description}</p>
-              </div>
-            </CardHeader>
+              )}
 
-            <CardContent className="space-y-6">
-              <ul className="space-y-3">
-                {plan.features.map((feature, index) => (
-                  <li key={index} className="flex items-center gap-2">
-                    <Check className="w-4 h-4 text-green-600" />
-                    <span className="text-sm">{feature}</span>
-                  </li>
-                ))}
-              </ul>
+              <CardHeader className="text-center pb-4">
+                <CardTitle className="text-2xl mb-4">
+                  {plan.name.replace(/\s*\((Anual|Mensal)\)\s*/gi, "").trim()}
+                </CardTitle>
+                <div className="space-y-2">
+                  <div className="text-3xl font-bold">
+                    {/* Sempre mostra preço mensal, mesmo para planos anuais */}
+                    {formatPrice(
+                      plan.interval === "year" ? Math.round(plan.price / 12) : plan.price,
+                      plan.currency
+                    )}
+                    <span className="text-lg font-normal text-muted-foreground">/mês</span>
+                  </div>
+                  <div className="h-6">
+                    {plan.interval === "year" && (
+                      <p className="text-xs text-muted-foreground">
+                        Cobrado anualmente: {formatPrice(plan.price, plan.currency)}
+                      </p>
+                    )}
+                  </div>
+                  <div className="h-[48px] flex items-center justify-center">
+                    <p className="text-sm text-muted-foreground text-center leading-tight">{plan.description}</p>
+                  </div>
+                </div>
+              </CardHeader>
 
-              <Button
-                className="w-full"
-                variant={plan.current ? "secondary" : plan.popular ? "default" : "outline"}
-                disabled={plan.current}
-              >
-                {plan.current ? "Current Plan" : `Upgrade to ${plan.name}`}
-              </Button>
-            </CardContent>
-          </Card>
-        ))}
+              <CardContent className="flex flex-col flex-grow pt-0">
+                <ul className="space-y-2 mb-6">
+                  {plan.features.map((feature, index) => (
+                    <li key={index} className="flex items-start gap-2 min-h-[28px]">
+                      <Check className="w-4 h-4 text-green-600 flex-shrink-0 mt-0.5" />
+                      <span className="text-sm leading-tight">{feature}</span>
+                    </li>
+                  ))}
+                </ul>
+
+                <Button
+                  className="w-full mt-auto"
+                  variant={isCurrent ? "secondary" : isPopular ? "default" : "outline"}
+                  disabled={isCurrent}
+                >
+                  {isCurrent ? "Plano Atual" : `Fazer upgrade para ${plan.name.replace(/\s*\((Anual|Mensal)\)\s*/gi, "").trim()}`}
+                </Button>
+              </CardContent>
+            </Card>
+          );
+        })}
       </div>
 
       {/* FAQ */}
-      <Card>
+      <Card className="mt-12">
         <CardHeader>
-          <CardTitle>Frequently Asked Questions</CardTitle>
+          <CardTitle>Perguntas Frequentes</CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="space-y-2">
-            <h4 className="font-medium">Can I change my plan anytime?</h4>
+            <h4 className="font-medium">Posso mudar meu plano a qualquer momento?</h4>
             <p className="text-sm text-muted-foreground">
-              Yes, you can upgrade or downgrade your plan at any time. Changes will be prorated and
-              reflected in your next billing cycle.
+              Sim, você pode fazer upgrade ou downgrade do seu plano a qualquer momento. As mudanças serão
+              proporcionais e refletidas no próximo ciclo de faturamento.
             </p>
           </div>
 
           <div className="space-y-2">
-            <h4 className="font-medium">What happens if I exceed my message limit?</h4>
+            <h4 className="font-medium">O que acontece se eu exceder meu limite de mensagens?</h4>
             <p className="text-sm text-muted-foreground">
-              If you exceed your monthly message limit, your chatbots will continue to work, but
-              you'll be charged for overage at $0.01 per additional message.
+              Se você exceder seu limite mensal de mensagens, seus chatbots continuarão funcionando, mas
+              você será cobrado €0,01 por cada mensagem adicional.
             </p>
           </div>
 
           <div className="space-y-2">
-            <h4 className="font-medium">Is there a free trial?</h4>
+            <h4 className="font-medium">Existe um período de teste gratuito?</h4>
             <p className="text-sm text-muted-foreground">
-              Yes, all new accounts get a 14-day free trial of the Pro plan. No credit card
-              required.
+              Sim, todas as novas contas recebem 14 dias de teste gratuito do plano Pro. Não é necessário
+              cartão de crédito.
             </p>
           </div>
         </CardContent>

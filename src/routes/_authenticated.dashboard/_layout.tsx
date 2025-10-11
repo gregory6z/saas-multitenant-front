@@ -65,15 +65,15 @@ function MainLayout() {
   // Loader already validated auth and tenant
   // No need for conditional rendering here
   return (
-    <div className="flex flex-col h-screen bg-background overflow-hidden">
+    <div className="flex flex-col min-h-screen bg-background">
       <div className="fixed top-0 left-0 right-0 z-50 bg-card h-[60px]">
         <DashboardHeader />
       </div>
 
-      <div className="flex flex-1 pt-[60px] h-full overflow-hidden">
+      <div className="flex flex-1 pt-[60px]">
         <SidebarProvider>
-          <AppSidebar className="fixed left-0 h-[calc(100vh-60px)] top-[60px]" />
-          <main className="flex-1 overflow-y-auto ml-[--sidebar-width]">
+          <AppSidebar className="fixed left-0 h-[calc(100vh-60px)] top-[60px] overflow-y-auto" />
+          <main className="flex-1 ml-[--sidebar-width] w-full">
             <Outlet />
           </main>
         </SidebarProvider>
