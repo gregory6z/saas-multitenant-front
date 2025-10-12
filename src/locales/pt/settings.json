@@ -37,7 +37,7 @@
     "rolePermissions": "Permissões por Função",
     "memberActions": "Ações do Membro",
     "promoteToAdmin": "Promover para Admin",
-    "demoteToCurator": "Rebaixar para Curador",
+    "demoteToCurator": "Alterar para Curador",
     "changeToCurator": "Alterar para Curador",
     "changeToUser": "Alterar para Usuário",
     "roles": {

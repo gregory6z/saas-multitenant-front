@@ -85,7 +85,7 @@ function MembersPage() {
   };
 
   return (
-    <div className="max-w-4xl mx-auto space-y-8 pt-4 md:pt-8">
+    <div className="max-w-4xl mx-auto space-y-8 pt-4 md:pt-8 px-4 md:px-6 pb-8">
       {/* Header */}
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-semibold text-foreground">{t("members.title")}</h1>
@@ -114,7 +114,7 @@ function MembersPage() {
                 onValueChange={(value) => setInviteRole(value as "admin" | "curator" | "user")}
                 disabled={createInvitation.isPending}
               >
-                <SelectTrigger className="w-[140px]">
+                <SelectTrigger className="w-[180px]">
                   <SelectValue placeholder={t("members.selectRole")} />
                 </SelectTrigger>
                 <SelectContent>
@@ -234,7 +234,7 @@ function MembersPage() {
                     </Badge>
                     {/* Only show actions for owners/admins, but not for owner members */}
                     {canManageTeam && member.role !== "owner" && (
-                      <DropdownMenu>
+                      <DropdownMenu modal={false}>
                         <DropdownMenuTrigger asChild>
                           <Button variant="ghost" size="sm">
                             <MoreHorizontal className="w-4 h-4" />
