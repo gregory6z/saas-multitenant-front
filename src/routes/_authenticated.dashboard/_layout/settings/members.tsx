@@ -169,7 +169,6 @@ function MembersPage() {
                         onClick={() => resendInvitation.mutate(invitation.id)}
                         disabled={resendInvitation.isPending}
                         title={t("members.resendInvitation")}
-                        className="hover:bg-blue-50 hover:text-blue-600"
                       >
                         <RotateCw className="w-4 h-4" />
                       </Button>
@@ -235,7 +234,7 @@ function MembersPage() {
                     {canManageTeam && member.role !== "owner" && (
                       <DropdownMenu modal={false}>
                         <DropdownMenuTrigger asChild>
-                          <Button variant="ghost" size="sm" className="hover:bg-blue-50 hover:text-blue-600">
+                          <Button variant="ghost" size="sm">
                             <MoreHorizontal className="w-4 h-4" />
                           </Button>
                         </DropdownMenuTrigger>
