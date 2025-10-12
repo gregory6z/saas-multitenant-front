@@ -229,9 +229,6 @@ function MembersPage() {
                     <Badge variant={getRoleBadgeVariant(member.role)}>
                       {getRoleLabel(member.role)}
                     </Badge>
-                    <Badge variant={member.emailVerified ? "default" : "secondary"}>
-                      {member.emailVerified ? t("members.memberStatus.active") : t("members.memberStatus.pending")}
-                    </Badge>
                     {/* Only show actions for owners/admins, but not for owner members */}
                     {canManageTeam && member.role !== "owner" && (
                       <DropdownMenu modal={false}>
