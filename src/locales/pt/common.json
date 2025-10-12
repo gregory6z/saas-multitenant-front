@@ -148,31 +148,6 @@
     "recentActivity": "Atividade Recente",
     "messages": "mensagens"
   },
-  "settings": {
-    "general": {
-      "workspaceDetails": "Detalhes do Workspace",
-      "workspaceName": "Nome do workspace",
-      "workspaceUrl": "URL do workspace",
-      "urlWarning": "Alterar a URL do workspace irá redirecioná-lo para o novo endereço",
-      "save": "Salvar",
-      "dangerZone": "ZONA DE PERIGO",
-      "deleteWorkspace": "Excluir workspace",
-      "deleteWarning1": "Uma vez que você excluir seu workspace, não há como voltar atrás. Por favor, tenha certeza.",
-      "deleteWarning2": "Todos os seus dados carregados e agentes treinados serão excluídos.",
-      "delete": "Excluir"
-    },
-    "members": {
-      "manage": "Gerenciar",
-      "user": "Usuário",
-      "memberSince": "Membro desde",
-      "role": "Função",
-      "actions": "Ações",
-      "changeRole": "Alterar função",
-      "viewProfile": "Ver perfil",
-      "removeMember": "Remover membro",
-      "inviteMembers": "Convidar membros"
-    }
-  },
   "knowledgeBase": {
     "selectTitle": "Escolha uma Base de Conhecimento",
     "selectDescription": "Selecione uma base de conhecimento existente ou crie uma nova para seu chatbot",

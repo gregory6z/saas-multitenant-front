@@ -13,27 +13,32 @@ import frDashboard from "@/locales/fr/dashboard.json";
 import ptAuth from "@/locales/pt/auth.json";
 import ptCommon from "@/locales/pt/common.json";
 import ptDashboard from "@/locales/pt/dashboard.json";
+import ptSettings from "@/locales/pt/settings.json";
 
 const resources = {
   en: {
     auth: enAuth,
     common: enCommon,
     dashboard: enDashboard,
+    settings: ptSettings, // Fallback to Portuguese for now
   },
   es: {
     auth: esAuth,
     common: enCommon, // Fallback to English for now
     dashboard: enDashboard, // Fallback to English for now
+    settings: ptSettings, // Fallback to Portuguese for now
   },
   fr: {
     auth: frAuth,
     common: frCommon,
     dashboard: frDashboard,
+    settings: ptSettings, // Fallback to Portuguese for now
   },
   pt: {
     auth: ptAuth,
     common: ptCommon,
     dashboard: ptDashboard,
+    settings: ptSettings,
   },
 };
 
@@ -58,7 +63,7 @@ i18n
     interpolation: {
       escapeValue: false, // React already escapes values
     },
-    ns: ["auth", "common", "dashboard"],
+    ns: ["auth", "common", "dashboard", "settings"],
     defaultNS: "auth",
     supportedLngs: ["en", "es", "fr", "pt"], // Languages supported by the app
     cleanCode: true,

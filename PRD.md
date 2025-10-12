@@ -124,11 +124,13 @@ Empower businesses to create intelligent, context-aware chatbots that provide ex
 
 **Note:** All backend APIs are implemented and documented. The work needed is frontend integration and UI implementation.
 
-#### Team & Collaboration (Priority 1 - No RAGFlow dependency)
+#### Team & Collaboration (Priority 1 - No RAGFlow dependency) - 🟢 90% Complete
 - ✅ Backend: Team member invitation system
-- ❌ Frontend: Invitation UI and email invitation flow
+- ✅ Frontend: Invitation UI and email invitation flow
 - ✅ Backend: Role-based access control (RBAC)
-- ❌ Frontend: Permission guards and role-based UI
+- ✅ Frontend: Permission guards and role-based UI
+- ❌ Frontend: Accept invitation page (email link flow)
+- ✅ Frontend: Portuguese translations in `settings.json`
 
 #### Subscription & Billing (Priority 2 - No RAGFlow dependency)
 - ✅ Backend: Stripe integration
@@ -181,11 +183,14 @@ Empower businesses to create intelligent, context-aware chatbots that provide ex
 **Dependencies:** None (Backend ready ✅)
 
 **Backend APIs Available:**
-- `POST /api/v1/invitations` - Create invitation
-- `GET /api/v1/invitations` - List invitations
-- `PUT /api/v1/invitations/:id/resend` - Resend invitation
-- `DELETE /api/v1/invitations/:id` - Revoke invitation
-- `POST /api/v1/invitations/accept/:token` - Accept invitation
+- `POST /invitations` - Create invitation
+- `GET /invitations` - List invitations
+- `POST /invitations/:id/resend` - Resend invitation
+- `DELETE /invitations/:id` - Revoke invitation
+- `POST /invitations/:id/accept` - Accept invitation
+
+**Frontend Route:**
+- `/accept-invitation?token={token}` - Page to accept invitation via email link
 
 **Frontend Tasks:**
 1. Create invitation form component
@@ -195,11 +200,11 @@ Empower businesses to create intelligent, context-aware chatbots that provide ex
 5. Add role selector (owner, admin, curator, user)
 
 **Acceptance Criteria:**
-- [ ] Users can invite team members via email
-- [ ] Invitations show status (pending, accepted, revoked, expired)
-- [ ] Users can resend or revoke pending invitations
-- [ ] Invited users can accept invitations via email link
-- [ ] Role-based permissions are assigned correctly
+- [x] Users can invite team members via email
+- [x] Invitations show status (pending, accepted, revoked, expired)
+- [x] Users can resend or revoke pending invitations
+- [ ] Invited users can accept invitations via email link ⚠️ **Missing: Accept invitation page**
+- [x] Role-based permissions are assigned correctly
 
 ---
 
@@ -252,12 +257,12 @@ Empower businesses to create intelligent, context-aware chatbots that provide ex
 5. Implement remove member confirmation
 
 **Acceptance Criteria:**
-- [ ] UI elements respect user permissions
-- [ ] Admin actions are restricted to admins/owners
-- [ ] Users can view team member roles
-- [ ] Admins can change member roles
-- [ ] Owners can remove members
-- [ ] Permission errors are handled gracefully
+- [x] UI elements respect user permissions
+- [x] Admin actions are restricted to admins/owners
+- [x] Users can view team member roles
+- [x] Admins can change member roles
+- [x] Owners can remove members
+- [x] Permission errors are handled gracefully
 
 ---
 
@@ -713,16 +718,16 @@ For detailed API integration guide, see: `BACKEND_INTEGRATION.md`
 - Multi-tenant data isolation via subdomain
 - Cookie-based sessions
 
-**Team Management (✅ Ready)**
+**Team Management (✅ Backend Ready | 🟢 Frontend Implemented)**
 ```
-POST   /api/v1/invitations           # Create invitation
-GET    /api/v1/invitations           # List invitations
-PUT    /api/v1/invitations/:id/resend # Resend invitation
-DELETE /api/v1/invitations/:id       # Revoke invitation
-POST   /api/v1/invitations/accept/:token # Accept invitation
-GET    /api/v1/tenants/:id/members   # List team members
-PUT    /api/v1/tenants/:id/members/:userId/role # Update role
-DELETE /api/v1/tenants/:id/members/:userId # Remove member
+POST   /invitations                     # Create invitation
+GET    /invitations                     # List invitations
+POST   /invitations/:id/resend          # Resend invitation
+DELETE /invitations/:id                 # Revoke invitation
+POST   /invitations/:id/accept          # Accept invitation (⚠️ Frontend page missing)
+GET    /users                           # List team members (current tenant)
+PATCH  /tenants/users/:userId/role      # Update member role
+DELETE /tenants/users/:userId           # Remove member
 ```
 
 **Subscription & Billing (✅ Ready)**

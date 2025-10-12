@@ -1,0 +1,66 @@
+{
+  "general": {
+    "workspaceDetails": "Detalhes do Workspace",
+    "workspaceName": "Nome do workspace",
+    "workspaceUrl": "URL do workspace",
+    "urlWarning": "Alterar a URL do workspace irá redirecioná-lo para o novo endereço",
+    "save": "Salvar",
+    "dangerZone": "ZONA DE PERIGO",
+    "deleteWorkspace": "Excluir workspace",
+    "deleteWarning1": "Uma vez que você excluir seu workspace, não há como voltar atrás. Por favor, tenha certeza.",
+    "deleteWarning2": "Todos os seus dados carregados e agentes treinados serão excluídos.",
+    "delete": "Excluir"
+  },
+  "members": {
+    "title": "Membros da Equipe",
+    "manage": "Gerenciar",
+    "user": "Usuário",
+    "memberSince": "Membro desde",
+    "role": "Função",
+    "actions": "Ações",
+    "changeRole": "Alterar função",
+    "viewProfile": "Ver perfil",
+    "removeMember": "Remover membro",
+    "inviteMembers": "Convidar membros",
+    "inviteNew": "Convidar Novos Membros",
+    "enterEmail": "Digite o endereço de email",
+    "selectRole": "Selecione a função",
+    "sendInvite": "Enviar Convite",
+    "sending": "Enviando...",
+    "invitedMembersWillReceive": "Membros convidados receberão um email para entrar no seu workspace.",
+    "pendingInvitations": "Convites Pendentes",
+    "resendInvitation": "Reenviar email do convite",
+    "revokeInvitation": "Revocar convite",
+    "teamMembers": "Membros da Equipe",
+    "loadingMembers": "Carregando membros...",
+    "noMembersFound": "Nenhum membro encontrado",
+    "rolePermissions": "Permissões por Função",
+    "memberActions": "Ações do Membro",
+    "promoteToAdmin": "Promover para Admin",
+    "demoteToCurator": "Rebaixar para Curador",
+    "changeToCurator": "Alterar para Curador",
+    "changeToUser": "Alterar para Usuário",
+    "roles": {
+      "owner": "Proprietário",
+      "admin": "Administrador",
+      "curator": "Curador",
+      "user": "Usuário"
+    },
+    "roleDescriptions": {
+      "owner": "Acesso total a todos os recursos e configurações",
+      "admin": "Pode gerenciar membros, chatbots e a maioria das configurações",
+      "curator": "Pode criar e gerenciar chatbots, acesso limitado às configurações",
+      "user": "Acesso somente leitura para visualizar chatbots e análises"
+    },
+    "invitationStatus": {
+      "pending": "Pendente",
+      "accepted": "Aceito",
+      "revoked": "Revogado",
+      "expired": "Expirado"
+    },
+    "memberStatus": {
+      "active": "Ativo",
+      "pending": "Pendente"
+    }
+  }
+}

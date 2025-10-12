@@ -15,12 +15,13 @@ export type User = z.infer<typeof UserSchema>;
 
 /**
  * Schema para usuário com informações de tenant
+ * Roles: owner (full access), admin (manage team/bots), curator (edit bots), user (view only)
  */
 export const TenantUserSchema = z.object({
   id: z.string().uuid(),
   name: z.string().min(1),
   email: z.string().email(),
-  role: z.enum(["admin", "curator", "user"]),
+  role: z.enum(["owner", "admin", "curator", "user"]),
   emailVerified: z.boolean(),
   createdAt: z.string().datetime(),
   updatedAt: z.string().datetime(),

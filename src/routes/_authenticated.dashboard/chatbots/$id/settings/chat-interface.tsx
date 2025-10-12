@@ -13,7 +13,9 @@ import {
 import { Switch } from "@/components/ui/switch";
 import { Textarea } from "@/components/ui/textarea";
 
-export const Route = createFileRoute("/_authenticated/dashboard/chatbots/$id/settings/chat-interface")({
+export const Route = createFileRoute(
+  "/_authenticated/dashboard/chatbots/$id/settings/chat-interface"
+)({
   component: ChatInterfaceSettingsComponent,
 });
 

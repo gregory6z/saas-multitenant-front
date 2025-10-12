@@ -66,9 +66,7 @@ export function CompanySwitcher({
           <div className="bg-gray-300 text-white flex aspect-square size-6 items-center justify-center rounded-md">
             <Plus className="size-3" />
           </div>
-          <div className="font-medium text-muted-foreground text-base">
-            Adicionar organização
-          </div>
+          <div className="font-medium text-muted-foreground text-base">Adicionar organização</div>
         </button>
 
         <DropdownMenu>

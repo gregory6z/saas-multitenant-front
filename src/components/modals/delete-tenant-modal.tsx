@@ -48,12 +48,15 @@ export function DeleteTenantModal({
             <div className="rounded-md border border-red-200 bg-red-50 p-3">
               <p className="text-sm text-red-900">
                 Esta ação não pode ser desfeita. Todos os dados da organização{" "}
-                <span className="font-semibold">"{tenantName}"</span> serão permanentemente excluídos.
+                <span className="font-semibold">"{tenantName}"</span> serão permanentemente
+                excluídos.
               </p>
             </div>
 
             <div className="space-y-2">
-              <p className="text-sm font-medium text-foreground">Os seguintes dados serão perdidos:</p>
+              <p className="text-sm font-medium text-foreground">
+                Os seguintes dados serão perdidos:
+              </p>
               <ul className="space-y-1 text-sm text-muted-foreground list-disc list-inside">
                 <li>Todos os chatbots e suas configurações</li>
                 <li>Bases de conhecimento e documentos</li>

@@ -21,13 +21,14 @@ const CreateTenantRequestSchema = z.object({
   name: z.string().min(1, "Nome é obrigatório"),
   subdomain: z
     .string()
-    .transform((val) =>
-      val
-        .toLowerCase()
-        .replace(/[^a-z0-9\s-]/g, "") // Remove special chars
-        .replace(/\s+/g, "-") // Replace spaces with hyphens
-        .replace(/-+/g, "-") // Replace multiple hyphens with single
-        .replace(/^-|-$/g, "") // Remove leading/trailing hyphens
+    .transform(
+      (val) =>
+        val
+          .toLowerCase()
+          .replace(/[^a-z0-9\s-]/g, "") // Remove special chars
+          .replace(/\s+/g, "-") // Replace spaces with hyphens
+          .replace(/-+/g, "-") // Replace multiple hyphens with single
+          .replace(/^-|-$/g, "") // Remove leading/trailing hyphens
     )
     .pipe(
       z
@@ -49,13 +50,14 @@ const UpdateTenantRequestSchema = z.object({
   name: z.string().min(1, "Nome é obrigatório").optional(),
   subdomain: z
     .string()
-    .transform((val) =>
-      val
-        .toLowerCase()
-        .replace(/[^a-z0-9\s-]/g, "") // Remove special chars
-        .replace(/\s+/g, "-") // Replace spaces with hyphens
-        .replace(/-+/g, "-") // Replace multiple hyphens with single
-        .replace(/^-|-$/g, "") // Remove leading/trailing hyphens
+    .transform(
+      (val) =>
+        val
+          .toLowerCase()
+          .replace(/[^a-z0-9\s-]/g, "") // Remove special chars
+          .replace(/\s+/g, "-") // Replace spaces with hyphens
+          .replace(/-+/g, "-") // Replace multiple hyphens with single
+          .replace(/^-|-$/g, "") // Remove leading/trailing hyphens
     )
     .pipe(
       z

@@ -6,7 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { formatPrice, usePlans, type Plan } from "@/hooks/use-plans";
+import { formatPrice, type Plan, usePlans } from "@/hooks/use-plans";
 import { useSubscription } from "@/hooks/use-subscription";
 
 export const Route = createFileRoute("/_authenticated/dashboard/_layout/settings/plans")({
@@ -85,8 +85,8 @@ function PlansPage() {
                   subscription.status === "active"
                     ? "bg-green-100 text-green-700 hover:bg-green-100"
                     : subscription.status === "trialing"
-                    ? "bg-primary text-white hover:bg-primary"
-                    : "bg-gray-100 text-gray-700 hover:bg-gray-100"
+                      ? "bg-primary text-white hover:bg-primary"
+                      : "bg-gray-100 text-gray-700 hover:bg-gray-100"
                 }`}
               >
                 {STATUS_NAMES[subscription.status] || subscription.status}
@@ -156,7 +156,9 @@ function PlansPage() {
                     )}
                   </div>
                   <div className="h-[48px] flex items-center justify-center">
-                    <p className="text-sm text-muted-foreground text-center leading-tight">{plan.description}</p>
+                    <p className="text-sm text-muted-foreground text-center leading-tight">
+                      {plan.description}
+                    </p>
                   </div>
                 </div>
               </CardHeader>
@@ -176,7 +178,9 @@ function PlansPage() {
                   variant={isCurrent ? "secondary" : isPopular ? "default" : "outline"}
                   disabled={isCurrent}
                 >
-                  {isCurrent ? "Plano Atual" : `Fazer upgrade para ${plan.name.replace(/\s*\((Anual|Mensal)\)\s*/gi, "").trim()}`}
+                  {isCurrent
+                    ? "Plano Atual"
+                    : `Fazer upgrade para ${plan.name.replace(/\s*\((Anual|Mensal)\)\s*/gi, "").trim()}`}
                 </Button>
               </CardContent>
             </Card>
@@ -193,24 +197,24 @@ function PlansPage() {
           <div className="space-y-2">
             <h4 className="font-medium">Posso mudar meu plano a qualquer momento?</h4>
             <p className="text-sm text-muted-foreground">
-              Sim, você pode fazer upgrade ou downgrade do seu plano a qualquer momento. As mudanças serão
-              proporcionais e refletidas no próximo ciclo de faturamento.
+              Sim, você pode fazer upgrade ou downgrade do seu plano a qualquer momento. As mudanças
+              serão proporcionais e refletidas no próximo ciclo de faturamento.
             </p>
           </div>
 
           <div className="space-y-2">
             <h4 className="font-medium">O que acontece se eu exceder meu limite de mensagens?</h4>
             <p className="text-sm text-muted-foreground">
-              Se você exceder seu limite mensal de mensagens, seus chatbots continuarão funcionando, mas
-              você será cobrado €0,01 por cada mensagem adicional.
+              Se você exceder seu limite mensal de mensagens, seus chatbots continuarão funcionando,
+              mas você será cobrado €0,01 por cada mensagem adicional.
             </p>
           </div>
 
           <div className="space-y-2">
             <h4 className="font-medium">Existe um período de teste gratuito?</h4>
             <p className="text-sm text-muted-foreground">
-              Sim, todas as novas contas recebem 14 dias de teste gratuito do plano Pro. Não é necessário
-              cartão de crédito.
+              Sim, todas as novas contas recebem 14 dias de teste gratuito do plano Pro. Não é
+              necessário cartão de crédito.
             </p>
           </div>
         </CardContent>

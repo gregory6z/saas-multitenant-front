@@ -2,6 +2,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2 } from "lucide-react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import type { z } from "zod";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -15,7 +16,6 @@ import {
 import { Input } from "@/components/ui/input";
 import { CreateTenantRequestSchema, useTenants } from "@/hooks/use-tenants";
 import { getDisplayDomain } from "@/lib/env";
-import type { z } from "zod";
 
 type CreateTenantFormData = z.infer<typeof CreateTenantRequestSchema>;
 
