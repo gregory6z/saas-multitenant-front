@@ -254,8 +254,6 @@ export function useTenants() {
       const portSuffix = port ? `:${port}` : "";
 
       const subdomainUrl = `${protocol}//${newTenant.subdomain}.${baseDomain}${portSuffix}/dashboard/chatbots`;
-
-      console.log("Redirecting to tenant subdomain:", subdomainUrl);
       window.location.href = subdomainUrl;
     },
 
@@ -360,8 +358,6 @@ export function useTenants() {
 
         const newUrl = `${protocol}//${updatedTenant.subdomain}.${baseDomain}${port}${pathname}${search}${hash}`;
 
-        console.log("[UpdateTenant] Subdomain changed, redirecting to:", newUrl);
-
         // Aguarda um pouco para garantir que cache foi atualizado
         setTimeout(() => {
           window.location.href = newUrl;
@@ -443,14 +439,12 @@ export function useTenants() {
       if (remainingTenants.length === 0) {
         // Sem mais tenants → redireciona para criação de tenant
         redirectUrl = `${protocol}//${mainDomain}/dashboard/tenants/create`;
-        console.log("[DeleteTenant] No more tenants, redirecting to tenant creation");
       } else {
         // Ainda há tenants → redireciona para o primeiro tenant disponível
         const nextTenant = remainingTenants[0];
         const [baseDomain, port] = mainDomain.split(":");
         const portSuffix = port ? `:${port}` : "";
         redirectUrl = `${protocol}//${nextTenant.subdomain}.${baseDomain}${portSuffix}/dashboard/chatbots`;
-        console.log("[DeleteTenant] Redirecting to next tenant:", nextTenant.subdomain);
       }
 
       // Pequeno delay para garantir que o toast aparece antes do redirect
@@ -482,8 +476,6 @@ export function useTenants() {
       const portSuffix = port ? `:${port}` : "";
 
       const subdomainUrl = `${protocol}//${result.tenant.subdomain}.${baseDomain}${portSuffix}/dashboard/chatbots`;
-
-      console.log("Redirecting to joined tenant:", subdomainUrl);
       window.location.href = subdomainUrl;
     },
 

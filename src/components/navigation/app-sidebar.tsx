@@ -6,6 +6,7 @@ import { useTranslation } from "react-i18next";
 import { NavMain } from "@/components/navigation/nav-main";
 import { NavProjects } from "@/components/navigation/nav-projects";
 import { Sidebar, SidebarContent, SidebarRail } from "@/components/ui/sidebar";
+import { useCurrentUserRole } from "@/hooks/use-team-members";
 
 // Simplified sidebar data
 const data = {
@@ -60,6 +61,7 @@ const data = {
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const { t } = useTranslation("common");
   const location = useLocation();
+  const { canManageTeam } = useCurrentUserRole();
 
   // Update data with translations and active state
   const translatedData = {
@@ -88,11 +90,23 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         location.pathname === item.url ||
         item.items?.some((subItem) => location.pathname === subItem.url);
 
+      // Filter subitems based on permissions
+      let filteredItems = item.items;
+      if (item.title === "Workplace Settings" && filteredItems) {
+        // Only show Members to admin and owner roles
+        filteredItems = filteredItems.filter((subItem) => {
+          if (subItem.title === "Members") {
+            return canManageTeam;
+          }
+          return true;
+        });
+      }
+
       return {
         ...item,
         title: t(translationKey),
         isActive,
-        items: item.items?.map((subItem) => ({
+        items: filteredItems?.map((subItem) => ({
           ...subItem,
           title: t(`sidebar.${subItem.title.toLowerCase()}`),
           isActive: location.pathname === subItem.url,

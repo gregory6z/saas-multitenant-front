@@ -1,3 +1,5 @@
+import { useTranslation } from "react-i18next";
+
 import {
   AlertDialog,
   AlertDialogAction,
@@ -25,6 +27,7 @@ export function RemoveMemberModal({
   memberName,
   memberEmail,
 }: RemoveMemberModalProps) {
+  const { t } = useTranslation("settings");
   const removeMember = useRemoveMember();
 
   const handleRemove = () => {
@@ -38,29 +41,36 @@ export function RemoveMemberModal({
   return (
     <AlertDialog open={open} onOpenChange={onOpenChange}>
       <AlertDialogContent className="max-w-md">
-        <AlertDialogHeader>
-          <AlertDialogTitle className="text-xl">Remove Team Member</AlertDialogTitle>
-          <AlertDialogDescription className="space-y-4 pt-2">
-            <div className="rounded-md border border-red-200 bg-red-50 p-3">
-              <p className="text-sm text-red-900">
-                Are you sure you want to remove <span className="font-semibold">{memberName}</span>{" "}
-                from your team?
+        <AlertDialogHeader className="space-y-4">
+          <AlertDialogTitle className="text-xl">
+            {t("members.removeMemberModal.title")}
+          </AlertDialogTitle>
+          <AlertDialogDescription className="space-y-5 pt-2">
+            <div className="rounded-lg border border-red-200 bg-red-50 p-4">
+              <p className="text-sm text-red-900 leading-relaxed">
+                {t("members.removeMemberModal.confirmationQuestion")}{" "}
+                <span className="font-semibold">{memberName}</span>{" "}
+                {t("members.removeMemberModal.fromTeam")}
               </p>
             </div>
 
-            <div className="space-y-2">
+            <div className="space-y-3">
               <p className="text-sm text-muted-foreground">
-                <span className="font-medium text-foreground">Email:</span> {memberEmail}
+                <span className="font-medium text-foreground">
+                  {t("members.removeMemberModal.email")}
+                </span>{" "}
+                {memberEmail}
               </p>
-              <p className="text-sm text-muted-foreground">
-                This member will lose access to all chatbots, knowledge bases, and team resources.
-                They can be re-invited later if needed.
+              <p className="text-sm text-muted-foreground leading-relaxed">
+                {t("members.removeMemberModal.consequences")}
               </p>
             </div>
           </AlertDialogDescription>
         </AlertDialogHeader>
-        <AlertDialogFooter>
-          <AlertDialogCancel disabled={removeMember.isPending}>Cancel</AlertDialogCancel>
+        <AlertDialogFooter className="mt-6">
+          <AlertDialogCancel disabled={removeMember.isPending}>
+            {t("members.removeMemberModal.cancel")}
+          </AlertDialogCancel>
           <AlertDialogAction
             onClick={(e) => {
               e.preventDefault();
@@ -71,7 +81,9 @@ export function RemoveMemberModal({
             disabled={removeMember.isPending}
             className="bg-red-600 hover:bg-red-700 focus:ring-red-600"
           >
-            {removeMember.isPending ? "Removing..." : "Remove Member"}
+            {removeMember.isPending
+              ? t("members.removeMemberModal.removing")
+              : t("members.removeMemberModal.remove")}
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>

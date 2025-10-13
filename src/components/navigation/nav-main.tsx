@@ -57,7 +57,7 @@ export function NavMain({
                     >
                       {item.icon && (
                         <item.icon
-                          className={`w-5 h-5 ${item.isActive ? "text-primary" : ""}`}
+                          className="w-5 h-5"
                           strokeWidth={item.isActive ? 2.5 : 1.5}
                         />
                       )}
@@ -74,14 +74,7 @@ export function NavMain({
                             isActive={subItem.isActive}
                             className="text-base h-9"
                           >
-                            <Link
-                              to={subItem.url}
-                              className={`cursor-pointer relative ${
-                                subItem.isActive
-                                  ? 'pl-3 before:absolute before:left-0 before:top-0 before:bottom-0 before:w-0.5 before:bg-primary before:content-[""]'
-                                  : ""
-                              }`}
-                            >
+                            <Link to={subItem.url} className="cursor-pointer">
                               <span>{subItem.title}</span>
                             </Link>
                           </SidebarMenuSubButton>
@@ -106,7 +99,7 @@ export function NavMain({
                 <Link to={item.url}>
                   {item.icon && (
                     <item.icon
-                      className={`w-5 h-5 ${item.isActive ? "text-primary" : ""}`}
+                      className="w-5 h-5"
                       strokeWidth={item.isActive ? 2.5 : 1.5}
                     />
                   )}

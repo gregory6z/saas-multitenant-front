@@ -27,6 +27,15 @@
     "selectRole": "Selecione a função",
     "sendInvite": "Enviar Convite",
     "sending": "Enviando...",
+    "invalidEmail": "Por favor, insira um email válido",
+    "inviteSuccess": "Convite enviado com sucesso",
+    "inviteError": "Erro ao enviar convite",
+    "resendSuccess": "Convite reenviado com sucesso",
+    "resendError": "Erro ao reenviar convite",
+    "revokeSuccess": "Convite revogado com sucesso",
+    "revokeError": "Erro ao revogar convite",
+    "updateRoleSuccess": "Função atualizada com sucesso",
+    "updateRoleError": "Erro ao atualizar função",
     "invitedMembersWillReceive": "Membros convidados receberão um email para entrar no seu workspace.",
     "pendingInvitations": "Convites Pendentes",
     "resendInvitation": "Reenviar email do convite",
@@ -61,6 +70,16 @@
     "memberStatus": {
       "active": "Ativo",
       "pending": "Pendente"
+    },
+    "removeMemberModal": {
+      "title": "Remover Membro da Equipe",
+      "confirmationQuestion": "Tem certeza que deseja remover",
+      "fromTeam": "da sua equipe?",
+      "email": "Email:",
+      "consequences": "Este membro perderá acesso a todos os chatbots, bases de conhecimento e recursos da equipe. Eles podem ser convidados novamente mais tarde, se necessário.",
+      "cancel": "Cancelar",
+      "remove": "Remover Membro",
+      "removing": "Removendo..."
     }
   }
 }

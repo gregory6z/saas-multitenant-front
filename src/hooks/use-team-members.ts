@@ -1,4 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMemo } from "react";
 import { z } from "zod";
 import { useCurrentTenantId } from "@/hooks/use-current-tenant";
 import { useUser } from "@/hooks/use-users";
@@ -12,6 +13,15 @@ const TeamMembersResponseSchema = z.object({
 
 export type TeamMember = z.infer<typeof TenantUserSchema>;
 export type TeamMembersResponse = z.infer<typeof TeamMembersResponseSchema>;
+
+// Context types for mutations
+type RemoveMemberContext = {
+  previousMembers: TeamMember[] | undefined;
+};
+
+type UpdateMemberRoleContext = {
+  previousMembers: TeamMember[] | undefined;
+};
 
 /**
  * Hook to fetch team members of current tenant
@@ -41,7 +51,7 @@ export function useRemoveMember() {
   const queryClient = useQueryClient();
   const tenantId = useCurrentTenantId();
 
-  return useMutation({
+  return useMutation<void, Error, string, RemoveMemberContext>({
     mutationFn: async (userId: string): Promise<void> => {
       if (!tenantId) throw new Error("No tenant ID available");
       await api.delete(`/tenants/users/${userId}`);
@@ -65,16 +75,16 @@ export function useRemoveMember() {
       return { previousMembers };
     },
 
-    onError: (_error, _userId, context) => {
+    onError: (_error, _variables, context) => {
       // Rollback on error
       if (context?.previousMembers) {
         queryClient.setQueryData(["team-members", tenantId], context.previousMembers);
       }
     },
 
-    onSuccess: () => {
+    onSuccess: async () => {
       // Refetch to ensure consistency - force refetch even if stale time hasn't passed
-      queryClient.invalidateQueries({
+      await queryClient.invalidateQueries({
         queryKey: ["team-members", tenantId],
         refetchType: "active",
       });
@@ -93,7 +103,12 @@ export function useUpdateMemberRole() {
   const queryClient = useQueryClient();
   const tenantId = useCurrentTenantId();
 
-  return useMutation({
+  return useMutation<
+    void,
+    Error,
+    { userId: string; role: "admin" | "curator" | "user" },
+    UpdateMemberRoleContext
+  >({
     mutationFn: async ({
       userId,
       role,
@@ -130,9 +145,9 @@ export function useUpdateMemberRole() {
       }
     },
 
-    onSuccess: () => {
+    onSuccess: async () => {
       // Invalidate team members to refetch with new role - force refetch even if stale time hasn't passed
-      queryClient.invalidateQueries({
+      await queryClient.invalidateQueries({
         queryKey: ["team-members", tenantId],
         refetchType: "active",
       });
@@ -145,22 +160,31 @@ export function useUpdateMemberRole() {
  * Returns the role by finding current user in the team members list
  */
 export function useCurrentUserRole() {
-  const { data: currentUser } = useUser();
-  const { data: teamMembers, isLoading } = useTeamMembers();
+  const { data: currentUser, isLoading: isLoadingUser } = useUser();
+  const { data: teamMembers, isLoading: isLoadingMembers } = useTeamMembers();
 
-  const currentUserMember = teamMembers?.find((member) => member.id === currentUser?.id);
+  // Loading state is true if either query is still loading
+  const isLoading = isLoadingUser || isLoadingMembers;
 
-  return {
-    role: currentUserMember?.role || null,
-    isLoading,
-    isOwner: currentUserMember?.role === "owner",
-    isAdmin: currentUserMember?.role === "admin",
-    isCurator: currentUserMember?.role === "curator",
-    isUser: currentUserMember?.role === "user",
-    canManageTeam: currentUserMember?.role === "owner" || currentUserMember?.role === "admin",
-    canEditChatbots:
-      currentUserMember?.role === "owner" ||
-      currentUserMember?.role === "admin" ||
-      currentUserMember?.role === "curator",
-  };
+  const currentUserMember = useMemo(
+    () => teamMembers?.find((member) => member.id === currentUser?.id),
+    [teamMembers, currentUser?.id]
+  );
+
+  return useMemo(
+    () => ({
+      role: currentUserMember?.role || null,
+      isLoading,
+      isOwner: currentUserMember?.role === "owner",
+      isAdmin: currentUserMember?.role === "admin",
+      isCurator: currentUserMember?.role === "curator",
+      isUser: currentUserMember?.role === "user",
+      canManageTeam: currentUserMember?.role === "owner" || currentUserMember?.role === "admin",
+      canEditChatbots:
+        currentUserMember?.role === "owner" ||
+        currentUserMember?.role === "admin" ||
+        currentUserMember?.role === "curator",
+    }),
+    [currentUserMember, isLoading]
+  );
 }

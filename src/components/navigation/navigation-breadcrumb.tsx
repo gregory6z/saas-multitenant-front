@@ -138,11 +138,12 @@ export function NavigationBreadcrumb() {
               </DropdownMenuItem>
             ))}
             <DropdownMenuSeparator />
-            <DropdownMenuItem asChild>
+            {/* TODO: Implement create tenant route */}
+            {/* <DropdownMenuItem asChild>
               <Link to="/dashboard/create-tenant" className="cursor-pointer">
                 {t("breadcrumb.createWorkspace")}
               </Link>
-            </DropdownMenuItem>
+            </DropdownMenuItem> */}
           </DropdownMenuContent>
         </DropdownMenu>
 

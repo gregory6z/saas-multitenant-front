@@ -91,19 +91,13 @@ export function useAuth() {
    */
   const loginMutation = useMutation({
     mutationFn: async (data: LoginFormData): Promise<AuthResponse> => {
-      console.log("[LOGIN] Mutation started with data:", { email: data.email });
       const response = await api.post("/sessions", data);
-      console.log("[LOGIN] Mutation response:", response.data);
       return response.data;
     },
 
     onSuccess: async (data) => {
-      console.log("[LOGIN] ========= onSuccess START =========");
-      console.log("[LOGIN] Token received:", data.token?.substring(0, 20) + "...");
-
       // 1. Salva token IMEDIATAMENTE
       setAuthToken(data.token);
-      console.log("[LOGIN] Token saved to cookie");
 
       // 2. Prefetch de tenants para decidir redirecionamento
       // Aguarda um pouco para o token ser setado nos headers
@@ -122,11 +116,8 @@ export function useAuth() {
           staleTime: 5 * 60 * 1000, // 5min
         });
 
-        // 4. Redirecionamento baseado em tenants
-        console.log("[LOGIN] Tenants fetched:", tenants.length);
-
+        // 3. Redirecionamento baseado em tenants
         if (tenants.length === 0) {
-          console.log("[LOGIN] No tenants, redirecting to create");
           // Sem tenants → criação de tenant
           navigate({ to: "/dashboard/tenants/create" });
         } else {
@@ -134,12 +125,10 @@ export function useAuth() {
           const firstTenant = tenants[0];
           const subdomainUrl = getTenantSubdomainUrl(firstTenant.subdomain, "/dashboard/chatbots");
 
-          console.log("[LOGIN] Redirecting to subdomain:", subdomainUrl);
           // Tanto em dev (tenant1.localhost:5173) quanto prod (tenant1.multisaas.app)
           window.location.href = subdomainUrl;
         }
       } catch (error) {
-        console.warn("Erro ao verificar tenants após login:", error);
         // Fallback: redireciona para criação de tenant
         navigate({ to: "/dashboard/tenants/create" });
       }

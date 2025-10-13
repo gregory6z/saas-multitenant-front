@@ -99,7 +99,7 @@ export function DashboardHeader() {
                   </div>
                   <Avatar className="w-8 h-8">
                     <AvatarImage src="" alt={userData.name} />
-                    <AvatarFallback className="bg-gradient-to-r from-green-400 to-blue-500 text-white text-xs">
+                    <AvatarFallback className="bg-gradient-to-br from-primary via-primary to-primary/80 text-primary-foreground text-xs">
                       {getInitials(userData.name)}
                     </AvatarFallback>
                   </Avatar>
@@ -109,7 +109,7 @@ export function DashboardHeader() {
                 <DropdownMenuLabel>Minha Conta</DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem asChild>
-                  <Link to="/dashboard/_layout/settings/general" className="flex items-center">
+                  <Link to="/dashboard/settings/general" className="flex items-center">
                     <Settings className="w-4 h-4 mr-2" />
                     Configurações
                   </Link>
