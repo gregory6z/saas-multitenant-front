@@ -1,0 +1,85 @@
+{
+  "general": {
+    "workspaceDetails": "Workspace Details",
+    "workspaceName": "Workspace name",
+    "workspaceUrl": "Workspace URL",
+    "urlWarning": "Changing the workspace URL will redirect you to the new address",
+    "save": "Save",
+    "dangerZone": "DANGER ZONE",
+    "deleteWorkspace": "Delete workspace",
+    "deleteWarning1": "Once you delete your workspace, there is no going back. Please be certain.",
+    "deleteWarning2": "All your uploaded data and trained agents will be deleted.",
+    "delete": "Delete"
+  },
+  "members": {
+    "title": "Team Members",
+    "manage": "Manage",
+    "user": "User",
+    "memberSince": "Member since",
+    "role": "Role",
+    "actions": "Actions",
+    "changeRole": "Change role",
+    "viewProfile": "View profile",
+    "removeMember": "Remove member",
+    "inviteMembers": "Invite members",
+    "inviteNew": "Invite New Members",
+    "enterEmail": "Enter email address",
+    "selectRole": "Select role",
+    "sendInvite": "Send Invite",
+    "sending": "Sending...",
+    "invalidEmail": "Please enter a valid email",
+    "inviteSuccess": "Invite sent successfully",
+    "inviteError": "Error sending invite",
+    "resendSuccess": "Invite resent successfully",
+    "resendError": "Error resending invite",
+    "revokeSuccess": "Invite revoked successfully",
+    "revokeError": "Error revoking invite",
+    "updateRoleSuccess": "Role updated successfully",
+    "updateRoleError": "Error updating role",
+    "invitedMembersWillReceive": "Invited members will receive an email to join your workspace.",
+    "pendingInvitations": "Pending Invitations",
+    "resendInvitation": "Resend invitation email",
+    "revokeInvitation": "Revoke invitation",
+    "teamMembers": "Team Members",
+    "loadingMembers": "Loading members...",
+    "noMembersFound": "No members found",
+    "rolePermissions": "Role Permissions",
+    "memberActions": "Member Actions",
+    "promoteToAdmin": "Promote to Admin",
+    "demoteToCurator": "Change to Curator",
+    "changeToCurator": "Change to Curator",
+    "changeToUser": "Change to User",
+    "roles": {
+      "owner": "Owner",
+      "admin": "Administrator",
+      "curator": "Curator",
+      "user": "User"
+    },
+    "roleDescriptions": {
+      "owner": "Full access to all features and settings",
+      "admin": "Can manage members, chatbots, and most settings",
+      "curator": "Can create and manage chatbots, limited access to settings",
+      "user": "Read-only access to view chatbots and analytics"
+    },
+    "invitationStatus": {
+      "pending": "Pending",
+      "accepted": "Accepted",
+      "revoked": "Revoked",
+      "expired": "Expired"
+    },
+    "memberStatus": {
+      "active": "Active",
+      "pending": "Pending"
+    },
+    "removeMemberModal": {
+      "title": "Remove Team Member",
+      "confirmationQuestion": "Are you sure you want to remove",
+      "fromTeam": "from your team?",
+      "email": "Email:",
+      "consequences": "This member will lose access to all team chatbots, knowledge bases, and resources. They can be invited back later if needed.",
+      "cancel": "Cancel",
+      "remove": "Remove Member",
+      "removing": "Removing..."
+    }
+  }
+}

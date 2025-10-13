@@ -1,0 +1,85 @@
+{
+  "general": {
+    "workspaceDetails": "Detalles del espacio de trabajo",
+    "workspaceName": "Nombre del espacio de trabajo",
+    "workspaceUrl": "URL del espacio de trabajo",
+    "urlWarning": "Cambiar la URL del espacio de trabajo te redirigirá a la nueva dirección",
+    "save": "Guardar",
+    "dangerZone": "ZONA DE PELIGRO",
+    "deleteWorkspace": "Eliminar espacio de trabajo",
+    "deleteWarning1": "Una vez que elimines tu espacio de trabajo, no hay vuelta atrás. Por favor, asegúrate.",
+    "deleteWarning2": "Todos tus datos cargados y agentes entrenados serán eliminados.",
+    "delete": "Eliminar"
+  },
+  "members": {
+    "title": "Miembros del equipo",
+    "manage": "Gestionar",
+    "user": "Usuario",
+    "memberSince": "Miembro desde",
+    "role": "Rol",
+    "actions": "Acciones",
+    "changeRole": "Cambiar rol",
+    "viewProfile": "Ver perfil",
+    "removeMember": "Eliminar miembro",
+    "inviteMembers": "Invitar miembros",
+    "inviteNew": "Invitar nuevos miembros",
+    "enterEmail": "Ingresa la dirección de correo electrónico",
+    "selectRole": "Selecciona el rol",
+    "sendInvite": "Enviar invitación",
+    "sending": "Enviando...",
+    "invalidEmail": "Por favor, ingresa un correo electrónico válido",
+    "inviteSuccess": "Invitación enviada con éxito",
+    "inviteError": "Error al enviar la invitación",
+    "resendSuccess": "Invitación reenviada con éxito",
+    "resendError": "Error al reenviar la invitación",
+    "revokeSuccess": "Invitación revocada con éxito",
+    "revokeError": "Error al revocar la invitación",
+    "updateRoleSuccess": "Rol actualizado con éxito",
+    "updateRoleError": "Error al actualizar el rol",
+    "invitedMembersWillReceive": "Los miembros invitados recibirán un correo electrónico para unirse a tu espacio de trabajo.",
+    "pendingInvitations": "Invitaciones pendientes",
+    "resendInvitation": "Reenviar correo de invitación",
+    "revokeInvitation": "Revocar invitación",
+    "teamMembers": "Miembros del equipo",
+    "loadingMembers": "Cargando miembros...",
+    "noMembersFound": "No se encontraron miembros",
+    "rolePermissions": "Permisos por rol",
+    "memberActions": "Acciones del miembro",
+    "promoteToAdmin": "Promover a administrador",
+    "demoteToCurator": "Cambiar a curador",
+    "changeToCurator": "Cambiar a curador",
+    "changeToUser": "Cambiar a usuario",
+    "roles": {
+      "owner": "Propietario",
+      "admin": "Administrador",
+      "curator": "Curador",
+      "user": "Usuario"
+    },
+    "roleDescriptions": {
+      "owner": "Acceso completo a todas las funciones y configuraciones",
+      "admin": "Puede gestionar miembros, chatbots y la mayoría de las configuraciones",
+      "curator": "Puede crear y gestionar chatbots, acceso limitado a las configuraciones",
+      "user": "Acceso de solo lectura para ver chatbots y análisis"
+    },
+    "invitationStatus": {
+      "pending": "Pendiente",
+      "accepted": "Aceptado",
+      "revoked": "Revocado",
+      "expired": "Expirado"
+    },
+    "memberStatus": {
+      "active": "Activo",
+      "pending": "Pendiente"
+    },
+    "removeMemberModal": {
+      "title": "Eliminar miembro del equipo",
+      "confirmationQuestion": "¿Estás seguro de que quieres eliminar a",
+      "fromTeam": "de tu equipo?",
+      "email": "Correo electrónico:",
+      "consequences": "Este miembro perderá el acceso a todos los chatbots, bases de conocimiento y recursos del equipo. Puede ser invitado de nuevo más tarde si es necesario.",
+      "cancel": "Cancelar",
+      "remove": "Eliminar miembro",
+      "removing": "Eliminando..."
+    }
+  }
+}
