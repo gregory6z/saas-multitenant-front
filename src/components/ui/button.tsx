@@ -1,11 +1,12 @@
 import { Slot } from "@radix-ui/react-slot";
 import { cva, type VariantProps } from "class-variance-authority";
+import { Loader2 } from "lucide-react";
 import type * as React from "react";
 
 import { cn } from "@/utils/cn";
 
 const buttonVariants = cva(
-  "inline-flex items-center cursor-pointer justify-center gap-2 whitespace-nowrap rounded-xl text-base font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive",
+  "inline-flex items-center cursor-pointer justify-center gap-2 whitespace-nowrap rounded-lg text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive",
   {
     variants: {
       variant: {
@@ -19,15 +20,15 @@ const buttonVariants = cva(
         link: "text-primary underline-offset-4 hover:underline",
       },
       size: {
-        default: "h-12 px-4 py-2 has-[>svg]:px-3",
-        sm: "h-10 gap-1.5 px-3 has-[>svg]:px-2.5",
-        lg: "h-12 px-6 has-[>svg]:px-4",
-        icon: "size-12",
+        default: "h-10 px-4 py-2 has-[>svg]:px-3",
+        sm: "h-9 gap-1.5 px-3 text-xs has-[>svg]:px-2.5",
+        lg: "h-12 px-6 text-base has-[>svg]:px-4",
+        icon: "size-10",
       },
     },
     defaultVariants: {
       variant: "default",
-      size: "lg",
+      size: "default",
     },
   }
 );
@@ -37,19 +38,31 @@ function Button({
   variant,
   size,
   asChild = false,
+  loading = false,
+  children,
+  disabled,
   ...props
 }: React.ComponentProps<"button"> &
   VariantProps<typeof buttonVariants> & {
     asChild?: boolean;
+    loading?: boolean;
   }) {
   const Comp = asChild ? Slot : "button";
 
   return (
     <Comp
       data-slot="button"
-      className={cn(buttonVariants({ variant, size, className }))}
+      className={cn(buttonVariants({ variant, size, className }), loading && "relative")}
+      disabled={disabled || loading}
       {...props}
-    />
+    >
+      {loading && (
+        <span className="absolute inset-0 flex items-center justify-center">
+          <Loader2 className="animate-spin" />
+        </span>
+      )}
+      <span className={cn(loading && "invisible")}>{children}</span>
+    </Comp>
   );
 }
 

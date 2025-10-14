@@ -38,8 +38,7 @@ export function MemberActionsDropdown({
   }
 
   const canChangeRole =
-    currentUserRole === "owner" ||
-    (currentUserRole === "admin" && member.role !== "admin");
+    currentUserRole === "owner" || (currentUserRole === "admin" && member.role !== "admin");
 
   return (
     <DropdownMenu modal={false}>
@@ -61,10 +60,7 @@ export function MemberActionsDropdown({
 
             {/* Promote to Admin */}
             {member.role !== "admin" && (
-              <DropdownMenuItem
-                onClick={() => handleUpdateRole("admin")}
-                disabled={isUpdating}
-              >
+              <DropdownMenuItem onClick={() => handleUpdateRole("admin")} disabled={isUpdating}>
                 <Shield className="w-4 h-4 mr-2" />
                 {t("members.promoteToAdmin")}
               </DropdownMenuItem>
@@ -72,10 +68,7 @@ export function MemberActionsDropdown({
 
             {/* Demote Admin to Curator (Owner only) */}
             {currentUserRole === "owner" && member.role === "admin" && (
-              <DropdownMenuItem
-                onClick={() => handleUpdateRole("curator")}
-                disabled={isUpdating}
-              >
+              <DropdownMenuItem onClick={() => handleUpdateRole("curator")} disabled={isUpdating}>
                 <Shield className="w-4 h-4 mr-2" />
                 {t("members.demoteToCurator")}
               </DropdownMenuItem>
@@ -85,10 +78,7 @@ export function MemberActionsDropdown({
             {currentUserRole === "owner" &&
               member.role !== "curator" &&
               member.role !== "admin" && (
-                <DropdownMenuItem
-                  onClick={() => handleUpdateRole("curator")}
-                  disabled={isUpdating}
-                >
+                <DropdownMenuItem onClick={() => handleUpdateRole("curator")} disabled={isUpdating}>
                   <Shield className="w-4 h-4 mr-2" />
                   {t("members.changeToCurator")}
                 </DropdownMenuItem>
@@ -96,10 +86,7 @@ export function MemberActionsDropdown({
 
             {/* Change to User (Owner only) */}
             {currentUserRole === "owner" && member.role !== "user" && (
-              <DropdownMenuItem
-                onClick={() => handleUpdateRole("user")}
-                disabled={isUpdating}
-              >
+              <DropdownMenuItem onClick={() => handleUpdateRole("user")} disabled={isUpdating}>
                 <Shield className="w-4 h-4 mr-2" />
                 {t("members.changeToUser")}
               </DropdownMenuItem>

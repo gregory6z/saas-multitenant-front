@@ -53,7 +53,8 @@ export function LoginForm({ className, ...props }: React.ComponentProps<"form">)
           <Button
             type="button"
             variant="outline"
-            className="w-full h-12 text-base font-medium rounded-xl border-2 border-gray-300 hover:bg-gray-50 hover:border-gray-400 transition-all duration-200 cursor-pointer"
+            size="lg"
+            className="w-full rounded-xl border-2 border-gray-300 hover:bg-gray-50 hover:border-gray-400 transition-all duration-200 cursor-pointer"
             disabled={login.isPending}
           >
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" className="w-5 h-5 mr-3">
@@ -99,6 +100,7 @@ export function LoginForm({ className, ...props }: React.ComponentProps<"form">)
                     placeholder={t("login.emailPlaceholder")}
                     type="email"
                     disabled={login.isPending}
+                    className="h-12 text-base rounded-xl"
                     {...field}
                   />
                 </FormControl>
@@ -119,6 +121,7 @@ export function LoginForm({ className, ...props }: React.ComponentProps<"form">)
                     placeholder={t("login.passwordPlaceholder")}
                     type="password"
                     disabled={login.isPending}
+                    className="h-12 text-base rounded-xl"
                     {...field}
                   />
                 </FormControl>
@@ -139,7 +142,8 @@ export function LoginForm({ className, ...props }: React.ComponentProps<"form">)
           {/* Submit Button */}
           <Button
             type="submit"
-            className="w-full h-12 text-base font-medium rounded-xl bg-primary hover:bg-primary/90 text-white transition-all duration-200 shadow-lg hover:shadow-xl"
+            size="lg"
+            className="w-full rounded-xl bg-primary hover:bg-primary/90 text-white transition-all duration-200 shadow-lg hover:shadow-xl"
             disabled={login.isPending}
           >
             {login.isPending ? (

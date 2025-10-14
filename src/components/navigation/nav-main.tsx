@@ -56,10 +56,7 @@ export function NavMain({
                       isActive={item.isActive}
                     >
                       {item.icon && (
-                        <item.icon
-                          className="w-5 h-5"
-                          strokeWidth={item.isActive ? 2.5 : 1.5}
-                        />
+                        <item.icon className="w-5 h-5" strokeWidth={item.isActive ? 2.5 : 1.5} />
                       )}
                       <span>{item.title}</span>
                       <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
@@ -98,10 +95,7 @@ export function NavMain({
               >
                 <Link to={item.url}>
                   {item.icon && (
-                    <item.icon
-                      className="w-5 h-5"
-                      strokeWidth={item.isActive ? 2.5 : 1.5}
-                    />
+                    <item.icon className="w-5 h-5" strokeWidth={item.isActive ? 2.5 : 1.5} />
                   )}
                   <span>{item.title}</span>
                 </Link>
