@@ -107,7 +107,7 @@ function PlansPage() {
               <TabsTrigger value="year">
                 Anual
                 <Badge variant="secondary" className="ml-2 bg-green-100 text-green-700">
-                  -17%
+                  2 meses grátis
                 </Badge>
               </TabsTrigger>
             </TabsList>
