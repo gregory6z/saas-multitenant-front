@@ -84,8 +84,10 @@ function KnowledgeBasePage() {
           </div>
           <Button asChild>
             <Link to="/dashboard/knowledge-base/create">
-              <Plus className="w-4 h-4 mr-2" />
-              {t("knowledgeBase.createButton")}
+              <span>
+                <Plus className="w-4 h-4 mr-2" />
+                {t("knowledgeBase.createButton")}
+              </span>
             </Link>
           </Button>
         </div>

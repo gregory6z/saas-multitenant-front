@@ -1,4 +1,5 @@
 import * as AlertDialogPrimitive from "@radix-ui/react-alert-dialog";
+import { Loader2 } from "lucide-react";
 import * as React from "react";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/utils/cn";
@@ -78,21 +79,45 @@ AlertDialogDescription.displayName = AlertDialogPrimitive.Description.displayNam
 
 const AlertDialogAction = React.forwardRef<
   React.ElementRef<typeof AlertDialogPrimitive.Action>,
-  React.ComponentPropsWithoutRef<typeof AlertDialogPrimitive.Action>
->(({ className, ...props }, ref) => (
-  <AlertDialogPrimitive.Action ref={ref} className={cn(buttonVariants(), className)} {...props} />
-));
+  React.ComponentPropsWithoutRef<typeof AlertDialogPrimitive.Action> & {
+    loading?: boolean;
+  }
+>(({ className, loading, children, disabled, ...props }, ref) => {
+  // Clone children and replace first icon with spinner if loading
+  const processedChildren = loading
+    ? React.Children.map(children, (child, index) => {
+        // Replace first element (assumed to be icon) with spinner
+        if (index === 0 && React.isValidElement(child)) {
+          return <Loader2 className="animate-spin" />;
+        }
+        return child;
+      })
+    : children;
+
+  return (
+    <AlertDialogPrimitive.Action
+      ref={ref}
+      className={cn(buttonVariants(), className)}
+      disabled={disabled || loading}
+      {...props}
+    >
+      <span className="flex items-center gap-2">{processedChildren}</span>
+    </AlertDialogPrimitive.Action>
+  );
+});
 AlertDialogAction.displayName = AlertDialogPrimitive.Action.displayName;
 
 const AlertDialogCancel = React.forwardRef<
   React.ElementRef<typeof AlertDialogPrimitive.Cancel>,
   React.ComponentPropsWithoutRef<typeof AlertDialogPrimitive.Cancel>
->(({ className, ...props }, ref) => (
+>(({ className, children, ...props }, ref) => (
   <AlertDialogPrimitive.Cancel
     ref={ref}
     className={cn(buttonVariants({ variant: "outline" }), "mt-2 sm:mt-0", className)}
     {...props}
-  />
+  >
+    <span className="flex items-center gap-2">{children}</span>
+  </AlertDialogPrimitive.Cancel>
 ));
 AlertDialogCancel.displayName = AlertDialogPrimitive.Cancel.displayName;
 

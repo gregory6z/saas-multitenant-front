@@ -1,11 +1,13 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { createFileRoute } from "@tanstack/react-router";
-import { Info, Loader2 } from "lucide-react";
+import { Building2, Check, Info, Loader2, Trash2 } from "lucide-react";
 import * as React from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
+import { TransferOwnershipCard } from "@/components/members/transfer-ownership-card";
 import { DeleteTenantModal } from "@/components/modals/delete-tenant-modal";
+import { TransferOwnershipModal } from "@/components/modals/transfer-ownership-modal";
 import { GeneralPageSkeleton } from "@/components/skeletons/general-page-skeleton";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -20,6 +22,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { useCurrentTenant } from "@/hooks/use-current-tenant";
+import { useCurrentUserRole, useTeamMembers } from "@/hooks/use-team-members";
 import {
   type UpdateTenantRequest,
   UpdateTenantRequestSchema,
@@ -37,7 +40,13 @@ function GeneralPage() {
   const { t } = useTranslation("common");
   const { currentTenant, isLoading: tenantLoading } = useCurrentTenant();
   const { updateTenant, deleteTenant } = useTenants();
+  const { data: members } = useTeamMembers();
+  const { role: currentUserRole } = useCurrentUserRole();
   const [isDeleteModalOpen, setIsDeleteModalOpen] = React.useState(false);
+  const [transferTarget, setTransferTarget] = React.useState<{
+    id: string;
+    name: string;
+  } | null>(null);
 
   const form = useForm<UpdateTenantFormData>({
     resolver: zodResolver(UpdateTenantRequestSchema),
@@ -111,7 +120,10 @@ function GeneralPage() {
       {/* Workspace Details */}
       <Card>
         <CardHeader>
-          <CardTitle>Detalhes da Organização</CardTitle>
+          <CardTitle className="flex items-center gap-2">
+            <Building2 className="w-5 h-5" />
+            Detalhes da Organização
+          </CardTitle>
         </CardHeader>
         <CardContent>
           <Form {...form}>
@@ -181,7 +193,10 @@ function GeneralPage() {
                       Salvando...
                     </>
                   ) : (
-                    "Salvar Alterações"
+                    <>
+                      <Check className="w-4 h-4 mr-2" />
+                      Salvar Alterações
+                    </>
                   )}
                 </Button>
               </div>
@@ -198,9 +213,26 @@ function GeneralPage() {
           <Separator className="flex-1" />
         </div>
 
+        {/* Transfer Ownership - Only visible for owners with eligible members */}
+        {currentUserRole === "owner" &&
+          members &&
+          currentTenant &&
+          members.filter((member) => member.id !== currentTenant.ownerId).length > 0 && (
+            <TransferOwnershipCard
+              members={members}
+              currentUserId={currentTenant.ownerId}
+              onTransfer={(newOwnerId, newOwnerName) => {
+                setTransferTarget({ id: newOwnerId, name: newOwnerName });
+              }}
+            />
+          )}
+
         <Card className="border-red-200">
           <CardHeader>
-            <CardTitle className="text-red-900">Excluir Organização</CardTitle>
+            <CardTitle className="flex items-center gap-2 text-red-900">
+              <Trash2 className="w-5 h-5" />
+              Excluir Organização
+            </CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="space-y-2 text-sm text-muted-foreground">
@@ -213,6 +245,7 @@ function GeneralPage() {
 
             <div className="flex justify-end">
               <Button variant="destructive" onClick={() => setIsDeleteModalOpen(true)}>
+                <Trash2 className="w-4 h-4 mr-2" />
                 Excluir Organização
               </Button>
             </div>
@@ -228,6 +261,20 @@ function GeneralPage() {
           tenantName={currentTenant.name}
           onConfirm={handleDeleteTenant}
           isDeleting={deleteTenant.isPending}
+        />
+      )}
+
+      {/* Transfer Ownership Modal */}
+      {transferTarget && (
+        <TransferOwnershipModal
+          open={!!transferTarget}
+          onOpenChange={(open) => {
+            if (!open) {
+              setTransferTarget(null);
+            }
+          }}
+          newOwnerId={transferTarget.id}
+          newOwnerName={transferTarget.name}
         />
       )}
     </div>

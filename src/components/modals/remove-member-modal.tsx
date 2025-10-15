@@ -1,3 +1,4 @@
+import { Trash2, X } from "lucide-react";
 import { useTranslation } from "react-i18next";
 
 import {
@@ -69,6 +70,7 @@ export function RemoveMemberModal({
         </AlertDialogHeader>
         <AlertDialogFooter className="mt-6">
           <AlertDialogCancel disabled={removeMember.isPending}>
+            <X className="w-4 h-4" />
             {t("members.removeMemberModal.cancel")}
           </AlertDialogCancel>
           <AlertDialogAction
@@ -78,12 +80,11 @@ export function RemoveMemberModal({
                 handleRemove();
               }
             }}
-            disabled={removeMember.isPending}
+            loading={removeMember.isPending}
             className="bg-red-600 hover:bg-red-700 focus:ring-red-600"
           >
-            {removeMember.isPending
-              ? t("members.removeMemberModal.removing")
-              : t("members.removeMemberModal.remove")}
+            <Trash2 className="w-4 h-4" />
+            {t("members.removeMemberModal.remove")}
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>

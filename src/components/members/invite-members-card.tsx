@@ -1,5 +1,5 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Mail } from "lucide-react";
+import { Mail, Send } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
@@ -108,6 +108,7 @@ export function InviteMembersCard() {
             />
 
             <Button type="submit" loading={createInvitation.isPending}>
+              <Send className="w-4 h-4" />
               {t("members.sendInvite")}
             </Button>
           </form>

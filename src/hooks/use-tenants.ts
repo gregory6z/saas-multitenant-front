@@ -117,6 +117,18 @@ const InvitesResponseSchema = z.object({
   invites: z.array(InviteSchema),
 });
 
+// Schema para transferência de ownership
+const TransferOwnershipRequestSchema = z.object({
+  newOwnerId: z.string().uuid("ID do novo proprietário inválido"),
+});
+
+const TransferOwnershipResponseSchema = z.object({
+  success: z.boolean(),
+  previousOwnerId: z.string(),
+  newOwnerId: z.string(),
+  message: z.string(),
+});
+
 // Export schemas for use in forms with zodResolver
 export { UpdateTenantRequestSchema, CreateTenantRequestSchema };
 
@@ -132,6 +144,8 @@ export type CreateInviteRequest = z.infer<typeof CreateInviteRequestSchema>;
 export type CreateInviteResponse = z.infer<typeof CreateInviteResponseSchema>;
 export type Invite = z.infer<typeof InviteSchema>;
 export type InvitesResponse = z.infer<typeof InvitesResponseSchema>;
+export type TransferOwnershipRequest = z.infer<typeof TransferOwnershipRequestSchema>;
+export type TransferOwnershipResponse = z.infer<typeof TransferOwnershipResponseSchema>;
 
 /**
  * Hook principal para gerenciar tenants - otimizado com TanStack Query v5 best practices
@@ -537,6 +551,33 @@ export function useTenants() {
     },
   });
 
+  // Mutation para transferir ownership do tenant
+  const transferOwnership = useMutation({
+    mutationFn: async (data: TransferOwnershipRequest): Promise<TransferOwnershipResponse> => {
+      const validatedData = TransferOwnershipRequestSchema.parse(data);
+      const response = await api.post("/tenants/transfer-ownership", validatedData);
+      const validatedResponse = TransferOwnershipResponseSchema.parse(response.data);
+      return validatedResponse;
+    },
+
+    onSuccess: () => {
+      // Invalida cache de membros do tenant para refletir mudanças de roles
+      queryClient.invalidateQueries({ queryKey: ["team-members"] });
+
+      // Invalida cache de tenants para atualizar ownerId
+      queryClient.invalidateQueries({ queryKey: ["tenants"] });
+    },
+
+    retry: (failureCount, error: Error & { response?: { status: number } }) => {
+      const status = error.response?.status;
+      // Não retry em erros de validação ou autorização
+      if (status && status >= 400 && status < 500) {
+        return false;
+      }
+      return failureCount < 1;
+    },
+  });
+
   // Funções helper para acessar dados do cache
   const getTenant = (id: string) => {
     return queryClient.getQueryData<Tenant>(["tenant", id]) || null;
@@ -567,5 +608,6 @@ export function useTenants() {
     joinTenant,
     createInvite,
     revokeInvite,
+    transferOwnership,
   };
 }

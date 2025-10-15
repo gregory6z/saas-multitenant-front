@@ -80,6 +80,24 @@
       "cancel": "Cancelar",
       "remove": "Remover Membro",
       "removing": "Removendo..."
+    },
+    "transferOwnership": {
+      "title": "Transferir Propriedade da Organização",
+      "description": "Transfira a propriedade completa desta organização para outro membro da equipe.",
+      "warningTitle": "Esta ação é irreversível",
+      "warningDescription": "Você será rebaixado para Administrador e não poderá reverter esta ação. Apenas o novo proprietário poderá gerenciar a propriedade da organização.",
+      "selectMember": "Selecione um membro",
+      "transfer": "Transferir Propriedade",
+      "confirmTitle": "Confirmar Transferência de Propriedade",
+      "confirmDescription": "Você está prestes a transferir a propriedade completa desta organização para {{name}}.",
+      "confirmWarning": "O que acontecerá após a transferência:",
+      "consequence1": "{{name}} se tornará o novo proprietário com acesso total",
+      "consequence2": "Você será rebaixado para a função de Administrador",
+      "consequence3": "Esta ação não pode ser desfeita sem a aprovação do novo proprietário",
+      "cancel": "Cancelar",
+      "confirmButton": "Sim, Transferir Propriedade",
+      "successMessage": "Propriedade transferida com sucesso para {{name}}",
+      "errorMessage": "Erro ao transferir propriedade. Tente novamente."
     }
   }
 }

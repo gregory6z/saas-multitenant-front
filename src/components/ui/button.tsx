@@ -1,7 +1,7 @@
 import { Slot } from "@radix-ui/react-slot";
 import { cva, type VariantProps } from "class-variance-authority";
 import { Loader2 } from "lucide-react";
-import type * as React from "react";
+import * as React from "react";
 
 import { cn } from "@/utils/cn";
 
@@ -49,19 +49,25 @@ function Button({
   }) {
   const Comp = asChild ? Slot : "button";
 
+  // Clone children and replace first icon with spinner if loading
+  const processedChildren = loading
+    ? React.Children.map(children, (child, index) => {
+        // Replace first element (assumed to be icon) with spinner
+        if (index === 0 && React.isValidElement(child)) {
+          return <Loader2 className="animate-spin" />;
+        }
+        return child;
+      })
+    : children;
+
   return (
     <Comp
       data-slot="button"
-      className={cn(buttonVariants({ variant, size, className }), loading && "relative")}
+      className={cn(buttonVariants({ variant, size, className }))}
       disabled={disabled || loading}
       {...props}
     >
-      {loading && (
-        <span className="absolute inset-0 flex items-center justify-center">
-          <Loader2 className="animate-spin" />
-        </span>
-      )}
-      <span className={cn(loading && "invisible")}>{children}</span>
+      <span className="flex items-center gap-2">{processedChildren}</span>
     </Comp>
   );
 }
