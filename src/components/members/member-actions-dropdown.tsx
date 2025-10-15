@@ -61,7 +61,7 @@ export function MemberActionsDropdown({
             {/* Promote to Admin */}
             {member.role !== "admin" && (
               <DropdownMenuItem onClick={() => handleUpdateRole("admin")} disabled={isUpdating}>
-                <Shield className="w-4 h-4 mr-2" />
+                <Shield className="w-4 h-4" />
                 {t("members.promoteToAdmin")}
               </DropdownMenuItem>
             )}
@@ -69,7 +69,7 @@ export function MemberActionsDropdown({
             {/* Demote Admin to Curator (Owner only) */}
             {currentUserRole === "owner" && member.role === "admin" && (
               <DropdownMenuItem onClick={() => handleUpdateRole("curator")} disabled={isUpdating}>
-                <Shield className="w-4 h-4 mr-2" />
+                <Shield className="w-4 h-4" />
                 {t("members.demoteToCurator")}
               </DropdownMenuItem>
             )}
@@ -79,7 +79,7 @@ export function MemberActionsDropdown({
               member.role !== "curator" &&
               member.role !== "admin" && (
                 <DropdownMenuItem onClick={() => handleUpdateRole("curator")} disabled={isUpdating}>
-                  <Shield className="w-4 h-4 mr-2" />
+                  <Shield className="w-4 h-4" />
                   {t("members.changeToCurator")}
                 </DropdownMenuItem>
               )}
@@ -87,7 +87,7 @@ export function MemberActionsDropdown({
             {/* Change to User (Owner only) */}
             {currentUserRole === "owner" && member.role !== "user" && (
               <DropdownMenuItem onClick={() => handleUpdateRole("user")} disabled={isUpdating}>
-                <Shield className="w-4 h-4 mr-2" />
+                <Shield className="w-4 h-4" />
                 {t("members.changeToUser")}
               </DropdownMenuItem>
             )}
@@ -107,7 +107,7 @@ export function MemberActionsDropdown({
           }}
           className="text-destructive focus:text-destructive"
         >
-          <Trash2 className="w-4 h-4 mr-2" />
+          <Trash2 className="w-4 h-4" />
           {t("members.removeMember")}
         </DropdownMenuItem>
       </DropdownMenuContent>

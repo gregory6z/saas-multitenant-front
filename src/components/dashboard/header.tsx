@@ -110,7 +110,7 @@ export function DashboardHeader() {
                 <DropdownMenuSeparator />
                 <DropdownMenuItem asChild>
                   <Link to="/dashboard/settings/general" className="flex items-center">
-                    <Settings className="w-4 h-4 mr-2" />
+                    <Settings className="w-4 h-4" />
                     Configurações
                   </Link>
                 </DropdownMenuItem>
@@ -119,7 +119,7 @@ export function DashboardHeader() {
                   onClick={handleLogout}
                   className="flex items-center text-red-600 focus:text-red-600 focus:bg-red-50"
                 >
-                  <LogOut className="w-4 h-4 mr-2" />
+                  <LogOut className="w-4 h-4" />
                   Sair
                 </DropdownMenuItem>
               </DropdownMenuContent>

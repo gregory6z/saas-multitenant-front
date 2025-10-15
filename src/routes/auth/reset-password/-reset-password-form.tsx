@@ -93,7 +93,7 @@ export function ResetPasswordForm({ className, ...props }: React.ComponentProps<
         <Button asChild variant="outline" className="w-full h-12 text-base font-medium rounded-xl">
           <Link to="/auth/login">
             <span>
-              <ArrowLeft className="w-4 h-4 mr-2" />
+              <ArrowLeft className="w-4 h-4" />
               {t("resetPassword.backToLogin")}
             </span>
           </Link>
@@ -177,7 +177,7 @@ export function ResetPasswordForm({ className, ...props }: React.ComponentProps<
           >
             <Link to="/auth/login">
               <span>
-                <ArrowLeft className="w-4 h-4 mr-2" />
+                <ArrowLeft className="w-4 h-4" />
                 {t("resetPassword.backToLogin")}
               </span>
             </Link>

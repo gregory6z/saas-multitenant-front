@@ -75,7 +75,7 @@ export function TransferOwnershipCard({
             disabled={!selectedMemberId}
             className="bg-amber-600 hover:bg-amber-700 text-white"
           >
-            <ArrowRightLeft className="w-4 h-4 mr-2" />
+            <ArrowRightLeft className="w-4 h-4" />
             {t("members.transferOwnership.transfer")}
           </Button>
         </div>

@@ -65,7 +65,7 @@ export function FilesSourcesContent({ mode }: FilesSourcesContentProps) {
                 </div>
               </div>
               <Button>
-                <Plus className="w-4 h-4 mr-2" />
+                <Plus className="w-4 h-4" />
                 Adicionar Arquivo
               </Button>
             </div>

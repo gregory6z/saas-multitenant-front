@@ -55,12 +55,12 @@ export function WidgetContent({ chatbotId }: WidgetContentProps) {
               <Button onClick={handleCopy}>
                 {copied ? (
                   <>
-                    <CheckCircle className="w-4 h-4 mr-2" />
+                    <CheckCircle className="w-4 h-4" />
                     Copiado!
                   </>
                 ) : (
                   <>
-                    <Copy className="w-4 h-4 mr-2" />
+                    <Copy className="w-4 h-4" />
                     Copiar Código
                   </>
                 )}

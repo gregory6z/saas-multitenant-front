@@ -101,7 +101,7 @@ const AlertDialogAction = React.forwardRef<
       disabled={disabled || loading}
       {...props}
     >
-      <span className="flex items-center gap-2">{processedChildren}</span>
+      {processedChildren}
     </AlertDialogPrimitive.Action>
   );
 });
@@ -116,7 +116,7 @@ const AlertDialogCancel = React.forwardRef<
     className={cn(buttonVariants({ variant: "outline" }), "mt-2 sm:mt-0", className)}
     {...props}
   >
-    <span className="flex items-center gap-2">{children}</span>
+    {children}
   </AlertDialogPrimitive.Cancel>
 ));
 AlertDialogCancel.displayName = AlertDialogPrimitive.Cancel.displayName;

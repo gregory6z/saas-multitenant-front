@@ -1,10 +1,9 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { createFileRoute } from "@tanstack/react-router";
-import { Building2, Check, Info, Loader2, Trash2 } from "lucide-react";
+import { Building2, Check, Info, Trash2 } from "lucide-react";
 import * as React from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import { toast } from "sonner";
 import { TransferOwnershipCard } from "@/components/members/transfer-ownership-card";
 import { DeleteTenantModal } from "@/components/modals/delete-tenant-modal";
 import { TransferOwnershipModal } from "@/components/modals/transfer-ownership-modal";
@@ -37,7 +36,7 @@ export const Route = createFileRoute("/_authenticated/dashboard/_layout/settings
 });
 
 function GeneralPage() {
-  const { t } = useTranslation("common");
+  const { t } = useTranslation("settings");
   const { currentTenant, isLoading: tenantLoading } = useCurrentTenant();
   const { updateTenant, deleteTenant } = useTenants();
   const { data: members } = useTeamMembers();
@@ -64,17 +63,23 @@ function GeneralPage() {
         subdomain: currentTenant.subdomain,
       });
     }
-  }, [currentTenant, form]);
+  }, [currentTenant, form.reset]);
 
-  // Check if form has changes
-  const formValues = form.watch();
+  // Check if form has changes - optimized to watch only specific fields
+  const watchedFields = form.watch(["name", "subdomain"]);
   const hasChanges = React.useMemo(() => {
     if (!currentTenant) return false;
 
     return (
-      formValues.name !== currentTenant.name || formValues.subdomain !== currentTenant.subdomain
+      watchedFields[0] !== currentTenant.name || watchedFields[1] !== currentTenant.subdomain
     );
-  }, [formValues, currentTenant]);
+  }, [watchedFields, currentTenant]);
+
+  // Calculate eligible members for ownership transfer
+  const eligibleMembers = React.useMemo(() => {
+    if (!members || !currentTenant) return [];
+    return members.filter((member) => member.id !== currentTenant.ownerId);
+  }, [members, currentTenant]);
 
   const onSubmit = (data: UpdateTenantFormData) => {
     if (currentTenant?.id) {
@@ -83,28 +88,21 @@ function GeneralPage() {
   };
 
   // Handle subdomain change with real-time transformation
-  const handleSubdomainChange = (value: string) => {
-    // Apply same transformation as Zod schema for real-time preview
-    const transformed = value
-      .toLowerCase()
-      .replace(/[^a-z0-9\s-]/g, "")
-      .replace(/\s+/g, "-")
-      .replace(/-+/g, "-")
-      .replace(/^-|-$/g, "");
+  const handleSubdomainChange = React.useCallback(
+    (value: string) => {
+      // Apply same transformation as Zod schema for real-time preview
+      const transformed = value
+        .toLowerCase()
+        .replace(/[^a-z0-9\s-]/g, "")
+        .replace(/\s+/g, "-")
+        .replace(/-+/g, "-")
+        .replace(/^-|-$/g, "");
 
-    form.setValue("subdomain", transformed);
-  };
+      form.setValue("subdomain", transformed);
+    },
+    [form],
+  );
 
-  const handleDeleteTenant = () => {
-    deleteTenant.mutate(undefined, {
-      onSuccess: () => {
-        toast.success("Organização excluída com sucesso");
-      },
-      onError: (error) => {
-        toast.error(error.message || "Erro ao excluir organização");
-      },
-    });
-  };
 
   if (tenantLoading || !currentTenant) {
     return <GeneralPageSkeleton />;
@@ -114,7 +112,7 @@ function GeneralPage() {
     <div className="max-w-4xl mx-auto space-y-8 pt-4 md:pt-8 px-4 md:px-6 pb-8">
       {/* Header */}
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-semibold text-foreground">{t("sidebar.general")}</h1>
+        <h1 className="text-2xl font-semibold text-foreground">{t("general.title")}</h1>
       </div>
 
       {/* Workspace Details */}
@@ -122,7 +120,7 @@ function GeneralPage() {
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <Building2 className="w-5 h-5" />
-            Detalhes da Organização
+            {t("general.organizationDetails")}
           </CardTitle>
         </CardHeader>
         <CardContent>
@@ -133,9 +131,9 @@ function GeneralPage() {
                 name="name"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Nome da Organização</FormLabel>
+                    <FormLabel>{t("general.organizationName")}</FormLabel>
                     <FormControl>
-                      <Input placeholder="Nome da sua organização" {...field} />
+                      <Input placeholder={t("general.organizationNamePlaceholder")} {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -147,11 +145,11 @@ function GeneralPage() {
                 name="subdomain"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Subdomínio</FormLabel>
+                    <FormLabel>{t("general.subdomain")}</FormLabel>
                     <FormControl>
                       <div className="flex items-stretch">
                         <Input
-                          placeholder="minha-empresa"
+                          placeholder={t("general.subdomainPlaceholder")}
                           {...field}
                           onChange={(e) => handleSubdomainChange(e.target.value)}
                           className="rounded-r-none"
@@ -163,41 +161,21 @@ function GeneralPage() {
                     </FormControl>
                     <div className="flex items-center gap-2 text-sm text-muted-foreground">
                       <Info className="w-4 h-4" />
-                      <span>Mudanças no subdomínio podem afetar o acesso à organização</span>
+                      <span>{t("general.subdomainWarning")}</span>
                     </div>
                     <FormMessage />
                   </FormItem>
                 )}
               />
 
-              {/* Error Message */}
-              {updateTenant.isError && (
-                <div className="text-sm text-red-600 bg-red-50 border border-red-200 rounded-md p-3">
-                  Erro ao atualizar organização:{" "}
-                  {(updateTenant.error as Error)?.message || "Erro desconhecido"}
-                </div>
-              )}
-
-              {/* Success Message */}
-              {updateTenant.isSuccess && (
-                <div className="text-sm text-green-600 bg-green-50 border border-green-200 rounded-md p-3">
-                  Organização atualizada com sucesso!
-                </div>
-              )}
-
               <div className="flex justify-end">
-                <Button type="submit" disabled={!hasChanges || updateTenant.isPending}>
-                  {updateTenant.isPending ? (
-                    <>
-                      <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                      Salvando...
-                    </>
-                  ) : (
-                    <>
-                      <Check className="w-4 h-4 mr-2" />
-                      Salvar Alterações
-                    </>
-                  )}
+                <Button
+                  type="submit"
+                  disabled={!hasChanges}
+                  loading={updateTenant.isPending}
+                >
+                  <Check className="w-4 h-4" />
+                  {updateTenant.isPending ? t("general.saving") : t("general.saveChanges")}
                 </Button>
               </div>
             </form>
@@ -209,44 +187,38 @@ function GeneralPage() {
       <div className="space-y-6">
         <div className="flex items-center">
           <Separator className="flex-1" />
-          <span className="px-6 text-red-600 text-sm font-medium">Zona de Perigo</span>
+          <span className="px-6 text-red-600 text-sm font-medium">{t("general.dangerZone")}</span>
           <Separator className="flex-1" />
         </div>
 
         {/* Transfer Ownership - Only visible for owners with eligible members */}
-        {currentUserRole === "owner" &&
-          members &&
-          currentTenant &&
-          members.filter((member) => member.id !== currentTenant.ownerId).length > 0 && (
-            <TransferOwnershipCard
-              members={members}
-              currentUserId={currentTenant.ownerId}
-              onTransfer={(newOwnerId, newOwnerName) => {
-                setTransferTarget({ id: newOwnerId, name: newOwnerName });
-              }}
-            />
-          )}
+        {currentUserRole === "owner" && eligibleMembers.length > 0 && (
+          <TransferOwnershipCard
+            members={members || []}
+            currentUserId={currentTenant?.ownerId || ""}
+            onTransfer={(newOwnerId, newOwnerName) => {
+              setTransferTarget({ id: newOwnerId, name: newOwnerName });
+            }}
+          />
+        )}
 
         <Card className="border-red-200">
           <CardHeader>
             <CardTitle className="flex items-center gap-2 text-red-900">
               <Trash2 className="w-5 h-5" />
-              Excluir Organização
+              {t("general.deleteOrganization")}
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="space-y-2 text-sm text-muted-foreground">
-              <p>
-                Esta ação não pode ser desfeita. Todos os dados da organização serão permanentemente
-                excluídos.
-              </p>
-              <p>Todos os chatbots, configurações e dados de usuários serão perdidos.</p>
+              <p>{t("general.deleteWarning1")}</p>
+              <p>{t("general.deleteWarning2")}</p>
             </div>
 
             <div className="flex justify-end">
               <Button variant="destructive" onClick={() => setIsDeleteModalOpen(true)}>
-                <Trash2 className="w-4 h-4 mr-2" />
-                Excluir Organização
+                <Trash2 className="w-4 h-4" />
+                {t("general.deleteOrganization")}
               </Button>
             </div>
           </CardContent>
@@ -259,7 +231,7 @@ function GeneralPage() {
           open={isDeleteModalOpen}
           onOpenChange={setIsDeleteModalOpen}
           tenantName={currentTenant.name}
-          onConfirm={handleDeleteTenant}
+          onConfirm={() => deleteTenant.mutate()}
           isDeleting={deleteTenant.isPending}
         />
       )}

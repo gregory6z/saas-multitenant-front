@@ -110,7 +110,7 @@ export function SourcesContent({ chatbotId }: SourcesContentProps) {
                         </div>
                       </div>
                       <Button>
-                        <Plus className="w-4 h-4 mr-2" />
+                        <Plus className="w-4 h-4" />
                         Adicionar Arquivo
                       </Button>
                     </div>
@@ -194,7 +194,7 @@ export function SourcesContent({ chatbotId }: SourcesContentProps) {
                         </div>
                       </div>
                       <Button>
-                        <Plus className="w-4 h-4 mr-2" />
+                        <Plus className="w-4 h-4" />
                         Adicionar Website
                       </Button>
                     </div>
@@ -253,7 +253,7 @@ export function SourcesContent({ chatbotId }: SourcesContentProps) {
                         </div>
                       </div>
                       <Button>
-                        <Plus className="w-4 h-4 mr-2" />
+                        <Plus className="w-4 h-4" />
                         Conectar Base
                       </Button>
                     </div>

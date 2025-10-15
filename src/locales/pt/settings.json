@@ -1,15 +1,18 @@
 {
   "general": {
-    "workspaceDetails": "Detalhes do Workspace",
-    "workspaceName": "Nome do workspace",
-    "workspaceUrl": "URL do workspace",
-    "urlWarning": "Alterar a URL do workspace irá redirecioná-lo para o novo endereço",
-    "save": "Salvar",
-    "dangerZone": "ZONA DE PERIGO",
-    "deleteWorkspace": "Excluir workspace",
-    "deleteWarning1": "Uma vez que você excluir seu workspace, não há como voltar atrás. Por favor, tenha certeza.",
-    "deleteWarning2": "Todos os seus dados carregados e agentes treinados serão excluídos.",
-    "delete": "Excluir"
+    "title": "Geral",
+    "organizationDetails": "Detalhes da Organização",
+    "organizationName": "Nome da Organização",
+    "organizationNamePlaceholder": "Nome da sua organização",
+    "subdomain": "Subdomínio",
+    "subdomainPlaceholder": "minha-empresa",
+    "subdomainWarning": "Mudanças no subdomínio podem afetar o acesso à organização",
+    "saving": "Salvando...",
+    "saveChanges": "Salvar Alterações",
+    "dangerZone": "Zona de Perigo",
+    "deleteOrganization": "Excluir Organização",
+    "deleteWarning1": "Esta ação não pode ser desfeita. Todos os dados da organização serão permanentemente excluídos.",
+    "deleteWarning2": "Todos os chatbots, configurações e dados de usuários serão perdidos."
   },
   "members": {
     "title": "Membros da Equipe",

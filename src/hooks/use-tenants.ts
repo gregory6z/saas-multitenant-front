@@ -1,4 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { toast } from "sonner";
 import { z } from "zod";
 import { api } from "@/lib/axios";
 
@@ -322,7 +323,7 @@ export function useTenants() {
       return { previousTenants, previousTenant };
     },
 
-    onError: (_error, { id }, context) => {
+    onError: (error, { id }, context) => {
       // Rollback completo
       if (context?.previousTenants) {
         queryClient.setQueryData(["tenants"], context.previousTenants);
@@ -330,9 +331,15 @@ export function useTenants() {
       if (context?.previousTenant) {
         queryClient.setQueryData(["tenant", id], context.previousTenant);
       }
+
+      // Toast de erro
+      const axiosError = error as Error & { response?: { status: number } };
+      toast.error(axiosError.message || "Erro ao atualizar organização");
     },
 
     onSuccess: (updatedTenant, variables) => {
+      // Toast de sucesso
+      toast.success("Organização atualizada com sucesso!");
       // Atualiza com dados reais do servidor (sem invalidação desnecessária)
       queryClient.setQueryData(["tenant", updatedTenant.id], updatedTenant);
 
@@ -420,15 +427,20 @@ export function useTenants() {
         queryClient.setQueryData(["tenants"], context.previousTenants);
       }
 
-      // Adiciona mensagem de erro específica para 403
+      // Toast de erro
       const axiosError = error as Error & { response?: { status: number } };
       if (axiosError.response?.status === 403) {
-        axiosError.message =
-          "Você não tem permissão para deletar esta organização. Apenas o proprietário (owner) pode realizar esta ação.";
+        toast.error(
+          "Você não tem permissão para deletar esta organização. Apenas o proprietário pode realizar esta ação."
+        );
+      } else {
+        toast.error(axiosError.message || "Erro ao excluir organização");
       }
     },
 
     onSuccess: () => {
+      // Toast de sucesso
+      toast.success("Organização excluída com sucesso");
       // Pega lista de tenants antes de limpar cache para decidir redirecionamento
       const tenants = queryClient.getQueryData<Tenant[]>(["tenants"]) || [];
       const currentHostname = window.location.hostname;

@@ -67,7 +67,7 @@ function Button({
       disabled={disabled || loading}
       {...props}
     >
-      <span className="flex items-center gap-2">{processedChildren}</span>
+      {processedChildren}
     </Comp>
   );
 }
