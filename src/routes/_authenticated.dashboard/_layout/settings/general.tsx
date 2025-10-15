@@ -81,16 +81,27 @@ function GeneralPage() {
     return members.filter((member) => member.id !== currentTenant.ownerId);
   }, [members, currentTenant]);
 
-  const onSubmit = (data: UpdateTenantFormData) => {
-    if (currentTenant?.id) {
+  /**
+   * Handles form submission for tenant update
+   */
+  const onSubmit = React.useCallback(
+    (data: UpdateTenantFormData) => {
+      if (!currentTenant?.id) {
+        console.error("No tenant ID available for update");
+        return;
+      }
       updateTenant.mutate({ id: currentTenant.id, data });
-    }
-  };
+    },
+    [currentTenant?.id, updateTenant]
+  );
 
-  // Handle subdomain change with real-time transformation
+  /**
+   * Handles subdomain input transformation in real-time
+   * Applies sanitization rules: lowercase, alphanumeric + hyphens only,
+   * converts spaces to hyphens, removes duplicate hyphens and edge hyphens
+   */
   const handleSubdomainChange = React.useCallback(
     (value: string) => {
-      // Apply same transformation as Zod schema for real-time preview
       const transformed = value
         .toLowerCase()
         .replace(/[^a-z0-9\s-]/g, "")
@@ -100,8 +111,27 @@ function GeneralPage() {
 
       form.setValue("subdomain", transformed);
     },
-    [form],
+    [form.setValue],
   );
+
+  /**
+   * Handles ownership transfer target selection
+   */
+  const handleTransferOwnership = React.useCallback(
+    (newOwnerId: string, newOwnerName: string) => {
+      setTransferTarget({ id: newOwnerId, name: newOwnerName });
+    },
+    [],
+  );
+
+  /**
+   * Handles transfer modal close
+   */
+  const handleCloseTransferModal = React.useCallback((open: boolean) => {
+    if (!open) {
+      setTransferTarget(null);
+    }
+  }, []);
 
 
   if (tenantLoading || !currentTenant) {
@@ -175,7 +205,7 @@ function GeneralPage() {
                   loading={updateTenant.isPending}
                 >
                   <Check className="w-4 h-4" />
-                  {updateTenant.isPending ? t("general.saving") : t("general.saveChanges")}
+                  {t("general.saveChanges")}
                 </Button>
               </div>
             </form>
@@ -196,9 +226,7 @@ function GeneralPage() {
           <TransferOwnershipCard
             members={members || []}
             currentUserId={currentTenant?.ownerId || ""}
-            onTransfer={(newOwnerId, newOwnerName) => {
-              setTransferTarget({ id: newOwnerId, name: newOwnerName });
-            }}
+            onTransfer={handleTransferOwnership}
           />
         )}
 
@@ -240,11 +268,7 @@ function GeneralPage() {
       {transferTarget && (
         <TransferOwnershipModal
           open={!!transferTarget}
-          onOpenChange={(open) => {
-            if (!open) {
-              setTransferTarget(null);
-            }
-          }}
+          onOpenChange={handleCloseTransferModal}
           newOwnerId={transferTarget.id}
           newOwnerName={transferTarget.name}
         />

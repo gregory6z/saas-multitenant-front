@@ -1,5 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useMemo } from "react";
+import { toast } from "sonner";
 import { z } from "zod";
 import { useCurrentTenantId } from "@/hooks/use-current-tenant";
 import { useUser } from "@/hooks/use-users";
@@ -75,14 +76,27 @@ export function useRemoveMember() {
       return { previousMembers };
     },
 
-    onError: (_error, _variables, context) => {
+    onError: (error, _variables, context) => {
       // Rollback on error
       if (context?.previousMembers) {
         queryClient.setQueryData(["team-members", tenantId], context.previousMembers);
       }
+
+      // Error toast
+      const axiosError = error as Error & { response?: { status: number } };
+      if (axiosError.response?.status === 403) {
+        toast.error("Você não tem permissão para remover este membro");
+      } else if (axiosError.response?.status === 404) {
+        toast.error("Membro não encontrado");
+      } else {
+        toast.error(axiosError.message || "Erro ao remover membro da equipe");
+      }
     },
 
     onSuccess: async () => {
+      // Success toast
+      toast.success("Membro removido da equipe com sucesso");
+
       // Refetch to ensure consistency - force refetch even if stale time hasn't passed
       await queryClient.invalidateQueries({
         queryKey: ["team-members", tenantId],
@@ -138,14 +152,27 @@ export function useUpdateMemberRole() {
       return { previousMembers };
     },
 
-    onError: (_error, _variables, context) => {
+    onError: (error, _variables, context) => {
       // Rollback
       if (context?.previousMembers) {
         queryClient.setQueryData(["team-members", tenantId], context.previousMembers);
       }
+
+      // Error toast
+      const axiosError = error as Error & { response?: { status: number } };
+      if (axiosError.response?.status === 403) {
+        toast.error("Você não tem permissão para alterar funções de membros");
+      } else if (axiosError.response?.status === 404) {
+        toast.error("Membro não encontrado");
+      } else {
+        toast.error(axiosError.message || "Erro ao atualizar função do membro");
+      }
     },
 
     onSuccess: async () => {
+      // Success toast
+      toast.success("Função do membro atualizada com sucesso");
+
       // Invalidate team members to refetch with new role - force refetch even if stale time hasn't passed
       await queryClient.invalidateQueries({
         queryKey: ["team-members", tenantId],

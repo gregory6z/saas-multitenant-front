@@ -1,36 +1,39 @@
-import { useSubdomain } from "@/hooks/use-subdomain";
+import { useMemo } from "react";
+import { getCurrentSubdomain, hasSubdomain } from "@/hooks/use-subdomain";
 import { useTenants } from "@/hooks/use-tenants";
 
 /**
  * Hook to get current tenant context
  *
- * In development: Uses the first tenant from user's tenant list
- * In production: Uses subdomain-based tenant detection
+ * Strategy:
+ * - With subdomain: Uses subdomain-based tenant detection (lvh.me, multisaas.app)
+ * - Without subdomain: Uses first tenant from user's list (localhost, tenant root)
  */
 export function useCurrentTenant() {
-  const { data: subdomainTenant } = useSubdomain();
-  const { tenants: userTenants, isLoading: tenantsLoading } = useTenants();
+  const { tenants, isLoading } = useTenants();
 
-  const isLocalhost = typeof window !== "undefined" && window.location.host.includes("localhost");
+  // Memoize subdomain check to avoid recalculation on every render
+  const hasSubdomainContext = useMemo(() => hasSubdomain(), []);
+  const currentSubdomain = useMemo(() => getCurrentSubdomain(), []);
 
-  if (isLocalhost) {
-    // Development: Use first tenant from user's list
-    const currentTenant = userTenants?.[0] || null;
-    return {
-      currentTenant,
-      isLoading: tenantsLoading,
-      error: null,
-      tenantId: currentTenant?.id || null,
-    };
-  } else {
-    // Production: Use subdomain detection
-    return {
-      currentTenant: subdomainTenant,
-      isLoading: tenantsLoading,
-      error: null,
-      tenantId: subdomainTenant?.id || null,
-    };
-  }
+  const currentTenant = useMemo(() => {
+    if (!tenants) return null;
+
+    // Strategy 1: If we have a subdomain, find matching tenant
+    if (hasSubdomainContext && currentSubdomain) {
+      return tenants.find((t) => t.subdomain === currentSubdomain) || null;
+    }
+
+    // Strategy 2: No subdomain (localhost, tenant root) - use first tenant
+    return tenants[0] || null;
+  }, [tenants, hasSubdomainContext, currentSubdomain]);
+
+  return {
+    currentTenant,
+    isLoading,
+    error: null,
+    tenantId: currentTenant?.id || null,
+  };
 }
 
 /**

@@ -169,41 +169,16 @@ export function useTenants() {
       const validatedData = TenantsResponseSchema.parse(response.data);
       return validatedData.tenants;
     },
-    // Otimizações baseadas nas docs da TanStack Query v5:
-    //
-    // staleTime: 5min - Dados de tenants mudam raramente, mas precisam estar atualizados
-    // Evita refetches desnecessários mas mantém dados frescos o suficiente
-    staleTime: 5 * 60 * 1000, // 5 minutos
-
-    // gcTime: 30min - Mantém dados em cache durante toda a sessão do usuário
-    // Permite navegação rápida sem refetches constantes
-    gcTime: 30 * 60 * 1000, // 30 minutos
-
-    // Retry strategy inteligente:
-    // - Não tenta novamente em erros 4xx (client errors)
-    // - Tenta até 2x em erros 5xx (server errors) ou problemas de rede
+    staleTime: 5 * 60 * 1000, // 5min - dados mudam raramente
+    gcTime: 30 * 60 * 1000, // 30min - mantém em cache durante sessão
     retry: (failureCount, error: Error & { response?: { status: number } }) => {
       const status = error.response?.status;
-      // Não retry em client errors (400-499)
-      if (status && status >= 400 && status < 500) {
-        return false;
-      }
-      // Retry até 2x em server errors ou network issues
-      return failureCount < 2;
+      if (status && status >= 400 && status < 500) return false; // Não retry 4xx
+      return failureCount < 2; // Retry 2x em 5xx ou network issues
     },
-
-    // networkMode: "online" - Só executa quando online
     networkMode: "online",
-
-    // Refetch on window focus DESABILITADO para dados de tenant
-    // Tenants não mudam frequentemente, não precisa refetch a cada tab focus
-    refetchOnWindowFocus: false,
-
-    // Refetch on mount: true (padrão) - Permite refetch se dados estiverem stale
-    // Combinado com staleTime de 5min, evita refetches desnecessários
+    refetchOnWindowFocus: false, // Desabilitado - dados não mudam frequentemente
     refetchOnMount: true,
-
-    // Polling desabilitado - Dados de tenant não precisam de updates em tempo real
     refetchInterval: false,
     refetchIntervalInBackground: false,
   });
