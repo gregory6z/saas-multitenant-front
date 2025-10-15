@@ -1,15 +1,18 @@
 {
   "general": {
-    "workspaceDetails": "Detalles del espacio de trabajo",
-    "workspaceName": "Nombre del espacio de trabajo",
-    "workspaceUrl": "URL del espacio de trabajo",
-    "urlWarning": "Cambiar la URL del espacio de trabajo te redirigirá a la nueva dirección",
-    "save": "Guardar",
-    "dangerZone": "ZONA DE PELIGRO",
-    "deleteWorkspace": "Eliminar espacio de trabajo",
-    "deleteWarning1": "Una vez que elimines tu espacio de trabajo, no hay vuelta atrás. Por favor, asegúrate.",
-    "deleteWarning2": "Todos tus datos cargados y agentes entrenados serán eliminados.",
-    "delete": "Eliminar"
+    "title": "General",
+    "organizationDetails": "Detalles de la Organización",
+    "organizationName": "Nombre de la Organización",
+    "organizationNamePlaceholder": "Nombre de tu organización",
+    "subdomain": "Subdominio",
+    "subdomainPlaceholder": "mi-empresa",
+    "subdomainWarning": "Los cambios en el subdominio pueden afectar el acceso a la organización",
+    "saving": "Guardando...",
+    "saveChanges": "Guardar Cambios",
+    "dangerZone": "Zona de Peligro",
+    "deleteOrganization": "Eliminar Organización",
+    "deleteWarning1": "Esta acción no se puede deshacer. Todos los datos de la organización se eliminarán permanentemente.",
+    "deleteWarning2": "Todos los chatbots, configuraciones y datos de usuarios se perderán."
   },
   "members": {
     "title": "Miembros del equipo",
@@ -80,6 +83,24 @@
       "cancel": "Cancelar",
       "remove": "Eliminar miembro",
       "removing": "Eliminando..."
+    },
+    "transferOwnership": {
+      "title": "Transferir Propiedad de la Organización",
+      "description": "Transfiere la propiedad completa de esta organización a otro miembro del equipo.",
+      "warningTitle": "Esta acción es irreversible",
+      "warningDescription": "Serás degradado a Administrador y no podrás revertir esta acción. Solo el nuevo propietario podrá gestionar la propiedad de la organización.",
+      "selectMember": "Selecciona un miembro",
+      "transfer": "Transferir Propiedad",
+      "confirmTitle": "Confirmar Transferencia de Propiedad",
+      "confirmDescription": "Estás a punto de transferir la propiedad completa de esta organización a {{name}}.",
+      "confirmWarning": "Lo que ocurrirá después de la transferencia:",
+      "consequence1": "{{name}} se convertirá en el nuevo propietario con acceso completo",
+      "consequence2": "Serás degradado al rol de Administrador",
+      "consequence3": "Esta acción no se puede deshacer sin la aprobación del nuevo propietario",
+      "cancel": "Cancelar",
+      "confirmButton": "Sí, Transferir Propiedad",
+      "successMessage": "Propiedad transferida exitosamente a {{name}}",
+      "errorMessage": "Error al transferir la propiedad. Inténtalo de nuevo."
     }
   }
 }

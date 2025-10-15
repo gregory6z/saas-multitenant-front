@@ -1,15 +1,18 @@
 {
   "general": {
-    "workspaceDetails": "Workspace Details",
-    "workspaceName": "Workspace name",
-    "workspaceUrl": "Workspace URL",
-    "urlWarning": "Changing the workspace URL will redirect you to the new address",
-    "save": "Save",
-    "dangerZone": "DANGER ZONE",
-    "deleteWorkspace": "Delete workspace",
-    "deleteWarning1": "Once you delete your workspace, there is no going back. Please be certain.",
-    "deleteWarning2": "All your uploaded data and trained agents will be deleted.",
-    "delete": "Delete"
+    "title": "General",
+    "organizationDetails": "Organization Details",
+    "organizationName": "Organization Name",
+    "organizationNamePlaceholder": "Your organization name",
+    "subdomain": "Subdomain",
+    "subdomainPlaceholder": "my-company",
+    "subdomainWarning": "Changes to subdomain may affect organization access",
+    "saving": "Saving...",
+    "saveChanges": "Save Changes",
+    "dangerZone": "Danger Zone",
+    "deleteOrganization": "Delete Organization",
+    "deleteWarning1": "This action cannot be undone. All organization data will be permanently deleted.",
+    "deleteWarning2": "All chatbots, settings, and user data will be lost."
   },
   "members": {
     "title": "Team Members",
@@ -80,6 +83,24 @@
       "cancel": "Cancel",
       "remove": "Remove Member",
       "removing": "Removing..."
+    },
+    "transferOwnership": {
+      "title": "Transfer Organization Ownership",
+      "description": "Transfer complete ownership of this organization to another team member.",
+      "warningTitle": "This action is irreversible",
+      "warningDescription": "You will be demoted to Administrator and cannot reverse this action. Only the new owner will be able to manage organization ownership.",
+      "selectMember": "Select a member",
+      "transfer": "Transfer Ownership",
+      "confirmTitle": "Confirm Ownership Transfer",
+      "confirmDescription": "You are about to transfer complete ownership of this organization to {{name}}.",
+      "confirmWarning": "What will happen after the transfer:",
+      "consequence1": "{{name}} will become the new owner with full access",
+      "consequence2": "You will be demoted to Administrator role",
+      "consequence3": "This action cannot be undone without the new owner's approval",
+      "cancel": "Cancel",
+      "confirmButton": "Yes, Transfer Ownership",
+      "successMessage": "Ownership successfully transferred to {{name}}",
+      "errorMessage": "Error transferring ownership. Please try again."
     }
   }
 }

@@ -1,15 +1,18 @@
 {
   "general": {
-    "workspaceDetails": "Détails de l'espace de travail",
-    "workspaceName": "Nom de l'espace de travail",
-    "workspaceUrl": "URL de l'espace de travail",
-    "urlWarning": "Modifier l'URL de l'espace de travail vous redirigera vers la nouvelle adresse",
-    "save": "Enregistrer",
-    "dangerZone": "ZONE DE DANGER",
-    "deleteWorkspace": "Supprimer l'espace de travail",
-    "deleteWarning1": "Une fois votre espace de travail supprimé, il n'y a pas de retour en arrière possible. Veuillez en être certain.",
-    "deleteWarning2": "Toutes vos données téléchargées et agents entraînés seront supprimés.",
-    "delete": "Supprimer"
+    "title": "Général",
+    "organizationDetails": "Détails de l'Organisation",
+    "organizationName": "Nom de l'Organisation",
+    "organizationNamePlaceholder": "Nom de votre organisation",
+    "subdomain": "Sous-domaine",
+    "subdomainPlaceholder": "mon-entreprise",
+    "subdomainWarning": "Les modifications du sous-domaine peuvent affecter l'accès à l'organisation",
+    "saving": "Enregistrement...",
+    "saveChanges": "Enregistrer les modifications",
+    "dangerZone": "Zone de Danger",
+    "deleteOrganization": "Supprimer l'Organisation",
+    "deleteWarning1": "Cette action est irréversible. Toutes les données de l'organisation seront définitivement supprimées.",
+    "deleteWarning2": "Tous les chatbots, paramètres et données utilisateur seront perdus."
   },
   "members": {
     "title": "Membres de l'équipe",
@@ -80,6 +83,24 @@
       "cancel": "Annuler",
       "remove": "Retirer le membre",
       "removing": "Suppression en cours..."
+    },
+    "transferOwnership": {
+      "title": "Transférer la Propriété de l'Organisation",
+      "description": "Transférez la propriété complète de cette organisation à un autre membre de l'équipe.",
+      "warningTitle": "Cette action est irréversible",
+      "warningDescription": "Vous serez rétrogradé au rang d'Administrateur et ne pourrez pas annuler cette action. Seul le nouveau propriétaire pourra gérer la propriété de l'organisation.",
+      "selectMember": "Sélectionner un membre",
+      "transfer": "Transférer la propriété",
+      "confirmTitle": "Confirmer le transfert de propriété",
+      "confirmDescription": "Vous êtes sur le point de transférer la propriété complète de cette organisation à {{name}}.",
+      "confirmWarning": "Ce qui se passera après le transfert :",
+      "consequence1": "{{name}} deviendra le nouveau propriétaire avec un accès complet",
+      "consequence2": "Vous serez rétrogradé au rôle d'Administrateur",
+      "consequence3": "Cette action ne peut pas être annulée sans l'approbation du nouveau propriétaire",
+      "cancel": "Annuler",
+      "confirmButton": "Oui, transférer la propriété",
+      "successMessage": "Propriété transférée avec succès à {{name}}",
+      "errorMessage": "Erreur lors du transfert de propriété. Veuillez réessayer."
     }
   }
 }
