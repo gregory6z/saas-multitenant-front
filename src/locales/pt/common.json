@@ -100,8 +100,7 @@
     "general": "Geral",
     "members": "Membros",
     "plans": "Planos",
-    "billing": "Faturamento",
-    "security": "Segurança"
+    "billing": "Faturamento"
   },
   "chatbots": {
     "title": "Chatbots",
@@ -189,5 +188,66 @@
     "invalidToken": "Token inválido ou expirado",
     "emailAlreadyVerified": "Este email já foi verificado",
     "userNotFound": "Usuário não encontrado"
+  },
+  "plans": {
+    "title": "Planos",
+    "mySubscription": "Minha assinatura:",
+    "loading": "Carregando planos...",
+    "monthly": "Mensal",
+    "yearly": "Anual",
+    "freeMonths": "{{count}} meses grátis",
+    "perMonth": "/mês",
+    "billedYearly": "Cobrado anualmente: {{price}}",
+    "currentPlan": "Plano Atual",
+    "upgradeButton": "Fazer upgrade para {{plan}}",
+    "changeToPlan": "Mudar para {{plan}}",
+    "mostPopular": "Mais Popular",
+    "manageSubscription": "Gerenciar Assinatura",
+    "status": {
+      "active": "Ativo",
+      "trialing": "Em teste",
+      "canceled": "Cancelado",
+      "incomplete": "Incompleto",
+      "incomplete_expired": "Expirado",
+      "past_due": "Atrasado",
+      "unpaid": "Não pago"
+    },
+    "planNames": {
+      "trial": "Teste",
+      "starter": "Inicial",
+      "pro": "Profissional",
+      "business": "Profissional",
+      "enterprise": "Empresarial"
+    },
+    "fullPlanNames": {
+      "Starter (Monthly)": "Inicial (Mensal)",
+      "Starter (Annual)": "Inicial (Anual)",
+      "Pro (Monthly)": "Profissional (Mensal)",
+      "Pro (Annual)": "Profissional (Anual)",
+      "Enterprise (Monthly)": "Empresarial (Mensal)",
+      "Enterprise (Annual)": "Empresarial (Anual)",
+      "Trial": "Teste"
+    },
+    "planDescriptions": {
+      "starter": "Ideal para começar",
+      "pro": "Para equipes em crescimento",
+      "enterprise": "Solução completa para grandes empresas",
+      "trial": "Experimente gratuitamente"
+    },
+    "preview": {
+      "title": "Confirmar Mudança de Plano",
+      "description": "Revise os detalhes da mudança de plano antes de confirmar",
+      "calculating": "Calculando mudança...",
+      "pleaseWait": "Por favor aguarde enquanto calculamos os valores",
+      "currentPlan": "Plano Atual",
+      "newPlan": "Novo Plano",
+      "prorationDetails": "Detalhes da Cobrança",
+      "creditAmount": "Crédito do plano anterior",
+      "amountDue": "Valor a pagar agora",
+      "nextInvoice": "Próxima fatura",
+      "proratedInfo": "O valor foi calculado proporcionalmente até {{date}}",
+      "confirm": "Confirmar Mudança",
+      "perYear": "/ano"
+    }
   }
 }

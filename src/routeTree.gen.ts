@@ -42,7 +42,6 @@ import { Route as AuthenticatedDashboardChatbotsCreateFilesRouteImport } from '.
 import { Route as AuthenticatedDashboardChatbotsIdWidgetRouteImport } from './routes/_authenticated.dashboard/chatbots/$id/widget'
 import { Route as AuthenticatedDashboardChatbotsIdSettingsRouteImport } from './routes/_authenticated.dashboard/chatbots/$id/settings'
 import { Route as AuthenticatedDashboardChatbotsIdPlaygroundRouteImport } from './routes/_authenticated.dashboard/chatbots/$id/playground'
-import { Route as AuthenticatedDashboardLayoutSettingsSecurityRouteImport } from './routes/_authenticated.dashboard/_layout/settings/security'
 import { Route as AuthenticatedDashboardLayoutSettingsPlansRouteImport } from './routes/_authenticated.dashboard/_layout/settings/plans'
 import { Route as AuthenticatedDashboardLayoutSettingsMembersRouteImport } from './routes/_authenticated.dashboard/_layout/settings/members'
 import { Route as AuthenticatedDashboardLayoutSettingsGeneralRouteImport } from './routes/_authenticated.dashboard/_layout/settings/general'
@@ -244,12 +243,6 @@ const AuthenticatedDashboardChatbotsIdPlaygroundRoute =
     path: '/playground',
     getParentRoute: () => AuthenticatedDashboardChatbotsIdRoute,
   } as any)
-const AuthenticatedDashboardLayoutSettingsSecurityRoute =
-  AuthenticatedDashboardLayoutSettingsSecurityRouteImport.update({
-    id: '/settings/security',
-    path: '/settings/security',
-    getParentRoute: () => AuthenticatedDashboardLayoutRoute,
-  } as any)
 const AuthenticatedDashboardLayoutSettingsPlansRoute =
   AuthenticatedDashboardLayoutSettingsPlansRouteImport.update({
     id: '/settings/plans',
@@ -356,7 +349,6 @@ export interface FileRoutesByFullPath {
   '/dashboard/settings/general': typeof AuthenticatedDashboardLayoutSettingsGeneralRoute
   '/dashboard/settings/members': typeof AuthenticatedDashboardLayoutSettingsMembersRoute
   '/dashboard/settings/plans': typeof AuthenticatedDashboardLayoutSettingsPlansRoute
-  '/dashboard/settings/security': typeof AuthenticatedDashboardLayoutSettingsSecurityRoute
   '/dashboard/chatbots/$id/playground': typeof AuthenticatedDashboardChatbotsIdPlaygroundRoute
   '/dashboard/chatbots/$id/settings': typeof AuthenticatedDashboardChatbotsIdSettingsRouteWithChildren
   '/dashboard/chatbots/$id/widget': typeof AuthenticatedDashboardChatbotsIdWidgetRoute
@@ -399,7 +391,6 @@ export interface FileRoutesByTo {
   '/dashboard/settings/general': typeof AuthenticatedDashboardLayoutSettingsGeneralRoute
   '/dashboard/settings/members': typeof AuthenticatedDashboardLayoutSettingsMembersRoute
   '/dashboard/settings/plans': typeof AuthenticatedDashboardLayoutSettingsPlansRoute
-  '/dashboard/settings/security': typeof AuthenticatedDashboardLayoutSettingsSecurityRoute
   '/dashboard/chatbots/$id/playground': typeof AuthenticatedDashboardChatbotsIdPlaygroundRoute
   '/dashboard/chatbots/$id/widget': typeof AuthenticatedDashboardChatbotsIdWidgetRoute
   '/dashboard/chatbots/create/files': typeof AuthenticatedDashboardChatbotsCreateFilesRoute
@@ -448,7 +439,6 @@ export interface FileRoutesById {
   '/_authenticated/dashboard/_layout/settings/general': typeof AuthenticatedDashboardLayoutSettingsGeneralRoute
   '/_authenticated/dashboard/_layout/settings/members': typeof AuthenticatedDashboardLayoutSettingsMembersRoute
   '/_authenticated/dashboard/_layout/settings/plans': typeof AuthenticatedDashboardLayoutSettingsPlansRoute
-  '/_authenticated/dashboard/_layout/settings/security': typeof AuthenticatedDashboardLayoutSettingsSecurityRoute
   '/_authenticated/dashboard/chatbots/$id/playground': typeof AuthenticatedDashboardChatbotsIdPlaygroundRoute
   '/_authenticated/dashboard/chatbots/$id/settings': typeof AuthenticatedDashboardChatbotsIdSettingsRouteWithChildren
   '/_authenticated/dashboard/chatbots/$id/widget': typeof AuthenticatedDashboardChatbotsIdWidgetRoute
@@ -497,7 +487,6 @@ export interface FileRouteTypes {
     | '/dashboard/settings/general'
     | '/dashboard/settings/members'
     | '/dashboard/settings/plans'
-    | '/dashboard/settings/security'
     | '/dashboard/chatbots/$id/playground'
     | '/dashboard/chatbots/$id/settings'
     | '/dashboard/chatbots/$id/widget'
@@ -540,7 +529,6 @@ export interface FileRouteTypes {
     | '/dashboard/settings/general'
     | '/dashboard/settings/members'
     | '/dashboard/settings/plans'
-    | '/dashboard/settings/security'
     | '/dashboard/chatbots/$id/playground'
     | '/dashboard/chatbots/$id/widget'
     | '/dashboard/chatbots/create/files'
@@ -588,7 +576,6 @@ export interface FileRouteTypes {
     | '/_authenticated/dashboard/_layout/settings/general'
     | '/_authenticated/dashboard/_layout/settings/members'
     | '/_authenticated/dashboard/_layout/settings/plans'
-    | '/_authenticated/dashboard/_layout/settings/security'
     | '/_authenticated/dashboard/chatbots/$id/playground'
     | '/_authenticated/dashboard/chatbots/$id/settings'
     | '/_authenticated/dashboard/chatbots/$id/widget'
@@ -851,13 +838,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedDashboardChatbotsIdPlaygroundRouteImport
       parentRoute: typeof AuthenticatedDashboardChatbotsIdRoute
     }
-    '/_authenticated/dashboard/_layout/settings/security': {
-      id: '/_authenticated/dashboard/_layout/settings/security'
-      path: '/settings/security'
-      fullPath: '/dashboard/settings/security'
-      preLoaderRoute: typeof AuthenticatedDashboardLayoutSettingsSecurityRouteImport
-      parentRoute: typeof AuthenticatedDashboardLayoutRoute
-    }
     '/_authenticated/dashboard/_layout/settings/plans': {
       id: '/_authenticated/dashboard/_layout/settings/plans'
       path: '/settings/plans'
@@ -968,7 +948,6 @@ interface AuthenticatedDashboardLayoutRouteChildren {
   AuthenticatedDashboardLayoutSettingsGeneralRoute: typeof AuthenticatedDashboardLayoutSettingsGeneralRoute
   AuthenticatedDashboardLayoutSettingsMembersRoute: typeof AuthenticatedDashboardLayoutSettingsMembersRoute
   AuthenticatedDashboardLayoutSettingsPlansRoute: typeof AuthenticatedDashboardLayoutSettingsPlansRoute
-  AuthenticatedDashboardLayoutSettingsSecurityRoute: typeof AuthenticatedDashboardLayoutSettingsSecurityRoute
 }
 
 const AuthenticatedDashboardLayoutRouteChildren: AuthenticatedDashboardLayoutRouteChildren =
@@ -989,8 +968,6 @@ const AuthenticatedDashboardLayoutRouteChildren: AuthenticatedDashboardLayoutRou
       AuthenticatedDashboardLayoutSettingsMembersRoute,
     AuthenticatedDashboardLayoutSettingsPlansRoute:
       AuthenticatedDashboardLayoutSettingsPlansRoute,
-    AuthenticatedDashboardLayoutSettingsSecurityRoute:
-      AuthenticatedDashboardLayoutSettingsSecurityRoute,
   }
 
 const AuthenticatedDashboardLayoutRouteWithChildren =

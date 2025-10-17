@@ -35,7 +35,6 @@ const data = {
         { title: "Members", url: "/dashboard/settings/members" },
         { title: "Plans", url: "/dashboard/settings/plans" },
         { title: "Billing", url: "/dashboard/settings/billing" },
-        { title: "Security", url: "/dashboard/settings/security" },
       ],
     },
   ],

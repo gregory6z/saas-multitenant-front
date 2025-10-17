@@ -40,8 +40,7 @@
     "general": "General",
     "members": "Members",
     "plans": "Plans",
-    "billing": "Billing",
-    "security": "Security"
+    "billing": "Billing"
   },
   "chatbots": {
     "title": "Chatbots",
@@ -148,5 +147,66 @@
     "invalidToken": "Invalid or expired token",
     "emailAlreadyVerified": "This email is already verified",
     "userNotFound": "User not found"
+  },
+  "plans": {
+    "title": "Plans",
+    "mySubscription": "My subscription:",
+    "loading": "Loading plans...",
+    "monthly": "Monthly",
+    "yearly": "Yearly",
+    "freeMonths": "{{count}} months free",
+    "perMonth": "/month",
+    "billedYearly": "Billed annually: {{price}}",
+    "currentPlan": "Current Plan",
+    "upgradeButton": "Upgrade to {{plan}}",
+    "changeToPlan": "Change to {{plan}}",
+    "mostPopular": "Most Popular",
+    "manageSubscription": "Manage Subscription",
+    "status": {
+      "active": "Active",
+      "trialing": "Trial",
+      "canceled": "Canceled",
+      "incomplete": "Incomplete",
+      "incomplete_expired": "Expired",
+      "past_due": "Past Due",
+      "unpaid": "Unpaid"
+    },
+    "planNames": {
+      "trial": "Trial",
+      "starter": "Starter",
+      "pro": "Professional",
+      "business": "Business",
+      "enterprise": "Enterprise"
+    },
+    "fullPlanNames": {
+      "Starter (Monthly)": "Starter (Monthly)",
+      "Starter (Annual)": "Starter (Annual)",
+      "Pro (Monthly)": "Professional (Monthly)",
+      "Pro (Annual)": "Professional (Annual)",
+      "Enterprise (Monthly)": "Enterprise (Monthly)",
+      "Enterprise (Annual)": "Enterprise (Annual)",
+      "Trial": "Trial"
+    },
+    "planDescriptions": {
+      "starter": "Perfect to get started",
+      "pro": "For growing teams",
+      "enterprise": "Complete solution for large companies",
+      "trial": "Try it for free"
+    },
+    "preview": {
+      "title": "Confirm Plan Change",
+      "description": "Review plan change details before confirming",
+      "calculating": "Calculating change...",
+      "pleaseWait": "Please wait while we calculate the amounts",
+      "currentPlan": "Current Plan",
+      "newPlan": "New Plan",
+      "prorationDetails": "Billing Details",
+      "creditAmount": "Credit from previous plan",
+      "amountDue": "Amount to pay now",
+      "nextInvoice": "Next invoice",
+      "proratedInfo": "The amount was calculated proportionally until {{date}}",
+      "confirm": "Confirm Change",
+      "perYear": "/year"
+    }
   }
 }

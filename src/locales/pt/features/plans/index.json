@@ -1,0 +1,41 @@
+{
+  "title": "Planos",
+  "subtitle": "Escolha o plano ideal para o seu negócio",
+  "mySubscription": "Minha assinatura:",
+  "loading": "Carregando planos...",
+
+  "billing": {
+    "monthly": "Mensal",
+    "yearly": "Anual",
+    "perMonth": "/mês",
+    "perYear": "/ano",
+    "billedMonthly": "Cobrado mensalmente",
+    "billedYearly": "Cobrado anualmente: {{price}}",
+    "freeMonths": "{{count}} meses grátis"
+  },
+
+  "status": {
+    "active": "Ativo",
+    "trialing": "Período de Teste",
+    "canceled": "Cancelado",
+    "past_due": "Pagamento Atrasado",
+    "unpaid": "Não Pago",
+    "incomplete": "Incompleto",
+    "incomplete_expired": "Expirado"
+  },
+
+  "names": {
+    "trial": "Teste Grátis",
+    "starter": "Inicial",
+    "pro": "Profissional",
+    "business": "Business",
+    "enterprise": "Enterprise"
+  },
+
+  "intervals": {
+    "month": "Mensal",
+    "year": "Anual"
+  },
+
+  "manageSubscription": "Gerenciar Assinatura"
+}

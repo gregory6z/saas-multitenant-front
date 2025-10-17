@@ -4,17 +4,13 @@ import { api } from "@/lib/axios";
 
 // Zod schema for plan validation
 const PlanSchema = z.object({
-  id: z.string(),
-  externalId: z.string(),
+  id: z.string(), // Identificador do plano (ex: "plan-starter", "plan-pro")
   name: z.string(),
   description: z.string(),
   features: z.array(z.string()),
   price: z.number(), // Preço em centavos (ex: 3900 = €39.00)
   interval: z.enum(["month", "year"]),
   currency: z.string(),
-  isActive: z.boolean(),
-  createdAt: z.string(),
-  updatedAt: z.string(),
 });
 
 const PlansResponseSchema = z.object({
@@ -26,16 +22,23 @@ export type PlansResponse = z.infer<typeof PlansResponseSchema>;
 
 /**
  * Hook para buscar planos disponíveis (rota pública)
+ *
+ * TanStack Query v5 optimizations:
+ * - staleTime: 30min - planos raramente mudam
+ * - gcTime: 60min - mantém em cache durante sessão
+ * - refetchOnWindowFocus: false - evita refetch desnecessário
  */
 export function usePlans() {
   const plansQuery = useQuery({
     queryKey: ["plans"],
     queryFn: async (): Promise<Plan[]> => {
       const response = await api.get("/subscriptions/plans");
-      const data = PlansResponseSchema.parse(response.data);
-      return data.plans;
+      console.log("[usePlans] Resposta do backend:", response.data);
+      return response.data.plans;
     },
-    staleTime: 1000 * 60 * 30, // 30 minutos - planos não mudam frequentemente
+    staleTime: 30 * 60 * 1000, // 30min - planos não mudam frequentemente
+    gcTime: 60 * 60 * 1000, // 60min - mantém em cache durante sessão
+    refetchOnWindowFocus: false, // Evita refetch ao retornar à página
   });
 
   return {
@@ -43,6 +46,7 @@ export function usePlans() {
     isLoading: plansQuery.isLoading,
     isError: plansQuery.isError,
     error: plansQuery.error,
+    refetch: plansQuery.refetch,
   };
 }
 

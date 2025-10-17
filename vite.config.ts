@@ -14,7 +14,7 @@ export default defineConfig({
   },
   server: {
     port: 3000,
-    host: "0.0.0.0", // Permite acesso via qualquer hostname
+    host: "lvh.me", // Usa lvh.me como hostname principal
     strictPort: false,
     allowedHosts: [
       "lvh.me",
@@ -22,7 +22,7 @@ export default defineConfig({
       "localhost",
     ],
     hmr: {
-      host: "localhost", // HMR via localhost
+      host: "lvh.me", // HMR via lvh.me
     },
   },
 });
