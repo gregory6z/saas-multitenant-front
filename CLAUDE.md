@@ -86,21 +86,33 @@ src/
 │   └── _authenticated.dashboard/  # Protected dashboard
 │       ├── _layout/ (index, chatbots, knowledge-base, usages, settings/)
 │       ├── tenants/, chatbots/, knowledge-base/
+├── api/                            # ✅ API Layer (NEW)
+│   ├── schemas/                    # Zod schemas with exported types
+│   │   └── [entity].schema.ts     # e.g., member.schema.ts
+│   ├── client/                     # HTTP clients (axios)
+│   │   └── [entity].api.ts        # e.g., member.api.ts
+│   └── queries/[entity]/           # Tanstack Query hooks
+│       ├── use-[entity]-query.ts
+│       └── use-[action]-mutation.ts
 ├── components/
 │   ├── ui/                         # shadcn/ui components (button, input, form, etc.)
+│   ├── features/[feature]/         # ✅ Feature-based organization (NEW)
+│   │   ├── [component].tsx         # Feature components
+│   │   └── dialogs/                # Feature-specific dialogs
+│   ├── shared/                     # Reusable components (future)
 │   ├── forms/                      # React Hook Form components
 │   ├── navigation/                 # app-sidebar, nav-*, team-switcher
-│   ├── chatbot/, knowledge/        # Feature-specific components
-│   ├── modals/                     # Alert dialogs, confirmations
+│   ├── modals/                     # Global dialogs/modals
 │   ├── layouts/                    # Page layouts (auth, creation wizards)
 │   └── skeletons/                  # Loading states
-├── hooks/                          # Tanstack Query hooks (use-*)
+├── hooks/                          # Legacy hooks (migrating to api/)
 │   └── use-auth, use-chatbots, use-tenants, use-subscription, etc.
 ├── auth/                           # Auth utilities (cookie, jwt, storage, tenant)
 ├── lib/                            # Core config (axios, i18n, query-client, schemas)
-├── schemas/                        # Zod schemas
+├── schemas/                        # Shared Zod schemas
 ├── utils/                          # Utilities (cn)
 ├── locales/                        # i18next translations (pt, en, fr, es)
+│   └── [lang]/features/[section]/[page].json  # Granular translations
 └── assets/
 ```
 

@@ -24,7 +24,7 @@ export function TransferOwnershipCard({
   currentUserId,
   onTransfer,
 }: TransferOwnershipCardProps) {
-  const { t } = useTranslation("settings");
+  const { t } = useTranslation("settings-members");
   const [selectedMemberId, setSelectedMemberId] = useState<string>("");
 
   // Filtra para remover o usuário atual da lista
@@ -42,23 +42,25 @@ export function TransferOwnershipCard({
       <CardHeader>
         <CardTitle className="flex items-center gap-2 text-amber-900">
           <UserCog className="w-5 h-5" />
-          {t("members.transferOwnership.title")}
+          {t("modals.transferOwnership.title")}
         </CardTitle>
-        <CardDescription>{t("members.transferOwnership.description")}</CardDescription>
+        <CardDescription>{t("modals.transferOwnership.description")}</CardDescription>
       </CardHeader>
       <CardContent className="space-y-4">
         <Alert className="border-amber-300 bg-amber-100/50 text-amber-950">
           <AlertTriangle className="h-4 w-4 text-amber-600" />
-          <AlertTitle className="text-amber-900">{t("members.transferOwnership.warningTitle")}</AlertTitle>
+          <AlertTitle className="text-amber-900">
+            {t("modals.transferOwnership.title")}
+          </AlertTitle>
           <AlertDescription className="text-amber-800">
-            {t("members.transferOwnership.warningDescription")}
+            {t("modals.transferOwnership.warning")}
           </AlertDescription>
         </Alert>
 
         <div className="flex gap-2">
           <Select value={selectedMemberId} onValueChange={setSelectedMemberId}>
             <SelectTrigger className="flex-1">
-              <SelectValue placeholder={t("members.transferOwnership.selectMember")} />
+              <SelectValue placeholder={t("modals.transferOwnership.description")} />
             </SelectTrigger>
             <SelectContent>
               {eligibleMembers.map((member) => (
@@ -76,7 +78,7 @@ export function TransferOwnershipCard({
             className="bg-amber-600 hover:bg-amber-700 text-white"
           >
             <ArrowRightLeft className="w-4 h-4" />
-            {t("members.transferOwnership.transfer")}
+            {t("modals.transferOwnership.confirmButton")}
           </Button>
         </div>
       </CardContent>

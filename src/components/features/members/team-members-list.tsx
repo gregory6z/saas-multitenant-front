@@ -1,19 +1,20 @@
 import { Users } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
-import { MemberActionsDropdown } from "@/components/members/member-actions-dropdown";
-import { MembersListSkeleton } from "@/components/members/members-skeleton";
+import { useChangeMemberRoleMutation } from "@/api/queries/member/use-change-role-mutation";
+import type { Member } from "@/api/schemas/member.schema";
+import { MemberActionsDropdown } from "@/components/features/members/member-actions-dropdown";
+import { MembersListSkeleton } from "@/components/features/members/members-skeleton";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { type TeamMember, useUpdateMemberRole } from "@/hooks/use-team-members";
 
 interface TeamMembersListProps {
-  members: TeamMember[] | undefined;
+  members: Member[] | undefined;
   isLoading: boolean;
   canManageTeam: boolean;
   currentUserRole: string | null;
-  onRemoveMember: (member: { id: string; name: string; email: string }) => void;
+  onRemoveMember: (member: Member) => void;
 }
 
 export function TeamMembersList({
@@ -23,13 +24,15 @@ export function TeamMembersList({
   currentUserRole,
   onRemoveMember,
 }: TeamMembersListProps) {
-  const { t } = useTranslation("settings");
-  const updateMemberRole = useUpdateMemberRole();
+  const { t } = useTranslation("settings-members");
+
+  // ✅ Usa hook do Model diretamente
+  const updateMemberRole = useChangeMemberRoleMutation();
 
   const handleUpdateRole = (data: { userId: string; role: "admin" | "curator" | "user" }) => {
     updateMemberRole.mutate(data, {
-      onSuccess: () => toast.success(t("members.updateRoleSuccess")),
-      onError: () => toast.error(t("members.updateRoleError")),
+      onSuccess: () => toast.success(t("modals.changeRole.success")),
+      onError: () => toast.error(t("modals.changeRole.error")),
     });
   };
 
@@ -40,7 +43,7 @@ export function TeamMembersList({
   };
 
   const getRoleLabel = (role: string) => {
-    return t(`members.roles.${role}` as `members.roles.${string}`);
+    return t(`roles.${role}` as const);
   };
 
   return (
@@ -48,14 +51,14 @@ export function TeamMembersList({
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
           <Users className="w-5 h-5" />
-          {t("members.teamMembers")} ({members?.length || 0})
+          {t("title")} ({members?.length || 0})
         </CardTitle>
       </CardHeader>
       <CardContent>
         {isLoading ? (
           <MembersListSkeleton />
         ) : !members || members.length === 0 ? (
-          <p className="text-center text-muted-foreground py-4">{t("members.noMembersFound")}</p>
+          <p className="text-center text-muted-foreground py-4">{t("empty.title")}</p>
         ) : (
           <div className="space-y-4">
             {members.map((member) => (
@@ -65,16 +68,17 @@ export function TeamMembersList({
               >
                 <div className="flex items-center gap-3">
                   <Avatar className="w-10 h-10">
-                    <AvatarImage src="" alt={member.name} />
+                    <AvatarImage src="" alt={member.name || member.email} />
                     <AvatarFallback className="bg-gradient-to-br from-primary via-primary to-primary/80 text-primary-foreground">
-                      {member.name
+                      {(member.name || member.email)
                         .split(" ")
                         .map((n) => n[0])
-                        .join("")}
+                        .join("")
+                        .toUpperCase()}
                     </AvatarFallback>
                   </Avatar>
                   <div>
-                    <p className="font-medium">{member.name}</p>
+                    <p className="font-medium">{member.name || member.email}</p>
                     <p className="text-sm text-muted-foreground">{member.email}</p>
                   </div>
                 </div>

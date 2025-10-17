@@ -46,7 +46,7 @@ function ChatbotsPage() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-semibold text-foreground">{t("chatbots.title")}</h1>
-        <Button >
+        <Button>
           <Link to="/dashboard/chatbots/create">
             <span>
               <Plus className="w-4 h-4" />

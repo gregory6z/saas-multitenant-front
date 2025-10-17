@@ -1,0 +1,97 @@
+{
+  "title": "Members",
+  "subtitle": "Manage your workspace members",
+  "loading": "Loading members...",
+
+  "table": {
+    "headers": {
+      "user": "User",
+      "email": "Email",
+      "role": "Role",
+      "memberSince": "Member since",
+      "actions": "Actions"
+    }
+  },
+
+  "roles": {
+    "owner": "Owner",
+    "admin": "Administrator",
+    "curator": "Curator",
+    "user": "User"
+  },
+
+  "actions": {
+    "invite": "Invite Members",
+    "changeRole": "Change role",
+    "viewProfile": "View profile",
+    "remove": "Remove member",
+    "transferOwnership": "Transfer ownership"
+  },
+
+  "modals": {
+    "invite": {
+      "title": "Invite Members",
+      "description": "Send invitations to new workspace members",
+      "emailLabel": "Email",
+      "emailPlaceholder": "user@example.com",
+      "roleLabel": "Role",
+      "rolePlaceholder": "Select a role",
+      "sendButton": "Send Invite",
+      "cancelButton": "Cancel",
+      "sending": "Sending...",
+      "success": "Invitation sent successfully",
+      "error": "Error sending invitation"
+    },
+
+    "remove": {
+      "title": "Remove {{name}}?",
+      "description": "This action cannot be undone. The member will be permanently removed from the workspace.",
+      "confirmButton": "Remove",
+      "cancelButton": "Cancel",
+      "removing": "Removing...",
+      "success": "Member removed successfully",
+      "error": "Error removing member"
+    },
+
+    "changeRole": {
+      "title": "Change Role",
+      "description": "Change {{name}}'s role",
+      "selectRole": "Select new role",
+      "confirmButton": "Change",
+      "cancelButton": "Cancel",
+      "changing": "Changing...",
+      "success": "Role changed successfully",
+      "error": "Error changing role"
+    },
+
+    "transferOwnership": {
+      "title": "Transfer Ownership",
+      "description": "Transfer workspace ownership to {{name}}",
+      "warning": "You will lose owner access. This action cannot be undone.",
+      "confirmButton": "Transfer Ownership",
+      "cancelButton": "Cancel",
+      "transferring": "Transferring...",
+      "success": "Ownership transferred successfully",
+      "error": "Error transferring ownership"
+    }
+  },
+
+  "empty": {
+    "title": "No members found",
+    "description": "Start by inviting members to your workspace",
+    "action": "Invite First Member"
+  },
+
+  "errors": {
+    "loadFailed": "Error loading members",
+    "inviteRequired": "Email is required",
+    "inviteInvalidEmail": "Invalid email",
+    "roleRequired": "Role is required",
+    "memberNotFound": "Member not found",
+    "cannotRemoveOwner": "Cannot remove owner",
+    "cannotChangeOwnRole": "Cannot change your own role",
+    "insufficientPermissions": "Insufficient permissions",
+    "alreadyMember": "This user is already a workspace member",
+    "networkError": "Connection error. Please try again."
+  }
+}

@@ -4,7 +4,7 @@ import { Building2, Check, Info, Trash2 } from "lucide-react";
 import * as React from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import { TransferOwnershipCard } from "@/components/members/transfer-ownership-card";
+import { TransferOwnershipCard } from "@/components/features/members/transfer-ownership-card";
 import { DeleteTenantModal } from "@/components/modals/delete-tenant-modal";
 import { TransferOwnershipModal } from "@/components/modals/transfer-ownership-modal";
 import { GeneralPageSkeleton } from "@/components/skeletons/general-page-skeleton";
@@ -70,9 +70,7 @@ function GeneralPage() {
   const hasChanges = React.useMemo(() => {
     if (!currentTenant) return false;
 
-    return (
-      watchedFields[0] !== currentTenant.name || watchedFields[1] !== currentTenant.subdomain
-    );
+    return watchedFields[0] !== currentTenant.name || watchedFields[1] !== currentTenant.subdomain;
   }, [watchedFields, currentTenant]);
 
   // Calculate eligible members for ownership transfer
@@ -111,18 +109,15 @@ function GeneralPage() {
 
       form.setValue("subdomain", transformed);
     },
-    [form.setValue],
+    [form.setValue]
   );
 
   /**
    * Handles ownership transfer target selection
    */
-  const handleTransferOwnership = React.useCallback(
-    (newOwnerId: string, newOwnerName: string) => {
-      setTransferTarget({ id: newOwnerId, name: newOwnerName });
-    },
-    [],
-  );
+  const handleTransferOwnership = React.useCallback((newOwnerId: string, newOwnerName: string) => {
+    setTransferTarget({ id: newOwnerId, name: newOwnerName });
+  }, []);
 
   /**
    * Handles transfer modal close
@@ -132,7 +127,6 @@ function GeneralPage() {
       setTransferTarget(null);
     }
   }, []);
-
 
   if (tenantLoading || !currentTenant) {
     return <GeneralPageSkeleton />;
@@ -199,11 +193,7 @@ function GeneralPage() {
               />
 
               <div className="flex justify-end">
-                <Button
-                  type="submit"
-                  disabled={!hasChanges}
-                  loading={updateTenant.isPending}
-                >
+                <Button type="submit" disabled={!hasChanges} loading={updateTenant.isPending}>
                   <Check className="w-4 h-4" />
                   {t("general.saveChanges")}
                 </Button>

@@ -1,0 +1,101 @@
+{
+  "title": "Membros",
+  "subtitle": "Gerencie os membros do seu workspace",
+  "loading": "Carregando membros...",
+
+  "table": {
+    "headers": {
+      "user": "Usuário",
+      "email": "Email",
+      "role": "Função",
+      "memberSince": "Membro desde",
+      "actions": "Ações"
+    }
+  },
+
+  "roles": {
+    "owner": "Proprietário",
+    "admin": "Administrador",
+    "curator": "Curador",
+    "user": "Usuário"
+  },
+
+  "actions": {
+    "invite": "Convidar Membros",
+    "changeRole": "Alterar função",
+    "viewProfile": "Ver perfil",
+    "remove": "Remover membro",
+    "transferOwnership": "Transferir propriedade",
+    "promoteToAdmin": "Promover para Admin",
+    "demoteToCurator": "Rebaixar para Curador",
+    "changeToCurator": "Mudar para Curador",
+    "changeToUser": "Mudar para Usuário"
+  },
+
+  "modals": {
+    "invite": {
+      "title": "Convidar Membros",
+      "description": "Envie convites para novos membros do workspace",
+      "emailLabel": "Email",
+      "emailPlaceholder": "usuario@exemplo.com",
+      "roleLabel": "Função",
+      "rolePlaceholder": "Selecione uma função",
+      "sendButton": "Enviar Convite",
+      "cancelButton": "Cancelar",
+      "sending": "Enviando...",
+      "success": "Convite enviado com sucesso",
+      "error": "Erro ao enviar convite"
+    },
+
+    "remove": {
+      "title": "Remover {{name}}?",
+      "description": "Esta ação não pode ser desfeita. O membro será removido permanentemente do workspace.",
+      "confirmButton": "Remover",
+      "cancelButton": "Cancelar",
+      "removing": "Removendo...",
+      "success": "Membro removido com sucesso",
+      "error": "Erro ao remover membro"
+    },
+
+    "changeRole": {
+      "title": "Alterar Função",
+      "description": "Alterar função de {{name}}",
+      "selectRole": "Selecionar nova função",
+      "confirmButton": "Alterar",
+      "cancelButton": "Cancelar",
+      "changing": "Alterando...",
+      "success": "Função alterada com sucesso",
+      "error": "Erro ao alterar função"
+    },
+
+    "transferOwnership": {
+      "title": "Transferir Propriedade",
+      "description": "Transferir propriedade do workspace para {{name}}",
+      "warning": "Você perderá acesso de proprietário. Esta ação não pode ser desfeita.",
+      "confirmButton": "Transferir Propriedade",
+      "cancelButton": "Cancelar",
+      "transferring": "Transferindo...",
+      "success": "Propriedade transferida com sucesso",
+      "error": "Erro ao transferir propriedade"
+    }
+  },
+
+  "empty": {
+    "title": "Nenhum membro encontrado",
+    "description": "Comece convidando membros para seu workspace",
+    "action": "Convidar Primeiro Membro"
+  },
+
+  "errors": {
+    "loadFailed": "Erro ao carregar membros",
+    "inviteRequired": "Email é obrigatório",
+    "inviteInvalidEmail": "Email inválido",
+    "roleRequired": "Função é obrigatória",
+    "memberNotFound": "Membro não encontrado",
+    "cannotRemoveOwner": "Não é possível remover o proprietário",
+    "cannotChangeOwnRole": "Não é possível alterar sua própria função",
+    "insufficientPermissions": "Permissões insuficientes",
+    "alreadyMember": "Este usuário já é membro do workspace",
+    "networkError": "Erro de conexão. Tente novamente."
+  }
+}

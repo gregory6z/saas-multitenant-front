@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Crown, CreditCard, Gift } from "lucide-react";
+import { CreditCard, Crown, Gift } from "lucide-react";
 import * as React from "react";
 import { useTranslation } from "react-i18next";
 import { PlanCard } from "@/components/plans/plan-card";
@@ -26,24 +26,43 @@ type BillingInterval = "month" | "year";
  */
 function getPlanKey(planId: string): string {
   return planId
-    .replace("plan-", "")  // Remove "plan-" prefix
-    .replace("-annual", "")  // Remove "-annual" suffix
-    .replace("-monthly", "");  // Remove "-monthly" suffix
+    .replace("plan-", "") // Remove "plan-" prefix
+    .replace("-annual", "") // Remove "-annual" suffix
+    .replace("-monthly", ""); // Remove "-monthly" suffix
 }
 
 function PlansPage() {
   const { t } = useTranslation("common");
   const { plans, isLoading: plansLoading, isError: plansError, error: plansErrorData } = usePlans();
-  const { subscription, isLoading: subscriptionLoading, isError: subscriptionError, error: subscriptionErrorData } = useSubscription();
+  const {
+    subscription,
+    isLoading: subscriptionLoading,
+    isError: subscriptionError,
+    error: subscriptionErrorData,
+  } = useSubscription();
   const createPortal = useCreatePortalSession();
 
   // Debug: verificar estado das queries
   React.useEffect(() => {
     console.log("[PlansPage] Plans loading:", plansLoading, "| Plans count:", plans.length);
-    console.log("[PlansPage] Subscription loading:", subscriptionLoading, "| Subscription:", subscription);
+    console.log(
+      "[PlansPage] Subscription loading:",
+      subscriptionLoading,
+      "| Subscription:",
+      subscription
+    );
     if (plansError) console.error("[PlansPage] Plans error:", plansErrorData);
     if (subscriptionError) console.error("[PlansPage] Subscription error:", subscriptionErrorData);
-  }, [plansLoading, subscriptionLoading, plans.length, subscription, plansError, subscriptionError, plansErrorData, subscriptionErrorData]);
+  }, [
+    plansLoading,
+    subscriptionLoading,
+    plans.length,
+    subscription,
+    plansError,
+    subscriptionError,
+    plansErrorData,
+    subscriptionErrorData,
+  ]);
 
   /**
    * Determina qual tab deve estar selecionada por padrão

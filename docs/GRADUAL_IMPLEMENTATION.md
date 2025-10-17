@@ -18,8 +18,9 @@
 Para cada página, implementar **TUDO** nesta ordem:
 
 1. ✅ **Traduções** (criar JSONs granulares)
-2. ✅ **MVVM** (Model → ViewModel → View)
-3. ✅ **Testar** (validar funcionamento completo)
+2. ✅ **Model Layer** (schemas, API, queries/mutations)
+3. ✅ **Componentes** (usando hooks do Model diretamente)
+4. ✅ **Testar** (validar funcionamento completo)
 
 **Resultado:** Cada página fica 100% completa antes de ir para a próxima.
 
@@ -46,7 +47,7 @@ Para cada página, implementar **TUDO** nesta ordem:
 
 ---
 
-## 📋 Template de Implementação
+## 📋 Template de Implementação (Arquitetura Simplificada)
 
 ### **Para CADA Página:**
 
@@ -56,44 +57,37 @@ Para cada página, implementar **TUDO** nesta ordem:
 ├─────────────────────────────────────────────────────────┤
 │                                                         │
 │ PASSO 1: Traduções (30-60 min)                         │
-│   ├─ Criar locales/pt/features/[page]/index.json      │
-│   ├─ Criar locales/pt/features/[page]/[component].json│
-│   ├─ Criar locales/pt/components/[tipo].json          │
+│   ├─ Criar locales/pt/features/[section]/[page].json  │
+│   │   └─ TUDO da página em UM arquivo                 │
 │   ├─ Replicar para EN, FR, ES                         │
 │   └─ Atualizar lib/i18n.ts                            │
 │                                                         │
-│ PASSO 2: Model (30-60 min)                             │
-│   ├─ Criar models/schemas/[entity].schema.ts          │
-│   ├─ Exportar types em models/types/index.ts          │
-│   ├─ Criar models/api/[entity].api.ts                 │
-│   ├─ Criar models/queries/[entity]/use-[entity]-query.ts │
-│   └─ Criar models/queries/[entity]/use-[action]-mutation.ts │
+│ PASSO 2: API Layer (1-2 horas)                         │
+│   ├─ Criar api/schemas/[entity].schema.ts             │
+│   │   └─ Exportar types diretamente (z.infer)        │
+│   ├─ Criar api/client/[entity].api.ts (axios puro)    │
+│   ├─ Criar api/queries/[entity]/use-*-query.ts        │
+│   └─ Criar api/queries/[entity]/use-*-mutation.ts     │
 │                                                         │
-│ PASSO 3: ViewModel (1-2 horas)                         │
-│   ├─ Criar viewmodels/[page]/use-[page].viewmodel.ts  │
-│   ├─ Usar hooks do Model                              │
-│   ├─ Implementar lógica de apresentação               │
-│   └─ Retornar interface completa                      │
+│ PASSO 3: Componentes (1-2 horas)                       │
+│   ├─ Atualizar em components/features/[feature]/      │
+│   ├─ Usar hooks da API diretamente                    │
+│   ├─ Usar traduções do namespace correto              │
+│   ├─ Dialogs em features/[feature]/dialogs/           │
+│   └─ Importar types direto do schema                  │
 │                                                         │
-│ PASSO 4: View (1-2 horas)                              │
-│   ├─ Criar views/[page]/[Page].view.tsx               │
-│   ├─ Usar useFeatureTranslation                       │
-│   ├─ Receber tudo via props                           │
-│   └─ Apenas JSX (sem lógica)                          │
-│                                                         │
-│ PASSO 5: Conectar (30 min)                             │
+│ PASSO 4: Conectar (30 min)                             │
 │   ├─ Atualizar routes/[page].tsx                      │
-│   ├─ Chamar ViewModel hook                            │
-│   ├─ Passar props para View                           │
-│   └─ Adicionar modais (se necessário)                 │
+│   ├─ Usar hooks da API diretamente                    │
+│   └─ Passar props para componentes                    │
 │                                                         │
-│ PASSO 6: Testar (30 min)                               │
+│ PASSO 5: Testar (30 min)                               │
 │   ├─ Funcionalidade completa                          │
 │   ├─ Traduções (PT, EN, FR, ES)                       │
-│   ├─ Sem regressões                                   │
-│   └─ Code review                                      │
+│   ├─ TypeScript check                                 │
+│   └─ Sem regressões                                   │
 │                                                         │
-│ TOTAL: 4-6 horas por página                            │
+│ TOTAL: 3-5 horas por página                            │
 └─────────────────────────────────────────────────────────┘
 ```
 
@@ -101,21 +95,21 @@ Para cada página, implementar **TUDO** nesta ordem:
 
 ## 📅 Ordem de Implementação Sugerida
 
-### **Semana 1: Settings** ⏱️ 13-18h (2-3 dias)
+### **Semana 1: Settings** ⏱️ 10-15h (2 dias)
 
 **Prioridade:** Alta (páginas críticas de configuração)
 
-1. **Members** - 4-6h
+1. **Members** - 3-5h ✅ **CONCLUÍDO**
    - Gerenciamento de membros
    - Convites, remoção, alteração de função
    - Modais: Invite, Remove, ChangeRole
 
-2. **General** - 3-4h
+2. **General** - 2-3h
    - Configurações gerais do workspace
    - Nome, URL, imagem
    - Modal: DeleteWorkspace
 
-3. **Billing** - 4-5h
+3. **Billing** - 3-4h
    - Faturas, método de pagamento
    - Histórico de cobranças
 
@@ -125,15 +119,15 @@ Para cada página, implementar **TUDO** nesta ordem:
 
 ---
 
-### **Semana 2: Auth** ⏱️ 10-13h (2 dias)
+### **Semana 2: Auth** ⏱️ 8-12h (1-2 dias)
 
 **Prioridade:** Alta (fluxo de autenticação)
 
-5. **Login** - 3-4h
+5. **Login** - 2-3h
    - Formulário de login
    - Validação, erro handling
 
-6. **Register** - 3-4h
+6. **Register** - 2-3h
    - Criação de conta
    - Validação de email
 
@@ -141,17 +135,17 @@ Para cada página, implementar **TUDO** nesta ordem:
    - Recuperação de senha
    - Email de reset
 
-8. **Verify Email** - 2h
+8. **Verify Email** - 2-3h
    - Verificação de email
    - Resend verification
 
 ---
 
-### **Semana 3: Features Principais** ⏱️ 18-22h (3-4 dias)
+### **Semana 3: Features Principais** ⏱️ 15-20h (3 dias)
 
 **Prioridade:** Alta (core features)
 
-9. **Dashboard** - 4-5h
+9. **Dashboard** - 3-4h
    - Visão geral, métricas
    - Cards, gráficos
 
@@ -160,27 +154,27 @@ Para cada página, implementar **TUDO** nesta ordem:
     - Filtros, busca
     - Modais: Create, Delete
 
-11. **Chatbot Detail** - 5-6h
+11. **Chatbot Detail** - 4-6h
     - Detalhes do chatbot
     - Configurações, training
     - Modais: Edit, Duplicate
 
-12. **Knowledge Base** - 5-6h
+12. **Knowledge Base** - 4-5h
     - Gerenciamento de base de conhecimento
     - Upload de documentos
     - Modais: Create, Delete, Edit
 
 ---
 
-### **Semana 4: Complementares** ⏱️ 12-15h (2 dias)
+### **Semana 4: Complementares** ⏱️ 10-12h (2 dias)
 
 **Prioridade:** Média (páginas secundárias)
 
-13. **Analytics** - 4-5h
+13. **Analytics** - 3-4h
     - Análises e relatórios
     - Gráficos, tabelas
 
-14. **Plans** - 5-6h
+14. **Plans** - 4-5h
     - Seleção de planos
     - Upgrade/downgrade
     - Modal: PlanPreview
@@ -199,10 +193,9 @@ Para cada página, implementar **TUDO** nesta ordem:
 PÁGINA: _______________________________
 
 PRÉ-REQUISITOS
-□ Estrutura de pastas criada
-□ Hook useFeatureTranslation existe
+□ Git status limpo (commit anterior)
+□ Pastas models/ criadas
 □ lib/i18n.ts configurado
-□ Modals genéricos criados (se necessário)
 ```
 
 ---
@@ -210,172 +203,146 @@ PRÉ-REQUISITOS
 ### **PASSO 1: Traduções** ⏱️ 30-60 min
 
 ```
-□ Criar locales/pt/features/[page]/index.json
-  - Textos compartilhados da feature
+□ Criar locales/pt/features/[section]/[page].json
+  - TUDO da página em um único arquivo
   - Títulos, subtítulos, labels
-  - Status, roles, etc
+  - Textos de tabela (headers, etc)
+  - Roles, status, actions
+  - TODOS os modais da página (título, descrição, botões, loading)
+  - Empty states
+  - TODOS os erros específicos da página
+  - Exemplo: features/settings/members.json contém Members + TODOS os modais
 
-□ Criar locales/pt/features/[page]/[component].json (se necessário)
-  - Textos específicos de componente (10+ strings)
-  - Modal específico
-  - Formulário complexo
-
-□ Criar locales/pt/components/[tipo].json (se necessário)
-  - Modais genéricos (confirm, delete)
-  - Validações de formulário
-  - Mensagens de erro
+□ Criar locales/pt/components/[tipo].json (APENAS se verdadeiramente genérico)
+  - Modais genéricos reutilizados em MÚLTIPLAS features
+  - Validações de formulário globais
+  - Componentes de navegação compartilhados
+  - Regra: Se usado em 3+ páginas diferentes = component
+  - Regra: Se usado apenas em 1 página = incluir na página
 
 □ Replicar para EN
-  - Copiar estrutura
-  - Traduzir valores
+  - Copiar estrutura completa
+  - Traduzir todos os valores
 
 □ Replicar para FR
-  - Copiar estrutura
-  - Traduzir valores
+  - Copiar estrutura completa
+  - Traduzir todos os valores
 
 □ Replicar para ES
-  - Copiar estrutura
-  - Traduzir valores
+  - Copiar estrutura completa
+  - Traduzir todos os valores
 
 □ Atualizar lib/i18n.ts
-  - Import dos novos JSONs
-  - Adicionar aos resources (pt, en, fr, es)
+  - Import dos novos JSONs (features/[section]/[page].json)
+  - Adicionar aos resources de cada idioma
+  - Adicionar namespace ao array ns
+  - Exemplo: "settings-members" para features/settings/members.json
 ```
 
 ---
 
-### **PASSO 2: Model** ⏱️ 30-60 min
+### **PASSO 2: API Layer** ⏱️ 1-2 horas
 
 ```
-□ Criar models/schemas/[entity].schema.ts
-  - Schema Zod principal
-  - Input schemas (Create, Update)
-  - Exportar types com z.infer
+□ Criar api/schemas/[entity].schema.ts
+  - Schema Zod principal (ou reutilizar existente)
+  - Request schemas (Create, Update)
+  - Response schemas
+  - Exportar types diretamente: export type Member = z.infer<typeof MemberSchema>
+  - NÃO criar pasta types/ separada
+  - Exemplo: MemberSchema, InviteMemberRequestSchema, etc
 
-□ Exportar types em models/types/index.ts
-  - export type { Entity, CreateInput, UpdateInput } from "../schemas/..."
-
-□ Criar models/api/[entity].api.ts
-  - Funções de API (get, create, update, delete)
-  - Apenas chamadas HTTP (axios)
+□ Criar api/client/[entity].api.ts
+  - Funções HTTP puras (axios)
+  - get, create, update, delete
   - Sem Tanstack Query
+  - Sem toast/validação
+  - Importar types direto do schema
+  - Exemplo: import type { Member } from "@/api/schemas/member.schema"
 
-□ Criar models/queries/[entity]/use-[entity]-query.ts
+□ Criar api/queries/[entity]/use-[entity]-query.ts
   - useQuery para GET
-  - staleTime, gcTime
+  - Validação com Zod (parse response)
+  - staleTime, gcTime, retry strategy
   - queryKey: ["entity"] ou ["entity", id]
+  - Importar types direto do schema
 
-□ Criar models/queries/[entity]/use-[action]-mutation.ts
+□ Criar api/queries/[entity]/use-[action]-mutation.ts
   - useMutation para POST, PUT, DELETE
   - Toast de sucesso/erro
+  - Optimistic updates (se aplicável)
   - invalidateQueries após sucesso
+  - Importar types direto do schema
+  - Exemplo: useInviteMemberMutation, useRemoveMemberMutation
 ```
 
 ---
 
-### **PASSO 3: ViewModel** ⏱️ 1-2 horas
+### **PASSO 3: Componentes** ⏱️ 1-2 horas
 
 ```
-□ Criar viewmodels/[page]/use-[page].viewmodel.ts
+□ Organizar em components/features/[feature]/
+  - Criar pasta features/[feature]/ para componentes da feature
+  - Dialogs em features/[feature]/dialogs/
+  - Exemplo: features/members/invite-members-card.tsx
+  - Exemplo: features/members/dialogs/remove-member-dialog.tsx
 
-□ Importar hooks do Model
-  - useEntityQuery
-  - useCreateMutation
-  - useUpdateMutation
-  - useDeleteMutation
+□ Atualizar componentes existentes
+  - Trocar imports antigos por hooks da API
+  - Exemplo: useTeamMembers() → useMembersQuery()
+  - Importar types direto do schema
+  - Exemplo: import type { Member } from "@/api/schemas/member.schema"
 
-□ Criar estado local da view
-  - useState para modais (open/close)
-  - useState para item selecionado
-  - useState para filtros/busca
+□ Usar hooks da API diretamente nos componentes
+  - const mutation = useInviteMemberMutation();
+  - const { data, isLoading } = useMembersQuery();
 
-□ Criar computed values
-  - useMemo para dados processados
-  - Formatação, filtros, ordenação
+□ Atualizar traduções
+  - useTranslation("settings-members")
+  - t("modals.invite.title")
+  - t("errors.inviteInvalidEmail")
 
-□ Criar event handlers
-  - useCallback para actions
-  - handleOpen*, handleClose*, handleConfirm*
-  - Passar callbacks para mutations
-
-□ Retornar interface completa
-  - Data (do Model)
-  - State (modais, seleções)
-  - Actions (handlers)
-  - Loading states (isPending, isLoading)
+□ Simplificar lógica
+  - Componentes chamam hooks diretamente
+  - Sem camadas intermediárias (sem ViewModels)
+  - Lógica inline quando simples
 ```
 
 ---
 
-### **PASSO 4: View** ⏱️ 1-2 horas
-
-```
-□ Criar views/[page]/[Page].view.tsx
-
-□ Importar useFeatureTranslation
-  - const { t } = useFeatureTranslation("page", "component")
-
-□ Definir interface Props
-  - Data do ViewModel
-  - State do ViewModel
-  - Actions do ViewModel
-
-□ Implementar JSX
-  - Header com título e ações
-  - Conteúdo principal (table, cards, form)
-  - Empty states
-  - Loading states
-  - Error states
-
-□ Usar traduções granulares
-  - t("title"), t("subtitle")
-  - t("table.headers.name")
-  - t("actions.create")
-
-□ Adicionar modais (se necessário)
-  - Import de modais
-  - Passar props do ViewModel
-  - open, onOpenChange, onConfirm
-
-□ Sem lógica de negócio
-  - Não usar useState (exceto UI local trivial)
-  - Não usar queries/mutations
-  - Apenas renderizar props
-```
-
----
-
-### **PASSO 5: Conectar** ⏱️ 30 min
+### **PASSO 4: Conectar (Rota)** ⏱️ 30 min
 
 ```
 □ Atualizar routes/[page].tsx
 
-□ Import ViewModel
-  - import { usePageViewModel } from "@/viewmodels/[page]/use-[page].viewmodel"
+□ Usar hooks da API diretamente
+  - const { data: members, isLoading } = useMembersQuery();
+  - const inviteMutation = useInviteMemberMutation();
+  - Importar types direto do schema
 
-□ Import View
-  - import { PageView } from "@/views/[page]/[Page].view"
+□ Estado local (se necessário)
+  - useState para dialogs (open/close)
+  - useState para item selecionado
 
-□ Import Modals (se necessário)
-  - import { CreateModal, DeleteModal } from "@/components/modals/..."
+□ Renderizar componentes
+  - Importar de features/[feature]/
+  - Passar data/loading/actions via props
+  - Exemplo: <TeamMembersList members={members} onRemove={handleRemove} />
 
-□ Chamar ViewModel
-  - const viewModel = usePageViewModel()
-
-□ Renderizar Modals
-  - Antes da View
-  - Passar props do ViewModel
-
-□ Renderizar View
-  - <PageView {...viewModel} />
-  - Spread de todas as props
+□ Renderizar Dialogs
+  - Importar de features/[feature]/dialogs/
+  - Controlar via estado local
 ```
 
 ---
 
-### **PASSO 6: Testar** ⏱️ 30 min
+### **PASSO 5: Testar** ⏱️ 30 min
 
 ```
+□ TypeScript check
+  - pnpm typecheck
+  - Sem erros de tipo
+
 □ Executar dev server
   - pnpm dev
 
@@ -402,12 +369,6 @@ PRÉ-REQUISITOS
 □ Verificar sem regressões
   - Outras páginas continuam funcionando?
   - Não quebrou nada?
-
-□ Code review
-  - Código limpo?
-  - Sem console.logs?
-  - Sem código comentado?
-  - Seguiu convenções?
 ```
 
 ---
@@ -418,9 +379,11 @@ PRÉ-REQUISITOS
 CONCLUÍDO
 □ Página totalmente funcional
 □ Traduções completas (PT, EN, FR, ES)
-□ MVVM implementado corretamente
-□ Testes passando
-□ Code review aprovado
+□ API Layer implementado corretamente
+□ Components usando API diretamente
+□ Organização em features/[feature]/
+□ TypeScript sem erros
+□ Testes manuais OK
 □ Commit e push
 
 PRÓXIMA PÁGINA: _______________________________
@@ -434,9 +397,9 @@ PRÓXIMA PÁGINA: _______________________________
 
 | Tipo | Descrição | Tempo | Exemplos |
 |------|-----------|-------|----------|
-| **Simples** | Poucos campos, sem modais complexos | 3-4h | Login, General, Notifications |
-| **Média** | Lista com CRUD, 2-3 modais | 4-6h | Members, Chatbots List, Dashboard |
-| **Complexa** | Múltiplas views, muitos modais | 5-7h | Chatbot Detail, Plans, Knowledge Base |
+| **Simples** | Poucos campos, sem modais complexos | 2-3h | Login, General, Notifications |
+| **Média** | Lista com CRUD, 2-3 modais | 3-5h | Members, Chatbots List, Dashboard |
+| **Complexa** | Múltiplas views, muitos modais | 4-6h | Chatbot Detail, Plans, Knowledge Base |
 
 ---
 
@@ -444,43 +407,72 @@ PRÓXIMA PÁGINA: _______________________________
 
 | Semana | Páginas | Tempo Total | Dias Úteis |
 |--------|---------|-------------|------------|
-| **1** | Settings (4 páginas) | 13-18h | 2-3 dias |
-| **2** | Auth (4 páginas) | 10-13h | 2 dias |
-| **3** | Features (4 páginas) | 18-22h | 3-4 dias |
-| **4** | Complementares (3 páginas) | 12-15h | 2 dias |
-| **TOTAL** | **15 páginas** | **53-68h** | **9-11 dias** |
+| **1** | Settings (4 páginas) | 10-15h | 2 dias |
+| **2** | Auth (4 páginas) | 8-12h | 1-2 dias |
+| **3** | Features (4 páginas) | 15-20h | 3 dias |
+| **4** | Complementares (3 páginas) | 10-12h | 2 dias |
+| **TOTAL** | **15 páginas** | **43-59h** | **8-9 dias** |
 
 ---
 
-## 🎯 Próximos Passos
+## 🎯 Arquitetura Simplificada (Sem MVVM)
 
-### **Hoje: Implementar Members**
+### **Estrutura Final:**
 
-**Tempo estimado:** 4-6 horas
+```
+src/
+├── api/                                 # ✅ CAMADA API
+│   ├── schemas/
+│   │   └── [entity].schema.ts          # Zod schemas + types exportados direto
+│   ├── client/
+│   │   └── [entity].api.ts             # HTTP puro (axios)
+│   └── queries/[entity]/               # Tanstack Query hooks
+│       ├── use-[entity]-query.ts
+│       └── use-[action]-mutation.ts
+│
+├── components/                          # ✅ Componentes por feature
+│   ├── features/[feature]/
+│   │   ├── [component].tsx             # Usa hooks da API
+│   │   └── dialogs/                    # Dialogs da feature
+│   │       └── [dialog].tsx
+│   ├── ui/                              # shadcn/ui (não mexer)
+│   ├── shared/                          # Componentes reutilizáveis (futuramente)
+│   └── navigation/                      # Navegação (sidebar, etc)
+│
+├── locales/                             # ✅ Traduções granulares
+│   ├── pt/features/[section]/[page].json
+│   ├── en/features/[section]/[page].json
+│   ├── fr/features/[section]/[page].json
+│   └── es/features/[section]/[page].json
+│
+└── routes/                              # ✅ Rotas usam API
+    └── [page].tsx                      # Usa hooks da API diretamente
+```
 
-**Sequência:**
-1. ✅ Traduções (30-60min)
-2. ✅ Model (30-60min)
-3. ✅ ViewModel (1-2h)
-4. ✅ View (1-2h)
-5. ✅ Conectar (30min)
-6. ✅ Testar (30min)
+### **Exemplo de Uso:**
 
-**Resultado:** Página Members 100% completa como exemplo para as próximas.
+```typescript
+// components/features/members/invite-members-card.tsx
+import { useInviteMemberMutation } from "@/api/queries/member/use-invite-member-mutation";
 
----
+export function InviteMembersCard() {
+  const { t } = useTranslation("settings-members");
 
-### **Após Members:**
+  // ✅ Usa hook da API diretamente
+  const inviteMutation = useInviteMemberMutation();
 
-Seguir ordem de implementação:
-- General
-- Billing
-- Notifications
-- Login
-- Register
-- ...
+  const form = useForm({ ... });
 
-**Meta:** 1-2 páginas por dia, totalizando 15 páginas em 9-11 dias úteis.
+  const onSubmit = (values) => {
+    inviteMutation.mutate(values);
+  };
+
+  return <Card>...</Card>;
+}
+
+// api/queries/member/use-invite-member-mutation.ts
+import type { InviteMemberRequest } from "@/api/schemas/member.schema";
+```
 
 ---
 
@@ -491,14 +483,14 @@ Seguir ordem de implementação:
 ✅ **Foco total** - Uma página por vez, não pule etapas
 ✅ **Testar sempre** - Não acumule páginas sem testar
 ✅ **Commit frequente** - Commit após cada página completa
-✅ **Pedir review** - Se possível, code review após cada página
-✅ **Documentar bloqueios** - Se travar, documentar e pedir ajuda
+✅ **Model Layer forte** - Separação clara de responsabilidades
+✅ **Componentes simples** - Usam hooks do Model diretamente
 
 ### **Evitar:**
 
 ❌ Começar várias páginas ao mesmo tempo
 ❌ Pular testes
-❌ Deixar TODOs sem resolver
+❌ Criar camadas intermediárias desnecessárias (ViewModels)
 ❌ Copiar/colar sem adaptar
 ❌ Commitar código quebrado
 
@@ -506,12 +498,11 @@ Seguir ordem de implementação:
 
 ## 📚 Recursos de Apoio
 
-- **MVVM_MIGRATION.md** - Detalhes da arquitetura MVVM
-- **TRANSLATION_MIGRATION.md** - Detalhes das traduções granulares
 - **CLAUDE.md** - Convenções do projeto
+- **Member implementation** - Exemplo completo (src/models/, src/components/members/)
 
 ---
 
-**Implementação Gradual - Guia Global ✅**
+**Implementação Gradual - Arquitetura Simplificada ✅**
 
-**Começar agora:** Página Members (4-6h)
+**Próxima página:** General Settings (2-3h)

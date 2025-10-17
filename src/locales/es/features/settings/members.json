@@ -1,0 +1,97 @@
+{
+  "title": "Miembros",
+  "subtitle": "Administra los miembros de tu espacio de trabajo",
+  "loading": "Cargando miembros...",
+
+  "table": {
+    "headers": {
+      "user": "Usuario",
+      "email": "Email",
+      "role": "Rol",
+      "memberSince": "Miembro desde",
+      "actions": "Acciones"
+    }
+  },
+
+  "roles": {
+    "owner": "Propietario",
+    "admin": "Administrador",
+    "curator": "Curador",
+    "user": "Usuario"
+  },
+
+  "actions": {
+    "invite": "Invitar Miembros",
+    "changeRole": "Cambiar rol",
+    "viewProfile": "Ver perfil",
+    "remove": "Eliminar miembro",
+    "transferOwnership": "Transferir propiedad"
+  },
+
+  "modals": {
+    "invite": {
+      "title": "Invitar Miembros",
+      "description": "Envía invitaciones a nuevos miembros del espacio de trabajo",
+      "emailLabel": "Email",
+      "emailPlaceholder": "usuario@ejemplo.com",
+      "roleLabel": "Rol",
+      "rolePlaceholder": "Selecciona un rol",
+      "sendButton": "Enviar Invitación",
+      "cancelButton": "Cancelar",
+      "sending": "Enviando...",
+      "success": "Invitación enviada con éxito",
+      "error": "Error al enviar invitación"
+    },
+
+    "remove": {
+      "title": "¿Eliminar a {{name}}?",
+      "description": "Esta acción no se puede deshacer. El miembro será eliminado permanentemente del espacio de trabajo.",
+      "confirmButton": "Eliminar",
+      "cancelButton": "Cancelar",
+      "removing": "Eliminando...",
+      "success": "Miembro eliminado con éxito",
+      "error": "Error al eliminar miembro"
+    },
+
+    "changeRole": {
+      "title": "Cambiar Rol",
+      "description": "Cambiar el rol de {{name}}",
+      "selectRole": "Seleccionar nuevo rol",
+      "confirmButton": "Cambiar",
+      "cancelButton": "Cancelar",
+      "changing": "Cambiando...",
+      "success": "Rol cambiado con éxito",
+      "error": "Error al cambiar rol"
+    },
+
+    "transferOwnership": {
+      "title": "Transferir Propiedad",
+      "description": "Transferir la propiedad del espacio de trabajo a {{name}}",
+      "warning": "Perderás el acceso como propietario. Esta acción no se puede deshacer.",
+      "confirmButton": "Transferir Propiedad",
+      "cancelButton": "Cancelar",
+      "transferring": "Transfiriendo...",
+      "success": "Propiedad transferida con éxito",
+      "error": "Error al transferir propiedad"
+    }
+  },
+
+  "empty": {
+    "title": "No se encontraron miembros",
+    "description": "Comienza invitando miembros a tu espacio de trabajo",
+    "action": "Invitar Primer Miembro"
+  },
+
+  "errors": {
+    "loadFailed": "Error al cargar miembros",
+    "inviteRequired": "El email es obligatorio",
+    "inviteInvalidEmail": "Email inválido",
+    "roleRequired": "El rol es obligatorio",
+    "memberNotFound": "Miembro no encontrado",
+    "cannotRemoveOwner": "No se puede eliminar al propietario",
+    "cannotChangeOwnRole": "No puedes cambiar tu propio rol",
+    "insufficientPermissions": "Permisos insuficientes",
+    "alreadyMember": "Este usuario ya es miembro del espacio de trabajo",
+    "networkError": "Error de conexión. Inténtalo de nuevo."
+  }
+}

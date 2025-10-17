@@ -1,29 +1,27 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { InviteMembersCard } from "@/components/members/invite-members-card";
-import { MembersSkeleton } from "@/components/members/members-skeleton";
-import { PendingInvitationsList } from "@/components/members/pending-invitations-list";
-import { TeamMembersList } from "@/components/members/team-members-list";
-import { RemoveMemberModal } from "@/components/modals/remove-member-modal";
+import { useMembersQuery } from "@/api/queries/member/use-members-query";
+import type { Member } from "@/api/schemas/member.schema";
+import { RemoveMemberModal } from "@/components/features/members/dialogs/remove-member-modal";
+import { InviteMembersCard } from "@/components/features/members/invite-members-card";
+import { MembersSkeleton } from "@/components/features/members/members-skeleton";
+import { PendingInvitationsList } from "@/components/features/members/pending-invitations-list";
+import { TeamMembersList } from "@/components/features/members/team-members-list";
 import { useInvitations } from "@/hooks/use-invitations";
-import { useCurrentUserRole, useTeamMembers } from "@/hooks/use-team-members";
+import { useCurrentUserRole } from "@/hooks/use-team-members";
 
 export const Route = createFileRoute("/_authenticated/dashboard/_layout/settings/members")({
   component: MembersPage,
 });
 
 function MembersPage() {
-  const { t } = useTranslation("settings");
+  const { t } = useTranslation("settings-members");
   const navigate = useNavigate();
-  const [memberToRemove, setMemberToRemove] = useState<{
-    id: string;
-    name: string;
-    email: string;
-  } | null>(null);
+  const [memberToRemove, setMemberToRemove] = useState<Member | null>(null);
 
-  // Fetch data
-  const { data: members, isLoading: membersLoading } = useTeamMembers();
+  // ✅ Usa hooks do Model diretamente
+  const { data: members, isLoading: membersLoading } = useMembersQuery();
   const { data: invitations } = useInvitations();
   const { canManageTeam, role: currentUserRole, isLoading: roleLoading } = useCurrentUserRole();
 
@@ -43,7 +41,7 @@ function MembersPage() {
     <div className="max-w-4xl mx-auto space-y-8 pt-4 md:pt-8 px-4 md:px-6 pb-8">
       {/* Header */}
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-semibold text-foreground">{t("members.title")}</h1>
+        <h1 className="text-2xl font-semibold text-foreground">{t("title")}</h1>
       </div>
 
       {/* Invite Members - Only visible for owners/admins */}
@@ -71,7 +69,7 @@ function MembersPage() {
             }
           }}
           memberId={memberToRemove.id}
-          memberName={memberToRemove.name}
+          memberName={memberToRemove.name || memberToRemove.email}
           memberEmail={memberToRemove.email}
         />
       )}

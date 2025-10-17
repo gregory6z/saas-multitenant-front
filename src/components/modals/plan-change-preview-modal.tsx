@@ -138,7 +138,9 @@ export function PlanChangePreviewModal({
 
             <div className="flex justify-between">
               <span className="font-semibold">{t("plans.preview.nextInvoice")}</span>
-              <span className="font-bold text-lg">{formatPrice(proration.nextInvoiceAmount, "eur")}</span>
+              <span className="font-bold text-lg">
+                {formatPrice(proration.nextInvoiceAmount, "eur")}
+              </span>
             </div>
 
             <div className="flex items-start gap-2 p-3 rounded-md bg-muted/50 text-xs text-muted-foreground">

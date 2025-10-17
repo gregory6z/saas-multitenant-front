@@ -1,0 +1,97 @@
+{
+  "title": "Membres",
+  "subtitle": "Gérez les membres de votre espace de travail",
+  "loading": "Chargement des membres...",
+
+  "table": {
+    "headers": {
+      "user": "Utilisateur",
+      "email": "Email",
+      "role": "Rôle",
+      "memberSince": "Membre depuis",
+      "actions": "Actions"
+    }
+  },
+
+  "roles": {
+    "owner": "Propriétaire",
+    "admin": "Administrateur",
+    "curator": "Curateur",
+    "user": "Utilisateur"
+  },
+
+  "actions": {
+    "invite": "Inviter des Membres",
+    "changeRole": "Changer le rôle",
+    "viewProfile": "Voir le profil",
+    "remove": "Retirer le membre",
+    "transferOwnership": "Transférer la propriété"
+  },
+
+  "modals": {
+    "invite": {
+      "title": "Inviter des Membres",
+      "description": "Envoyer des invitations aux nouveaux membres",
+      "emailLabel": "Email",
+      "emailPlaceholder": "utilisateur@exemple.com",
+      "roleLabel": "Rôle",
+      "rolePlaceholder": "Sélectionner un rôle",
+      "sendButton": "Envoyer l'Invitation",
+      "cancelButton": "Annuler",
+      "sending": "Envoi en cours...",
+      "success": "Invitation envoyée avec succès",
+      "error": "Erreur lors de l'envoi de l'invitation"
+    },
+
+    "remove": {
+      "title": "Retirer {{name}}?",
+      "description": "Cette action ne peut pas être annulée. Le membre sera définitivement retiré de l'espace de travail.",
+      "confirmButton": "Retirer",
+      "cancelButton": "Annuler",
+      "removing": "Retrait en cours...",
+      "success": "Membre retiré avec succès",
+      "error": "Erreur lors du retrait du membre"
+    },
+
+    "changeRole": {
+      "title": "Changer le Rôle",
+      "description": "Changer le rôle de {{name}}",
+      "selectRole": "Sélectionner un nouveau rôle",
+      "confirmButton": "Changer",
+      "cancelButton": "Annuler",
+      "changing": "Changement en cours...",
+      "success": "Rôle modifié avec succès",
+      "error": "Erreur lors du changement de rôle"
+    },
+
+    "transferOwnership": {
+      "title": "Transférer la Propriété",
+      "description": "Transférer la propriété de l'espace de travail à {{name}}",
+      "warning": "Vous perdrez l'accès propriétaire. Cette action ne peut pas être annulée.",
+      "confirmButton": "Transférer la Propriété",
+      "cancelButton": "Annuler",
+      "transferring": "Transfert en cours...",
+      "success": "Propriété transférée avec succès",
+      "error": "Erreur lors du transfert de propriété"
+    }
+  },
+
+  "empty": {
+    "title": "Aucun membre trouvé",
+    "description": "Commencez par inviter des membres à votre espace de travail",
+    "action": "Inviter le Premier Membre"
+  },
+
+  "errors": {
+    "loadFailed": "Erreur lors du chargement des membres",
+    "inviteRequired": "L'email est requis",
+    "inviteInvalidEmail": "Email invalide",
+    "roleRequired": "Le rôle est requis",
+    "memberNotFound": "Membre non trouvé",
+    "cannotRemoveOwner": "Impossible de retirer le propriétaire",
+    "cannotChangeOwnRole": "Impossible de changer votre propre rôle",
+    "insufficientPermissions": "Permissions insuffisantes",
+    "alreadyMember": "Cet utilisateur est déjà membre de l'espace de travail",
+    "networkError": "Erreur de connexion. Veuillez réessayer."
+  }
+}

@@ -1,5 +1,6 @@
 import { MoreHorizontal, Shield, Trash2 } from "lucide-react";
 import { useTranslation } from "react-i18next";
+import type { Member } from "@/api/schemas/member.schema";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -9,13 +10,12 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import type { TeamMember } from "@/hooks/use-team-members";
 
 interface MemberActionsDropdownProps {
-  member: TeamMember;
+  member: Member;
   currentUserRole: string | null;
   onUpdateRole: (data: { userId: string; role: "admin" | "curator" | "user" }) => void;
-  onRemove: (member: { id: string; name: string; email: string }) => void;
+  onRemove: (member: Member) => void;
   isUpdating?: boolean;
 }
 
@@ -26,7 +26,7 @@ export function MemberActionsDropdown({
   onRemove,
   isUpdating = false,
 }: MemberActionsDropdownProps) {
-  const { t } = useTranslation("settings");
+  const { t } = useTranslation("settings-members");
 
   const handleUpdateRole = (role: "admin" | "curator" | "user") => {
     onUpdateRole({ userId: member.id, role });
@@ -48,21 +48,21 @@ export function MemberActionsDropdown({
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
-        <DropdownMenuLabel>{t("members.memberActions")}</DropdownMenuLabel>
+        <DropdownMenuLabel>{t("actions.changeRole")}</DropdownMenuLabel>
         <DropdownMenuSeparator />
 
         {/* Change Role - Only for owners, or admins managing non-admins */}
         {canChangeRole && (
           <>
             <DropdownMenuLabel className="text-xs font-normal text-muted-foreground">
-              {t("members.changeRole")}
+              {t("actions.changeRole")}
             </DropdownMenuLabel>
 
             {/* Promote to Admin */}
             {member.role !== "admin" && (
               <DropdownMenuItem onClick={() => handleUpdateRole("admin")} disabled={isUpdating}>
                 <Shield className="w-4 h-4" />
-                {t("members.promoteToAdmin")}
+                {t("actions.promoteToAdmin")}
               </DropdownMenuItem>
             )}
 
@@ -70,7 +70,7 @@ export function MemberActionsDropdown({
             {currentUserRole === "owner" && member.role === "admin" && (
               <DropdownMenuItem onClick={() => handleUpdateRole("curator")} disabled={isUpdating}>
                 <Shield className="w-4 h-4" />
-                {t("members.demoteToCurator")}
+                {t("actions.demoteToCurator")}
               </DropdownMenuItem>
             )}
 
@@ -80,7 +80,7 @@ export function MemberActionsDropdown({
               member.role !== "admin" && (
                 <DropdownMenuItem onClick={() => handleUpdateRole("curator")} disabled={isUpdating}>
                   <Shield className="w-4 h-4" />
-                  {t("members.changeToCurator")}
+                  {t("actions.changeToCurator")}
                 </DropdownMenuItem>
               )}
 
@@ -88,7 +88,7 @@ export function MemberActionsDropdown({
             {currentUserRole === "owner" && member.role !== "user" && (
               <DropdownMenuItem onClick={() => handleUpdateRole("user")} disabled={isUpdating}>
                 <Shield className="w-4 h-4" />
-                {t("members.changeToUser")}
+                {t("actions.changeToUser")}
               </DropdownMenuItem>
             )}
 
@@ -98,17 +98,11 @@ export function MemberActionsDropdown({
 
         {/* Remove Member */}
         <DropdownMenuItem
-          onClick={() => {
-            onRemove({
-              id: member.id,
-              name: member.name,
-              email: member.email,
-            });
-          }}
+          onClick={() => onRemove(member)}
           className="text-destructive focus:text-destructive"
         >
           <Trash2 className="w-4 h-4" />
-          {t("members.removeMember")}
+          {t("actions.remove")}
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
