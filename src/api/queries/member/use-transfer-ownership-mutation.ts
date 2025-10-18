@@ -1,4 +1,5 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
 import { transferOwnership } from "@/api/client/member.api";
 import type {
@@ -16,6 +17,7 @@ import { useCurrentTenantId } from "@/hooks/use-current-tenant";
  * POST /tenants/transfer-ownership
  */
 export function useTransferOwnershipMutation() {
+  const { t } = useTranslation("settings-members");
   const queryClient = useQueryClient();
   const tenantId = useCurrentTenantId();
 
@@ -27,7 +29,7 @@ export function useTransferOwnershipMutation() {
     },
 
     onSuccess: () => {
-      toast.success("Propriedade transferida com sucesso");
+      toast.success(t("success.ownershipTransferred"));
 
       // Invalidate members to refetch with new roles
       queryClient.invalidateQueries({
@@ -44,13 +46,13 @@ export function useTransferOwnershipMutation() {
       const status = error.response?.status;
 
       if (status === 403) {
-        toast.error("Apenas o proprietário pode transferir a propriedade");
+        toast.error(t("errors.transferOwnershipPermissionDenied"));
       } else if (status === 404) {
-        toast.error("Membro não encontrado");
+        toast.error(t("errors.memberNotFound"));
       } else if (status === 400) {
-        toast.error("Não é possível transferir para este membro");
+        toast.error(t("errors.transferOwnershipInvalidMember"));
       } else {
-        toast.error(error.message || "Erro ao transferir propriedade");
+        toast.error(error.message || t("errors.transferOwnershipFailed"));
       }
     },
 

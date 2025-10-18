@@ -4,9 +4,11 @@ import { Building2, Check, Info, Trash2 } from "lucide-react";
 import * as React from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import { TransferOwnershipCard } from "@/components/features/members/transfer-ownership-card";
-import { DeleteTenantModal } from "@/components/modals/delete-tenant-modal";
-import { TransferOwnershipModal } from "@/components/modals/transfer-ownership-modal";
+import { useUpdateTenantMutation } from "@/api/queries/tenant";
+import { type UpdateTenantRequest, UpdateTenantRequestSchema } from "@/api/schemas/tenant.schema";
+import { DeleteTenantDialog } from "@/components/features/settings/general/dialogs/delete-tenant-dialog";
+import { TransferOwnershipCard } from "@/components/features/settings/members/transfer-ownership-card";
+import { TransferOwnershipDialog } from "@/components/features/settings/general/dialogs/transfer-ownership-dialog";
 import { GeneralPageSkeleton } from "@/components/skeletons/general-page-skeleton";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -22,11 +24,6 @@ import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { useCurrentTenant } from "@/hooks/use-current-tenant";
 import { useCurrentUserRole, useTeamMembers } from "@/hooks/use-team-members";
-import {
-  type UpdateTenantRequest,
-  UpdateTenantRequestSchema,
-  useTenants,
-} from "@/hooks/use-tenants";
 import { getDisplayDomain } from "@/lib/env";
 
 type UpdateTenantFormData = UpdateTenantRequest;
@@ -36,9 +33,12 @@ export const Route = createFileRoute("/_authenticated/dashboard/_layout/settings
 });
 
 function GeneralPage() {
-  const { t } = useTranslation("settings");
+  const { t } = useTranslation("settings-general");
   const { currentTenant, isLoading: tenantLoading } = useCurrentTenant();
-  const { updateTenant, deleteTenant } = useTenants();
+
+  // ✅ Usa hooks da API diretamente
+  const updateTenant = useUpdateTenantMutation();
+
   const { data: members } = useTeamMembers();
   const { role: currentUserRole } = useCurrentUserRole();
   const [isDeleteModalOpen, setIsDeleteModalOpen] = React.useState(false);
@@ -84,13 +84,9 @@ function GeneralPage() {
    */
   const onSubmit = React.useCallback(
     (data: UpdateTenantFormData) => {
-      if (!currentTenant?.id) {
-        console.error("No tenant ID available for update");
-        return;
-      }
-      updateTenant.mutate({ id: currentTenant.id, data });
+      updateTenant.mutate(data);
     },
-    [currentTenant?.id, updateTenant]
+    [updateTenant]
   );
 
   /**
@@ -136,7 +132,7 @@ function GeneralPage() {
     <div className="max-w-4xl mx-auto space-y-8 pt-4 md:pt-8 px-4 md:px-6 pb-8">
       {/* Header */}
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-semibold text-foreground">{t("general.title")}</h1>
+        <h1 className="text-2xl font-semibold text-foreground">{t("title")}</h1>
       </div>
 
       {/* Workspace Details */}
@@ -144,7 +140,7 @@ function GeneralPage() {
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <Building2 className="w-5 h-5" />
-            {t("general.organizationDetails")}
+            {t("organizationDetails")}
           </CardTitle>
         </CardHeader>
         <CardContent>
@@ -155,9 +151,9 @@ function GeneralPage() {
                 name="name"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>{t("general.organizationName")}</FormLabel>
+                    <FormLabel>{t("organizationName")}</FormLabel>
                     <FormControl>
-                      <Input placeholder={t("general.organizationNamePlaceholder")} {...field} />
+                      <Input placeholder={t("organizationNamePlaceholder")} {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -169,11 +165,11 @@ function GeneralPage() {
                 name="subdomain"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>{t("general.subdomain")}</FormLabel>
+                    <FormLabel>{t("subdomain")}</FormLabel>
                     <FormControl>
                       <div className="flex items-stretch">
                         <Input
-                          placeholder={t("general.subdomainPlaceholder")}
+                          placeholder={t("subdomainPlaceholder")}
                           {...field}
                           onChange={(e) => handleSubdomainChange(e.target.value)}
                           className="rounded-r-none"
@@ -185,7 +181,7 @@ function GeneralPage() {
                     </FormControl>
                     <div className="flex items-center gap-2 text-sm text-muted-foreground">
                       <Info className="w-4 h-4" />
-                      <span>{t("general.subdomainWarning")}</span>
+                      <span>{t("subdomainWarning")}</span>
                     </div>
                     <FormMessage />
                   </FormItem>
@@ -195,7 +191,7 @@ function GeneralPage() {
               <div className="flex justify-end">
                 <Button type="submit" disabled={!hasChanges} loading={updateTenant.isPending}>
                   <Check className="w-4 h-4" />
-                  {t("general.saveChanges")}
+                  {t("saveChanges")}
                 </Button>
               </div>
             </form>
@@ -207,7 +203,7 @@ function GeneralPage() {
       <div className="space-y-6">
         <div className="flex items-center">
           <Separator className="flex-1" />
-          <span className="px-6 text-red-600 text-sm font-medium">{t("general.dangerZone")}</span>
+          <span className="px-6 text-red-600 text-sm font-medium">{t("dangerZone")}</span>
           <Separator className="flex-1" />
         </div>
 
@@ -224,39 +220,37 @@ function GeneralPage() {
           <CardHeader>
             <CardTitle className="flex items-center gap-2 text-red-900">
               <Trash2 className="w-5 h-5" />
-              {t("general.deleteOrganization")}
+              {t("deleteOrganization")}
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="space-y-2 text-sm text-muted-foreground">
-              <p>{t("general.deleteWarning1")}</p>
-              <p>{t("general.deleteWarning2")}</p>
+              <p>{t("deleteWarning1")}</p>
+              <p>{t("deleteWarning2")}</p>
             </div>
 
             <div className="flex justify-end">
               <Button variant="destructive" onClick={() => setIsDeleteModalOpen(true)}>
                 <Trash2 className="w-4 h-4" />
-                {t("general.deleteOrganization")}
+                {t("deleteOrganization")}
               </Button>
             </div>
           </CardContent>
         </Card>
       </div>
 
-      {/* Delete Tenant Modal */}
+      {/* Delete Tenant Dialog */}
       {currentTenant && (
-        <DeleteTenantModal
+        <DeleteTenantDialog
           open={isDeleteModalOpen}
           onOpenChange={setIsDeleteModalOpen}
           tenantName={currentTenant.name}
-          onConfirm={() => deleteTenant.mutate()}
-          isDeleting={deleteTenant.isPending}
         />
       )}
 
-      {/* Transfer Ownership Modal */}
+      {/* Transfer Ownership Dialog */}
       {transferTarget && (
-        <TransferOwnershipModal
+        <TransferOwnershipDialog
           open={!!transferTarget}
           onOpenChange={handleCloseTransferModal}
           newOwnerId={transferTarget.id}

@@ -1,6 +1,6 @@
 import { Trash2, X } from "lucide-react";
 import { useTranslation } from "react-i18next";
-
+import { useRemoveMemberMutation } from "@/api/queries/member";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -11,7 +11,6 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
-import { useRemoveMember } from "@/hooks/use-team-members";
 
 interface RemoveMemberModalProps {
   open: boolean;
@@ -28,8 +27,10 @@ export function RemoveMemberModal({
   memberName,
   memberEmail,
 }: RemoveMemberModalProps) {
-  const { t } = useTranslation("settings");
-  const removeMember = useRemoveMember();
+  const { t } = useTranslation("settings-members");
+
+  // ✅ Usa novo hook da API
+  const removeMember = useRemoveMemberMutation();
 
   const handleRemove = () => {
     removeMember.mutate(memberId, {
@@ -44,26 +45,18 @@ export function RemoveMemberModal({
       <AlertDialogContent className="max-w-md">
         <AlertDialogHeader className="space-y-4">
           <AlertDialogTitle className="text-xl">
-            {t("members.removeMemberModal.title")}
+            {t("modals.remove.title", { name: memberName })}
           </AlertDialogTitle>
           <AlertDialogDescription className="space-y-5 pt-2">
             <div className="rounded-lg border border-red-200 bg-red-50 p-4">
               <p className="text-sm text-red-900 leading-relaxed">
-                {t("members.removeMemberModal.confirmationQuestion")}{" "}
-                <span className="font-semibold">{memberName}</span>{" "}
-                {t("members.removeMemberModal.fromTeam")}
+                {t("modals.remove.description")}
               </p>
             </div>
 
             <div className="space-y-3">
               <p className="text-sm text-muted-foreground">
-                <span className="font-medium text-foreground">
-                  {t("members.removeMemberModal.email")}
-                </span>{" "}
-                {memberEmail}
-              </p>
-              <p className="text-sm text-muted-foreground leading-relaxed">
-                {t("members.removeMemberModal.consequences")}
+                <span className="font-medium text-foreground">Email:</span> {memberEmail}
               </p>
             </div>
           </AlertDialogDescription>
@@ -71,7 +64,7 @@ export function RemoveMemberModal({
         <AlertDialogFooter className="mt-6">
           <AlertDialogCancel disabled={removeMember.isPending}>
             <X className="w-4 h-4" />
-            {t("members.removeMemberModal.cancel")}
+            {t("modals.remove.cancelButton")}
           </AlertDialogCancel>
           <AlertDialogAction
             onClick={(e) => {
@@ -84,7 +77,9 @@ export function RemoveMemberModal({
             className="bg-red-600 hover:bg-red-700 focus:ring-red-600"
           >
             <Trash2 className="w-4 h-4" />
-            {t("members.removeMemberModal.remove")}
+            {removeMember.isPending
+              ? t("modals.remove.removing")
+              : t("modals.remove.confirmButton")}
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>

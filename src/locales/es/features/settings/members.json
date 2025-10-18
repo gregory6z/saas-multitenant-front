@@ -92,6 +92,22 @@
     "cannotChangeOwnRole": "No puedes cambiar tu propio rol",
     "insufficientPermissions": "Permisos insuficientes",
     "alreadyMember": "Este usuario ya es miembro del espacio de trabajo",
-    "networkError": "Error de conexión. Inténtalo de nuevo."
+    "networkError": "Error de conexión. Inténtalo de nuevo.",
+    "removePermissionDenied": "No tienes permiso para eliminar este miembro",
+    "removeFailed": "Error al eliminar miembro",
+    "changeRolePermissionDenied": "No tienes permiso para cambiar roles de miembros",
+    "changeRoleFailed": "Error al cambiar el rol del miembro",
+    "transferOwnershipPermissionDenied": "Solo el propietario puede transferir la propiedad",
+    "transferOwnershipInvalidMember": "No se puede transferir a este miembro",
+    "transferOwnershipFailed": "Error al transferir propiedad",
+    "revokeFailed": "Error al revocar invitación",
+    "resendFailed": "Error al reenviar invitación"
+  },
+  "success": {
+    "memberRemoved": "Miembro eliminado con éxito",
+    "roleChanged": "Rol cambiado con éxito",
+    "ownershipTransferred": "Propiedad transferida con éxito",
+    "invitationRevoked": "Invitación revocada con éxito",
+    "invitationResent": "Invitación reenviada con éxito"
   }
 }

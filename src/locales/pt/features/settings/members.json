@@ -96,6 +96,22 @@
     "cannotChangeOwnRole": "Não é possível alterar sua própria função",
     "insufficientPermissions": "Permissões insuficientes",
     "alreadyMember": "Este usuário já é membro do workspace",
-    "networkError": "Erro de conexão. Tente novamente."
+    "networkError": "Erro de conexão. Tente novamente.",
+    "removePermissionDenied": "Você não tem permissão para remover este membro",
+    "removeFailed": "Erro ao remover membro",
+    "changeRolePermissionDenied": "Você não tem permissão para alterar funções de membros",
+    "changeRoleFailed": "Erro ao alterar função do membro",
+    "transferOwnershipPermissionDenied": "Apenas o proprietário pode transferir a propriedade",
+    "transferOwnershipInvalidMember": "Não é possível transferir para este membro",
+    "transferOwnershipFailed": "Erro ao transferir propriedade",
+    "revokeFailed": "Erro ao revogar convite",
+    "resendFailed": "Erro ao reenviar convite"
+  },
+  "success": {
+    "memberRemoved": "Membro removido com sucesso",
+    "roleChanged": "Função alterada com sucesso",
+    "ownershipTransferred": "Propriedade transferida com sucesso",
+    "invitationRevoked": "Convite revogado com sucesso",
+    "invitationResent": "Convite reenviado com sucesso"
   }
 }

@@ -1,14 +1,13 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useMembersQuery } from "@/api/queries/member/use-members-query";
+import { useInvitationsQuery, useMembersQuery } from "@/api/queries/member";
 import type { Member } from "@/api/schemas/member.schema";
-import { RemoveMemberModal } from "@/components/features/members/dialogs/remove-member-modal";
-import { InviteMembersCard } from "@/components/features/members/invite-members-card";
-import { MembersSkeleton } from "@/components/features/members/members-skeleton";
-import { PendingInvitationsList } from "@/components/features/members/pending-invitations-list";
-import { TeamMembersList } from "@/components/features/members/team-members-list";
-import { useInvitations } from "@/hooks/use-invitations";
+import { RemoveMemberModal } from "@/components/features/settings/members/dialogs/remove-member-modal";
+import { InviteMembersCard } from "@/components/features/settings/members/invite-members-card";
+import { MembersSkeleton } from "@/components/features/settings/members/members-skeleton";
+import { PendingInvitationsList } from "@/components/features/settings/members/pending-invitations-list";
+import { TeamMembersList } from "@/components/features/settings/members/team-members-list";
 import { useCurrentUserRole } from "@/hooks/use-team-members";
 
 export const Route = createFileRoute("/_authenticated/dashboard/_layout/settings/members")({
@@ -20,9 +19,9 @@ function MembersPage() {
   const navigate = useNavigate();
   const [memberToRemove, setMemberToRemove] = useState<Member | null>(null);
 
-  // ✅ Usa hooks do Model diretamente
+  // ✅ Usa novos hooks da API
   const { data: members, isLoading: membersLoading } = useMembersQuery();
-  const { data: invitations } = useInvitations();
+  const { data: invitations } = useInvitationsQuery();
   const { canManageTeam, role: currentUserRole, isLoading: roleLoading } = useCurrentUserRole();
 
   // Redirect if user doesn't have permission

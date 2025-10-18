@@ -1,10 +1,10 @@
 import { Users } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
-import { useChangeMemberRoleMutation } from "@/api/queries/member/use-change-role-mutation";
+import { useChangeMemberRoleMutation } from "@/api/queries/member";
 import type { Member } from "@/api/schemas/member.schema";
-import { MemberActionsDropdown } from "@/components/features/members/member-actions-dropdown";
-import { MembersListSkeleton } from "@/components/features/members/members-skeleton";
+import { MemberActionsDropdown } from "@/components/features/settings/members/member-actions-dropdown";
+import { MembersListSkeleton } from "@/components/features/settings/members/members-skeleton";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";

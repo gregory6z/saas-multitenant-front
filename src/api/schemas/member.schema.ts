@@ -54,6 +54,41 @@ export const TransferOwnershipResponseSchema = z.object({
   message: z.string(),
 });
 
+/**
+ * Invitation Schema - Convite pendente para um membro
+ */
+export const InvitationSchema = z.object({
+  id: z.string(),
+  email: z.string().email(),
+  role: z.enum(["owner", "admin", "curator", "user"]),
+  status: z.enum(["pending", "accepted", "revoked", "expired"]),
+  createdAt: z.string(),
+  expiresAt: z.string().optional(),
+  acceptedAt: z.string().nullable().optional(),
+});
+
+/**
+ * Invitations Response Schema - Lista de convites
+ */
+export const InvitationsResponseSchema = z.object({
+  invitations: z.array(InvitationSchema),
+});
+
+/**
+ * Send Invitation Request Schema - Dados para enviar convite
+ */
+export const SendInvitationRequestSchema = z.object({
+  email: z.string().email("Email inválido"),
+  role: z.enum(["owner", "admin", "curator", "user"]).default("user"),
+});
+
+/**
+ * Send Invitation Response Schema - Resposta após enviar convite
+ */
+export const SendInvitationResponseSchema = z.object({
+  invitation: InvitationSchema,
+});
+
 // Export types
 export type Member = z.infer<typeof MemberSchema>;
 export type MembersResponse = z.infer<typeof MembersResponseSchema>;
@@ -62,3 +97,7 @@ export type InviteMemberResponse = z.infer<typeof InviteMemberResponseSchema>;
 export type UpdateMemberRoleRequest = z.infer<typeof UpdateMemberRoleRequestSchema>;
 export type TransferOwnershipRequest = z.infer<typeof TransferOwnershipRequestSchema>;
 export type TransferOwnershipResponse = z.infer<typeof TransferOwnershipResponseSchema>;
+export type Invitation = z.infer<typeof InvitationSchema>;
+export type InvitationsResponse = z.infer<typeof InvitationsResponseSchema>;
+export type SendInvitationRequest = z.infer<typeof SendInvitationRequestSchema>;
+export type SendInvitationResponse = z.infer<typeof SendInvitationResponseSchema>;

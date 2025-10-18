@@ -49,9 +49,7 @@ export function TransferOwnershipCard({
       <CardContent className="space-y-4">
         <Alert className="border-amber-300 bg-amber-100/50 text-amber-950">
           <AlertTriangle className="h-4 w-4 text-amber-600" />
-          <AlertTitle className="text-amber-900">
-            {t("modals.transferOwnership.title")}
-          </AlertTitle>
+          <AlertTitle className="text-amber-900">{t("modals.transferOwnership.title")}</AlertTitle>
           <AlertDescription className="text-amber-800">
             {t("modals.transferOwnership.warning")}
           </AlertDescription>

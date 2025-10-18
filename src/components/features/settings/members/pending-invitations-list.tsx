@@ -1,49 +1,38 @@
 import { Mail, RotateCw, X } from "lucide-react";
 import { useTranslation } from "react-i18next";
-import { toast } from "sonner";
+import { useResendInvitationMutation, useRevokeInvitationMutation } from "@/api/queries/member";
+import type { Invitation } from "@/api/schemas/member.schema";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { useResendInvitation, useRevokeInvitation } from "@/hooks/use-invitations";
-
-interface Invitation {
-  id: string;
-  email: string;
-  role: string;
-  status: string;
-}
 
 interface PendingInvitationsListProps {
   invitations: Invitation[];
 }
 
 export function PendingInvitationsList({ invitations }: PendingInvitationsListProps) {
-  const { t } = useTranslation("settings");
-  const resendInvitation = useResendInvitation();
-  const revokeInvitation = useRevokeInvitation();
+  const { t } = useTranslation("settings-members");
+
+  // ✅ Usa novos hooks da API
+  const resendInvitation = useResendInvitationMutation();
+  const revokeInvitation = useRevokeInvitationMutation();
 
   const pendingInvitations = invitations.filter((inv) => inv.status === "pending");
 
   const handleResendInvitation = (id: string) => {
-    resendInvitation.mutate(id, {
-      onSuccess: () => toast.success(t("members.resendSuccess")),
-      onError: () => toast.error(t("members.resendError")),
-    });
+    resendInvitation.mutate(id);
   };
 
   const handleRevokeInvitation = (id: string) => {
-    revokeInvitation.mutate(id, {
-      onSuccess: () => toast.success(t("members.revokeSuccess")),
-      onError: () => toast.error(t("members.revokeError")),
-    });
+    revokeInvitation.mutate(id);
   };
 
   const getRoleLabel = (role: string) => {
-    return t(`members.roles.${role}` as `members.roles.${string}`);
+    return t(`roles.${role}` as const);
   };
 
   const getStatusLabel = (status: string) => {
-    return t(`members.invitationStatus.${status}` as `members.invitationStatus.${string}`);
+    return status === "pending" ? t("modals.invite.sending") : status;
   };
 
   if (pendingInvitations.length === 0) {
@@ -55,7 +44,7 @@ export function PendingInvitationsList({ invitations }: PendingInvitationsListPr
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
           <Mail className="w-5 h-5" />
-          {t("members.pendingInvitations")} ({pendingInvitations.length})
+          Convites Pendentes ({pendingInvitations.length})
         </CardTitle>
       </CardHeader>
       <CardContent>
@@ -68,7 +57,7 @@ export function PendingInvitationsList({ invitations }: PendingInvitationsListPr
               <div>
                 <p className="font-medium">{invitation.email}</p>
                 <p className="text-sm text-muted-foreground">
-                  {t("members.role")}: {getRoleLabel(invitation.role)}
+                  Função: {getRoleLabel(invitation.role)}
                 </p>
               </div>
               <div className="flex items-center gap-2">
@@ -78,7 +67,7 @@ export function PendingInvitationsList({ invitations }: PendingInvitationsListPr
                   size="sm"
                   onClick={() => handleResendInvitation(invitation.id)}
                   disabled={resendInvitation.isPending}
-                  title={t("members.resendInvitation")}
+                  title="Reenviar convite"
                 >
                   <RotateCw className="w-4 h-4" />
                 </Button>
@@ -87,7 +76,7 @@ export function PendingInvitationsList({ invitations }: PendingInvitationsListPr
                   size="sm"
                   onClick={() => handleRevokeInvitation(invitation.id)}
                   disabled={revokeInvitation.isPending}
-                  title={t("members.revokeInvitation")}
+                  title="Revogar convite"
                   className="hover:bg-red-50"
                 >
                   <X className="w-4 h-4 text-destructive" />

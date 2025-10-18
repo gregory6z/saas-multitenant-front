@@ -1,4 +1,5 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
 import { removeMember } from "@/api/client/member.api";
 import type { Member } from "@/api/schemas/member.schema";
@@ -13,6 +14,7 @@ type RemoveMemberContext = {
  * DELETE /tenants/users/:userId
  */
 export function useRemoveMemberMutation() {
+  const { t } = useTranslation("settings-members");
   const queryClient = useQueryClient();
   const tenantId = useCurrentTenantId();
 
@@ -48,18 +50,18 @@ export function useRemoveMemberMutation() {
       const status = (error as Error & { response?: { status: number } }).response?.status;
 
       if (status === 403) {
-        toast.error("Você não tem permissão para remover este membro");
+        toast.error(t("errors.removePermissionDenied"));
       } else if (status === 404) {
-        toast.error("Membro não encontrado");
+        toast.error(t("errors.memberNotFound"));
       } else if (status === 400) {
-        toast.error("Não é possível remover o proprietário");
+        toast.error(t("errors.cannotRemoveOwner"));
       } else {
-        toast.error(error.message || "Erro ao remover membro");
+        toast.error(error.message || t("errors.removeFailed"));
       }
     },
 
     onSuccess: () => {
-      toast.success("Membro removido com sucesso");
+      toast.success(t("success.memberRemoved"));
       // Invalidate to ensure consistency
       queryClient.invalidateQueries({
         queryKey: ["members", tenantId],

@@ -1,0 +1,68 @@
+{
+  "title": "Général",
+  "organizationDetails": "Détails de l'Organisation",
+  "organizationName": "Nom de l'Organisation",
+  "organizationNamePlaceholder": "Nom de votre organisation",
+  "subdomain": "Sous-domaine",
+  "subdomainPlaceholder": "mon-entreprise",
+  "subdomainWarning": "Les modifications du sous-domaine peuvent affecter l'accès à l'organisation",
+  "saving": "Enregistrement...",
+  "saveChanges": "Enregistrer les Modifications",
+  "dangerZone": "Zone de Danger",
+  "deleteOrganization": "Supprimer l'Organisation",
+  "deleteWarning1": "Cette action ne peut pas être annulée. Toutes les données de l'organisation seront définitivement supprimées.",
+  "deleteWarning2": "Tous les chatbots, paramètres et données utilisateur seront perdus.",
+  "modals": {
+    "deleteTenant": {
+      "title": "Supprimer l'Organisation",
+      "warningMessage": "Cette action ne peut pas être annulée. Toutes les données de l'organisation \"{{tenantName}}\" seront définitivement supprimées.",
+      "dataWillBeLost": "Les données suivantes seront perdues:",
+      "data": {
+        "chatbots": "Tous les chatbots et leurs paramètres",
+        "knowledgeBase": "Bases de connaissances et documents",
+        "invites": "Invitations et membres de l'équipe",
+        "subscription": "Votre abonnement et plan contracté",
+        "usage": "Historique d'utilisation et données de consommation",
+        "limits": "Limites de ressources et paramètres"
+      },
+      "confirmLabel": "Pour confirmer, tapez le nom de l'organisation: {{tenantName}}",
+      "confirmPlaceholder": "Tapez \"{{tenantName}}\" pour confirmer",
+      "cancel": "Annuler",
+      "delete": "Supprimer l'Organisation",
+      "deleting": "Suppression..."
+    },
+    "transferOwnership": {
+      "title": "Transférer la Propriété de l'Organisation",
+      "description": "Transférez la propriété complète de cette organisation à un autre membre de l'équipe.",
+      "warningTitle": "Cette action est irréversible",
+      "warningDescription": "Vous serez rétrogradé au rang d'Administrateur et ne pourrez pas annuler cette action. Seul le nouveau propriétaire pourra gérer la propriété de l'organisation.",
+      "selectMember": "Sélectionnez un membre",
+      "transfer": "Transférer la Propriété",
+      "confirmTitle": "Confirmer le Transfert de Propriété",
+      "confirmDescription": "Vous êtes sur le point de transférer la propriété complète de cette organisation à {{name}}.",
+      "confirmWarning": "Ce qui se passera après le transfert:",
+      "consequence1": "{{name}} deviendra le nouveau propriétaire avec un accès complet",
+      "consequence2": "Vous serez rétrogradé au rôle d'Administrateur",
+      "consequence3": "Cette action ne peut être annulée sans l'approbation du nouveau propriétaire",
+      "cancel": "Annuler",
+      "confirmButton": "Oui, Transférer la Propriété",
+      "transferring": "Transfert...",
+      "successMessage": "Propriété transférée avec succès à {{name}}",
+      "errorMessage": "Erreur lors du transfert de propriété. Veuillez réessayer."
+    }
+  },
+  "errors": {
+    "nameRequired": "Le nom est obligatoire",
+    "subdomainMinLength": "Le sous-domaine doit contenir au moins 3 caractères",
+    "subdomainMaxLength": "Le sous-domaine doit contenir au maximum 63 caractères",
+    "subdomainInvalid": "Le sous-domaine ne doit contenir que des lettres minuscules, des chiffres et des tirets",
+    "subdomainEdges": "Le sous-domaine ne peut pas commencer ou se terminer par un tiret",
+    "updateFailed": "Erreur lors de la mise à jour de l'organisation",
+    "deleteFailed": "Erreur lors de la suppression de l'organisation",
+    "deletePermissionDenied": "Vous n'avez pas la permission de supprimer cette organisation. Seul le propriétaire peut effectuer cette action."
+  },
+  "success": {
+    "updated": "Organisation mise à jour avec succès !",
+    "deleted": "Organisation supprimée avec succès"
+  }
+}

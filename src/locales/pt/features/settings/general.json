@@ -1,0 +1,68 @@
+{
+  "title": "Geral",
+  "organizationDetails": "Detalhes da Organização",
+  "organizationName": "Nome da Organização",
+  "organizationNamePlaceholder": "Nome da sua organização",
+  "subdomain": "Subdomínio",
+  "subdomainPlaceholder": "minha-empresa",
+  "subdomainWarning": "Mudanças no subdomínio podem afetar o acesso à organização",
+  "saving": "Salvando...",
+  "saveChanges": "Salvar Alterações",
+  "dangerZone": "Zona de Perigo",
+  "deleteOrganization": "Excluir Organização",
+  "deleteWarning1": "Esta ação não pode ser desfeita. Todos os dados da organização serão permanentemente excluídos.",
+  "deleteWarning2": "Todos os chatbots, configurações e dados de usuários serão perdidos.",
+  "modals": {
+    "deleteTenant": {
+      "title": "Excluir Organização",
+      "warningMessage": "Esta ação não pode ser desfeita. Todos os dados da organização \"{{tenantName}}\" serão permanentemente excluídos.",
+      "dataWillBeLost": "Os seguintes dados serão perdidos:",
+      "data": {
+        "chatbots": "Todos os chatbots e suas configurações",
+        "knowledgeBase": "Bases de conhecimento e documentos",
+        "invites": "Convites e membros da equipe",
+        "subscription": "Sua assinatura e plano contratado",
+        "usage": "Histórico de uso e dados de consumo",
+        "limits": "Limites de recursos e configurações"
+      },
+      "confirmLabel": "Para confirmar, digite o nome da organização: {{tenantName}}",
+      "confirmPlaceholder": "Digite \"{{tenantName}}\" para confirmar",
+      "cancel": "Cancelar",
+      "delete": "Excluir Organização",
+      "deleting": "Excluindo..."
+    },
+    "transferOwnership": {
+      "title": "Transferir Propriedade da Organização",
+      "description": "Transfira a propriedade completa desta organização para outro membro da equipe.",
+      "warningTitle": "Esta ação é irreversível",
+      "warningDescription": "Você será rebaixado para Administrador e não poderá reverter esta ação. Apenas o novo proprietário poderá gerenciar a propriedade da organização.",
+      "selectMember": "Selecione um membro",
+      "transfer": "Transferir Propriedade",
+      "confirmTitle": "Confirmar Transferência de Propriedade",
+      "confirmDescription": "Você está prestes a transferir a propriedade completa desta organização para {{name}}.",
+      "confirmWarning": "O que acontecerá após a transferência:",
+      "consequence1": "{{name}} se tornará o novo proprietário com acesso total",
+      "consequence2": "Você será rebaixado para a função de Administrador",
+      "consequence3": "Esta ação não pode ser desfeita sem a aprovação do novo proprietário",
+      "cancel": "Cancelar",
+      "confirmButton": "Sim, Transferir Propriedade",
+      "transferring": "Transferindo...",
+      "successMessage": "Propriedade transferida com sucesso para {{name}}",
+      "errorMessage": "Erro ao transferir propriedade. Tente novamente."
+    }
+  },
+  "errors": {
+    "nameRequired": "Nome é obrigatório",
+    "subdomainMinLength": "Subdomínio deve ter pelo menos 3 caracteres",
+    "subdomainMaxLength": "Subdomínio deve ter no máximo 63 caracteres",
+    "subdomainInvalid": "Subdomínio deve conter apenas letras minúsculas, números e hífens",
+    "subdomainEdges": "Subdomínio não pode começar ou terminar com hífen",
+    "updateFailed": "Erro ao atualizar organização",
+    "deleteFailed": "Erro ao excluir organização",
+    "deletePermissionDenied": "Você não tem permissão para deletar esta organização. Apenas o proprietário pode realizar esta ação."
+  },
+  "success": {
+    "updated": "Organização atualizada com sucesso!",
+    "deleted": "Organização excluída com sucesso"
+  }
+}

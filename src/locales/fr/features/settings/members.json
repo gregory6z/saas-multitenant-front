@@ -92,6 +92,22 @@
     "cannotChangeOwnRole": "Impossible de changer votre propre rôle",
     "insufficientPermissions": "Permissions insuffisantes",
     "alreadyMember": "Cet utilisateur est déjà membre de l'espace de travail",
-    "networkError": "Erreur de connexion. Veuillez réessayer."
+    "networkError": "Erreur de connexion. Veuillez réessayer.",
+    "removePermissionDenied": "Vous n'avez pas la permission de retirer ce membre",
+    "removeFailed": "Erreur lors de la suppression du membre",
+    "changeRolePermissionDenied": "Vous n'avez pas la permission de modifier les rôles des membres",
+    "changeRoleFailed": "Erreur lors du changement de rôle du membre",
+    "transferOwnershipPermissionDenied": "Seul le propriétaire peut transférer la propriété",
+    "transferOwnershipInvalidMember": "Impossible de transférer à ce membre",
+    "transferOwnershipFailed": "Erreur lors du transfert de propriété",
+    "revokeFailed": "Erreur lors de la révocation de l'invitation",
+    "resendFailed": "Erreur lors du renvoi de l'invitation"
+  },
+  "success": {
+    "memberRemoved": "Membre supprimé avec succès",
+    "roleChanged": "Rôle modifié avec succès",
+    "ownershipTransferred": "Propriété transférée avec succès",
+    "invitationRevoked": "Invitation révoquée avec succès",
+    "invitationResent": "Invitation renvoyée avec succès"
   }
 }

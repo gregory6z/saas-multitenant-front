@@ -3,6 +3,7 @@ import { Mail, Send } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { z } from "zod";
+import { useSendInvitationMutation } from "@/api/queries/member";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
@@ -14,13 +15,12 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { useCreateInvitation } from "@/hooks/use-invitations";
 
 export function InviteMembersCard() {
   const { t } = useTranslation("settings-members");
 
-  // ✅ Usa hook existente de convites
-  const inviteMutation = useCreateInvitation();
+  // ✅ Usa novo hook da API
+  const inviteMutation = useSendInvitationMutation();
 
   const inviteFormSchema = z.object({
     email: z.email(t("errors.inviteInvalidEmail")),

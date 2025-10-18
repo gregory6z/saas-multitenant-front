@@ -92,6 +92,22 @@
     "cannotChangeOwnRole": "Cannot change your own role",
     "insufficientPermissions": "Insufficient permissions",
     "alreadyMember": "This user is already a workspace member",
-    "networkError": "Connection error. Please try again."
+    "networkError": "Connection error. Please try again.",
+    "removePermissionDenied": "You don't have permission to remove this member",
+    "removeFailed": "Error removing member",
+    "changeRolePermissionDenied": "You don't have permission to change member roles",
+    "changeRoleFailed": "Error changing member role",
+    "transferOwnershipPermissionDenied": "Only the owner can transfer ownership",
+    "transferOwnershipInvalidMember": "Cannot transfer to this member",
+    "transferOwnershipFailed": "Error transferring ownership",
+    "revokeFailed": "Error revoking invitation",
+    "resendFailed": "Error resending invitation"
+  },
+  "success": {
+    "memberRemoved": "Member removed successfully",
+    "roleChanged": "Role changed successfully",
+    "ownershipTransferred": "Ownership transferred successfully",
+    "invitationRevoked": "Invitation revoked successfully",
+    "invitationResent": "Invitation resent successfully"
   }
 }

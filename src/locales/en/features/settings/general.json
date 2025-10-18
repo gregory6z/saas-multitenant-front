@@ -1,0 +1,68 @@
+{
+  "title": "General",
+  "organizationDetails": "Organization Details",
+  "organizationName": "Organization Name",
+  "organizationNamePlaceholder": "Your organization name",
+  "subdomain": "Subdomain",
+  "subdomainPlaceholder": "my-company",
+  "subdomainWarning": "Subdomain changes may affect organization access",
+  "saving": "Saving...",
+  "saveChanges": "Save Changes",
+  "dangerZone": "Danger Zone",
+  "deleteOrganization": "Delete Organization",
+  "deleteWarning1": "This action cannot be undone. All organization data will be permanently deleted.",
+  "deleteWarning2": "All chatbots, settings, and user data will be lost.",
+  "modals": {
+    "deleteTenant": {
+      "title": "Delete Organization",
+      "warningMessage": "This action cannot be undone. All data from organization \"{{tenantName}}\" will be permanently deleted.",
+      "dataWillBeLost": "The following data will be lost:",
+      "data": {
+        "chatbots": "All chatbots and their settings",
+        "knowledgeBase": "Knowledge bases and documents",
+        "invites": "Invitations and team members",
+        "subscription": "Your subscription and contracted plan",
+        "usage": "Usage history and consumption data",
+        "limits": "Resource limits and settings"
+      },
+      "confirmLabel": "To confirm, type the organization name: {{tenantName}}",
+      "confirmPlaceholder": "Type \"{{tenantName}}\" to confirm",
+      "cancel": "Cancel",
+      "delete": "Delete Organization",
+      "deleting": "Deleting..."
+    },
+    "transferOwnership": {
+      "title": "Transfer Organization Ownership",
+      "description": "Transfer full ownership of this organization to another team member.",
+      "warningTitle": "This action is irreversible",
+      "warningDescription": "You will be demoted to Administrator and cannot reverse this action. Only the new owner will be able to manage organization ownership.",
+      "selectMember": "Select a member",
+      "transfer": "Transfer Ownership",
+      "confirmTitle": "Confirm Ownership Transfer",
+      "confirmDescription": "You are about to transfer full ownership of this organization to {{name}}.",
+      "confirmWarning": "What will happen after the transfer:",
+      "consequence1": "{{name}} will become the new owner with full access",
+      "consequence2": "You will be demoted to Administrator role",
+      "consequence3": "This action cannot be undone without the new owner's approval",
+      "cancel": "Cancel",
+      "confirmButton": "Yes, Transfer Ownership",
+      "transferring": "Transferring...",
+      "successMessage": "Ownership successfully transferred to {{name}}",
+      "errorMessage": "Error transferring ownership. Please try again."
+    }
+  },
+  "errors": {
+    "nameRequired": "Name is required",
+    "subdomainMinLength": "Subdomain must be at least 3 characters",
+    "subdomainMaxLength": "Subdomain must be at most 63 characters",
+    "subdomainInvalid": "Subdomain must contain only lowercase letters, numbers, and hyphens",
+    "subdomainEdges": "Subdomain cannot start or end with a hyphen",
+    "updateFailed": "Error updating organization",
+    "deleteFailed": "Error deleting organization",
+    "deletePermissionDenied": "You don't have permission to delete this organization. Only the owner can perform this action."
+  },
+  "success": {
+    "updated": "Organization updated successfully!",
+    "deleted": "Organization deleted successfully"
+  }
+}

@@ -1,4 +1,5 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
 import { updateMemberRole } from "@/api/client/member.api";
 import type { Member, UpdateMemberRoleRequest } from "@/api/schemas/member.schema";
@@ -19,6 +20,7 @@ type ChangeMemberRoleContext = {
  * PATCH /tenants/users/:userId/role
  */
 export function useChangeMemberRoleMutation() {
+  const { t } = useTranslation("settings-members");
   const queryClient = useQueryClient();
   const tenantId = useCurrentTenantId();
 
@@ -55,18 +57,18 @@ export function useChangeMemberRoleMutation() {
       const status = (error as Error & { response?: { status: number } }).response?.status;
 
       if (status === 403) {
-        toast.error("Você não tem permissão para alterar funções de membros");
+        toast.error(t("errors.changeRolePermissionDenied"));
       } else if (status === 404) {
-        toast.error("Membro não encontrado");
+        toast.error(t("errors.memberNotFound"));
       } else if (status === 400) {
-        toast.error("Não é possível alterar sua própria função");
+        toast.error(t("errors.cannotChangeOwnRole"));
       } else {
-        toast.error(error.message || "Erro ao alterar função do membro");
+        toast.error(error.message || t("errors.changeRoleFailed"));
       }
     },
 
     onSuccess: () => {
-      toast.success("Função alterada com sucesso");
+      toast.success(t("success.roleChanged"));
       // Invalidate to refetch with new role
       queryClient.invalidateQueries({
         queryKey: ["members", tenantId],
