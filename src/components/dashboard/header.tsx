@@ -1,7 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { Bot, Building2, LogOut, Settings } from "lucide-react";
-import { useTenantsQuery } from "@/api/queries/tenant";
-import { CompanySwitcher } from "@/components/navigation/company-switcher";
+import { Bot, LogOut, Settings } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   DropdownMenu,
@@ -13,26 +11,11 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useAuth } from "@/hooks/use-auth";
-import { useSubdomain } from "@/hooks/use-subdomain";
 import { useUser } from "@/hooks/use-users";
 
 export function DashboardHeader() {
   const { logout } = useAuth();
-  const { data: tenants, isLoading: tenantsLoading, error: tenantsError } = useTenantsQuery();
   const { data: user, isLoading: userLoading, error: userError } = useUser();
-  const { data: currentTenant } = useSubdomain();
-
-  // Transform tenants data to teams format for CompanySwitcher
-  // Prioritize current tenant and mark it as selected
-  const teams =
-    tenants?.map((tenant) => ({
-      id: tenant.id,
-      name: tenant.name,
-      logo: Building2,
-      plan: tenant.status === "active" ? "Active" : "Inactive",
-      subdomain: tenant.subdomain,
-      isCurrent: currentTenant?.id === tenant.id,
-    })) ?? [];
 
   // Use real user data or fallback to default
   const userData = user ?? {
@@ -55,23 +38,12 @@ export function DashboardHeader() {
   return (
     <header className="bg-card border-b border-border px-4 py-2">
       <div className="flex items-center justify-between h-[44px]">
-        {/* Left side - Logo + Company Switcher + Breadcrumb */}
+        {/* Left side - Logo */}
         <div className="flex items-center gap-4">
           {/* RagBoost Logo */}
           <Link to="/dashboard/chatbots" className="flex items-center justify-center">
             <Bot className="w-8 h-8 text-primary hover:text-primary/80 transition-colors" />
           </Link>
-
-          {/* Separator */}
-          <div className="w-px h-6 bg-border"></div>
-          {tenantsLoading ? (
-            <Skeleton className="h-10 w-64" />
-          ) : tenantsError ? (
-            <div className="text-sm text-red-600">Error loading tenants</div>
-          ) : (
-            <CompanySwitcher teams={teams} />
-          )}
-          {/* <BreadcrumbNavigation /> */}
         </div>
 
         {/* Right side - User Menu */}

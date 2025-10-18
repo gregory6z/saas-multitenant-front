@@ -3,7 +3,6 @@ import { ChevronsUpDown, Plus, Users } from "lucide-react";
 import * as React from "react";
 import { useTranslation } from "react-i18next";
 import { JoinTenantDialog } from "@/components/features/settings/dialogs/join-tenant-dialog";
-import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -12,6 +11,12 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import {
+  SidebarMenu,
+  SidebarMenuButton,
+  SidebarMenuItem,
+  useSidebar,
+} from "@/components/ui/sidebar";
 import { useSubscription } from "@/hooks/use-subscription";
 import { getTenantSubdomainUrl } from "@/lib/url-utils";
 
@@ -35,6 +40,7 @@ export function CompanySwitcher({
   }[];
 }) {
   const { t } = useTranslation("common");
+  const { isMobile } = useSidebar();
   const [isJoinModalOpen, setIsJoinModalOpen] = React.useState(false);
   const { subscription, isLoading: subscriptionLoading } = useSubscription();
 
@@ -57,48 +63,52 @@ export function CompanySwitcher({
   // Estado vazio: sem organizações
   if (teams.length === 0) {
     return (
-      <div className="flex items-center gap-1">
-        <button
-          type="button"
-          className="flex items-center gap-2 px-2 py-1 rounded-md hover:bg-gray-50 transition-colors"
-          disabled
-        >
-          <div className="bg-gray-300 text-white flex aspect-square size-6 items-center justify-center rounded-md">
-            <Plus className="size-3" />
-          </div>
-          <div className="font-medium text-muted-foreground text-base">Adicionar organização</div>
-        </button>
-
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" size="sm" className="h-8 w-8 p-0 hover:bg-gray-50">
-              <ChevronsUpDown className="size-4" />
-              <span className="sr-only">Gerenciar organizações</span>
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent className="w-[16rem] rounded-lg" align="start" sideOffset={4}>
-            <DropdownMenuLabel className="text-muted-foreground text-xs">
-              Gerenciar organizações
-            </DropdownMenuLabel>
-            <DropdownMenuItem asChild className="gap-2 p-2">
-              <Link to="/dashboard/tenants/create">
-                <div className="flex size-6 items-center justify-center rounded-md border bg-transparent">
+      <SidebarMenu>
+        <SidebarMenuItem>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <SidebarMenuButton
+                size="lg"
+                className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
+              >
+                <div className="bg-gray-300 text-white flex aspect-square size-8 items-center justify-center rounded-lg">
                   <Plus className="size-4" />
                 </div>
-                <div className="font-medium">Criar organização</div>
-              </Link>
-            </DropdownMenuItem>
-            <DropdownMenuItem className="gap-2 p-2" onClick={() => setIsJoinModalOpen(true)}>
-              <div className="flex size-6 items-center justify-center rounded-md border bg-transparent">
-                <Users className="size-4" />
-              </div>
-              <div className="font-medium">Juntar-se a organização</div>
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-
+                <div className="grid flex-1 text-start text-sm leading-tight">
+                  <span className="truncate font-semibold">Adicionar organização</span>
+                  <span className="truncate text-xs text-muted-foreground">Nenhuma organização</span>
+                </div>
+                <ChevronsUpDown className="ms-auto" />
+              </SidebarMenuButton>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent
+              className="w-[--radix-dropdown-menu-trigger-width] min-w-56 rounded-lg"
+              align="start"
+              side={isMobile ? "bottom" : "right"}
+              sideOffset={4}
+            >
+              <DropdownMenuLabel className="text-muted-foreground text-xs">
+                Gerenciar organizações
+              </DropdownMenuLabel>
+              <DropdownMenuItem asChild className="gap-2 p-2">
+                <Link to="/dashboard/tenants/create">
+                  <div className="flex size-6 items-center justify-center rounded-md border bg-background">
+                    <Plus className="size-4" />
+                  </div>
+                  <div className="font-medium">Criar organização</div>
+                </Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem className="gap-2 p-2" onClick={() => setIsJoinModalOpen(true)}>
+                <div className="flex size-6 items-center justify-center rounded-md border bg-background">
+                  <Users className="size-4" />
+                </div>
+                <div className="font-medium">Juntar-se a organização</div>
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </SidebarMenuItem>
         <JoinTenantDialog isOpen={isJoinModalOpen} onClose={() => setIsJoinModalOpen(false)} />
-      </div>
+      </SidebarMenu>
     );
   }
 
@@ -107,86 +117,77 @@ export function CompanySwitcher({
   }
 
   return (
-    <div className="flex items-center gap-1">
-      {/* Company Info - Clickable as breadcrumb */}
-      <button
-        type="button"
-        className="flex items-center gap-2 px-2 py-1 rounded-md hover:bg-gray-50 transition-colors"
-        onClick={() => {
-          // TODO: Navigate to company dashboard/overview
-          console.log("Navigate to company dashboard:", activeTeam.name);
-        }}
-      >
-        <div className="bg-blue-500 text-white flex aspect-square size-6 items-center justify-center rounded-md">
-          <activeTeam.logo className="size-3" />
-        </div>
-        <div className="flex items-center gap-2">
-          <div className="font-medium text-foreground text-base max-w-[180px] truncate">
-            {activeTeam.name}
-          </div>
-          {!subscriptionLoading && (
-            <span className="px-2 py-0.5 text-xs font-medium bg-blue-100 text-blue-700 rounded-full">
-              {planName}
-            </span>
-          )}
-        </div>
-      </button>
-
-      {/* Dropdown Trigger - Only the chevron */}
-      <DropdownMenu>
-        <DropdownMenuTrigger asChild>
-          <Button variant="ghost" size="sm" className="h-8 w-8 p-0 hover:bg-gray-50">
-            <ChevronsUpDown className="size-4" />
-            <span className="sr-only">Trocar organização</span>
-          </Button>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent className="w-[16rem] rounded-lg" align="start" sideOffset={4}>
-          <DropdownMenuLabel className="text-muted-foreground text-xs">
-            {t("sidebar.companies")}
-          </DropdownMenuLabel>
-          {teams.map((team) => (
-            <DropdownMenuItem
-              key={team.id || team.name}
-              onClick={() => {
-                // Redireciona para o subdomain do tenant selecionado
-                if (team.subdomain) {
-                  const currentPath =
-                    window.location.pathname + window.location.search + window.location.hash;
-                  const subdomainUrl = getTenantSubdomainUrl(team.subdomain, currentPath);
-                  window.location.href = subdomainUrl;
-                }
-              }}
-              className="gap-2 p-2"
+    <SidebarMenu>
+      <SidebarMenuItem>
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <SidebarMenuButton
+              size="lg"
+              className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
             >
-              <div className="flex size-6 items-center justify-center rounded-md border">
-                <team.logo className="size-3.5 shrink-0" />
+              <div className="bg-sidebar-primary text-sidebar-primary-foreground flex aspect-square size-8 items-center justify-center rounded-lg">
+                <activeTeam.logo className="size-4" />
               </div>
-              <span className="truncate">{team.name}</span>
+              <div className="grid flex-1 text-start text-sm leading-tight">
+                <span className="truncate font-semibold">{activeTeam.name}</span>
+                {!subscriptionLoading && (
+                  <span className="truncate text-xs text-muted-foreground">{planName}</span>
+                )}
+              </div>
+              <ChevronsUpDown className="ms-auto" />
+            </SidebarMenuButton>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent
+            className="w-[--radix-dropdown-menu-trigger-width] min-w-56 rounded-lg"
+            align="start"
+            side={isMobile ? "bottom" : "right"}
+            sideOffset={4}
+          >
+            <DropdownMenuLabel className="text-muted-foreground text-xs">
+              {t("sidebar.companies")}
+            </DropdownMenuLabel>
+            {teams.map((team) => (
+              <DropdownMenuItem
+                key={team.id || team.name}
+                onClick={() => {
+                  // Redireciona para o subdomain do tenant selecionado
+                  if (team.subdomain) {
+                    const currentPath =
+                      window.location.pathname + window.location.search + window.location.hash;
+                    const subdomainUrl = getTenantSubdomainUrl(team.subdomain, currentPath);
+                    window.location.href = subdomainUrl;
+                  }
+                }}
+                className="gap-2 p-2"
+              >
+                <div className="flex size-6 items-center justify-center rounded-md border">
+                  <team.logo className="size-4 shrink-0" />
+                </div>
+                <span className="truncate">{team.name}</span>
+              </DropdownMenuItem>
+            ))}
+            <DropdownMenuSeparator />
+            <DropdownMenuLabel className="text-muted-foreground text-xs">
+              Gerenciar organizações
+            </DropdownMenuLabel>
+            <DropdownMenuItem asChild className="gap-2 p-2">
+              <Link to="/dashboard/tenants/create">
+                <div className="flex size-6 items-center justify-center rounded-md border bg-background">
+                  <Plus className="size-4" />
+                </div>
+                <div className="font-medium">Criar organização</div>
+              </Link>
             </DropdownMenuItem>
-          ))}
-          <DropdownMenuSeparator />
-          <DropdownMenuLabel className="text-muted-foreground text-xs">
-            Gerenciar organizações
-          </DropdownMenuLabel>
-          <DropdownMenuItem asChild className="gap-2 p-2">
-            <Link to="/dashboard/tenants/create">
-              <div className="flex size-6 items-center justify-center rounded-md border bg-transparent">
-                <Plus className="size-4" />
+            <DropdownMenuItem className="gap-2 p-2" onClick={() => setIsJoinModalOpen(true)}>
+              <div className="flex size-6 items-center justify-center rounded-md border bg-background">
+                <Users className="size-4" />
               </div>
-              <div className="font-medium">Criar organização</div>
-            </Link>
-          </DropdownMenuItem>
-          <DropdownMenuItem className="gap-2 p-2" onClick={() => setIsJoinModalOpen(true)}>
-            <div className="flex size-6 items-center justify-center rounded-md border bg-transparent">
-              <Users className="size-4" />
-            </div>
-            <div className="font-medium">Juntar-se a organização</div>
-          </DropdownMenuItem>
-        </DropdownMenuContent>
-      </DropdownMenu>
-
-      {/* Join Tenant Dialog */}
+              <div className="font-medium">Juntar-se a organização</div>
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      </SidebarMenuItem>
       <JoinTenantDialog isOpen={isJoinModalOpen} onClose={() => setIsJoinModalOpen(false)} />
-    </div>
+    </SidebarMenu>
   );
 }

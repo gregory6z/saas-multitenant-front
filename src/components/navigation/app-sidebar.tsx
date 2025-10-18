@@ -8,6 +8,7 @@ import {
   SidebarHeader,
   SidebarRail,
 } from "@/components/ui/sidebar";
+import { useTenantsQuery } from "@/api/queries/tenant";
 import { CompanySwitcher } from "@/components/navigation/company-switcher";
 import { NavGroup } from "@/components/navigation/nav-group";
 import { NavUser } from "@/components/navigation/nav-user";
@@ -22,18 +23,17 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const { canManageTeam } = useCurrentUserRole();
   const { data: user } = useUser();
   const { subscription } = useSubscription();
+  const { data: tenants } = useTenantsQuery();
 
-  // TODO: Implement useTenants hook or get teams data
-  // For now, using mock data
-  const teams: Team[] = [
-    {
-      id: "1",
-      name: "My Organization",
+  // Transform tenants data to teams format for CompanySwitcher
+  const teams: Team[] =
+    tenants?.map((tenant) => ({
+      id: tenant.id,
+      name: tenant.name,
       logo: Building2,
-      plan: subscription?.planId || "Free",
-      subdomain: "my-org",
-    },
-  ];
+      plan: subscription?.planId || tenant.status || "Free",
+      subdomain: tenant.subdomain,
+    })) ?? [];
 
   // Process nav groups with translations and permissions
   const processedNavGroups: NavGroupType[] = baseNavGroups.map((group) => ({
