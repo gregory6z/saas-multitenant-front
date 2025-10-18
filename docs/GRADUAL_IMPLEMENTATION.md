@@ -4,10 +4,11 @@
 
 1. [Estratégia Geral](#estratégia-geral)
 2. [Por Que Página por Página?](#por-que-página-por-página)
-3. [Template de Implementação](#template-de-implementação)
-4. [Ordem de Implementação](#ordem-de-implementação)
-5. [Checklist por Página](#checklist-por-página)
-6. [Estimativas](#estimativas)
+3. [Migração de Hooks Antigos](#migração-de-hooks-antigos)
+4. [Template de Implementação](#template-de-implementação)
+5. [Ordem de Implementação](#ordem-de-implementação)
+6. [Checklist por Página](#checklist-por-página)
+7. [Estimativas](#estimativas)
 
 ---
 
@@ -44,6 +45,97 @@ Para cada página, implementar **TUDO** nesta ordem:
 ❌ Conflitos no Git
 ❌ Se algo quebrar, quebra tudo
 ❌ Difícil reverter
+
+---
+
+## 🔄 Migração de Hooks Antigos
+
+### **IMPORTANTE: NÃO USAR MAIS `src/hooks/`**
+
+**Decisão arquitetural:** Toda lógica de API deve estar em `src/api/queries/`, não em `src/hooks/`.
+
+### **Estratégia de Migração:**
+
+#### ❌ **Antes (Hooks Antigos):**
+
+```typescript
+// ❌ src/hooks/use-invitations.ts
+export function useInvitations() { ... }
+export function useCreateInvitation() { ... }
+export function useRevokeInvitation() { ... }
+
+// ❌ Componente importando de hooks/
+import { useCreateInvitation } from "@/hooks/use-invitations";
+```
+
+#### ✅ **Depois (API Layer):**
+
+```typescript
+// ✅ src/api/queries/member/use-invitations-query.ts
+export function useInvitationsQuery() { ... }
+
+// ✅ src/api/queries/member/use-send-invitation-mutation.ts
+export function useSendInvitationMutation() { ... }
+
+// ✅ src/api/queries/member/use-revoke-invitation-mutation.ts
+export function useRevokeInvitationMutation() { ... }
+
+// ✅ src/api/queries/member/index.ts
+export { useInvitationsQuery } from "./use-invitations-query";
+export { useSendInvitationMutation } from "./use-send-invitation-mutation";
+export { useRevokeInvitationMutation } from "./use-revoke-invitation-mutation";
+
+// ✅ Componente importando do index
+import { useSendInvitationMutation } from "@/api/queries/member";
+```
+
+### **Passos para Migrar um Hook Antigo:**
+
+1. **Identificar o hook antigo** em `src/hooks/use-*.ts`
+2. **Criar a estrutura na API Layer:**
+   - Schemas em `api/schemas/[entity].schema.ts`
+   - Client HTTP em `api/client/[entity].api.ts`
+   - Queries em `api/queries/[entity]/use-*-query.ts`
+   - Mutations em `api/queries/[entity]/use-*-mutation.ts`
+   - Index em `api/queries/[entity]/index.ts`
+3. **Adicionar i18n aos toasts** nas mutations
+4. **Atualizar TODOS os componentes** que usam o hook antigo
+5. **Atualizar imports** para usar o index (`@/api/queries/[entity]`)
+6. **Deletar o hook antigo** de `src/hooks/`
+7. **Testar tudo** (TypeScript + funcionalidade)
+
+### **Hooks que NÃO devem ficar em `src/hooks/`:**
+
+❌ Qualquer hook que faça chamadas de API
+❌ Hooks de queries/mutations do Tanstack Query
+❌ Hooks que manipulem dados do backend
+
+### **Hooks que PODEM ficar em `src/hooks/`:**
+
+✅ Hooks utilitários puros (ex: `useDebounce`, `useLocalStorage`)
+✅ Hooks de UI/UX (ex: `useMediaQuery`, `useClickOutside`)
+✅ Hooks de permissões (ex: `useCurrentUserRole` - **apenas lógica de permissões, não fetching**)
+
+### **Exemplo Completo - Members + Invitations:**
+
+```
+ANTES:
+src/hooks/use-team-members.ts    ❌ Deletado
+src/hooks/use-invitations.ts     ❌ Deletado
+
+DEPOIS:
+src/api/schemas/member.schema.ts                      ✅ Schemas
+src/api/client/member.api.ts                          ✅ Client HTTP
+src/api/queries/member/index.ts                       ✅ Exports centralizados
+src/api/queries/member/use-members-query.ts           ✅ Query
+src/api/queries/member/use-invitations-query.ts       ✅ Query
+src/api/queries/member/use-send-invitation-mutation.ts     ✅ Mutation
+src/api/queries/member/use-revoke-invitation-mutation.ts   ✅ Mutation
+src/api/queries/member/use-resend-invitation-mutation.ts   ✅ Mutation
+src/api/queries/member/use-change-role-mutation.ts         ✅ Mutation
+src/api/queries/member/use-remove-member-mutation.ts       ✅ Mutation
+src/api/queries/member/use-transfer-ownership-mutation.ts  ✅ Mutation
+```
 
 ---
 
@@ -102,12 +194,18 @@ Para cada página, implementar **TUDO** nesta ordem:
 1. **Members** - 3-5h ✅ **CONCLUÍDO**
    - Gerenciamento de membros
    - Convites, remoção, alteração de função
-   - Modais: Invite, Remove, ChangeRole
+   - Modais: Invite, Remove, ChangeRole, TransferOwnership
+   - **Migração:** Deletado `use-invitations.ts`, criada API layer completa
+   - **Hooks:** 8 hooks criados (1 query + 6 mutations para members/invitations)
+   - **i18n:** namespace `settings-members` com toasts
 
-2. **General** - 2-3h
+2. **General** - 2-3h ✅ **CONCLUÍDO**
    - Configurações gerais do workspace
-   - Nome, URL, imagem
-   - Modal: DeleteWorkspace
+   - Nome, subdomain, danger zone
+   - Modais: DeleteTenant, TransferOwnership
+   - **API Layer:** tenant schemas, client, queries/mutations
+   - **Hooks:** 3 hooks criados (1 query + 2 mutations)
+   - **i18n:** namespace `settings-general` com toasts
 
 3. **Billing** - 3-4h
    - Faturas, método de pagamento
@@ -269,11 +367,21 @@ PRÉ-REQUISITOS
 
 □ Criar api/queries/[entity]/use-[action]-mutation.ts
   - useMutation para POST, PUT, DELETE
-  - Toast de sucesso/erro
+  - Toast de sucesso/erro (usar useTranslation para i18n)
   - Optimistic updates (se aplicável)
   - invalidateQueries após sucesso
   - Importar types direto do schema
   - Exemplo: useInviteMemberMutation, useRemoveMemberMutation
+
+□ Criar api/queries/[entity]/index.ts
+  - Arquivo index para exports centralizados
+  - Exportar TODOS os hooks da entidade
+  - Separar em seções: Queries e Mutations
+  - Exemplo:
+    export { useMembersQuery } from "./use-members-query";
+    export { useInvitationsQuery } from "./use-invitations-query";
+    export { useSendInvitationMutation } from "./use-send-invitation-mutation";
+  - Permite import limpo: import { useMembersQuery, useSendInvitationMutation } from "@/api/queries/member";
 ```
 
 ---
@@ -290,12 +398,16 @@ PRÉ-REQUISITOS
 □ Atualizar componentes existentes
   - Trocar imports antigos por hooks da API
   - Exemplo: useTeamMembers() → useMembersQuery()
+  - **IMPORTANTE:** Importar SEMPRE do index
+  - ✅ Correto: import { useMembersQuery, useSendInvitationMutation } from "@/api/queries/member";
+  - ❌ Errado: import { useMembersQuery } from "@/api/queries/member/use-members-query";
   - Importar types direto do schema
   - Exemplo: import type { Member } from "@/api/schemas/member.schema"
 
 □ Usar hooks da API diretamente nos componentes
-  - const mutation = useInviteMemberMutation();
+  - const mutation = useSendInvitationMutation();
   - const { data, isLoading } = useMembersQuery();
+  - Hooks chamados DENTRO dos componentes/dialogs (não via callbacks de props)
 
 □ Atualizar traduções
   - useTranslation("settings-members")
