@@ -1,3 +1,4 @@
+import type { TFunction } from "i18next";
 import { z } from "zod";
 
 /**
@@ -5,7 +6,10 @@ import { z } from "zod";
  * Zod schemas for tenant operations with runtime validation
  */
 
-// Base tenant schema
+// ============================================================================
+// BASE SCHEMAS (used by other schemas)
+// ============================================================================
+
 export const TenantSchema = z.object({
   id: z.string(),
   name: z.string(),
@@ -16,81 +20,99 @@ export const TenantSchema = z.object({
   updatedAt: z.string(),
 });
 
-// Response schemas
+// ============================================================================
+// REQUEST SCHEMAS (factory functions with i18n for forms)
+// ============================================================================
+
+export const createTenantRequestSchema = (t: TFunction) =>
+  z.object({
+    name: z.string().min(1, t("errors.nameRequired")),
+    subdomain: z
+      .string()
+      .transform((val) =>
+        val
+          .toLowerCase()
+          .replace(/[^a-z0-9\s-]/g, "")
+          .replace(/\s+/g, "-")
+          .replace(/-+/g, "-")
+          .replace(/^-|-$/g, "")
+      )
+      .pipe(
+        z
+          .string()
+          .min(3, t("errors.subdomainMinLength"))
+          .max(63, t("errors.subdomainMaxLength"))
+          .regex(
+            /^[a-z0-9]([a-z0-9-]*[a-z0-9])?$/,
+            t("errors.subdomainFormat")
+          )
+          .refine(
+            (value) => !value.startsWith("-") && !value.endsWith("-"),
+            t("errors.subdomainHyphens")
+          )
+      ),
+  });
+
+export const updateTenantRequestSchema = (t: TFunction) =>
+  z.object({
+    name: z.string().min(1, t("errors.nameRequired")).optional(),
+    subdomain: z
+      .string()
+      .transform((val) =>
+        val
+          .toLowerCase()
+          .replace(/[^a-z0-9\s-]/g, "")
+          .replace(/\s+/g, "-")
+          .replace(/-+/g, "-")
+          .replace(/^-|-$/g, "")
+      )
+      .pipe(
+        z
+          .string()
+          .min(3, t("errors.subdomainMinLength"))
+          .max(63, t("errors.subdomainMaxLength"))
+          .regex(
+            /^[a-z0-9]([a-z0-9-]*[a-z0-9])?$/,
+            t("errors.subdomainInvalid"))
+          .refine(
+            (value) => !value.startsWith("-") && !value.endsWith("-"),
+            t("errors.subdomainEdges")
+          )
+      )
+      .optional(),
+  });
+
+export const joinTenantRequestSchema = (t: TFunction) =>
+  z.object({
+    inviteCode: z
+      .string()
+      .min(1, t("errors.inviteCodeRequired"))
+      .regex(/^[A-Z0-9]{6,12}$/, t("errors.inviteCodeFormat")),
+  });
+
+export const TransferOwnershipRequestSchema = z.object({
+  newOwnerId: z.string().uuid("Invalid owner ID"),
+});
+
+// ============================================================================
+// RESPONSE SCHEMAS (constant schemas - no i18n needed)
+// ============================================================================
+
 export const TenantsResponseSchema = z.object({
   tenants: z.array(TenantSchema),
-});
-
-export const UpdateTenantResponseSchema = z.object({
-  tenant: TenantSchema,
-});
-
-// Request schemas
-export const CreateTenantRequestSchema = z.object({
-  name: z.string().min(1, "Nome é obrigatório"),
-  subdomain: z
-    .string()
-    .transform((val) =>
-      val
-        .toLowerCase()
-        .replace(/[^a-z0-9\s-]/g, "")
-        .replace(/\s+/g, "-")
-        .replace(/-+/g, "-")
-        .replace(/^-|-$/g, "")
-    )
-    .pipe(
-      z
-        .string()
-        .min(3, "Subdomínio deve ter pelo menos 3 caracteres")
-        .max(63, "Subdomínio deve ter no máximo 63 caracteres")
-        .regex(
-          /^[a-z0-9]([a-z0-9-]*[a-z0-9])?$/,
-          "Subdomínio deve conter apenas letras minúsculas, números e hífens"
-        )
-        .refine(
-          (value) => !value.startsWith("-") && !value.endsWith("-"),
-          "Subdomínio não pode começar ou terminar com hífen"
-        )
-    ),
 });
 
 export const CreateTenantResponseSchema = z.object({
   tenant: TenantSchema,
 });
 
-export const UpdateTenantRequestSchema = z.object({
-  name: z.string().min(1, "Nome é obrigatório").optional(),
-  subdomain: z
-    .string()
-    .transform(
-      (val) =>
-        val
-          .toLowerCase()
-          .replace(/[^a-z0-9\s-]/g, "") // Remove special chars
-          .replace(/\s+/g, "-") // Replace spaces with hyphens
-          .replace(/-+/g, "-") // Replace multiple hyphens with single
-          .replace(/^-|-$/g, "") // Remove leading/trailing hyphens
-    )
-    .pipe(
-      z
-        .string()
-        .min(3, "Subdomínio deve ter pelo menos 3 caracteres")
-        .max(63, "Subdomínio deve ter no máximo 63 caracteres")
-        .regex(
-          /^[a-z0-9]([a-z0-9-]*[a-z0-9])?$/,
-          "Subdomínio deve conter apenas letras minúsculas, números e hífens"
-        )
-        .refine(
-          (value) => !value.startsWith("-") && !value.endsWith("-"),
-          "Subdomínio não pode começar ou terminar com hífen"
-        )
-    )
-    .optional(),
+export const UpdateTenantResponseSchema = z.object({
+  tenant: TenantSchema,
 });
 
-// Transfer ownership schemas
-export const TransferOwnershipRequestSchema = z.object({
-  newOwnerId: z.string().uuid("ID do novo proprietário inválido"),
+export const JoinTenantResponseSchema = z.object({
+  tenant: TenantSchema,
+  role: z.string(),
 });
 
 export const TransferOwnershipResponseSchema = z.object({
@@ -100,25 +122,21 @@ export const TransferOwnershipResponseSchema = z.object({
   message: z.string(),
 });
 
-// Type exports
+// ============================================================================
+// TYPE EXPORTS
+// ============================================================================
+
 export type Tenant = z.infer<typeof TenantSchema>;
 export type TenantsResponse = z.infer<typeof TenantsResponseSchema>;
-export type CreateTenantRequest = z.infer<typeof CreateTenantRequestSchema>;
-export type CreateTenantResponse = z.infer<typeof CreateTenantResponseSchema>;
-export type UpdateTenantRequest = z.infer<typeof UpdateTenantRequestSchema>;
-export type UpdateTenantResponse = z.infer<typeof UpdateTenantResponseSchema>;
+
+// Request types (from factory functions)
+export type CreateTenantRequest = z.infer<ReturnType<typeof createTenantRequestSchema>>;
+export type UpdateTenantRequest = z.infer<ReturnType<typeof updateTenantRequestSchema>>;
+export type JoinTenantRequest = z.infer<ReturnType<typeof joinTenantRequestSchema>>;
 export type TransferOwnershipRequest = z.infer<typeof TransferOwnershipRequestSchema>;
-export type TransferOwnershipResponse = z.infer<typeof TransferOwnershipResponseSchema>;
 
-// Join tenant schemas
-export const JoinTenantRequestSchema = z.object({
-  inviteCode: z.string().min(1, "Código de convite é obrigatório"),
-});
-
-export const JoinTenantResponseSchema = z.object({
-  tenant: TenantSchema,
-  role: z.string(),
-});
-
-export type JoinTenantRequest = z.infer<typeof JoinTenantRequestSchema>;
+// Response types
+export type CreateTenantResponse = z.infer<typeof CreateTenantResponseSchema>;
+export type UpdateTenantResponse = z.infer<typeof UpdateTenantResponseSchema>;
 export type JoinTenantResponse = z.infer<typeof JoinTenantResponseSchema>;
+export type TransferOwnershipResponse = z.infer<typeof TransferOwnershipResponseSchema>;

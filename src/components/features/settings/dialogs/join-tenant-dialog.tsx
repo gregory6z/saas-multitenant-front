@@ -1,8 +1,10 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2, Users } from "lucide-react";
 import { useForm } from "react-hook-form";
-import { z } from "zod";
+import { useTranslation } from "react-i18next";
+import type { z } from "zod";
 import { useJoinTenantMutation } from "@/api/queries/tenant";
+import { joinTenantRequestSchema } from "@/api/schemas/tenant.schema";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -14,7 +16,6 @@ import {
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -22,26 +23,20 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 
-// Form schema for joining tenant
-const joinTenantFormSchema = z.object({
-  inviteCode: z
-    .string()
-    .min(1, "Código de convite é obrigatório")
-    .regex(/^[A-Z0-9]{6,12}$/, "Código deve conter apenas letras maiúsculas e números"),
-});
-
-type JoinTenantFormData = z.infer<typeof joinTenantFormSchema>;
-
-interface JoinTenantModalProps {
+interface JoinTenantDialogProps {
   isOpen: boolean;
   onClose: () => void;
 }
 
-export function JoinTenantModal({ isOpen, onClose }: JoinTenantModalProps) {
+export function JoinTenantDialog({ isOpen, onClose }: JoinTenantDialogProps) {
+  const { t } = useTranslation("tenants-join");
   const joinTenant = useJoinTenantMutation();
 
+  const formSchema = joinTenantRequestSchema(t);
+  type JoinTenantFormData = z.infer<typeof formSchema>;
+
   const form = useForm<JoinTenantFormData>({
-    resolver: zodResolver(joinTenantFormSchema),
+    resolver: zodResolver(formSchema),
     defaultValues: {
       inviteCode: "",
     },
@@ -52,7 +47,7 @@ export function JoinTenantModal({ isOpen, onClose }: JoinTenantModalProps) {
       await joinTenant.mutateAsync(data);
       onClose();
       form.reset();
-    } catch (error) {
+    } catch {
       // Error handling is done in the hook
     }
   };
@@ -69,11 +64,9 @@ export function JoinTenantModal({ isOpen, onClose }: JoinTenantModalProps) {
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
             <Users className="w-5 h-5" />
-            Juntar-se a uma organização
+            {t("title")}
           </DialogTitle>
-          <DialogDescription>
-            Digite o código de convite para juntar-se a uma organização existente.
-          </DialogDescription>
+          <DialogDescription>{t("description")}</DialogDescription>
         </DialogHeader>
 
         <Form {...form}>
@@ -83,18 +76,15 @@ export function JoinTenantModal({ isOpen, onClose }: JoinTenantModalProps) {
               name="inviteCode"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Código de convite</FormLabel>
+                  <FormLabel>{t("inviteCode")}</FormLabel>
                   <FormControl>
                     <Input
-                      placeholder="ABC123XYZ"
+                      placeholder={t("inviteCodePlaceholder")}
                       className="uppercase"
                       {...field}
                       onChange={(e) => field.onChange(e.target.value.toUpperCase())}
                     />
                   </FormControl>
-                  <FormDescription>
-                    O código de convite foi fornecido pelo administrador da organização.
-                  </FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
@@ -117,16 +107,16 @@ export function JoinTenantModal({ isOpen, onClose }: JoinTenantModalProps) {
                 onClick={handleClose}
                 disabled={joinTenant.isPending}
               >
-                Cancelar
+                {t("cancel")}
               </Button>
               <Button type="submit" disabled={joinTenant.isPending}>
                 {joinTenant.isPending ? (
                   <>
                     <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                    Juntando...
+                    {t("joining")}
                   </>
                 ) : (
-                  "Juntar-se"
+                  t("joinButton")
                 )}
               </Button>
             </div>

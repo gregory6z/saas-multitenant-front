@@ -1,0 +1,13 @@
+{
+  "title": "Rejoindre une Organisation",
+  "description": "Utilisez un code d'invitation pour rejoindre une organisation existante",
+  "inviteCode": "Code d'Invitation",
+  "inviteCodePlaceholder": "Entrez le code d'invitation",
+  "joinButton": "Rejoindre l'Organisation",
+  "joining": "Connexion en cours...",
+  "cancel": "Annuler",
+  "errors": {
+    "inviteCodeRequired": "Le code d'invitation est obligatoire",
+    "inviteCodeFormat": "Le code doit contenir uniquement des lettres majuscules et des chiffres (6-12 caractères)"
+  }
+}

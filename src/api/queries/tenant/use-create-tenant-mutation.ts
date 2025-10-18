@@ -3,12 +3,13 @@ import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
 import { createTenant } from "@/api/client/tenant.api";
 import type { CreateTenantRequest, Tenant } from "@/api/schemas/tenant.schema";
-import { CreateTenantRequestSchema, CreateTenantResponseSchema } from "@/api/schemas/tenant.schema";
+import { CreateTenantResponseSchema } from "@/api/schemas/tenant.schema";
 import { getDisplayDomain } from "@/lib/env";
 
 /**
  * Hook to create a new tenant
  * @returns Mutation to create tenant with optimistic updates and redirect
+ * NOTE: Validation happens in the form (create-tenant-form.tsx) using the schema factory
  */
 export function useCreateTenantMutation() {
   const { t } = useTranslation("common");
@@ -16,8 +17,8 @@ export function useCreateTenantMutation() {
 
   return useMutation({
     mutationFn: async (data: CreateTenantRequest): Promise<Tenant> => {
-      const validatedData = CreateTenantRequestSchema.parse(data);
-      const response = await createTenant(validatedData);
+      // Validation already done in the form - just pass data through
+      const response = await createTenant(data);
       const validatedResponse = CreateTenantResponseSchema.parse(response);
       return validatedResponse.tenant;
     },

@@ -96,13 +96,19 @@ src/
 │       └── use-[action]-mutation.ts
 ├── components/
 │   ├── ui/                         # shadcn/ui components (button, input, form, etc.)
-│   ├── features/[feature]/         # ✅ Feature-based organization (NEW)
-│   │   ├── [component].tsx         # Feature components
-│   │   └── dialogs/                # Feature-specific dialogs
+│   ├── features/                   # ✅ Feature-based organization (NEW)
+│   │   ├── tenants/                # Tenant management feature
+│   │   │   ├── forms/              # Forms for tenant pages (create, edit, etc.)
+│   │   │   └── [component].tsx     # Other tenant components
+│   │   ├── settings/               # Settings feature
+│   │   │   ├── dialogs/            # Dialogs used in settings pages
+│   │   │   └── [component].tsx     # Other settings components
+│   │   └── [feature]/              # Other features (chatbots, knowledge-base, etc.)
+│   │       ├── forms/              # Feature forms (for main pages)
+│   │       ├── dialogs/            # Feature dialogs (for settings/config)
+│   │       └── [component].tsx     # Feature components
 │   ├── shared/                     # Reusable components (future)
-│   ├── forms/                      # React Hook Form components
 │   ├── navigation/                 # app-sidebar, nav-*, team-switcher
-│   ├── modals/                     # Global dialogs/modals
 │   ├── layouts/                    # Page layouts (auth, creation wizards)
 │   └── skeletons/                  # Loading states
 ├── hooks/                          # Legacy hooks (migrating to api/)
@@ -246,6 +252,84 @@ const mutation = useCreateResource()
 - Submit with Tanstack Query mutations
 - Prefer uncontrolled components (React Hook Form default)
 
+#### Zod Schemas with i18n (CRITICAL)
+
+**RULE: Schemas used in React Hook Form MUST be factory functions accepting `t()` for i18n validation messages.**
+
+**✅ CORRECT Pattern:**
+```typescript
+// src/api/schemas/tenant.schema.ts
+import type { TFunction } from "i18next";
+import { z } from "zod";
+
+// Factory function for form schemas - REQUIRED for schemas used in React Hook Form
+export const createTenantRequestSchema = (t: TFunction) =>
+  z.object({
+    name: z.string().min(1, t("errors.nameRequired")),
+    subdomain: z
+      .string()
+      .min(3, t("errors.subdomainMinLength"))
+      .max(63, t("errors.subdomainMaxLength")),
+  });
+
+// Type export using ReturnType
+export type CreateTenantRequest = z.infer<ReturnType<typeof createTenantRequestSchema>>;
+
+// Constant schema for Response validation - NO i18n needed
+export const CreateTenantResponseSchema = z.object({
+  tenant: TenantSchema,
+});
+```
+
+**Usage in Form:**
+```typescript
+// src/components/forms/create-tenant-form.tsx
+const { t } = useTranslation("tenants-create");
+const formSchema = createTenantRequestSchema(t); // Instantiate with t()
+
+const form = useForm({
+  resolver: zodResolver(formSchema),
+  defaultValues: { name: "", subdomain: "" },
+});
+```
+
+**Usage in Mutation Hook:**
+```typescript
+// src/api/queries/tenant/use-create-tenant-mutation.ts
+export function useCreateTenantMutation() {
+  return useMutation({
+    mutationFn: async (data: CreateTenantRequest) => {
+      // Validation already done in form - just pass data through
+      const response = await createTenant(data);
+      return CreateTenantResponseSchema.parse(response).tenant;
+    },
+  });
+}
+```
+
+**When to Use Factory Functions:**
+- ✅ **Request schemas used in React Hook Form** → Factory function with `t()`
+- ❌ **Response schemas** → Constant schema (no i18n)
+- ❌ **Schemas only used in mutation hooks** → Constant schema (hardcoded messages)
+
+**Schema File Organization:**
+```typescript
+// 1. BASE SCHEMAS (used by other schemas)
+export const TenantSchema = z.object({...})
+
+// 2. REQUEST SCHEMAS (factory functions for forms)
+export const createTenantRequestSchema = (t: TFunction) => z.object({...})
+export const updateTenantRequestSchema = (t: TFunction) => z.object({...})
+
+// 3. RESPONSE SCHEMAS (constant schemas - no i18n needed)
+export const CreateTenantResponseSchema = z.object({...})
+export const UpdateTenantResponseSchema = z.object({...})
+
+// 4. TYPES (at the end)
+export type CreateTenantRequest = z.infer<ReturnType<typeof createTenantRequestSchema>>
+export type CreateTenantResponse = z.infer<typeof CreateTenantResponseSchema>
+```
+
 ### Internationalization (react-i18next)
 
 // AIDEV-PATTERN: i18next with namespace-based translations
@@ -307,6 +391,41 @@ interface Props {
 
 ### File Organization
 
+#### Feature-based Component Organization (CRITICAL)
+
+**RULE: Components organized by page/feature, with `forms/` for main pages and `dialogs/` for settings pages.**
+
+**Organization Pattern:**
+```
+src/components/features/
+├── tenants/              # Tenant management feature
+│   ├── forms/            # Forms for tenant PAGES (create, edit tenant pages)
+│   │   └── create-tenant-form.tsx
+│   └── [component].tsx   # Other tenant components
+├── settings/             # Settings feature
+│   ├── dialogs/          # Dialogs used in SETTINGS pages
+│   │   └── join-tenant-dialog.tsx
+│   └── [component].tsx   # Other settings components
+└── [feature]/            # Other features (chatbots, knowledge-base, etc.)
+    ├── forms/            # Feature forms (for main feature pages)
+    ├── dialogs/          # Feature dialogs (for settings/config modals)
+    └── [component].tsx   # Feature components
+```
+
+**Rules:**
+- **Forms** → Full-page forms for main feature pages (e.g., create tenant page)
+- **Dialogs** → Modal dialogs for settings and secondary actions (e.g., join tenant from switcher)
+- Use terminology: "Dialog" for modal wrappers with `<Dialog>` component
+- Use terminology: "Form" for form components with React Hook Form
+- A Dialog component can contain a Form component inside it
+
+**Examples:**
+- ✅ `features/tenants/forms/create-tenant-form.tsx` → Full page form
+- ✅ `features/settings/dialogs/join-tenant-dialog.tsx` → Modal dialog with form inside
+- ❌ `forms/create-tenant-form.tsx` → Don't use isolated `forms/` folder
+- ❌ `modals/join-tenant-modal.tsx` → Don't use isolated `modals/` folder or "Modal" terminology
+
+**General File Organization:**
 - Co-locate: components, tests, related files together
 - Index files for clean imports
 - Separate business logic from UI

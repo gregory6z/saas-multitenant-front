@@ -3,12 +3,13 @@ import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
 import { joinTenant } from "@/api/client/tenant.api";
 import type { JoinTenantRequest, JoinTenantResponse } from "@/api/schemas/tenant.schema";
-import { JoinTenantRequestSchema, JoinTenantResponseSchema } from "@/api/schemas/tenant.schema";
+import { JoinTenantResponseSchema } from "@/api/schemas/tenant.schema";
 import { getDisplayDomain } from "@/lib/env";
 
 /**
  * Hook to join a tenant via invite code
  * @returns Mutation to join tenant and redirect
+ * NOTE: Validation happens in the form (join-tenant-modal.tsx) using the schema factory
  */
 export function useJoinTenantMutation() {
   const { t } = useTranslation("common");
@@ -16,8 +17,8 @@ export function useJoinTenantMutation() {
 
   return useMutation({
     mutationFn: async (data: JoinTenantRequest): Promise<JoinTenantResponse> => {
-      const validatedData = JoinTenantRequestSchema.parse(data);
-      const response = await joinTenant(validatedData);
+      // Validation already done in the form - just pass data through
+      const response = await joinTenant(data);
       return JoinTenantResponseSchema.parse(response);
     },
 

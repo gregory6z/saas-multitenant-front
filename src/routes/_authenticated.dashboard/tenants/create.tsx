@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { DashboardHeader } from "@/components/dashboard/header";
-import { CreateTenantForm } from "@/components/forms/create-tenant-form";
+import { CreateTenantForm } from "@/components/features/tenants/forms/create-tenant-form";
 
 export const Route = createFileRoute("/_authenticated/dashboard/tenants/create")({
   component: CreateTenantPage,

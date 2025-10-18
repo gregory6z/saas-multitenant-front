@@ -1,0 +1,13 @@
+{
+  "title": "Unirse a una Organización",
+  "description": "Use un código de invitación para unirse a una organización existente",
+  "inviteCode": "Código de Invitación",
+  "inviteCodePlaceholder": "Ingrese el código de invitación",
+  "joinButton": "Unirse a la Organización",
+  "joining": "Uniéndose...",
+  "cancel": "Cancelar",
+  "errors": {
+    "inviteCodeRequired": "El código de invitación es obligatorio",
+    "inviteCodeFormat": "El código solo debe contener letras mayúsculas y números (6-12 caracteres)"
+  }
+}

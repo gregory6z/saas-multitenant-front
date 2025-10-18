@@ -6,7 +6,7 @@ import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { useMembersQuery } from "@/api/queries/member";
 import { useUpdateTenantMutation } from "@/api/queries/tenant";
-import { type UpdateTenantRequest, UpdateTenantRequestSchema } from "@/api/schemas/tenant.schema";
+import { type UpdateTenantRequest, updateTenantRequestSchema } from "@/api/schemas/tenant.schema";
 import { DeleteTenantDialog } from "@/components/features/settings/general/dialogs/delete-tenant-dialog";
 import { TransferOwnershipCard } from "@/components/features/settings/members/transfer-ownership-card";
 import { TransferOwnershipDialog } from "@/components/features/settings/general/dialogs/transfer-ownership-dialog";
@@ -47,8 +47,11 @@ function GeneralPage() {
     name: string;
   } | null>(null);
 
+  // Create schema with translation function from settings-general namespace
+  const formSchema = updateTenantRequestSchema(t);
+
   const form = useForm<UpdateTenantFormData>({
-    resolver: zodResolver(UpdateTenantRequestSchema),
+    resolver: zodResolver(formSchema),
     defaultValues: {
       name: "",
       subdomain: "",

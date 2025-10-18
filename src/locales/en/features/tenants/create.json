@@ -1,0 +1,19 @@
+{
+  "title": "Create Organization",
+  "description": "Create a new organization to manage your chatbots",
+  "organizationName": "Organization Name",
+  "organizationNamePlaceholder": "Your organization name",
+  "subdomain": "Subdomain",
+  "subdomainPlaceholder": "my-company",
+  "subdomainHint": "Your workspace will be available at",
+  "createButton": "Create Organization",
+  "creating": "Creating...",
+  "cancel": "Cancel",
+  "errors": {
+    "nameRequired": "Name is required",
+    "subdomainMinLength": "Subdomain must be at least 3 characters",
+    "subdomainMaxLength": "Subdomain must be at most 63 characters",
+    "subdomainFormat": "Subdomain must contain only lowercase letters, numbers and hyphens",
+    "subdomainHyphens": "Subdomain cannot start or end with a hyphen"
+  }
+}

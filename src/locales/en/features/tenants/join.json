@@ -1,0 +1,13 @@
+{
+  "title": "Join an Organization",
+  "description": "Use an invite code to join an existing organization",
+  "inviteCode": "Invite Code",
+  "inviteCodePlaceholder": "Enter invite code",
+  "joinButton": "Join Organization",
+  "joining": "Joining...",
+  "cancel": "Cancel",
+  "errors": {
+    "inviteCodeRequired": "Invite code is required",
+    "inviteCodeFormat": "Code must contain only uppercase letters and numbers (6-12 characters)"
+  }
+}

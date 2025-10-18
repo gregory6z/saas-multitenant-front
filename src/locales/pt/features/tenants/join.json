@@ -1,0 +1,13 @@
+{
+  "title": "Entrar em uma Organização",
+  "description": "Use um código de convite para entrar em uma organização existente",
+  "inviteCode": "Código de Convite",
+  "inviteCodePlaceholder": "Digite o código de convite",
+  "joinButton": "Entrar na Organização",
+  "joining": "Entrando...",
+  "cancel": "Cancelar",
+  "errors": {
+    "inviteCodeRequired": "Código de convite é obrigatório",
+    "inviteCodeFormat": "Código deve conter apenas letras maiúsculas e números (6-12 caracteres)"
+  }
+}

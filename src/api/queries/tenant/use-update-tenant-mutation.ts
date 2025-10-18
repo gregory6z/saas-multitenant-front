@@ -5,7 +5,6 @@ import { updateTenant } from "@/api/client/tenant.api";
 import {
   type Tenant,
   type UpdateTenantRequest,
-  UpdateTenantRequestSchema,
   UpdateTenantResponseSchema,
 } from "@/api/schemas/tenant.schema";
 import { useCurrentTenantId } from "@/hooks/use-current-tenant";
@@ -13,6 +12,7 @@ import { useCurrentTenantId } from "@/hooks/use-current-tenant";
 /**
  * Hook to update tenant details
  * PUT /tenants
+ * NOTE: Validation happens in the form (general.tsx) using the schema factory
  */
 export function useUpdateTenantMutation() {
   const { t } = useTranslation("settings-general");
@@ -21,8 +21,8 @@ export function useUpdateTenantMutation() {
 
   return useMutation({
     mutationFn: async (data: UpdateTenantRequest) => {
-      const validatedData = UpdateTenantRequestSchema.parse(data);
-      const response = await updateTenant(validatedData);
+      // Validation already done in the form - just pass data through
+      const response = await updateTenant(data);
       return UpdateTenantResponseSchema.parse(response).tenant;
     },
 

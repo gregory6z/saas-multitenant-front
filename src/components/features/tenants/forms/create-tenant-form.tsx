@@ -2,9 +2,10 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2 } from "lucide-react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { useTranslation } from "react-i18next";
 import type { z } from "zod";
 import { useCreateTenantMutation } from "@/api/queries/tenant";
-import { CreateTenantRequestSchema } from "@/api/schemas/tenant.schema";
+import { createTenantRequestSchema } from "@/api/schemas/tenant.schema";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -18,14 +19,16 @@ import {
 import { Input } from "@/components/ui/input";
 import { getDisplayDomain } from "@/lib/env";
 
-type CreateTenantFormData = z.infer<typeof CreateTenantRequestSchema>;
-
 export function CreateTenantForm() {
+  const { t } = useTranslation("tenants-create");
   const createTenant = useCreateTenantMutation();
   const [subdomainManuallyEdited, setSubdomainManuallyEdited] = useState(false);
 
+  const formSchema = createTenantRequestSchema(t);
+  type CreateTenantFormData = z.infer<typeof formSchema>;
+
   const form = useForm<CreateTenantFormData>({
-    resolver: zodResolver(CreateTenantRequestSchema),
+    resolver: zodResolver(formSchema),
     defaultValues: {
       name: "",
       subdomain: "",
@@ -82,17 +85,14 @@ export function CreateTenantForm() {
           name="name"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Nome da Organização</FormLabel>
+              <FormLabel>{t("organizationName")}</FormLabel>
               <FormControl>
                 <Input
-                  placeholder="Minha Empresa"
+                  placeholder={t("organizationNamePlaceholder")}
                   {...field}
                   onChange={(e) => handleNameChange(e.target.value)}
                 />
               </FormControl>
-              <FormDescription>
-                O nome da sua organização como aparecerá na plataforma
-              </FormDescription>
               <FormMessage />
             </FormItem>
           )}
@@ -104,11 +104,11 @@ export function CreateTenantForm() {
           name="subdomain"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Subdomínio</FormLabel>
+              <FormLabel>{t("subdomain")}</FormLabel>
               <FormControl>
                 <div className="flex items-stretch">
                   <Input
-                    placeholder="minha-empresa"
+                    placeholder={t("subdomainPlaceholder")}
                     {...field}
                     onChange={(e) => handleSubdomainChange(e.target.value)}
                     className="rounded-r-none"
@@ -118,9 +118,7 @@ export function CreateTenantForm() {
                   </div>
                 </div>
               </FormControl>
-              <FormDescription>
-                Seu subdomínio único. Apenas letras minúsculas, números e hífens
-              </FormDescription>
+              <FormDescription>{t("subdomainHint")}</FormDescription>
               <FormMessage />
             </FormItem>
           )}
@@ -140,10 +138,10 @@ export function CreateTenantForm() {
           {createTenant.isPending ? (
             <>
               <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-              Criando organização...
+              {t("creating")}
             </>
           ) : (
-            "Criar Organização"
+            t("createButton")
           )}
         </Button>
       </form>

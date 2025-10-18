@@ -345,10 +345,18 @@ PRÉ-REQUISITOS
 □ Criar api/schemas/[entity].schema.ts
   - Schema Zod principal (ou reutilizar existente)
   - Request schemas (Create, Update)
-  - Response schemas
+    ✅ CRÍTICO: Se usado em React Hook Form → Factory function com t()
+    ✅ Se usado apenas em mutation hooks → Constant schema
+  - Response schemas (sempre constant)
   - Exportar types diretamente: export type Member = z.infer<typeof MemberSchema>
   - NÃO criar pasta types/ separada
   - Exemplo: MemberSchema, InviteMemberRequestSchema, etc
+
+  **REGRA CRÍTICA - Schemas com i18n:**
+  - Schemas usados em React Hook Form DEVEM ser factory functions
+  - Exemplo: export const createTenantRequestSchema = (t: TFunction) => z.object({...})
+  - Types: export type CreateTenantRequest = z.infer<ReturnType<typeof createTenantRequestSchema>>
+  - Response schemas e schemas apenas para mutation hooks permanecem constant schemas
 
 □ Criar api/client/[entity].api.ts
   - Funções HTTP puras (axios)

@@ -8,14 +8,20 @@ import enCommon from "@/locales/en/common.json";
 import enDashboard from "@/locales/en/dashboard.json";
 import enSettingsGeneral from "@/locales/en/features/settings/general.json";
 import enSettingsMembers from "@/locales/en/features/settings/members.json";
+import enTenantsCreate from "@/locales/en/features/tenants/create.json";
+import enTenantsJoin from "@/locales/en/features/tenants/join.json";
 import esAuth from "@/locales/es/auth.json";
 import esSettingsGeneral from "@/locales/es/features/settings/general.json";
 import esSettingsMembers from "@/locales/es/features/settings/members.json";
+import esTenantsCreate from "@/locales/es/features/tenants/create.json";
+import esTenantsJoin from "@/locales/es/features/tenants/join.json";
 import frAuth from "@/locales/fr/auth.json";
 import frCommon from "@/locales/fr/common.json";
 import frDashboard from "@/locales/fr/dashboard.json";
 import frSettingsGeneral from "@/locales/fr/features/settings/general.json";
 import frSettingsMembers from "@/locales/fr/features/settings/members.json";
+import frTenantsCreate from "@/locales/fr/features/tenants/create.json";
+import frTenantsJoin from "@/locales/fr/features/tenants/join.json";
 import ptAuth from "@/locales/pt/auth.json";
 import ptCommon from "@/locales/pt/common.json";
 import ptDashboard from "@/locales/pt/dashboard.json";
@@ -23,6 +29,9 @@ import ptDashboard from "@/locales/pt/dashboard.json";
 import ptSettingsGeneral from "@/locales/pt/features/settings/general.json";
 import ptSettingsMembers from "@/locales/pt/features/settings/members.json";
 import ptSettings from "@/locales/pt/settings.json";
+// Features - Tenants
+import ptTenantsCreate from "@/locales/pt/features/tenants/create.json";
+import ptTenantsJoin from "@/locales/pt/features/tenants/join.json";
 
 const resources = {
   en: {
@@ -32,6 +41,8 @@ const resources = {
     settings: ptSettings, // Fallback to Portuguese for now
     "settings-general": enSettingsGeneral,
     "settings-members": enSettingsMembers,
+    "tenants-create": enTenantsCreate,
+    "tenants-join": enTenantsJoin,
   },
   es: {
     auth: esAuth,
@@ -40,6 +51,8 @@ const resources = {
     settings: ptSettings, // Fallback to Portuguese for now
     "settings-general": esSettingsGeneral,
     "settings-members": esSettingsMembers,
+    "tenants-create": esTenantsCreate,
+    "tenants-join": esTenantsJoin,
   },
   fr: {
     auth: frAuth,
@@ -48,6 +61,8 @@ const resources = {
     settings: ptSettings, // Fallback to Portuguese for now
     "settings-general": frSettingsGeneral,
     "settings-members": frSettingsMembers,
+    "tenants-create": frTenantsCreate,
+    "tenants-join": frTenantsJoin,
   },
   pt: {
     auth: ptAuth,
@@ -56,6 +71,8 @@ const resources = {
     settings: ptSettings,
     "settings-general": ptSettingsGeneral,
     "settings-members": ptSettingsMembers,
+    "tenants-create": ptTenantsCreate,
+    "tenants-join": ptTenantsJoin,
   },
 };
 
@@ -80,7 +97,16 @@ i18n
     interpolation: {
       escapeValue: false, // React already escapes values
     },
-    ns: ["auth", "common", "dashboard", "settings", "settings-general", "settings-members"],
+    ns: [
+      "auth",
+      "common",
+      "dashboard",
+      "settings",
+      "settings-general",
+      "settings-members",
+      "tenants-create",
+      "tenants-join",
+    ],
     defaultNS: "auth",
     supportedLngs: ["en", "es", "fr", "pt"], // Languages supported by the app
     cleanCode: true,

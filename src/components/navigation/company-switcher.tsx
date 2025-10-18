@@ -2,7 +2,7 @@ import { Link } from "@tanstack/react-router";
 import { ChevronsUpDown, Plus, Users } from "lucide-react";
 import * as React from "react";
 import { useTranslation } from "react-i18next";
-import { JoinTenantModal } from "@/components/modals/join-tenant-modal";
+import { JoinTenantDialog } from "@/components/features/settings/dialogs/join-tenant-dialog";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -97,7 +97,7 @@ export function CompanySwitcher({
           </DropdownMenuContent>
         </DropdownMenu>
 
-        <JoinTenantModal isOpen={isJoinModalOpen} onClose={() => setIsJoinModalOpen(false)} />
+        <JoinTenantDialog isOpen={isJoinModalOpen} onClose={() => setIsJoinModalOpen(false)} />
       </div>
     );
   }
@@ -185,8 +185,8 @@ export function CompanySwitcher({
         </DropdownMenuContent>
       </DropdownMenu>
 
-      {/* Join Tenant Modal */}
-      <JoinTenantModal isOpen={isJoinModalOpen} onClose={() => setIsJoinModalOpen(false)} />
+      {/* Join Tenant Dialog */}
+      <JoinTenantDialog isOpen={isJoinModalOpen} onClose={() => setIsJoinModalOpen(false)} />
     </div>
   );
 }
