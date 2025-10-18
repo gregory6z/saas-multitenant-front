@@ -4,6 +4,7 @@ import { Building2, Check, Info, Trash2 } from "lucide-react";
 import * as React from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
+import { useMembersQuery } from "@/api/queries/member";
 import { useUpdateTenantMutation } from "@/api/queries/tenant";
 import { type UpdateTenantRequest, UpdateTenantRequestSchema } from "@/api/schemas/tenant.schema";
 import { DeleteTenantDialog } from "@/components/features/settings/general/dialogs/delete-tenant-dialog";
@@ -23,7 +24,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { useCurrentTenant } from "@/hooks/use-current-tenant";
-import { useCurrentUserRole, useTeamMembers } from "@/hooks/use-team-members";
+import { useCurrentUserRole } from "@/hooks/use-team-members";
 import { getDisplayDomain } from "@/lib/env";
 
 type UpdateTenantFormData = UpdateTenantRequest;
@@ -38,8 +39,7 @@ function GeneralPage() {
 
   // ✅ Usa hooks da API diretamente
   const updateTenant = useUpdateTenantMutation();
-
-  const { data: members } = useTeamMembers();
+  const { data: members } = useMembersQuery();
   const { role: currentUserRole } = useCurrentUserRole();
   const [isDeleteModalOpen, setIsDeleteModalOpen] = React.useState(false);
   const [transferTarget, setTransferTarget] = React.useState<{

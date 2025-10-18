@@ -1,6 +1,6 @@
 import { useMemo } from "react";
+import { useTenantsQuery } from "@/api/queries/tenant";
 import { getCurrentSubdomain, hasSubdomain } from "@/hooks/use-subdomain";
-import { useTenants } from "@/hooks/use-tenants";
 
 /**
  * Hook to get current tenant context
@@ -8,9 +8,12 @@ import { useTenants } from "@/hooks/use-tenants";
  * Strategy:
  * - With subdomain: Uses subdomain-based tenant detection (lvh.me, multisaas.app)
  * - Without subdomain: Uses first tenant from user's list (localhost, tenant root)
+ *
+ * NOTE: This is a utility hook that can stay in src/hooks/ because it doesn't
+ * make API calls directly - it just extracts the current tenant from the list.
  */
 export function useCurrentTenant() {
-  const { tenants, isLoading } = useTenants();
+  const { data: tenants, isLoading } = useTenantsQuery();
 
   // Memoize subdomain check to avoid recalculation on every render
   const hasSubdomainContext = useMemo(() => hasSubdomain(), []);
