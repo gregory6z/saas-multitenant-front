@@ -100,7 +100,18 @@
     "general": "Geral",
     "members": "Membros",
     "plans": "Planos",
-    "billing": "Faturamento"
+    "billing": "Faturamento",
+    "groups": {
+      "general": "Geral",
+      "settings": "Configurações"
+    }
+  },
+  "userMenu": {
+    "account": "Conta",
+    "billing": "Faturamento",
+    "notifications": "Notificações",
+    "logout": "Sair",
+    "loggingOut": "Saindo..."
   },
   "chatbots": {
     "title": "Chatbots",

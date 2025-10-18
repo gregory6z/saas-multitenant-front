@@ -1,129 +1,104 @@
-import { useLocation } from "@tanstack/react-router";
-import { BarChart3, Bot, Database, Settings } from "lucide-react";
 import type * as React from "react";
 import { useTranslation } from "react-i18next";
-
-import { NavMain } from "@/components/navigation/nav-main";
-import { NavProjects } from "@/components/navigation/nav-projects";
-import { Sidebar, SidebarContent, SidebarRail } from "@/components/ui/sidebar";
+import { Building2 } from "lucide-react";
+import {
+  Sidebar,
+  SidebarContent,
+  SidebarFooter,
+  SidebarHeader,
+  SidebarRail,
+} from "@/components/ui/sidebar";
+import { CompanySwitcher } from "@/components/navigation/company-switcher";
+import { NavGroup } from "@/components/navigation/nav-group";
+import { NavUser } from "@/components/navigation/nav-user";
+import { baseNavGroups } from "@/components/navigation/sidebar-data";
+import type { NavGroup as NavGroupType, Team } from "@/components/navigation/types";
 import { useCurrentUserRole } from "@/hooks/use-team-members";
-
-// Simplified sidebar data
-const data = {
-  navMain: [
-    {
-      title: "Chatbots",
-      url: "/dashboard/chatbots",
-      icon: Bot,
-    },
-    {
-      title: "Knowledge Base",
-      url: "/dashboard/knowledge-base",
-      icon: Database,
-    },
-    {
-      title: "Usages",
-      url: "/dashboard/usages",
-      icon: BarChart3,
-    },
-    {
-      title: "Workplace Settings",
-      url: "/dashboard/settings",
-      icon: Settings,
-      items: [
-        { title: "General", url: "/dashboard/settings/general" },
-        { title: "Members", url: "/dashboard/settings/members" },
-        { title: "Plans", url: "/dashboard/settings/plans" },
-        { title: "Billing", url: "/dashboard/settings/billing" },
-      ],
-    },
-  ],
-  chatbots: [
-    {
-      name: "Suporte Cliente",
-      url: "/dashboard/chatbots/suporte-cliente",
-      icon: Bot,
-    },
-    {
-      name: "Vendas Bot",
-      url: "/dashboard/chatbots/vendas",
-      icon: Bot,
-    },
-    {
-      name: "FAQ Automático",
-      url: "/dashboard/chatbots/faq",
-      icon: Bot,
-    },
-  ],
-};
+import { useUser } from "@/hooks/use-users";
+import { useSubscription } from "@/hooks/use-subscription";
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const { t } = useTranslation("common");
-  const location = useLocation();
   const { canManageTeam } = useCurrentUserRole();
+  const { data: user } = useUser();
+  const { subscription } = useSubscription();
 
-  // Update data with translations and active state
-  const translatedData = {
-    ...data,
-    navMain: data.navMain.map((item) => {
-      let translationKey = "";
-      switch (item.title) {
-        case "Chatbots":
-          translationKey = "sidebar.chatbots";
-          break;
-        case "Knowledge Base":
-          translationKey = "sidebar.knowledgeBase";
-          break;
-        case "Usages":
-          translationKey = "sidebar.usages";
-          break;
-        case "Workplace Settings":
-          translationKey = "sidebar.workplaceSettings";
-          break;
-        default:
-          translationKey = `sidebar.${item.title.toLowerCase()}`;
-      }
+  // TODO: Implement useTenants hook or get teams data
+  // For now, using mock data
+  const teams: Team[] = [
+    {
+      id: "1",
+      name: "My Organization",
+      logo: Building2,
+      plan: subscription?.planId || "Free",
+      subdomain: "my-org",
+    },
+  ];
 
-      // Check if current item is active
-      const isActive =
-        location.pathname === item.url ||
-        item.items?.some((subItem) => location.pathname === subItem.url);
-
-      // Filter subitems based on permissions
-      let filteredItems = item.items;
-      if (item.title === "Workplace Settings" && filteredItems) {
-        // Only show Members to admin and owner roles
-        filteredItems = filteredItems.filter((subItem) => {
-          if (subItem.title === "Members") {
-            return canManageTeam;
+  // Process nav groups with translations and permissions
+  const processedNavGroups: NavGroupType[] = baseNavGroups.map((group) => ({
+    ...group,
+    title: t(`sidebar.groups.${group.title}`),
+    items: group.items
+      .map((item) => {
+        // Handle collapsible items (with subitems)
+        if (item.items) {
+          // Filter subitems based on permissions
+          let filteredSubItems = item.items;
+          if (item.title === "workplaceSettings") {
+            filteredSubItems = item.items.filter((subItem) => {
+              if (subItem.title === "members") {
+                return canManageTeam;
+              }
+              return true;
+            });
           }
-          return true;
-        });
-      }
 
-      return {
-        ...item,
-        title: t(translationKey),
-        isActive,
-        items: filteredItems?.map((subItem) => ({
-          ...subItem,
-          title: t(`sidebar.${subItem.title.toLowerCase()}`),
-          isActive: location.pathname === subItem.url,
-        })),
-      };
-    }),
-    chatbots: data.chatbots.map((chatbot) => ({
-      ...chatbot,
-      // Keep chatbot names as they are for now
-    })),
+          return {
+            ...item,
+            title: t(`sidebar.${item.title}`),
+            items: filteredSubItems.map((subItem) => ({
+              ...subItem,
+              title: t(`sidebar.${subItem.title}`),
+            })),
+          };
+        }
+
+        // Handle simple link items
+        return {
+          ...item,
+          title: t(`sidebar.${item.title}`),
+        };
+      })
+      .filter((item) => {
+        // Remove empty collapsible items
+        if (item.items && item.items.length === 0) {
+          return false;
+        }
+        return true;
+      }),
+  }));
+
+  // User data for footer
+  const userData = {
+    name: user?.name || "User",
+    email: user?.email || "user@example.com",
+    avatar: "/avatars/default.jpg", // TODO: Implement user avatar
   };
 
   return (
-    <Sidebar collapsible="icon" className="relative top-0 h-full" {...props}>
+    <Sidebar collapsible="icon" {...props}>
+      <SidebarHeader>
+        <CompanySwitcher teams={teams} />
+      </SidebarHeader>
       <SidebarContent>
-        <NavMain items={translatedData.navMain} />
-        <NavProjects projects={translatedData.chatbots} />
+        {processedNavGroups.map((group) => (
+          <NavGroup key={group.title} {...group} />
+        ))}
       </SidebarContent>
+      <SidebarFooter>
+        <NavUser user={userData} />
+      </SidebarFooter>
       <SidebarRail />
     </Sidebar>
   );
