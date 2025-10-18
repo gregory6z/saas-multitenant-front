@@ -1,5 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { Bot, Building2, LogOut, Settings } from "lucide-react";
+import { useTenantsQuery } from "@/api/queries/tenant";
 import { CompanySwitcher } from "@/components/navigation/company-switcher";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
@@ -13,12 +14,11 @@ import {
 import { Skeleton } from "@/components/ui/skeleton";
 import { useAuth } from "@/hooks/use-auth";
 import { useSubdomain } from "@/hooks/use-subdomain";
-import { useTenants } from "@/hooks/use-tenants";
 import { useUser } from "@/hooks/use-users";
 
 export function DashboardHeader() {
   const { logout } = useAuth();
-  const { tenants, isLoading: tenantsLoading, error: tenantsError } = useTenants();
+  const { data: tenants, isLoading: tenantsLoading, error: tenantsError } = useTenantsQuery();
   const { data: user, isLoading: userLoading, error: userError } = useUser();
   const { data: currentTenant } = useSubdomain();
 

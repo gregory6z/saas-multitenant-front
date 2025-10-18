@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import { useTenants } from "@/hooks/use-tenants";
+import { useTenantsQuery } from "@/api/queries/tenant";
 
 /**
  * Componente que redireciona automaticamente para o subdomain do tenant
@@ -14,7 +14,7 @@ import { useTenants } from "@/hooks/use-tenants";
  * - Criação de tenant (/dashboard/tenants/create)
  */
 export function SubdomainRedirect() {
-  const { tenants } = useTenants();
+  const { data: tenants } = useTenantsQuery();
   const hasRedirected = useRef(false);
 
   useEffect(() => {

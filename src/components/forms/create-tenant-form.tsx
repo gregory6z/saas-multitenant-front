@@ -3,6 +3,8 @@ import { Loader2 } from "lucide-react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import type { z } from "zod";
+import { useCreateTenantMutation } from "@/api/queries/tenant";
+import { CreateTenantRequestSchema } from "@/api/schemas/tenant.schema";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -14,13 +16,12 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { CreateTenantRequestSchema, useTenants } from "@/hooks/use-tenants";
 import { getDisplayDomain } from "@/lib/env";
 
 type CreateTenantFormData = z.infer<typeof CreateTenantRequestSchema>;
 
 export function CreateTenantForm() {
-  const { createTenant } = useTenants();
+  const createTenant = useCreateTenantMutation();
   const [subdomainManuallyEdited, setSubdomainManuallyEdited] = useState(false);
 
   const form = useForm<CreateTenantFormData>({

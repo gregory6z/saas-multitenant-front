@@ -2,6 +2,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2, Users } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import { useJoinTenantMutation } from "@/api/queries/tenant";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -20,7 +21,6 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { useTenants } from "@/hooks/use-tenants";
 
 // Form schema for joining tenant
 const joinTenantFormSchema = z.object({
@@ -38,7 +38,7 @@ interface JoinTenantModalProps {
 }
 
 export function JoinTenantModal({ isOpen, onClose }: JoinTenantModalProps) {
-  const { joinTenant } = useTenants();
+  const joinTenant = useJoinTenantMutation();
 
   const form = useForm<JoinTenantFormData>({
     resolver: zodResolver(joinTenantFormSchema),

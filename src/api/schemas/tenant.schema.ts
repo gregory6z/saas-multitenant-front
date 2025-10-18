@@ -26,6 +26,38 @@ export const UpdateTenantResponseSchema = z.object({
 });
 
 // Request schemas
+export const CreateTenantRequestSchema = z.object({
+  name: z.string().min(1, "Nome é obrigatório"),
+  subdomain: z
+    .string()
+    .transform((val) =>
+      val
+        .toLowerCase()
+        .replace(/[^a-z0-9\s-]/g, "")
+        .replace(/\s+/g, "-")
+        .replace(/-+/g, "-")
+        .replace(/^-|-$/g, "")
+    )
+    .pipe(
+      z
+        .string()
+        .min(3, "Subdomínio deve ter pelo menos 3 caracteres")
+        .max(63, "Subdomínio deve ter no máximo 63 caracteres")
+        .regex(
+          /^[a-z0-9]([a-z0-9-]*[a-z0-9])?$/,
+          "Subdomínio deve conter apenas letras minúsculas, números e hífens"
+        )
+        .refine(
+          (value) => !value.startsWith("-") && !value.endsWith("-"),
+          "Subdomínio não pode começar ou terminar com hífen"
+        )
+    ),
+});
+
+export const CreateTenantResponseSchema = z.object({
+  tenant: TenantSchema,
+});
+
 export const UpdateTenantRequestSchema = z.object({
   name: z.string().min(1, "Nome é obrigatório").optional(),
   subdomain: z
@@ -71,7 +103,22 @@ export const TransferOwnershipResponseSchema = z.object({
 // Type exports
 export type Tenant = z.infer<typeof TenantSchema>;
 export type TenantsResponse = z.infer<typeof TenantsResponseSchema>;
+export type CreateTenantRequest = z.infer<typeof CreateTenantRequestSchema>;
+export type CreateTenantResponse = z.infer<typeof CreateTenantResponseSchema>;
 export type UpdateTenantRequest = z.infer<typeof UpdateTenantRequestSchema>;
 export type UpdateTenantResponse = z.infer<typeof UpdateTenantResponseSchema>;
 export type TransferOwnershipRequest = z.infer<typeof TransferOwnershipRequestSchema>;
 export type TransferOwnershipResponse = z.infer<typeof TransferOwnershipResponseSchema>;
+
+// Join tenant schemas
+export const JoinTenantRequestSchema = z.object({
+  inviteCode: z.string().min(1, "Código de convite é obrigatório"),
+});
+
+export const JoinTenantResponseSchema = z.object({
+  tenant: TenantSchema,
+  role: z.string(),
+});
+
+export type JoinTenantRequest = z.infer<typeof JoinTenantRequestSchema>;
+export type JoinTenantResponse = z.infer<typeof JoinTenantResponseSchema>;

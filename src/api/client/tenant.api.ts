@@ -1,4 +1,8 @@
 import type {
+  CreateTenantRequest,
+  CreateTenantResponse,
+  JoinTenantRequest,
+  JoinTenantResponse,
   TenantsResponse,
   UpdateTenantRequest,
   UpdateTenantResponse,
@@ -20,6 +24,15 @@ export async function getTenants(): Promise<TenantsResponse> {
 }
 
 /**
+ * Create a new tenant
+ * POST /tenants
+ */
+export async function createTenant(data: CreateTenantRequest): Promise<CreateTenantResponse> {
+  const response = await api.post("/tenants", data);
+  return response.data;
+}
+
+/**
  * Update tenant details
  * PUT /tenants
  * Backend extracts tenant from Origin header (subdomain)
@@ -37,4 +50,13 @@ export async function updateTenant(data: UpdateTenantRequest): Promise<UpdateTen
  */
 export async function deleteTenant(): Promise<void> {
   await api.delete("/tenants");
+}
+
+/**
+ * Join tenant via invite code
+ * POST /tenants/join
+ */
+export async function joinTenant(data: JoinTenantRequest): Promise<JoinTenantResponse> {
+  const response = await api.post("/tenants/join", data);
+  return response.data;
 }

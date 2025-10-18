@@ -201,6 +201,12 @@
     "emailAlreadyVerified": "Cet email est déjà vérifié",
     "userNotFound": "Utilisateur non trouvé"
   },
+  "tenant": {
+    "createError": "Erreur lors de la création de l'organisation. Veuillez réessayer.",
+    "createSuccess": "Organisation créée avec succès !",
+    "joinError": "Erreur lors de l'adhésion à l'organisation. Vérifiez le code et réessayez.",
+    "joinSuccess": "Vous avez rejoint l'organisation avec succès !"
+  },
   "plans": {
     "title": "Plans",
     "mySubscription": "Mon abonnement:",

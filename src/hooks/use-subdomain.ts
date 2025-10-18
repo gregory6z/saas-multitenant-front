@@ -1,14 +1,14 @@
-import { useTenants } from "@/hooks/use-tenants";
+import { useTenantsQuery } from "@/api/queries/tenant";
 
 /**
  * Hook to detect current subdomain and return matching tenant
- * NO API CALL - uses data from useTenants() which is already cached
+ * NO API CALL - uses data from useTenantsQuery() which is already cached
  *
  * IMPORTANTE: Backend não tem endpoint /tenants/by-subdomain/{subdomain}
  * Usamos GET /tenants que retorna todos os tenants do usuário
  */
 export function useSubdomain() {
-  const { tenants } = useTenants();
+  const { data: tenants } = useTenantsQuery();
   const subdomain = getCurrentSubdomain();
 
   // Find tenant that matches current subdomain

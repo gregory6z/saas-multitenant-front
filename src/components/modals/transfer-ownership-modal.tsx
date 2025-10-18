@@ -11,7 +11,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
-import { useTenants } from "@/hooks/use-tenants";
+import { useTransferOwnershipMutation } from "@/api/queries/member";
 
 interface TransferOwnershipModalProps {
   open: boolean;
@@ -27,7 +27,7 @@ export function TransferOwnershipModal({
   newOwnerName,
 }: TransferOwnershipModalProps) {
   const { t } = useTranslation("settings");
-  const { transferOwnership } = useTenants();
+  const transferOwnership = useTransferOwnershipMutation();
 
   const handleConfirm = () => {
     transferOwnership.mutate(
