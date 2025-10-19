@@ -6,12 +6,13 @@ import { z } from "zod";
 
 /**
  * Subscription entity schema
+ * Note: API returns minimal data - sensitive fields removed for security
  */
 export const SubscriptionSchema = z.object({
-  id: z.string(),
-  tenantId: z.string(),
+  id: z.string().optional(),
+  tenantId: z.string().optional(),
   planId: z.string(),
-  externalId: z.string().nullable(),
+  externalId: z.string().nullable().optional(),
   status: z.enum([
     "active",
     "canceled",
@@ -23,8 +24,8 @@ export const SubscriptionSchema = z.object({
   ]),
   currentPeriodStart: z.string(),
   currentPeriodEnd: z.string(),
-  createdAt: z.string(),
-  updatedAt: z.string(),
+  createdAt: z.string().optional(),
+  updatedAt: z.string().optional(),
 });
 
 /**

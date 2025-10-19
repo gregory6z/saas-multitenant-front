@@ -17,9 +17,21 @@ export function useSubscriptionQuery() {
     queryFn: async () => {
       const response = await getSubscription();
       console.log("[useSubscriptionQuery] Backend response:", response);
+      console.log("[useSubscriptionQuery] Response type:", typeof response);
+      console.log("[useSubscriptionQuery] Has subscription key:", "subscription" in (response || {}));
       console.log("[useSubscriptionQuery] Full JSON:", JSON.stringify(response, null, 2));
+
+      // If API returns subscription directly (not wrapped), wrap it
+      if (response && "planId" in response && !("subscription" in response)) {
+        console.log("[useSubscriptionQuery] ⚠️ API returned subscription directly, wrapping it");
+        const wrapped = { subscription: response };
+        return SubscriptionResponseSchema.parse(wrapped);
+      }
+
       // Validate response with Zod schema
-      return SubscriptionResponseSchema.parse(response);
+      const validated = SubscriptionResponseSchema.parse(response);
+      console.log("[useSubscriptionQuery] ✅ Validated response:", validated);
+      return validated;
     },
     staleTime: 5 * 60 * 1000, // 5min - subscription changes moderately
     gcTime: 30 * 60 * 1000, // 30min - keep in cache during session
