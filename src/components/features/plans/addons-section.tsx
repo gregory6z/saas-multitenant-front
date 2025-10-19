@@ -1,4 +1,4 @@
-import { Package2 } from "lucide-react";
+import { Info, Package2 } from "lucide-react";
 import * as React from "react";
 import { useTranslation } from "react-i18next";
 import { useAddonsQuery } from "@/api/queries/subscription";
@@ -51,7 +51,7 @@ export function AddonsSection() {
     );
   }, [addonsData]);
 
-  // Type labels for section headers
+  // Type labels and descriptions for section headers
   const typeLabels: Record<string, string> = {
     chatbot: t("addons.types.chatbot"),
     storage: t("addons.types.storage"),
@@ -61,6 +61,22 @@ export function AddonsSection() {
     user: t("addons.types.user"),
     whitelabel: t("addons.types.whitelabel"),
     custom_domain: t("addons.types.custom_domain"),
+  };
+
+  const typeDescriptions: Record<string, string> = {
+    chatbot: t("addons.typeDescriptions.chatbot"),
+    storage: t("addons.typeDescriptions.storage"),
+    kb_size_upgrade: t("addons.typeDescriptions.kb_size_upgrade"),
+    messages: t("addons.typeDescriptions.messages"),
+    api_calls: t("addons.typeDescriptions.api_calls"),
+    user: t("addons.typeDescriptions.user"),
+    whitelabel: t("addons.typeDescriptions.whitelabel"),
+    custom_domain: t("addons.typeDescriptions.custom_domain"),
+  };
+
+  const typeExamples: Record<string, string | undefined> = {
+    storage: t("addons.examples.storage"),
+    kb_size_upgrade: t("addons.examples.kb_size_upgrade"),
   };
 
   if (isLoading) {
@@ -118,9 +134,25 @@ export function AddonsSection() {
           .sort(([, a], [, b]) => a[0].sortOrder - b[0].sortOrder)
           .map(([type, addons]) => (
             <div key={type} className="space-y-4">
-              <h3 className="text-lg font-semibold text-foreground">
-                {typeLabels[type] || type}
-              </h3>
+              {/* Type Header */}
+              <div className="space-y-2">
+                <h3 className="text-lg font-semibold text-foreground">
+                  {typeLabels[type] || type}
+                </h3>
+                {typeDescriptions[type] && (
+                  <p className="text-sm text-muted-foreground">
+                    {typeDescriptions[type]}
+                  </p>
+                )}
+                {typeExamples[type] && (
+                  <div className="flex items-start gap-2 p-3 rounded-lg bg-blue-50 border border-blue-200">
+                    <Info className="w-4 h-4 text-blue-600 mt-0.5 flex-shrink-0" />
+                    <p className="text-sm text-blue-900">{typeExamples[type]}</p>
+                  </div>
+                )}
+              </div>
+
+              {/* Addons Grid */}
               <div className="grid md:grid-cols-2 gap-4">
                 {addons
                   .sort((a, b) => a.sortOrder - b.sortOrder)

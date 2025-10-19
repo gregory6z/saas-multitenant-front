@@ -89,13 +89,27 @@
     "loadError": "Erro ao carregar complementos disponíveis",
     "types": {
       "chatbot": "Chatbots Extras",
-      "storage": "Armazenamento Extra",
-      "kb_size_upgrade": "Upgrade de Knowledge Base",
+      "storage": "Armazenamento Global Extra",
+      "kb_size_upgrade": "Limite por Knowledge Base",
       "messages": "Mensagens Extras",
       "api_calls": "Chamadas API Extras",
       "user": "Usuários Extras",
       "whitelabel": "White-label",
       "custom_domain": "Domínio Personalizado"
+    },
+    "typeDescriptions": {
+      "chatbot": "Adicione mais chatbots além do limite do seu plano atual. Perfeito para expandir seu número de assistentes virtuais.",
+      "storage": "Aumenta o limite total de armazenamento compartilhado entre todos os chatbots e Knowledge Bases. Ideal para times que precisam de mais espaço global.",
+      "kb_size_upgrade": "Aumenta o limite de tamanho individual de cada Knowledge Base. Permite que cada KB armazene mais documentos sem afetar o limite global.",
+      "messages": "Adicione mais mensagens ao seu limite mensal. Útil para chatbots com alto volume de conversas.",
+      "api_calls": "Aumente o número de chamadas API disponíveis. Essencial para integrações que demandam mais requisições.",
+      "user": "Adicione mais usuários colaboradores ao seu workspace. Expanda sua equipe sem limites.",
+      "whitelabel": "Remova a marca RagBoost e personalize completamente a aparência do chatbot com suas cores, logo e domínio.",
+      "custom_domain": "Configure um domínio personalizado para seus chatbots. Fortaleça sua identidade de marca."
+    },
+    "examples": {
+      "storage": "Exemplo: Plano com 1 GB total + 500 MB extra = 1.5 GB compartilhados entre todas as KBs",
+      "kb_size_upgrade": "Exemplo: Plano com 50 MB/KB + 50 MB extra = 100 MB por Knowledge Base individual"
     }
   }
 }
