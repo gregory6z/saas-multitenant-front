@@ -109,7 +109,7 @@ export const AddonCard = React.memo(
                 {formatPrice(addon.price, addon.currency)}
               </span>
               <span className="text-sm text-muted-foreground">
-                /{addon.interval === "month" ? t("perMonth") : t("perYear")}
+                {addon.interval === "month" ? t("perMonth") : t("perYear")}
               </span>
             </div>
             {getMetadataText() && (

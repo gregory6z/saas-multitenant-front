@@ -1,16 +1,15 @@
 import { createFileRoute } from "@tanstack/react-router"
-import { CreditCard, Crown, Gift } from "lucide-react";
+import { Crown, Gift } from "lucide-react";
 import * as React from "react";
 import { useTranslation } from "react-i18next";
 import { usePlansQuery } from "@/api/queries/plan";
-import { useCreatePortalSessionMutation, useSubscriptionQuery } from "@/api/queries/subscription";
+import { useSubscriptionQuery } from "@/api/queries/subscription";
 import type { Plan } from "@/api/schemas/plan.schema";
 import { AddonsSection } from "@/components/features/plans/addons-section";
 import { PlanCard } from "@/components/features/plans/plan-card";
 import { PageHeader } from "@/components/shared/page-header";
 import { PlansPageSkeleton } from "@/components/skeletons/plans-page-skeleton";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 export const Route = createFileRoute("/_authenticated/dashboard/_layout/settings/plans")({
@@ -38,7 +37,6 @@ function PlansPage() {
   const { t } = useTranslation("settings-plans");
   const { data: plans = [], isLoading: plansLoading } = usePlansQuery();
   const { data: subscriptionData, isLoading: subscriptionLoading } = useSubscriptionQuery();
-  const createPortal = useCreatePortalSessionMutation();
 
   // Extract subscription from response data
   const subscription = subscriptionData?.subscription;
@@ -95,16 +93,6 @@ function PlansPage() {
   }, []);
 
   /**
-   * Opens Stripe Customer Portal for subscription management
-   */
-  const handleManageSubscription = React.useCallback(() => {
-    const currentUrl = window.location.origin + window.location.pathname;
-    createPortal.mutate({
-      returnUrl: currentUrl,
-    });
-  }, [createPortal]);
-
-  /**
    * Check if user has an active paid subscription
    */
   const hasActiveSubscription = React.useMemo(
@@ -130,45 +118,30 @@ function PlansPage() {
             <div className="flex items-center justify-between">
               <h1 className="text-2xl font-semibold text-foreground">{t("title")}</h1>
 
-              <div className="flex items-center gap-3">
-                {/* Plano Atual Simplificado */}
-                {subscription && (
-                  <div className="flex items-center gap-2 px-4 py-2 rounded-lg border border-blue-200 bg-blue-50 w-fit h-fit shadow-sm">
-                    <Crown className="w-4 h-4 text-blue-600" />
-                    <div className="flex items-center gap-2">
-                      <span className="text-sm text-muted-foreground">{t("mySubscription")}</span>
-                      <span className="text-sm font-semibold text-blue-700">
-                        {t(`planNames.${getPlanKey(subscription.planId)}`)}
-                      </span>
-                    </div>
-                    <Badge
-                      variant={subscription.status === "active" ? "default" : "secondary"}
-                      className={`text-xs font-medium ${
-                        subscription.status === "active"
-                          ? "bg-green-100 text-green-700 hover:bg-green-100"
-                          : subscription.status === "trialing"
-                            ? "bg-primary text-white hover:bg-primary"
-                            : "bg-gray-100 text-gray-700 hover:bg-gray-100"
-                      }`}
-                    >
-                      {t(`status.${subscription.status}`)}
-                    </Badge>
+              {/* Plano Atual Simplificado */}
+              {subscription && (
+                <div className="flex items-center gap-2 px-4 py-2 rounded-full border border-blue-200 bg-blue-50 w-fit h-fit shadow-sm">
+                  <Crown className="w-4 h-4 text-blue-600" />
+                  <div className="flex items-center gap-2">
+                    <span className="text-sm text-muted-foreground">{t("mySubscription")}</span>
+                    <span className="text-sm font-semibold text-blue-700">
+                      {t(`planNames.${getPlanKey(subscription.planId)}`)}
+                    </span>
                   </div>
-                )}
-
-                {/* Botão de Gerenciar Assinatura */}
-                {hasActiveSubscription && (
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={handleManageSubscription}
-                    disabled={createPortal.isPending}
+                  <Badge
+                    variant={subscription.status === "active" ? "default" : "secondary"}
+                    className={`text-xs font-medium ${
+                      subscription.status === "active"
+                        ? "bg-green-100 text-green-700 hover:bg-green-100"
+                        : subscription.status === "trialing"
+                          ? "bg-primary text-white hover:bg-primary"
+                          : "bg-gray-100 text-gray-700 hover:bg-gray-100"
+                    }`}
                   >
-                    <CreditCard className="w-4 h-4" />
-                    {createPortal.isPending ? t("loading") : t("manageSubscription")}
-                  </Button>
-                )}
-              </div>
+                    {t(`status.${subscription.status}`)}
+                  </Badge>
+                </div>
+              )}
             </div>
 
             {/* Tabs Centralizados */}

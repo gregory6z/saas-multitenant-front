@@ -1,10 +1,11 @@
-import { Info, Package2 } from "lucide-react";
+import { Info, Package2, Sparkles } from "lucide-react";
 import * as React from "react";
 import { useTranslation } from "react-i18next";
 import { useAddonsQuery } from "@/api/queries/subscription";
 import type { Addon } from "@/api/schemas/subscription.schema";
 import { AddonCard } from "@/components/features/plans/addon-card";
 import { Alert, AlertDescription } from "@/components/ui/alert";
+import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { Skeleton } from "@/components/ui/skeleton";
 
@@ -79,6 +80,20 @@ export function AddonsSection() {
     kb_size_upgrade: t("addons.examples.kb_size_upgrade"),
   };
 
+  // Custom sort order - priority types first
+  const typePriority: Record<string, number> = {
+    messages: 1,
+    chatbot: 2,
+    storage: 3,
+    kb_size_upgrade: 4,
+    api_calls: 5,
+    user: 6,
+    whitelabel: 7,
+    custom_domain: 8,
+  };
+
+  const getSortOrder = (type: string) => typePriority[type] || 999;
+
   if (isLoading) {
     return (
       <div className="space-y-6">
@@ -115,8 +130,11 @@ export function AddonsSection() {
     return null; // Don't show section if no addons available
   }
 
+  // Count active addons
+  const activeAddonsCount = activeAddons.size;
+
   return (
-    <div className="space-y-6">
+    <div className="space-y-8">
       {/* Header */}
       <div className="space-y-2">
         <div className="flex items-center gap-3">
@@ -126,14 +144,27 @@ export function AddonsSection() {
         <p className="text-sm text-muted-foreground">{t("addons.description")}</p>
       </div>
 
+      {/* My Addons Card - Only show if has active addons */}
+      {activeAddonsCount > 0 && (
+        <div className="flex items-center gap-2 px-4 py-3 rounded-lg border border-blue-200 bg-blue-50 w-fit shadow-sm">
+          <Sparkles className="w-4 h-4 text-blue-600" />
+          <div className="flex items-center gap-2">
+            <span className="text-sm text-muted-foreground">{t("addons.myAddons")}</span>
+            <Badge className="bg-blue-100 text-blue-700 hover:bg-blue-100 font-semibold">
+              {activeAddonsCount} {activeAddonsCount === 1 ? "ativo" : "ativos"}
+            </Badge>
+          </div>
+        </div>
+      )}
+
       <Separator />
 
       {/* Addons grouped by type */}
-      <div className="space-y-8">
+      <div className="space-y-12">
         {Object.entries(groupedAddons)
-          .sort(([, a], [, b]) => a[0].sortOrder - b[0].sortOrder)
+          .sort(([typeA], [typeB]) => getSortOrder(typeA) - getSortOrder(typeB))
           .map(([type, addons]) => (
-            <div key={type} className="space-y-4">
+            <div key={type} className="space-y-5">
               {/* Type Header */}
               <div className="space-y-2">
                 <h3 className="text-lg font-semibold text-foreground">

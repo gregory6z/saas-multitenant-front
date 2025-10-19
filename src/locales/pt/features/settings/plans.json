@@ -85,6 +85,9 @@
 
   "addons": {
     "title": "Complementos",
+    "myAddons": "Meus Complementos",
+    "activeAddons": "Complementos Ativos",
+    "noActiveAddons": "Nenhum complemento ativo",
     "description": "Adicione recursos extras à sua assinatura atual",
     "loadError": "Erro ao carregar complementos disponíveis",
     "types": {
