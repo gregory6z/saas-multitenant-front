@@ -1,6 +1,6 @@
 import type * as React from "react";
 import { useTranslation } from "react-i18next";
-import { Building2 } from "lucide-react";
+import { Bot } from "lucide-react";
 import {
   Sidebar,
   SidebarContent,
@@ -30,7 +30,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
     tenants?.map((tenant) => ({
       id: tenant.id,
       name: tenant.name,
-      logo: Building2,
+      logo: Bot,
       plan: subscription?.planId || tenant.status || "Free",
       subdomain: tenant.subdomain,
     })) ?? [];

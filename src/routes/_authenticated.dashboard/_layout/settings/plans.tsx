@@ -141,7 +141,9 @@ function PlansPage() {
   }
 
   return (
-    <div className="max-w-6xl mx-auto pt-4 md:pt-8 px-4 md:px-6 pb-16">
+    <>
+      <div className="p-6 md:p-8 overflow-y-auto flex-1">
+        <div className="max-w-6xl mx-auto">
       {/* Header */}
       <div className="flex flex-col gap-6 mb-8">
         {/* Título e Plano Atual */}
@@ -226,6 +228,8 @@ function PlansPage() {
           );
         })}
       </div>
-    </div>
+        </div>
+      </div>
+    </>
   );
 }

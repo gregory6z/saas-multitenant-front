@@ -1,3 +1,4 @@
+import { PageContainer } from "@/components/shared/page-container";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 
@@ -31,7 +32,8 @@ export function MembersListSkeleton() {
  */
 export function MembersSkeleton() {
   return (
-    <div className="max-w-4xl mx-auto space-y-8 pt-4 md:pt-8 px-4 md:px-6 pb-8">
+    <PageContainer className="p-6 md:p-8 overflow-y-auto flex-1">
+      <div className="max-w-[830px] mx-auto space-y-8">
       {/* Header */}
       <div className="flex items-center justify-between">
         <Skeleton className="h-8 w-48" />
@@ -67,6 +69,7 @@ export function MembersSkeleton() {
           <MembersListSkeleton />
         </CardContent>
       </Card>
-    </div>
+      </div>
+    </PageContainer>
   );
 }

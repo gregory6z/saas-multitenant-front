@@ -8,6 +8,7 @@ import { InviteMembersCard } from "@/components/features/settings/members/invite
 import { MembersSkeleton } from "@/components/features/settings/members/members-skeleton";
 import { PendingInvitationsList } from "@/components/features/settings/members/pending-invitations-list";
 import { TeamMembersList } from "@/components/features/settings/members/team-members-list";
+import { PageHeader } from "@/components/shared/page-header";
 import { useCurrentUserRole } from "@/hooks/use-team-members";
 
 export const Route = createFileRoute("/_authenticated/dashboard/_layout/settings/members")({
@@ -37,11 +38,14 @@ function MembersPage() {
   }
 
   return (
-    <div className="max-w-4xl mx-auto space-y-8 pt-4 md:pt-8 px-4 md:px-6 pb-8">
-      {/* Header */}
-      <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-semibold text-foreground">{t("title")}</h1>
-      </div>
+    <>
+      <PageHeader />
+      <div className="p-6 md:p-8 overflow-y-auto flex-1">
+        <div className="max-w-[830px] mx-auto space-y-8">
+            {/* Header */}
+            <div className="flex items-center justify-between">
+              <h1 className="text-2xl font-semibold text-foreground">{t("title")}</h1>
+            </div>
 
       {/* Invite Members - Only visible for owners/admins */}
       {canManageTeam && <InviteMembersCard />}
@@ -72,6 +76,8 @@ function MembersPage() {
           memberEmail={memberToRemove.email}
         />
       )}
-    </div>
+        </div>
+      </div>
+    </>
   );
 }

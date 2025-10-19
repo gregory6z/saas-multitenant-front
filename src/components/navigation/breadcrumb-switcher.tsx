@@ -1,5 +1,5 @@
 import { Link, useLocation } from "@tanstack/react-router";
-import { ChevronsUpDown, Plus, Slash } from "lucide-react";
+import { ChevronsUpDown, Plus } from "lucide-react";
 import type * as React from "react";
 import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button";
@@ -136,16 +136,9 @@ export function BreadcrumbSwitcher({
 }
 
 export function BreadcrumbNavigation() {
-  const { t } = useTranslation("common");
   const location = useLocation();
 
   // Mock data
-  const workspaces = [
-    { id: "1", name: "gregoryTest", subtitle: "Free" },
-    { id: "2", name: "My Company", subtitle: "Pro" },
-    { id: "3", name: "Client Project", subtitle: "Enterprise" },
-  ];
-
   const chatbots = [
     { id: "1", name: "Customer Support Bot" },
     { id: "2", name: "Sales Assistant" },
@@ -157,8 +150,6 @@ export function BreadcrumbNavigation() {
     { id: "2", name: "Product Documentation" },
     { id: "3", name: "FAQ Website" },
   ];
-
-  const currentWorkspace = workspaces[0];
 
   // Determine current context based on route
   const getCurrentContext = () => {
@@ -221,34 +212,21 @@ export function BreadcrumbNavigation() {
 
   return (
     <div className="flex items-center gap-1 text-sm">
-      {/* Workspace */}
-      <BreadcrumbSwitcher
-        type="workspace"
-        items={workspaces}
-        currentItem={currentWorkspace}
-        createUrl="/dashboard/create-tenant"
-        createLabel={t("breadcrumb.createWorkspace")}
-      />
-
       {/* Chatbot or Knowledge Base */}
       {currentContext.type !== "dashboard" && (
-        <>
-          <Slash className="w-4 h-4 text-muted-foreground" />
-
-          <BreadcrumbSwitcher
-            type={currentContext.type}
-            items={currentContext.type === "chatbot" ? chatbots : knowledgeBases}
-            currentItem={{
-              id: currentContext.id || "",
-              name: currentContext.name || "",
-            }}
-            createUrl={
-              currentContext.type === "chatbot"
-                ? "/dashboard/chatbots/create/knowledge-base"
-                : "/dashboard/knowledge-base/create"
-            }
-          />
-        </>
+        <BreadcrumbSwitcher
+          type={currentContext.type}
+          items={currentContext.type === "chatbot" ? chatbots : knowledgeBases}
+          currentItem={{
+            id: currentContext.id || "",
+            name: currentContext.name || "",
+          }}
+          createUrl={
+            currentContext.type === "chatbot"
+              ? "/dashboard/chatbots/create/knowledge-base"
+              : "/dashboard/knowledge-base/create"
+          }
+        />
       )}
 
       {/* Context/Status */}

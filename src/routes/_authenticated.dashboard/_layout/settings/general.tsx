@@ -10,6 +10,7 @@ import { type UpdateTenantRequest, updateTenantRequestSchema } from "@/api/schem
 import { DeleteTenantDialog } from "@/components/features/settings/general/dialogs/delete-tenant-dialog";
 import { TransferOwnershipCard } from "@/components/features/settings/members/transfer-ownership-card";
 import { TransferOwnershipDialog } from "@/components/features/settings/general/dialogs/transfer-ownership-dialog";
+import { PageHeader } from "@/components/shared/page-header";
 import { GeneralPageSkeleton } from "@/components/skeletons/general-page-skeleton";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -132,11 +133,14 @@ function GeneralPage() {
   }
 
   return (
-    <div className="max-w-4xl mx-auto space-y-8 pt-4 md:pt-8 px-4 md:px-6 pb-8">
-      {/* Header */}
-      <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-semibold text-foreground">{t("title")}</h1>
-      </div>
+    <>
+      <PageHeader />
+      <div className="p-6 md:p-8 overflow-y-auto flex-1">
+        <div className="max-w-[830px] mx-auto space-y-8">
+            {/* Header */}
+            <div className="flex items-center justify-between">
+              <h1 className="text-2xl font-semibold text-foreground">{t("title")}</h1>
+            </div>
 
       {/* Workspace Details */}
       <Card>
@@ -260,6 +264,8 @@ function GeneralPage() {
           newOwnerName={transferTarget.name}
         />
       )}
-    </div>
+        </div>
+      </div>
+    </>
   );
 }

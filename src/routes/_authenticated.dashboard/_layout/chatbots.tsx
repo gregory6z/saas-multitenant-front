@@ -2,6 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { FileText, MoreHorizontal, Plus } from "lucide-react";
 import { useTranslation } from "react-i18next";
 
+import { PageHeader } from "@/components/shared/page-header";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import {
@@ -42,7 +43,9 @@ function ChatbotsPage() {
   const { t } = useTranslation("common");
 
   return (
-    <div className="p-4 md:p-8 space-y-6">
+    <>
+      <PageHeader />
+      <div className="p-6 md:p-8 space-y-6 overflow-y-auto flex-1">
       {/* Header */}
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-semibold text-foreground">{t("chatbots.title")}</h1>
@@ -62,7 +65,8 @@ function ChatbotsPage() {
           <ChatbotCard key={chatbot.id} chatbot={chatbot} />
         ))}
       </div>
-    </div>
+      </div>
+    </>
   );
 }
 

@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Calendar, Info } from "lucide-react";
 import { Bar, BarChart, Cell, Pie, PieChart, ResponsiveContainer, XAxis, YAxis } from "recharts";
+import { PageHeader } from "@/components/shared/page-header";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
 import {
@@ -46,7 +47,9 @@ function UsagePage() {
   const chatbotsPercentage = (usageData.chatbotsUsed / usageData.chatbotsTotal) * 100;
 
   return (
-    <div className="p-4 md:p-8 space-y-8 pt-4 md:pt-8">
+    <>
+      <PageHeader />
+      <div className="p-6 md:p-8 space-y-8 overflow-y-auto flex-1">
       {/* Header */}
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-semibold text-foreground">Usage</h1>
@@ -297,7 +300,8 @@ function UsagePage() {
           </div>
         </CardContent>
       </Card>
-    </div>
+      </div>
+    </>
   );
 }
 

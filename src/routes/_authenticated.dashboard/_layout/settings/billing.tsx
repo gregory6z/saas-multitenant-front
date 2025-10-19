@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Calendar, CreditCard, Download } from "lucide-react";
 import { useTranslation } from "react-i18next";
+import { PageHeader } from "@/components/shared/page-header";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -13,11 +14,14 @@ function BillingPage() {
   const { t } = useTranslation("common");
 
   return (
-    <div className="max-w-4xl mx-auto space-y-8 pt-4 md:pt-8">
-      {/* Header */}
-      <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-semibold text-foreground">{t("sidebar.billing")}</h1>
-      </div>
+    <>
+      <PageHeader />
+      <div className="p-6 md:p-8 overflow-y-auto flex-1">
+        <div className="max-w-[830px] mx-auto space-y-8">
+            {/* Header */}
+            <div className="flex items-center justify-between">
+              <h1 className="text-2xl font-semibold text-foreground">{t("sidebar.billing")}</h1>
+            </div>
 
       {/* Current Plan */}
       <Card>
@@ -108,6 +112,8 @@ function BillingPage() {
           </div>
         </CardContent>
       </Card>
-    </div>
+        </div>
+      </div>
+    </>
   );
 }

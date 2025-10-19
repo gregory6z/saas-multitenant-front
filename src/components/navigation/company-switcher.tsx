@@ -71,7 +71,7 @@ export function CompanySwitcher({
                 size="lg"
                 className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
               >
-                <div className="bg-gray-300 text-white flex aspect-square size-8 items-center justify-center rounded-lg">
+                <div className="bg-gray-300 text-white flex aspect-square size-8 items-center justify-center rounded-full">
                   <Plus className="size-4" />
                 </div>
                 <div className="grid flex-1 text-start text-sm leading-tight">
@@ -92,14 +92,14 @@ export function CompanySwitcher({
               </DropdownMenuLabel>
               <DropdownMenuItem asChild className="gap-2 p-2">
                 <Link to="/dashboard/tenants/create">
-                  <div className="flex size-6 items-center justify-center rounded-md border bg-background">
+                  <div className="flex size-6 items-center justify-center rounded-full border bg-background">
                     <Plus className="size-4" />
                   </div>
                   <div className="font-medium">Criar organização</div>
                 </Link>
               </DropdownMenuItem>
               <DropdownMenuItem className="gap-2 p-2" onClick={() => setIsJoinModalOpen(true)}>
-                <div className="flex size-6 items-center justify-center rounded-md border bg-background">
+                <div className="flex size-6 items-center justify-center rounded-full border bg-background">
                   <Users className="size-4" />
                 </div>
                 <div className="font-medium">Juntar-se a organização</div>
@@ -125,7 +125,7 @@ export function CompanySwitcher({
               size="lg"
               className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
             >
-              <div className="bg-sidebar-primary text-sidebar-primary-foreground flex aspect-square size-8 items-center justify-center rounded-lg">
+              <div className="bg-sidebar-primary text-sidebar-primary-foreground flex aspect-square size-8 items-center justify-center rounded-full">
                 <activeTeam.logo className="size-4" />
               </div>
               <div className="grid flex-1 text-start text-sm leading-tight">
@@ -160,7 +160,7 @@ export function CompanySwitcher({
                 }}
                 className="gap-2 p-2"
               >
-                <div className="flex size-6 items-center justify-center rounded-md border">
+                <div className="flex size-6 items-center justify-center rounded-full border">
                   <team.logo className="size-4 shrink-0" />
                 </div>
                 <span className="truncate">{team.name}</span>
@@ -172,14 +172,14 @@ export function CompanySwitcher({
             </DropdownMenuLabel>
             <DropdownMenuItem asChild className="gap-2 p-2">
               <Link to="/dashboard/tenants/create">
-                <div className="flex size-6 items-center justify-center rounded-md border bg-background">
+                <div className="flex size-6 items-center justify-center rounded-full border bg-background">
                   <Plus className="size-4" />
                 </div>
                 <div className="font-medium">Criar organização</div>
               </Link>
             </DropdownMenuItem>
             <DropdownMenuItem className="gap-2 p-2" onClick={() => setIsJoinModalOpen(true)}>
-              <div className="flex size-6 items-center justify-center rounded-md border bg-background">
+              <div className="flex size-6 items-center justify-center rounded-full border bg-background">
                 <Users className="size-4" />
               </div>
               <div className="font-medium">Juntar-se a organização</div>

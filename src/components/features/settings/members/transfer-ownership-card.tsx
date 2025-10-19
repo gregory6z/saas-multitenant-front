@@ -38,19 +38,19 @@ export function TransferOwnershipCard({
   };
 
   return (
-    <Card className="border-amber-200 bg-amber-50/30">
+    <Card>
       <CardHeader>
-        <CardTitle className="flex items-center gap-2 text-amber-900">
+        <CardTitle className="flex items-center gap-2">
           <UserCog className="w-5 h-5" />
           {t("modals.transferOwnership.title")}
         </CardTitle>
         <CardDescription>{t("modals.transferOwnership.description")}</CardDescription>
       </CardHeader>
       <CardContent className="space-y-4">
-        <Alert className="border-amber-300 bg-amber-100/50 text-amber-950">
-          <AlertTriangle className="h-4 w-4 text-amber-600" />
-          <AlertTitle className="text-amber-900">{t("modals.transferOwnership.title")}</AlertTitle>
-          <AlertDescription className="text-amber-800">
+        <Alert>
+          <AlertTriangle className="h-4 w-4" />
+          <AlertTitle>{t("modals.transferOwnership.title")}</AlertTitle>
+          <AlertDescription>
             {t("modals.transferOwnership.warning")}
           </AlertDescription>
         </Alert>
@@ -73,7 +73,6 @@ export function TransferOwnershipCard({
             variant="default"
             onClick={handleTransfer}
             disabled={!selectedMemberId}
-            className="bg-amber-600 hover:bg-amber-700 text-white"
           >
             <ArrowRightLeft className="w-4 h-4" />
             {t("modals.transferOwnership.confirmButton")}
