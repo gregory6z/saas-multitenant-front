@@ -42,10 +42,7 @@ export const createTenantRequestSchema = (t: TFunction) =>
           .string()
           .min(3, t("errors.subdomainMinLength"))
           .max(63, t("errors.subdomainMaxLength"))
-          .regex(
-            /^[a-z0-9]([a-z0-9-]*[a-z0-9])?$/,
-            t("errors.subdomainFormat")
-          )
+          .regex(/^[a-z0-9]([a-z0-9-]*[a-z0-9])?$/, t("errors.subdomainFormat"))
           .refine(
             (value) => !value.startsWith("-") && !value.endsWith("-"),
             t("errors.subdomainHyphens")
@@ -71,9 +68,7 @@ export const updateTenantRequestSchema = (t: TFunction) =>
           .string()
           .min(3, t("errors.subdomainMinLength"))
           .max(63, t("errors.subdomainMaxLength"))
-          .regex(
-            /^[a-z0-9]([a-z0-9-]*[a-z0-9])?$/,
-            t("errors.subdomainInvalid"))
+          .regex(/^[a-z0-9]([a-z0-9-]*[a-z0-9])?$/, t("errors.subdomainInvalid"))
           .refine(
             (value) => !value.startsWith("-") && !value.endsWith("-"),
             t("errors.subdomainEdges")

@@ -50,9 +50,7 @@ export function TransferOwnershipCard({
         <Alert>
           <AlertTriangle className="h-4 w-4" />
           <AlertTitle>{t("modals.transferOwnership.title")}</AlertTitle>
-          <AlertDescription>
-            {t("modals.transferOwnership.warning")}
-          </AlertDescription>
+          <AlertDescription>{t("modals.transferOwnership.warning")}</AlertDescription>
         </Alert>
 
         <div className="flex gap-2">
@@ -69,11 +67,7 @@ export function TransferOwnershipCard({
             </SelectContent>
           </Select>
 
-          <Button
-            variant="default"
-            onClick={handleTransfer}
-            disabled={!selectedMemberId}
-          >
+          <Button variant="default" onClick={handleTransfer} disabled={!selectedMemberId}>
             <ArrowRightLeft className="w-4 h-4" />
             {t("modals.transferOwnership.confirmButton")}
           </Button>

@@ -2,6 +2,7 @@ import { Link } from "@tanstack/react-router";
 import { ChevronsUpDown, Plus, Users } from "lucide-react";
 import * as React from "react";
 import { useTranslation } from "react-i18next";
+import { useSubscriptionQuery } from "@/api/queries/subscription";
 import { JoinTenantDialog } from "@/components/features/settings/dialogs/join-tenant-dialog";
 import {
   DropdownMenu,
@@ -17,7 +18,6 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar";
-import { useSubscription } from "@/hooks/use-subscription";
 import { getTenantSubdomainUrl } from "@/lib/url-utils";
 
 // Mapeamento de planId para nome legível (PT-BR)
@@ -42,7 +42,10 @@ export function CompanySwitcher({
   const { t } = useTranslation("common");
   const { isMobile } = useSidebar();
   const [isJoinModalOpen, setIsJoinModalOpen] = React.useState(false);
-  const { subscription, isLoading: subscriptionLoading } = useSubscription();
+  const { data: subscriptionData, isLoading: subscriptionLoading } = useSubscriptionQuery();
+
+  // Extract subscription from response data
+  const subscription = subscriptionData?.subscription;
 
   // Detecta tenant ativo baseado no subdomain da URL atual
   const hostname = window.location.hostname;
@@ -76,7 +79,9 @@ export function CompanySwitcher({
                 </div>
                 <div className="grid flex-1 text-start text-sm leading-tight">
                   <span className="truncate font-semibold">Adicionar organização</span>
-                  <span className="truncate text-xs text-muted-foreground">Nenhuma organização</span>
+                  <span className="truncate text-xs text-muted-foreground">
+                    Nenhuma organização
+                  </span>
                 </div>
                 <ChevronsUpDown className="ms-auto" />
               </SidebarMenuButton>

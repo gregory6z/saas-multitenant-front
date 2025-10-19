@@ -1,6 +1,13 @@
+import { Bot } from "lucide-react";
 import type * as React from "react";
 import { useTranslation } from "react-i18next";
-import { Bot } from "lucide-react";
+import { useSubscriptionQuery } from "@/api/queries/subscription";
+import { useTenantsQuery } from "@/api/queries/tenant";
+import { CompanySwitcher } from "@/components/navigation/company-switcher";
+import { NavGroup } from "@/components/navigation/nav-group";
+import { NavUser } from "@/components/navigation/nav-user";
+import { baseNavGroups } from "@/components/navigation/sidebar-data";
+import type { NavGroup as NavGroupType, Team } from "@/components/navigation/types";
 import {
   Sidebar,
   SidebarContent,
@@ -8,22 +15,18 @@ import {
   SidebarHeader,
   SidebarRail,
 } from "@/components/ui/sidebar";
-import { useTenantsQuery } from "@/api/queries/tenant";
-import { CompanySwitcher } from "@/components/navigation/company-switcher";
-import { NavGroup } from "@/components/navigation/nav-group";
-import { NavUser } from "@/components/navigation/nav-user";
-import { baseNavGroups } from "@/components/navigation/sidebar-data";
-import type { NavGroup as NavGroupType, Team } from "@/components/navigation/types";
 import { useCurrentUserRole } from "@/hooks/use-team-members";
 import { useUser } from "@/hooks/use-users";
-import { useSubscription } from "@/hooks/use-subscription";
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const { t } = useTranslation("common");
   const { canManageTeam } = useCurrentUserRole();
   const { data: user } = useUser();
-  const { subscription } = useSubscription();
+  const { data: subscriptionData } = useSubscriptionQuery();
   const { data: tenants } = useTenantsQuery();
+
+  // Extract subscription from response data
+  const subscription = subscriptionData?.subscription;
 
   // Transform tenants data to teams format for CompanySwitcher
   const teams: Team[] =

@@ -1,6 +1,7 @@
 import { AlertTriangle, Check, X } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
+import { useTransferOwnershipMutation } from "@/api/queries/member";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -11,7 +12,6 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
-import { useTransferOwnershipMutation } from "@/api/queries/member";
 
 interface TransferOwnershipModalProps {
   open: boolean;

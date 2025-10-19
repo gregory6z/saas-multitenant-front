@@ -1,5 +1,7 @@
 import { AlertCircle, ArrowDown, ArrowUp, Loader2 } from "lucide-react";
 import { useTranslation } from "react-i18next";
+import { usePlansQuery } from "@/api/queries/plan";
+import type { PreviewPlanChangeResponse } from "@/api/schemas/subscription.schema";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -10,10 +12,19 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
-import { formatPrice, usePlans } from "@/hooks/use-plans";
-import type { PreviewPlanChangeResponse } from "@/hooks/use-subscription";
 
-interface PlanChangePreviewModalProps {
+/**
+ * Formats price from cents to currency string
+ */
+function formatPrice(priceInCents: number, currency: string): string {
+  const price = priceInCents / 100;
+  return new Intl.NumberFormat("pt-BR", {
+    style: "currency",
+    currency: currency.toUpperCase(),
+  }).format(price);
+}
+
+interface PlanChangePreviewDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   preview: PreviewPlanChangeResponse | null;
@@ -30,19 +41,19 @@ function getPlanKey(planId: string): string {
 }
 
 /**
- * Modal que mostra preview da mudança de plano
+ * Dialog que mostra preview da mudança de plano
  * Exibe informações sobre proration, valores e diferenças
  */
-export function PlanChangePreviewModal({
+export function PlanChangePreviewDialog({
   open,
   onOpenChange,
   preview,
   isLoading,
   onConfirm,
   isConfirming,
-}: PlanChangePreviewModalProps) {
-  const { t } = useTranslation("common");
-  const { plans } = usePlans();
+}: PlanChangePreviewDialogProps) {
+  const { t } = useTranslation("settings-plans");
+  const { data: plans = [] } = usePlansQuery();
 
   if (isLoading) {
     return (
@@ -51,9 +62,9 @@ export function PlanChangePreviewModal({
           <AlertDialogHeader>
             <AlertDialogTitle className="flex items-center gap-2">
               <Loader2 className="w-5 h-5 animate-spin" />
-              {t("plans.preview.calculating")}
+              {t("preview.calculating")}
             </AlertDialogTitle>
-            <AlertDialogDescription>{t("plans.preview.pleaseWait")}</AlertDialogDescription>
+            <AlertDialogDescription>{t("preview.pleaseWait")}</AlertDialogDescription>
           </AlertDialogHeader>
         </AlertDialogContent>
       </AlertDialog>
@@ -69,9 +80,9 @@ export function PlanChangePreviewModal({
   const newPlanData = plans.find((p) => p.id === newPlan.id);
 
   const currentPlanName = currentPlanData
-    ? t(`plans.planNames.${getPlanKey(currentPlan.id)}`)
+    ? t(`planNames.${getPlanKey(currentPlan.id)}`)
     : currentPlan.id;
-  const newPlanName = newPlanData ? t(`plans.planNames.${getPlanKey(newPlan.id)}`) : newPlan.id;
+  const newPlanName = newPlanData ? t(`planNames.${getPlanKey(newPlan.id)}`) : newPlan.id;
 
   // Calcula se é upgrade ou downgrade baseado no preço
   const isUpgrade = newPlan.price > currentPlan.price;
@@ -84,19 +95,19 @@ export function PlanChangePreviewModal({
           <AlertDialogTitle className="flex items-center gap-2">
             {isUpgrade && <ArrowUp className="w-5 h-5 text-green-600" />}
             {isDowngrade && <ArrowDown className="w-5 h-5 text-orange-600" />}
-            {t("plans.preview.title")}
+            {t("preview.title")}
           </AlertDialogTitle>
-          <AlertDialogDescription>{t("plans.preview.description")}</AlertDialogDescription>
+          <AlertDialogDescription>{t("preview.description")}</AlertDialogDescription>
         </AlertDialogHeader>
 
         <div className="space-y-4 py-4">
           {/* Current Plan */}
           <div className="rounded-lg border p-3 bg-muted/50">
-            <p className="text-xs text-muted-foreground mb-1">{t("plans.preview.currentPlan")}</p>
+            <p className="text-xs text-muted-foreground mb-1">{t("preview.currentPlan")}</p>
             <p className="font-semibold">{currentPlanName}</p>
             <p className="text-sm text-muted-foreground">
               {formatPrice(currentPlan.price, "eur")}
-              {currentPlan.interval === "month" ? t("plans.perMonth") : t("plans.perYear")}
+              {currentPlan.interval === "month" ? t("perMonth") : t("perYear")}
             </p>
           </div>
 
@@ -108,21 +119,21 @@ export function PlanChangePreviewModal({
 
           {/* New Plan */}
           <div className="rounded-lg border p-3 bg-primary/5">
-            <p className="text-xs text-muted-foreground mb-1">{t("plans.preview.newPlan")}</p>
+            <p className="text-xs text-muted-foreground mb-1">{t("preview.newPlan")}</p>
             <p className="font-semibold">{newPlanName}</p>
             <p className="text-sm text-muted-foreground">
               {formatPrice(newPlan.price, "eur")}
-              {newPlan.interval === "month" ? t("plans.perMonth") : t("plans.perYear")}
+              {newPlan.interval === "month" ? t("perMonth") : t("perYear")}
             </p>
           </div>
 
           {/* Proration Details */}
           <div className="rounded-lg border p-4 space-y-3">
-            <h4 className="font-semibold text-sm">{t("plans.preview.prorationDetails")}</h4>
+            <h4 className="font-semibold text-sm">{t("preview.prorationDetails")}</h4>
 
             {proration.creditAmount > 0 && (
               <div className="flex justify-between text-sm">
-                <span className="text-muted-foreground">{t("plans.preview.creditAmount")}</span>
+                <span className="text-muted-foreground">{t("preview.creditAmount")}</span>
                 <span className="text-green-600 font-medium">
                   {formatPrice(proration.creditAmount, "eur")}
                 </span>
@@ -130,14 +141,14 @@ export function PlanChangePreviewModal({
             )}
 
             <div className="flex justify-between text-sm">
-              <span className="text-muted-foreground">{t("plans.preview.amountDue")}</span>
+              <span className="text-muted-foreground">{t("preview.amountDue")}</span>
               <span className="font-semibold">{formatPrice(proration.amountDue, "eur")}</span>
             </div>
 
             <div className="h-px bg-border" />
 
             <div className="flex justify-between">
-              <span className="font-semibold">{t("plans.preview.nextInvoice")}</span>
+              <span className="font-semibold">{t("preview.nextInvoice")}</span>
               <span className="font-bold text-lg">
                 {formatPrice(proration.nextInvoiceAmount, "eur")}
               </span>
@@ -146,7 +157,7 @@ export function PlanChangePreviewModal({
             <div className="flex items-start gap-2 p-3 rounded-md bg-muted/50 text-xs text-muted-foreground">
               <AlertCircle className="w-4 h-4 flex-shrink-0 mt-0.5" />
               <p>
-                {t("plans.preview.proratedInfo", {
+                {t("preview.proratedInfo", {
                   date: new Date(proration.proratedUntil).toLocaleDateString(),
                 })}
               </p>
@@ -160,10 +171,10 @@ export function PlanChangePreviewModal({
             {isConfirming ? (
               <>
                 <Loader2 className="w-4 h-4 animate-spin" />
-                {t("status.processing")}
+                {t("loading")}
               </>
             ) : (
-              t("plans.preview.confirm")
+              t("preview.confirm")
             )}
           </AlertDialogAction>
         </AlertDialogFooter>

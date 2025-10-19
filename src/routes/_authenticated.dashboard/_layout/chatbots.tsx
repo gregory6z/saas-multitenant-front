@@ -46,25 +46,25 @@ function ChatbotsPage() {
     <>
       <PageHeader />
       <div className="p-6 md:p-8 space-y-6 overflow-y-auto flex-1">
-      {/* Header */}
-      <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-semibold text-foreground">{t("chatbots.title")}</h1>
-        <Button>
-          <Link to="/dashboard/chatbots/create">
-            <span>
-              <Plus className="w-4 h-4" />
-              {t("chatbots.newAgent")}
-            </span>
-          </Link>
-        </Button>
-      </div>
+        {/* Header */}
+        <div className="flex items-center justify-between">
+          <h1 className="text-2xl font-semibold text-foreground">{t("chatbots.title")}</h1>
+          <Button>
+            <Link to="/dashboard/chatbots/create">
+              <span>
+                <Plus className="w-4 h-4" />
+                {t("chatbots.newAgent")}
+              </span>
+            </Link>
+          </Button>
+        </div>
 
-      {/* Chatbots Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-        {chatbots.map((chatbot) => (
-          <ChatbotCard key={chatbot.id} chatbot={chatbot} />
-        ))}
-      </div>
+        {/* Chatbots Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+          {chatbots.map((chatbot) => (
+            <ChatbotCard key={chatbot.id} chatbot={chatbot} />
+          ))}
+        </div>
       </div>
     </>
   );

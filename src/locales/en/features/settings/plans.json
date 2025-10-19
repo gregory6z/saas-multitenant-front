@@ -1,0 +1,66 @@
+{
+  "title": "Plans",
+  "loading": "Loading plans...",
+
+  "mySubscription": "My subscription:",
+  "manageSubscription": "Manage Subscription",
+
+  "intervals": {
+    "monthly": "Monthly",
+    "yearly": "Yearly"
+  },
+
+  "freeMonths": "{{count}} free months",
+  "perMonth": "/month",
+  "billedYearly": "Billed yearly: {{price}}",
+
+  "status": {
+    "active": "Active",
+    "trialing": "Trial",
+    "canceled": "Canceled",
+    "incomplete": "Incomplete",
+    "incomplete_expired": "Expired",
+    "past_due": "Past Due",
+    "unpaid": "Unpaid"
+  },
+
+  "planNames": {
+    "trial": "Trial",
+    "starter": "Starter",
+    "pro": "Pro",
+    "enterprise": "Enterprise"
+  },
+
+  "badges": {
+    "currentPlan": "Current Plan",
+    "mostPopular": "Most Popular"
+  },
+
+  "actions": {
+    "upgrade": "Upgrade to {{plan}}",
+    "changeTo": "Change to {{plan}}",
+    "currentPlanAction": "Current Plan"
+  },
+
+  "errors": {
+    "loadPlans": "Error loading plans",
+    "loadSubscription": "Error loading subscription"
+  },
+
+  "perYear": "/year",
+
+  "preview": {
+    "calculating": "Calculating change...",
+    "pleaseWait": "Please wait while we calculate the amounts",
+    "title": "Confirm plan change",
+    "description": "Review the change details before confirming",
+    "currentPlan": "Current plan",
+    "newPlan": "New plan",
+    "prorationDetails": "Billing details",
+    "creditAmount": "Credit from current plan",
+    "amountDue": "Amount due now",
+    "nextInvoice": "Next invoice",
+    "proratedInfo": "Prorated amount for remaining time until {{date}}",
+    "confirm": "Confirm change"
+  }
+}

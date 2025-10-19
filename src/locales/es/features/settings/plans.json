@@ -1,0 +1,66 @@
+{
+  "title": "Planes",
+  "loading": "Cargando planes...",
+
+  "mySubscription": "Mi suscripción:",
+  "manageSubscription": "Administrar Suscripción",
+
+  "intervals": {
+    "monthly": "Mensual",
+    "yearly": "Anual"
+  },
+
+  "freeMonths": "{{count}} meses gratis",
+  "perMonth": "/mes",
+  "billedYearly": "Facturado anualmente: {{price}}",
+
+  "status": {
+    "active": "Activo",
+    "trialing": "En prueba",
+    "canceled": "Cancelado",
+    "incomplete": "Incompleto",
+    "incomplete_expired": "Expirado",
+    "past_due": "Atrasado",
+    "unpaid": "Impago"
+  },
+
+  "planNames": {
+    "trial": "Prueba",
+    "starter": "Starter",
+    "pro": "Pro",
+    "enterprise": "Enterprise"
+  },
+
+  "badges": {
+    "currentPlan": "Plan Actual",
+    "mostPopular": "Más Popular"
+  },
+
+  "actions": {
+    "upgrade": "Actualizar a {{plan}}",
+    "changeTo": "Cambiar a {{plan}}",
+    "currentPlanAction": "Plan Actual"
+  },
+
+  "errors": {
+    "loadPlans": "Error al cargar planes",
+    "loadSubscription": "Error al cargar suscripción"
+  },
+
+  "perYear": "/año",
+
+  "preview": {
+    "calculating": "Calculando cambio...",
+    "pleaseWait": "Por favor espere mientras calculamos los montos",
+    "title": "Confirmar cambio de plan",
+    "description": "Revise los detalles del cambio antes de confirmar",
+    "currentPlan": "Plan actual",
+    "newPlan": "Nuevo plan",
+    "prorationDetails": "Detalles de facturación",
+    "creditAmount": "Crédito del plan actual",
+    "amountDue": "Monto a pagar ahora",
+    "nextInvoice": "Próxima factura",
+    "proratedInfo": "Monto prorrateado por el tiempo restante hasta {{date}}",
+    "confirm": "Confirmar cambio"
+  }
+}

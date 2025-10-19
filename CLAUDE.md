@@ -449,6 +449,88 @@ src/components/features/
 
 **Example:** `const ChatbotSchema = z.object({ id: z.string() })` → `type Chatbot = z.infer<typeof ChatbotSchema>`
 
+#### Migrating Legacy Hooks to API Layer (CRITICAL)
+
+**RULE: All legacy hooks in `src/hooks/` must be gradually migrated to the new API layer architecture.**
+
+**Migration Pattern:**
+When migrating a hook like `use-subscription.ts` or `use-plans.ts`, follow these steps:
+
+1. **Create Schemas** (`src/api/schemas/[entity].schema.ts`)
+   - Extract Zod schemas from the legacy hook
+   - Organize: Base schemas → Request schemas → Response schemas → Types
+   - Keep all validation logic in schemas
+
+2. **Create API Client** (`src/api/client/[entity].api.ts`)
+   - Extract API calls from hooks into pure functions
+   - Use `api` or `apiWithTenant` from `@/lib/axios`
+   - Return typed responses (no validation here)
+
+3. **Create Query/Mutation Hooks** (`src/api/queries/[entity]/`)
+   - `use-[entity]-query.ts` for `useQuery` hooks
+   - `use-[action]-mutation.ts` for `useMutation` hooks
+   - Apply Zod validation in hooks using schemas
+   - Keep error handling (toast notifications) in mutations
+   - `index.ts` for centralized exports
+
+4. **Update Components**
+   - Replace old hook imports with new API hooks
+   - Update import paths: `@/hooks/use-X` → `@/api/queries/X`
+   - Test functionality remains identical
+
+5. **Clean Up**
+   - Delete legacy hook file only after ALL usages are migrated
+   - Run typecheck to ensure no broken imports
+
+**Example: use-subscription.ts Migration**
+```typescript
+// BEFORE (Legacy): src/hooks/use-subscription.ts
+export function useSubscription() {
+  return useQuery({
+    queryKey: ["subscription"],
+    queryFn: async () => {
+      const response = await api.get("/subscriptions");
+      return SubscriptionSchema.parse(response.data);
+    },
+  });
+}
+
+// AFTER (API Layer):
+// 1. src/api/schemas/subscription.schema.ts
+export const SubscriptionSchema = z.object({...});
+export const SubscriptionResponseSchema = z.object({...});
+
+// 2. src/api/client/subscription.api.ts
+export async function getSubscription() {
+  const { data } = await api.get("/subscriptions");
+  return data;
+}
+
+// 3. src/api/queries/subscription/use-subscription-query.ts
+export function useSubscriptionQuery() {
+  return useQuery({
+    queryKey: ["subscription"],
+    queryFn: async () => {
+      const response = await getSubscription();
+      return SubscriptionResponseSchema.parse(response);
+    },
+  });
+}
+```
+
+**Hooks to Migrate:**
+- ✅ `use-plans.ts` → Migrated to `api/queries/plan/`
+- ⏳ `use-subscription.ts` → Needs migration
+- ⏳ `use-chatbots.ts` → Needs migration
+- ⏳ `use-tenants.ts` → Needs migration
+- ⏳ Other hooks in `src/hooks/` → Needs migration
+
+**Benefits:**
+- Clear separation of concerns (schemas, API, hooks)
+- Easier testing and maintenance
+- Consistent architecture across the codebase
+- Better type safety and validation
+
 ## Development Notes
 
 - HMR enabled, TypeScript compilation before bundling

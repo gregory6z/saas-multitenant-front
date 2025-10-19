@@ -8,8 +8,8 @@ import { useMembersQuery } from "@/api/queries/member";
 import { useUpdateTenantMutation } from "@/api/queries/tenant";
 import { type UpdateTenantRequest, updateTenantRequestSchema } from "@/api/schemas/tenant.schema";
 import { DeleteTenantDialog } from "@/components/features/settings/general/dialogs/delete-tenant-dialog";
-import { TransferOwnershipCard } from "@/components/features/settings/members/transfer-ownership-card";
 import { TransferOwnershipDialog } from "@/components/features/settings/general/dialogs/transfer-ownership-dialog";
+import { TransferOwnershipCard } from "@/components/features/settings/members/transfer-ownership-card";
 import { PageHeader } from "@/components/shared/page-header";
 import { GeneralPageSkeleton } from "@/components/skeletons/general-page-skeleton";
 import { Button } from "@/components/ui/button";
@@ -137,133 +137,133 @@ function GeneralPage() {
       <PageHeader />
       <div className="p-6 md:p-8 overflow-y-auto flex-1">
         <div className="max-w-[830px] mx-auto space-y-8">
-            {/* Header */}
-            <div className="flex items-center justify-between">
-              <h1 className="text-2xl font-semibold text-foreground">{t("title")}</h1>
-            </div>
+          {/* Header */}
+          <div className="flex items-center justify-between">
+            <h1 className="text-2xl font-semibold text-foreground">{t("title")}</h1>
+          </div>
 
-      {/* Workspace Details */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <Building2 className="w-5 h-5" />
-            {t("organizationDetails")}
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-              <FormField
-                control={form.control}
-                name="name"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>{t("organizationName")}</FormLabel>
-                    <FormControl>
-                      <Input placeholder={t("organizationNamePlaceholder")} {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+          {/* Workspace Details */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Building2 className="w-5 h-5" />
+                {t("organizationDetails")}
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <Form {...form}>
+                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+                  <FormField
+                    control={form.control}
+                    name="name"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>{t("organizationName")}</FormLabel>
+                        <FormControl>
+                          <Input placeholder={t("organizationNamePlaceholder")} {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
 
-              <FormField
-                control={form.control}
-                name="subdomain"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>{t("subdomain")}</FormLabel>
-                    <FormControl>
-                      <div className="flex items-stretch">
-                        <Input
-                          placeholder={t("subdomainPlaceholder")}
-                          {...field}
-                          onChange={(e) => handleSubdomainChange(e.target.value)}
-                          className="rounded-r-none"
-                        />
-                        <div className="bg-muted text-muted-foreground px-3 py-2 border border-l-0 rounded-r-md text-sm flex items-center min-w-fit">
-                          .{getDisplayDomain()}
+                  <FormField
+                    control={form.control}
+                    name="subdomain"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>{t("subdomain")}</FormLabel>
+                        <FormControl>
+                          <div className="flex items-stretch">
+                            <Input
+                              placeholder={t("subdomainPlaceholder")}
+                              {...field}
+                              onChange={(e) => handleSubdomainChange(e.target.value)}
+                              className="rounded-r-none"
+                            />
+                            <div className="bg-muted text-muted-foreground px-3 py-2 border border-l-0 rounded-r-md text-sm flex items-center min-w-fit">
+                              .{getDisplayDomain()}
+                            </div>
+                          </div>
+                        </FormControl>
+                        <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                          <Info className="w-4 h-4" />
+                          <span>{t("subdomainWarning")}</span>
                         </div>
-                      </div>
-                    </FormControl>
-                    <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                      <Info className="w-4 h-4" />
-                      <span>{t("subdomainWarning")}</span>
-                    </div>
-                    <FormMessage />
-                  </FormItem>
-                )}
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <div className="flex justify-end">
+                    <Button type="submit" disabled={!hasChanges} loading={updateTenant.isPending}>
+                      <Check className="w-4 h-4" />
+                      {t("saveChanges")}
+                    </Button>
+                  </div>
+                </form>
+              </Form>
+            </CardContent>
+          </Card>
+
+          {/* Danger Zone */}
+          <div className="space-y-6">
+            <div className="flex items-center">
+              <Separator className="flex-1" />
+              <span className="px-6 text-red-600 text-sm font-medium">{t("dangerZone")}</span>
+              <Separator className="flex-1" />
+            </div>
+
+            {/* Transfer Ownership - Only visible for owners with eligible members */}
+            {currentUserRole === "owner" && eligibleMembers.length > 0 && (
+              <TransferOwnershipCard
+                members={members || []}
+                currentUserId={currentTenant?.ownerId || ""}
+                onTransfer={handleTransferOwnership}
               />
+            )}
 
-              <div className="flex justify-end">
-                <Button type="submit" disabled={!hasChanges} loading={updateTenant.isPending}>
-                  <Check className="w-4 h-4" />
-                  {t("saveChanges")}
-                </Button>
-              </div>
-            </form>
-          </Form>
-        </CardContent>
-      </Card>
+            <Card className="border-red-200">
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2 text-red-900">
+                  <Trash2 className="w-5 h-5" />
+                  {t("deleteOrganization")}
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="space-y-2 text-sm text-muted-foreground">
+                  <p>{t("deleteWarning1")}</p>
+                  <p>{t("deleteWarning2")}</p>
+                </div>
 
-      {/* Danger Zone */}
-      <div className="space-y-6">
-        <div className="flex items-center">
-          <Separator className="flex-1" />
-          <span className="px-6 text-red-600 text-sm font-medium">{t("dangerZone")}</span>
-          <Separator className="flex-1" />
-        </div>
+                <div className="flex justify-end">
+                  <Button variant="destructive" onClick={() => setIsDeleteModalOpen(true)}>
+                    <Trash2 className="w-4 h-4" />
+                    {t("deleteOrganization")}
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
 
-        {/* Transfer Ownership - Only visible for owners with eligible members */}
-        {currentUserRole === "owner" && eligibleMembers.length > 0 && (
-          <TransferOwnershipCard
-            members={members || []}
-            currentUserId={currentTenant?.ownerId || ""}
-            onTransfer={handleTransferOwnership}
-          />
-        )}
+          {/* Delete Tenant Dialog */}
+          {currentTenant && (
+            <DeleteTenantDialog
+              open={isDeleteModalOpen}
+              onOpenChange={setIsDeleteModalOpen}
+              tenantName={currentTenant.name}
+            />
+          )}
 
-        <Card className="border-red-200">
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2 text-red-900">
-              <Trash2 className="w-5 h-5" />
-              {t("deleteOrganization")}
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <div className="space-y-2 text-sm text-muted-foreground">
-              <p>{t("deleteWarning1")}</p>
-              <p>{t("deleteWarning2")}</p>
-            </div>
-
-            <div className="flex justify-end">
-              <Button variant="destructive" onClick={() => setIsDeleteModalOpen(true)}>
-                <Trash2 className="w-4 h-4" />
-                {t("deleteOrganization")}
-              </Button>
-            </div>
-          </CardContent>
-        </Card>
-      </div>
-
-      {/* Delete Tenant Dialog */}
-      {currentTenant && (
-        <DeleteTenantDialog
-          open={isDeleteModalOpen}
-          onOpenChange={setIsDeleteModalOpen}
-          tenantName={currentTenant.name}
-        />
-      )}
-
-      {/* Transfer Ownership Dialog */}
-      {transferTarget && (
-        <TransferOwnershipDialog
-          open={!!transferTarget}
-          onOpenChange={handleCloseTransferModal}
-          newOwnerId={transferTarget.id}
-          newOwnerName={transferTarget.name}
-        />
-      )}
+          {/* Transfer Ownership Dialog */}
+          {transferTarget && (
+            <TransferOwnershipDialog
+              open={!!transferTarget}
+              onOpenChange={handleCloseTransferModal}
+              newOwnerId={transferTarget.id}
+              newOwnerName={transferTarget.name}
+            />
+          )}
         </div>
       </div>
     </>

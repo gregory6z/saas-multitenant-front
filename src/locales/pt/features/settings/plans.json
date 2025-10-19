@@ -1,0 +1,84 @@
+{
+  "title": "Planos",
+  "loading": "Carregando planos...",
+
+  "mySubscription": "Minha assinatura:",
+  "manageSubscription": "Gerenciar Assinatura",
+
+  "intervals": {
+    "monthly": "Mensal",
+    "yearly": "Anual"
+  },
+
+  "freeMonths": "{{count}} meses grátis",
+  "perMonth": "/mês",
+  "billedYearly": "Cobrado anualmente: {{price}}",
+
+  "status": {
+    "active": "Ativo",
+    "trialing": "Em teste",
+    "canceled": "Cancelado",
+    "incomplete": "Incompleto",
+    "incomplete_expired": "Expirado",
+    "past_due": "Atrasado",
+    "unpaid": "Não pago"
+  },
+
+  "planNames": {
+    "trial": "Trial",
+    "starter": "Starter",
+    "pro": "Pro",
+    "enterprise": "Enterprise"
+  },
+
+  "badges": {
+    "currentPlan": "Plano Atual",
+    "mostPopular": "Mais Popular"
+  },
+
+  "actions": {
+    "upgrade": "Fazer upgrade para {{plan}}",
+    "changeTo": "Mudar para {{plan}}",
+    "currentPlanAction": "Plano Atual"
+  },
+
+  "errors": {
+    "loadPlans": "Erro ao carregar planos",
+    "loadSubscription": "Erro ao carregar assinatura"
+  },
+
+  "perYear": "/ano",
+
+  "preview": {
+    "calculating": "Calculando mudança...",
+    "pleaseWait": "Por favor aguarde enquanto calculamos os valores",
+    "title": "Confirmar mudança de plano",
+    "description": "Revise os detalhes da mudança antes de confirmar",
+    "currentPlan": "Plano atual",
+    "newPlan": "Novo plano",
+    "prorationDetails": "Detalhes de cobrança",
+    "creditAmount": "Crédito do plano atual",
+    "amountDue": "Valor a pagar agora",
+    "nextInvoice": "Próxima fatura",
+    "proratedInfo": "Valor proporcional ao tempo restante até {{date}}",
+    "confirm": "Confirmar mudança"
+  },
+
+  "toasts": {
+    "planChanged": "Plano atualizado com sucesso!",
+    "planChangeFailed": "Erro ao atualizar plano",
+    "subscriptionCanceled": "Assinatura cancelada com sucesso!",
+    "subscriptionCancelFailed": "Erro ao cancelar assinatura",
+    "checkoutFailed": "Erro ao criar sessão de checkout",
+    "errors": {
+      "invalidPlan": "Plano inválido ou igual ao atual",
+      "noPermission": "Você não tem permissão para alterar o plano",
+      "hasActiveSubscription": "Você já possui uma assinatura ativa",
+      "notFound": "Assinatura não encontrada",
+      "planNotFound": "Plano não encontrado",
+      "noTenant": "Usuário deve estar associado a um tenant",
+      "cannotChangePlan": "Não foi possível processar a mudança de plano. O backend precisa suportar upgrade/downgrade de planos ativos.",
+      "generic": "Erro ao processar solicitação"
+    }
+  }
+}

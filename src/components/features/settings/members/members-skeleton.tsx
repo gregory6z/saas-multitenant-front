@@ -34,41 +34,41 @@ export function MembersSkeleton() {
   return (
     <PageContainer className="p-6 md:p-8 overflow-y-auto flex-1">
       <div className="max-w-[830px] mx-auto space-y-8">
-      {/* Header */}
-      <div className="flex items-center justify-between">
-        <Skeleton className="h-8 w-48" />
-      </div>
+        {/* Header */}
+        <div className="flex items-center justify-between">
+          <Skeleton className="h-8 w-48" />
+        </div>
 
-      {/* Card: Convidar Membros */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <Skeleton className="w-5 h-5" />
-            <Skeleton className="h-6 w-40" />
-          </CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          <div className="flex gap-2">
-            <Skeleton className="flex-1 h-10 rounded-xl" />
-            <Skeleton className="w-[180px] h-10 rounded-xl" />
-            <Skeleton className="w-32 h-10 rounded-xl" />
-          </div>
-          <Skeleton className="h-4 w-full max-w-md" />
-        </CardContent>
-      </Card>
+        {/* Card: Convidar Membros */}
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <Skeleton className="w-5 h-5" />
+              <Skeleton className="h-6 w-40" />
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div className="flex gap-2">
+              <Skeleton className="flex-1 h-10 rounded-xl" />
+              <Skeleton className="w-[180px] h-10 rounded-xl" />
+              <Skeleton className="w-32 h-10 rounded-xl" />
+            </div>
+            <Skeleton className="h-4 w-full max-w-md" />
+          </CardContent>
+        </Card>
 
-      {/* Card: Team Members */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <Skeleton className="w-5 h-5" />
-            <Skeleton className="h-6 w-48" />
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          <MembersListSkeleton />
-        </CardContent>
-      </Card>
+        {/* Card: Team Members */}
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <Skeleton className="w-5 h-5" />
+              <Skeleton className="h-6 w-48" />
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <MembersListSkeleton />
+          </CardContent>
+        </Card>
       </div>
     </PageContainer>
   );

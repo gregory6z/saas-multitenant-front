@@ -42,40 +42,40 @@ function MembersPage() {
       <PageHeader />
       <div className="p-6 md:p-8 overflow-y-auto flex-1">
         <div className="max-w-[830px] mx-auto space-y-8">
-            {/* Header */}
-            <div className="flex items-center justify-between">
-              <h1 className="text-2xl font-semibold text-foreground">{t("title")}</h1>
-            </div>
+          {/* Header */}
+          <div className="flex items-center justify-between">
+            <h1 className="text-2xl font-semibold text-foreground">{t("title")}</h1>
+          </div>
 
-      {/* Invite Members - Only visible for owners/admins */}
-      {canManageTeam && <InviteMembersCard />}
+          {/* Invite Members - Only visible for owners/admins */}
+          {canManageTeam && <InviteMembersCard />}
 
-      {/* Pending Invitations */}
-      {canManageTeam && invitations && <PendingInvitationsList invitations={invitations} />}
+          {/* Pending Invitations */}
+          {canManageTeam && invitations && <PendingInvitationsList invitations={invitations} />}
 
-      {/* Team Members */}
-      <TeamMembersList
-        members={members}
-        isLoading={membersLoading}
-        canManageTeam={canManageTeam}
-        currentUserRole={currentUserRole}
-        onRemoveMember={setMemberToRemove}
-      />
+          {/* Team Members */}
+          <TeamMembersList
+            members={members}
+            isLoading={membersLoading}
+            canManageTeam={canManageTeam}
+            currentUserRole={currentUserRole}
+            onRemoveMember={setMemberToRemove}
+          />
 
-      {/* Remove Member Modal */}
-      {memberToRemove && (
-        <RemoveMemberModal
-          open={!!memberToRemove}
-          onOpenChange={(open) => {
-            if (!open) {
-              setMemberToRemove(null);
-            }
-          }}
-          memberId={memberToRemove.id}
-          memberName={memberToRemove.name || memberToRemove.email}
-          memberEmail={memberToRemove.email}
-        />
-      )}
+          {/* Remove Member Modal */}
+          {memberToRemove && (
+            <RemoveMemberModal
+              open={!!memberToRemove}
+              onOpenChange={(open) => {
+                if (!open) {
+                  setMemberToRemove(null);
+                }
+              }}
+              memberId={memberToRemove.id}
+              memberName={memberToRemove.name || memberToRemove.email}
+              memberEmail={memberToRemove.email}
+            />
+          )}
         </div>
       </div>
     </>
