@@ -1,5 +1,6 @@
 import { api } from "@/lib/axios";
 import type {
+  AddonsResponse,
   CancelSubscriptionRequest,
   ChangePlanRequest,
   CheckoutSessionResponse,
@@ -67,5 +68,13 @@ export async function previewPlanChange(
     "/subscriptions/preview-plan-change",
     request
   );
+  return data;
+}
+
+/**
+ * Fetch available addons
+ */
+export async function getAddons(): Promise<AddonsResponse> {
+  const { data } = await api.get<AddonsResponse>("/subscriptions/addons");
   return data;
 }

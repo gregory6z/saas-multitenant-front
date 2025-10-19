@@ -3,6 +3,7 @@
 // =====================================
 
 export { useSubscriptionQuery } from "./use-subscription-query";
+export { useAddonsQuery } from "./use-addons-query";
 
 // =====================================
 // MUTATIONS

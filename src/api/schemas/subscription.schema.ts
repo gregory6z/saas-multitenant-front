@@ -50,6 +50,40 @@ export const ExternalDetailsSchema = z.object({
     .optional(), // items é opcional, pode não vir na resposta de change-plan
 });
 
+/**
+ * Addon metadata schema
+ * Contains addon-specific configuration (chatbots, storage_mb, kb_size_increase_mb, etc.)
+ */
+export const AddonMetadataSchema = z.object({
+  chatbots: z.number().optional(),
+  storage_mb: z.number().optional(),
+  kb_size_increase_mb: z.number().optional(),
+  messages: z.number().optional(),
+  api_calls: z.number().optional(),
+});
+
+/**
+ * Addon entity schema
+ */
+export const AddonSchema = z.object({
+  id: z.string(),
+  name: z.string(),
+  description: z.string(),
+  addonType: z.enum([
+    "chatbot",
+    "storage",
+    "kb_size_upgrade",
+    "messages",
+    "api_calls",
+    "user",
+  ]),
+  price: z.number(),
+  interval: z.enum(["month", "year"]),
+  currency: z.string(),
+  metadata: AddonMetadataSchema,
+  sortOrder: z.number(),
+});
+
 // =====================================
 // 2. REQUEST SCHEMAS (constant - not used in forms)
 // =====================================
@@ -141,12 +175,21 @@ export const PreviewPlanChangeResponseSchema = z.object({
   }),
 });
 
+/**
+ * Get addons response
+ */
+export const AddonsResponseSchema = z.object({
+  addons: z.array(AddonSchema),
+});
+
 // =====================================
 // 4. TYPES
 // =====================================
 
 export type Subscription = z.infer<typeof SubscriptionSchema>;
 export type ExternalDetails = z.infer<typeof ExternalDetailsSchema>;
+export type AddonMetadata = z.infer<typeof AddonMetadataSchema>;
+export type Addon = z.infer<typeof AddonSchema>;
 export type SubscriptionResponse = z.infer<typeof SubscriptionResponseSchema>;
 export type CreateCheckoutSessionRequest = z.infer<typeof CreateCheckoutSessionRequestSchema>;
 export type CheckoutSessionResponse = z.infer<typeof CheckoutSessionResponseSchema>;
@@ -156,3 +199,4 @@ export type PortalSessionResponse = z.infer<typeof PortalSessionResponseSchema>;
 export type ChangePlanRequest = z.infer<typeof ChangePlanRequestSchema>;
 export type PreviewPlanChangeRequest = z.infer<typeof PreviewPlanChangeRequestSchema>;
 export type PreviewPlanChangeResponse = z.infer<typeof PreviewPlanChangeResponseSchema>;
+export type AddonsResponse = z.infer<typeof AddonsResponseSchema>;
