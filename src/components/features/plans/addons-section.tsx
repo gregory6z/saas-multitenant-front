@@ -1,0 +1,141 @@
+import { Package2 } from "lucide-react";
+import * as React from "react";
+import { useTranslation } from "react-i18next";
+import { useAddonsQuery } from "@/api/queries/subscription";
+import type { Addon } from "@/api/schemas/subscription.schema";
+import { AddonCard } from "@/components/features/plans/addon-card";
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import { Separator } from "@/components/ui/separator";
+import { Skeleton } from "@/components/ui/skeleton";
+
+/**
+ * Addons section component
+ * Groups and displays available addons by type
+ */
+export function AddonsSection() {
+  const { t } = useTranslation("settings-plans");
+  const { data: addonsData, isLoading, isError } = useAddonsQuery();
+
+  // TODO: Replace with real active addons from subscription
+  const [activeAddons, setActiveAddons] = React.useState<Set<string>>(new Set());
+
+  const handleToggleAddon = React.useCallback((addonId: string, enabled: boolean) => {
+    setActiveAddons((prev) => {
+      const next = new Set(prev);
+      if (enabled) {
+        next.add(addonId);
+        // TODO: Call API to activate addon
+        console.log("[AddonsSection] Activating addon:", addonId);
+      } else {
+        next.delete(addonId);
+        // TODO: Call API to deactivate addon
+        console.log("[AddonsSection] Deactivating addon:", addonId);
+      }
+      return next;
+    });
+  }, []);
+
+  // Group addons by type
+  const groupedAddons = React.useMemo(() => {
+    if (!addonsData?.addons) return {};
+
+    return addonsData.addons.reduce(
+      (acc, addon) => {
+        if (!acc[addon.addonType]) {
+          acc[addon.addonType] = [];
+        }
+        acc[addon.addonType].push(addon);
+        return acc;
+      },
+      {} as Record<string, Addon[]>
+    );
+  }, [addonsData]);
+
+  // Type labels for section headers
+  const typeLabels: Record<string, string> = {
+    chatbot: t("addons.types.chatbot"),
+    storage: t("addons.types.storage"),
+    kb_size_upgrade: t("addons.types.kb_size_upgrade"),
+    messages: t("addons.types.messages"),
+    api_calls: t("addons.types.api_calls"),
+    user: t("addons.types.user"),
+    whitelabel: t("addons.types.whitelabel"),
+    custom_domain: t("addons.types.custom_domain"),
+  };
+
+  if (isLoading) {
+    return (
+      <div className="space-y-6">
+        <div className="flex items-center gap-3">
+          <Package2 className="w-6 h-6 text-primary" />
+          <h2 className="text-2xl font-semibold">{t("addons.title")}</h2>
+        </div>
+        <Separator />
+        <div className="grid md:grid-cols-2 gap-4">
+          {[1, 2, 3, 4].map((i) => (
+            <Skeleton key={i} className="h-32" />
+          ))}
+        </div>
+      </div>
+    );
+  }
+
+  if (isError) {
+    return (
+      <div className="space-y-6">
+        <div className="flex items-center gap-3">
+          <Package2 className="w-6 h-6 text-primary" />
+          <h2 className="text-2xl font-semibold">{t("addons.title")}</h2>
+        </div>
+        <Separator />
+        <Alert variant="destructive">
+          <AlertDescription>{t("addons.loadError")}</AlertDescription>
+        </Alert>
+      </div>
+    );
+  }
+
+  if (!addonsData?.addons || addonsData.addons.length === 0) {
+    return null; // Don't show section if no addons available
+  }
+
+  return (
+    <div className="space-y-6">
+      {/* Header */}
+      <div className="space-y-2">
+        <div className="flex items-center gap-3">
+          <Package2 className="w-6 h-6 text-primary" />
+          <h2 className="text-2xl font-semibold">{t("addons.title")}</h2>
+        </div>
+        <p className="text-sm text-muted-foreground">{t("addons.description")}</p>
+      </div>
+
+      <Separator />
+
+      {/* Addons grouped by type */}
+      <div className="space-y-8">
+        {Object.entries(groupedAddons)
+          .sort(([, a], [, b]) => a[0].sortOrder - b[0].sortOrder)
+          .map(([type, addons]) => (
+            <div key={type} className="space-y-4">
+              <h3 className="text-lg font-semibold text-foreground">
+                {typeLabels[type] || type}
+              </h3>
+              <div className="grid md:grid-cols-2 gap-4">
+                {addons
+                  .sort((a, b) => a.sortOrder - b.sortOrder)
+                  .map((addon) => (
+                    <AddonCard
+                      key={addon.id}
+                      addon={addon}
+                      isActive={activeAddons.has(addon.id)}
+                      onToggle={handleToggleAddon}
+                    />
+                  ))}
+              </div>
+            </div>
+          ))}
+      </div>
+    </div>
+  );
+}

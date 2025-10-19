@@ -15,11 +15,8 @@ export function useAddonsQuery() {
     queryKey: ["addons"],
     queryFn: async () => {
       const response = await getAddons();
-      console.log("[useAddonsQuery] Backend response:", response);
       // Validate response with Zod schema
-      const validated = AddonsResponseSchema.parse(response);
-      console.log("[useAddonsQuery] ✅ Validated response:", validated);
-      return validated;
+      return AddonsResponseSchema.parse(response);
     },
     staleTime: 10 * 60 * 1000, // 10min - addons rarely change
     gcTime: 30 * 60 * 1000, // 30min - keep in cache during session

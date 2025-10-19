@@ -1,5 +1,6 @@
 import { ArrowUpCircle, Check, Zap } from "lucide-react";
 import * as React from "react";
+import { useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import {
   useChangePlanMutation,
@@ -77,7 +78,7 @@ export const PlanCard = React.memo(
      * - If has active subscription: shows preview modal first
      * - If no subscription: creates new checkout session
      */
-    const handlePlanAction = React.useCallback(() => {
+    const handlePlanAction = useCallback(() => {
       if (hasActiveSubscription) {
         // Já tem assinatura → busca preview antes de mudar
         previewPlanChange.mutate(
@@ -98,7 +99,7 @@ export const PlanCard = React.memo(
           cancelUrl: `${currentUrl}?checkout=canceled`,
         });
       }
-    }, [hasActiveSubscription, plan, changePlan, createCheckout, previewPlanChange]);
+    }, [hasActiveSubscription, plan, createCheckout, previewPlanChange]);
 
     /**
      * Confirma a mudança de plano após ver o preview

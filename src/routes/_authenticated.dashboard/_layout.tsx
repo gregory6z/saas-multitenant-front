@@ -12,11 +12,9 @@ function MainLayout() {
   return (
     <SidebarProvider>
       <AppSidebar />
-      <SidebarInset className="bg-sidebar">
-        <div className="h-screen py-1 px-2">
-          <div className="rounded-3xl bg-card border border-blue-200 h-full flex flex-col overflow-hidden">
-            <Outlet />
-          </div>
+      <SidebarInset className="bg-sidebar p-2">
+        <div className="rounded-3xl bg-card border border-blue-200 h-full flex flex-col overflow-hidden">
+          <Outlet />
         </div>
       </SidebarInset>
     </SidebarProvider>

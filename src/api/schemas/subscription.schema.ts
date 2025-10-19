@@ -76,11 +76,13 @@ export const AddonSchema = z.object({
     "messages",
     "api_calls",
     "user",
+    "whitelabel",
+    "custom_domain",
   ]),
   price: z.number(),
   interval: z.enum(["month", "year"]),
   currency: z.string(),
-  metadata: AddonMetadataSchema,
+  metadata: AddonMetadataSchema.nullable(),
   sortOrder: z.number(),
 });
 

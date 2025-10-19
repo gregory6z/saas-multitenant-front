@@ -81,5 +81,21 @@
       "cannotChangePlan": "Não foi possível processar a mudança de plano. O backend precisa suportar upgrade/downgrade de planos ativos.",
       "generic": "Erro ao processar solicitação"
     }
+  },
+
+  "addons": {
+    "title": "Complementos",
+    "description": "Adicione recursos extras à sua assinatura atual",
+    "loadError": "Erro ao carregar complementos disponíveis",
+    "types": {
+      "chatbot": "Chatbots Extras",
+      "storage": "Armazenamento Extra",
+      "kb_size_upgrade": "Upgrade de Knowledge Base",
+      "messages": "Mensagens Extras",
+      "api_calls": "Chamadas API Extras",
+      "user": "Usuários Extras",
+      "whitelabel": "White-label",
+      "custom_domain": "Domínio Personalizado"
+    }
   }
 }

@@ -1,11 +1,13 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute } from "@tanstack/react-router"
 import { CreditCard, Crown, Gift } from "lucide-react";
 import * as React from "react";
 import { useTranslation } from "react-i18next";
 import { usePlansQuery } from "@/api/queries/plan";
 import { useCreatePortalSessionMutation, useSubscriptionQuery } from "@/api/queries/subscription";
 import type { Plan } from "@/api/schemas/plan.schema";
+import { AddonsSection } from "@/components/features/plans/addons-section";
 import { PlanCard } from "@/components/features/plans/plan-card";
+import { PageHeader } from "@/components/shared/page-header";
 import { PlansPageSkeleton } from "@/components/skeletons/plans-page-skeleton";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -34,44 +36,12 @@ function getPlanKey(planId: string): string {
 
 function PlansPage() {
   const { t } = useTranslation("settings-plans");
-  const {
-    data: plans = [],
-    isLoading: plansLoading,
-    isError: plansError,
-    error: plansErrorData,
-  } = usePlansQuery();
-  const {
-    data: subscriptionData,
-    isLoading: subscriptionLoading,
-    isError: subscriptionError,
-    error: subscriptionErrorData,
-  } = useSubscriptionQuery();
+  const { data: plans = [], isLoading: plansLoading } = usePlansQuery();
+  const { data: subscriptionData, isLoading: subscriptionLoading } = useSubscriptionQuery();
   const createPortal = useCreatePortalSessionMutation();
 
   // Extract subscription from response data
   const subscription = subscriptionData?.subscription;
-
-  // Debug: verificar estado das queries
-  React.useEffect(() => {
-    console.log("[PlansPage] Plans loading:", plansLoading, "| Plans count:", plans.length);
-    console.log(
-      "[PlansPage] Subscription loading:",
-      subscriptionLoading,
-      "| Subscription:",
-      subscription
-    );
-    if (plansError) console.error("[PlansPage] Plans error:", plansErrorData);
-    if (subscriptionError) console.error("[PlansPage] Subscription error:", subscriptionErrorData);
-  }, [
-    plansLoading,
-    subscriptionLoading,
-    plans.length,
-    subscription,
-    plansError,
-    subscriptionError,
-    plansErrorData,
-    subscriptionErrorData,
-  ]);
 
   /**
    * Determina qual tab deve estar selecionada por padrão
@@ -151,10 +121,11 @@ function PlansPage() {
 
   return (
     <>
+      <PageHeader />
       <div className="p-6 md:p-8 overflow-y-auto flex-1">
-        <div className="max-w-6xl mx-auto">
+        <div className="max-w-6xl mx-auto space-y-8">
           {/* Header */}
-          <div className="flex flex-col gap-6 mb-8">
+          <div className="flex flex-col gap-6">
             {/* Título e Plano Atual */}
             <div className="flex items-center justify-between">
               <h1 className="text-2xl font-semibold text-foreground">{t("title")}</h1>
@@ -237,6 +208,9 @@ function PlansPage() {
               );
             })}
           </div>
+
+          {/* Addons Section */}
+          <AddonsSection />
         </div>
       </div>
     </>
