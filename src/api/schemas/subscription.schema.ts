@@ -175,6 +175,16 @@ export const PreviewPlanChangeResponseSchema = z.object({
     nextInvoiceAmount: z.number(),
     proratedUntil: z.string(),
   }),
+  billing: z
+    .object({
+      immediateChargeAmount: z.number(),
+      immediateChargeDate: z.string(),
+      nextBillingDate: z.string(),
+      nextBillingAmount: z.number(),
+    })
+    .optional(),
+  isUpgrade: z.boolean().optional(),
+  isDowngrade: z.boolean().optional(),
 });
 
 /**

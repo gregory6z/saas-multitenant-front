@@ -50,6 +50,13 @@
 
   "perYear": "/ano",
 
+  "enterprise": {
+    "title": "Plano Personalizado",
+    "description": "Soluções sob medida para grandes empresas com necessidades específicas",
+    "cta": "Entre em Contato",
+    "badge": "Enterprise"
+  },
+
   "preview": {
     "calculating": "Calculando mudança...",
     "pleaseWait": "Por favor aguarde enquanto calculamos os valores",
@@ -57,12 +64,20 @@
     "description": "Revise os detalhes da mudança antes de confirmar",
     "currentPlan": "Plano atual",
     "newPlan": "Novo plano",
+    "billingDetails": "Detalhes de cobrança",
+    "immediateCharge": "Cobrança imediata",
+    "noCharge": "Sem cobrança",
+    "chargeDate": "Data da cobrança",
+    "nextBillingDate": "Próxima cobrança",
+    "nextBillingAmount": "Valor da próxima cobrança",
+    "upgradeInfo": "Você será cobrado proporcionalmente pelo tempo restante até a próxima renovação",
+    "downgradeInfo": "A mudança será efetivada no final do período atual. Nenhuma cobrança adicional agora.",
+    "confirm": "Confirmar mudança",
     "prorationDetails": "Detalhes de cobrança",
     "creditAmount": "Crédito do plano atual",
     "amountDue": "Valor a pagar agora",
     "nextInvoice": "Próxima fatura",
-    "proratedInfo": "Valor proporcional ao tempo restante até {{date}}",
-    "confirm": "Confirmar mudança"
+    "proratedInfo": "Valor proporcional ao tempo restante até {{date}}"
   },
 
   "toasts": {

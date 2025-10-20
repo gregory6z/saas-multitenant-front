@@ -73,7 +73,7 @@ export function PlanChangePreviewDialog({
 
   if (!preview) return null;
 
-  const { currentPlan, newPlan, proration } = preview;
+  const { currentPlan, newPlan, billing, isUpgrade, isDowngrade } = preview;
 
   // Busca os nomes traduzidos dos planos
   const currentPlanData = plans.find((p) => p.id === currentPlan.id);
@@ -84,85 +84,110 @@ export function PlanChangePreviewDialog({
     : currentPlan.id;
   const newPlanName = newPlanData ? t(`planNames.${getPlanKey(newPlan.id)}`) : newPlan.id;
 
-  // Calcula se é upgrade ou downgrade baseado no preço
-  const isUpgrade = newPlan.price > currentPlan.price;
-  const isDowngrade = newPlan.price < currentPlan.price;
+  // Fallback para calcular upgrade/downgrade se backend não enviar
+  const calculatedIsUpgrade = isUpgrade ?? newPlan.price > currentPlan.price;
+  const calculatedIsDowngrade = isDowngrade ?? newPlan.price < currentPlan.price;
 
   return (
     <AlertDialog open={open} onOpenChange={onOpenChange}>
       <AlertDialogContent className="max-w-md">
         <AlertDialogHeader>
           <AlertDialogTitle className="flex items-center gap-2">
-            {isUpgrade && <ArrowUp className="w-5 h-5 text-green-600" />}
-            {isDowngrade && <ArrowDown className="w-5 h-5 text-orange-600" />}
+            {calculatedIsUpgrade && <ArrowUp className="w-5 h-5 text-green-600" />}
+            {calculatedIsDowngrade && <ArrowDown className="w-5 h-5 text-orange-600" />}
             {t("preview.title")}
           </AlertDialogTitle>
           <AlertDialogDescription>{t("preview.description")}</AlertDialogDescription>
         </AlertDialogHeader>
 
         <div className="space-y-4 py-4">
-          {/* Current Plan */}
-          <div className="rounded-lg border p-3 bg-muted/50">
-            <p className="text-xs text-muted-foreground mb-1">{t("preview.currentPlan")}</p>
-            <p className="font-semibold">{currentPlanName}</p>
-            <p className="text-sm text-muted-foreground">
-              {formatPrice(currentPlan.price, "eur")}
-              {currentPlan.interval === "month" ? t("perMonth") : t("perYear")}
-            </p>
+          {/* Plan Change Summary */}
+          <div className="flex items-center justify-center gap-3">
+            <div className="text-center">
+              <p className="text-xs text-muted-foreground mb-1">{t("preview.currentPlan")}</p>
+              <p className="font-semibold text-muted-foreground">{currentPlanName}</p>
+            </div>
+
+            <div className="flex-shrink-0">
+              {calculatedIsUpgrade && <ArrowUp className="w-6 h-6 text-green-600" />}
+              {calculatedIsDowngrade && <ArrowDown className="w-6 h-6 text-orange-600" />}
+            </div>
+
+            <div className="text-center">
+              <p className="text-xs text-muted-foreground mb-1">{t("preview.newPlan")}</p>
+              <p className="font-semibold text-primary">{newPlanName}</p>
+            </div>
           </div>
 
-          {/* Arrow */}
-          <div className="flex justify-center">
-            {isUpgrade && <ArrowUp className="w-6 h-6 text-green-600" />}
-            {isDowngrade && <ArrowDown className="w-6 h-6 text-orange-600" />}
-          </div>
+          {/* Billing Details */}
+          {!billing ? (
+            <div className="rounded-lg border border-destructive p-4 bg-destructive/10">
+              <div className="flex items-start gap-2">
+                <AlertCircle className="w-5 h-5 text-destructive flex-shrink-0 mt-0.5" />
+                <div>
+                  <p className="font-semibold text-destructive">Erro ao calcular cobrança</p>
+                  <p className="text-sm text-muted-foreground mt-1">
+                    O servidor não retornou informações de cobrança. Tente novamente.
+                  </p>
+                </div>
+              </div>
+            </div>
+          ) : (
+            <div className="rounded-lg border p-4 space-y-3">
+              <h4 className="font-semibold text-sm">{t("preview.billingDetails")}</h4>
 
-          {/* New Plan */}
-          <div className="rounded-lg border p-3 bg-primary/5">
-            <p className="text-xs text-muted-foreground mb-1">{t("preview.newPlan")}</p>
-            <p className="font-semibold">{newPlanName}</p>
-            <p className="text-sm text-muted-foreground">
-              {formatPrice(newPlan.price, "eur")}
-              {newPlan.interval === "month" ? t("perMonth") : t("perYear")}
-            </p>
-          </div>
-
-          {/* Proration Details */}
-          <div className="rounded-lg border p-4 space-y-3">
-            <h4 className="font-semibold text-sm">{t("preview.prorationDetails")}</h4>
-
-            {proration.creditAmount > 0 && (
+              {/* Immediate Charge */}
               <div className="flex justify-between text-sm">
-                <span className="text-muted-foreground">{t("preview.creditAmount")}</span>
-                <span className="text-green-600 font-medium">
-                  {formatPrice(proration.creditAmount, "eur")}
+                <span className="text-muted-foreground">{t("preview.immediateCharge")}</span>
+                <span
+                  className={`font-semibold ${billing.immediateChargeAmount > 0 ? "text-primary" : "text-green-600"}`}
+                >
+                  {billing.immediateChargeAmount > 0
+                    ? formatPrice(billing.immediateChargeAmount, "eur")
+                    : t("preview.noCharge")}
                 </span>
               </div>
-            )}
 
-            <div className="flex justify-between text-sm">
-              <span className="text-muted-foreground">{t("preview.amountDue")}</span>
-              <span className="font-semibold">{formatPrice(proration.amountDue, "eur")}</span>
+              {billing.immediateChargeAmount > 0 && (
+                <div className="flex justify-between text-xs text-muted-foreground">
+                  <span>{t("preview.chargeDate")}</span>
+                  <span>{new Date(billing.immediateChargeDate).toLocaleDateString()}</span>
+                </div>
+              )}
+
+              <div className="h-px bg-border" />
+
+              {/* Next Billing */}
+              <div className="flex justify-between text-sm">
+                <span className="text-muted-foreground">{t("preview.nextBillingDate")}</span>
+                <span className="font-medium">
+                  {new Date(billing.nextBillingDate).toLocaleDateString()}
+                </span>
+              </div>
+
+              <div className="flex justify-between">
+                <span className="font-semibold">{t("preview.nextBillingAmount")}</span>
+                <span className="font-bold text-lg">
+                  {formatPrice(billing.nextBillingAmount, "eur")}
+                </span>
+              </div>
+
+              {/* Info message based on upgrade/downgrade */}
+              {calculatedIsUpgrade && billing.immediateChargeAmount > 0 && (
+                <div className="flex items-start gap-2 p-3 rounded-md bg-blue-50 text-xs text-blue-900">
+                  <AlertCircle className="w-4 h-4 flex-shrink-0 mt-0.5 text-blue-600" />
+                  <p>{t("preview.upgradeInfo")}</p>
+                </div>
+              )}
+
+              {calculatedIsDowngrade && (
+                <div className="flex items-start gap-2 p-3 rounded-md bg-orange-50 text-xs text-orange-900">
+                  <AlertCircle className="w-4 h-4 flex-shrink-0 mt-0.5 text-orange-600" />
+                  <p>{t("preview.downgradeInfo")}</p>
+                </div>
+              )}
             </div>
-
-            <div className="h-px bg-border" />
-
-            <div className="flex justify-between">
-              <span className="font-semibold">{t("preview.nextInvoice")}</span>
-              <span className="font-bold text-lg">
-                {formatPrice(proration.nextInvoiceAmount, "eur")}
-              </span>
-            </div>
-
-            <div className="flex items-start gap-2 p-3 rounded-md bg-muted/50 text-xs text-muted-foreground">
-              <AlertCircle className="w-4 h-4 flex-shrink-0 mt-0.5" />
-              <p>
-                {t("preview.proratedInfo", {
-                  date: new Date(proration.proratedUntil).toLocaleDateString(),
-                })}
-              </p>
-            </div>
-          </div>
+          )}
         </div>
 
         <AlertDialogFooter>
