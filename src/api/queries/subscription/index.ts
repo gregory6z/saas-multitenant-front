@@ -9,8 +9,10 @@ export { useAddonsQuery } from "./use-addons-query";
 // MUTATIONS
 // =====================================
 
+export { useAddAddonMutation } from "./use-add-addon-mutation";
 export { useCancelSubscriptionMutation } from "./use-cancel-subscription-mutation";
 export { useChangePlanMutation } from "./use-change-plan-mutation";
 export { useCreateCheckoutSessionMutation } from "./use-create-checkout-session-mutation";
 export { useCreatePortalSessionMutation } from "./use-create-portal-session-mutation";
 export { usePreviewPlanChangeMutation } from "./use-preview-plan-change-mutation";
+export { useRemoveAddonMutation } from "./use-remove-addon-mutation";

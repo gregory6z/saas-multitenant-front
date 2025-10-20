@@ -1,9 +1,14 @@
 import { Info, Package2, Sparkles } from "lucide-react";
 import * as React from "react";
 import { useTranslation } from "react-i18next";
-import { useAddonsQuery } from "@/api/queries/subscription";
+import {
+  useAddAddonMutation,
+  useAddonsQuery,
+  useRemoveAddonMutation,
+} from "@/api/queries/subscription";
 import type { Addon } from "@/api/schemas/subscription.schema";
 import { AddonCard } from "@/components/features/plans/addon-card";
+import { AddonPreviewDialog } from "@/components/features/plans/dialogs/addon-preview-dialog";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
@@ -20,21 +25,55 @@ export function AddonsSection() {
   // TODO: Replace with real active addons from subscription
   const [activeAddons, setActiveAddons] = React.useState<Set<string>>(new Set());
 
-  const handleToggleAddon = React.useCallback((addonId: string, enabled: boolean) => {
-    setActiveAddons((prev) => {
-      const next = new Set(prev);
-      if (enabled) {
-        next.add(addonId);
-        // TODO: Call API to activate addon
-        console.log("[AddonsSection] Activating addon:", addonId);
-      } else {
-        next.delete(addonId);
-        // TODO: Call API to deactivate addon
-        console.log("[AddonsSection] Deactivating addon:", addonId);
-      }
-      return next;
-    });
-  }, []);
+  // Dialog state
+  const [dialogOpen, setDialogOpen] = React.useState(false);
+  const [selectedAddon, setSelectedAddon] = React.useState<Addon | null>(null);
+  const [dialogAction, setDialogAction] = React.useState<"add" | "remove">("add");
+
+  // Mutations
+  const addAddonMutation = useAddAddonMutation();
+  const removeAddonMutation = useRemoveAddonMutation();
+
+  const handleToggleAddon = React.useCallback(
+    (addonId: string, enabled: boolean) => {
+      const addon = addonsData?.addons.find((a) => a.id === addonId);
+      if (!addon) return;
+
+      // Open preview dialog
+      setSelectedAddon(addon);
+      setDialogAction(enabled ? "add" : "remove");
+      setDialogOpen(true);
+    },
+    [addonsData]
+  );
+
+  const handleConfirmAddon = React.useCallback(() => {
+    if (!selectedAddon) return;
+
+    if (dialogAction === "add") {
+      addAddonMutation.mutate(
+        { addonId: selectedAddon.id },
+        {
+          onSuccess: () => {
+            setActiveAddons((prev) => {
+              const next = new Set(prev);
+              next.add(selectedAddon.id);
+              return next;
+            });
+            setDialogOpen(false);
+          },
+        }
+      );
+    } else {
+      removeAddonMutation.mutate(selectedAddon.id, {
+        onSuccess: () => {
+          // NÃO remove do estado imediatamente - addon permanece ativo até o fim do período
+          // TODO: Implementar indicador visual de "pendente de remoção"
+          setDialogOpen(false);
+        },
+      });
+    }
+  }, [selectedAddon, dialogAction, addAddonMutation, removeAddonMutation]);
 
   // Group addons by type
   const groupedAddons = React.useMemo(() => {
@@ -204,6 +243,16 @@ export function AddonsSection() {
             </div>
           ))}
       </div>
+
+      {/* Addon Preview Dialog */}
+      <AddonPreviewDialog
+        open={dialogOpen}
+        onOpenChange={setDialogOpen}
+        addon={selectedAddon}
+        action={dialogAction}
+        onConfirm={handleConfirmAddon}
+        isConfirming={addAddonMutation.isPending || removeAddonMutation.isPending}
+      />
     </div>
   );
 }

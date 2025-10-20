@@ -1,5 +1,7 @@
 import { api } from "@/lib/axios";
 import type {
+  AddAddonRequest,
+  AddAddonResponse,
   AddonsResponse,
   CancelSubscriptionRequest,
   ChangePlanRequest,
@@ -9,6 +11,7 @@ import type {
   PortalSessionResponse,
   PreviewPlanChangeRequest,
   PreviewPlanChangeResponse,
+  RemoveAddonResponse,
   SubscriptionResponse,
 } from "../schemas/subscription.schema";
 
@@ -76,5 +79,21 @@ export async function previewPlanChange(
  */
 export async function getAddons(): Promise<AddonsResponse> {
   const { data } = await api.get<AddonsResponse>("/subscriptions/addons");
+  return data;
+}
+
+/**
+ * Add addon to subscription
+ */
+export async function addAddon(request: AddAddonRequest): Promise<AddAddonResponse> {
+  const { data } = await api.post<AddAddonResponse>("/subscriptions/addons", request);
+  return data;
+}
+
+/**
+ * Remove addon from subscription
+ */
+export async function removeAddon(addonId: string): Promise<RemoveAddonResponse> {
+  const { data } = await api.delete<RemoveAddonResponse>(`/subscriptions/addons/${addonId}`);
   return data;
 }

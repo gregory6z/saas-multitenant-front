@@ -129,5 +129,21 @@
       "storage": "Exemplo: Plano com 1 GB total + 500 MB extra = 1.5 GB compartilhados entre todas as KBs",
       "kb_size_upgrade": "Exemplo: Plano com 50 MB/KB + 50 MB extra = 100 MB por Knowledge Base individual"
     }
+  },
+
+  "addonPreview": {
+    "addTitle": "Ativar complemento",
+    "removeTitle": "Desativar complemento",
+    "addDescription": "Revise os detalhes antes de ativar o complemento",
+    "removeDescription": "O complemento permanecerá ativo até o final do período atual",
+    "addonInfo": "Informações do complemento",
+    "billingInfo": "Informações de cobrança",
+    "prorationInfo": "Você será cobrado proporcionalmente pelo tempo restante até a próxima renovação",
+    "prorationNote": "O valor será adicionado na sua próxima fatura",
+    "removeInfo": "O complemento continuará ativo até o final do período de cobrança atual. Você pode continuar usando até lá.",
+    "removeNote": "A cobrança será interrompida automaticamente na próxima renovação",
+    "cancel": "Cancelar",
+    "confirmAdd": "Ativar complemento",
+    "confirmRemove": "Desativar complemento"
   }
 }

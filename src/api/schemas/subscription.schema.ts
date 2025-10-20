@@ -128,6 +128,20 @@ export const PreviewPlanChangeRequestSchema = z.object({
   newPlanId: z.string().min(1, "ID do plano é obrigatório"),
 });
 
+/**
+ * Add addon request
+ */
+export const AddAddonRequestSchema = z.object({
+  addonId: z.string().min(1, "ID do addon é obrigatório"),
+});
+
+/**
+ * Remove addon request
+ */
+export const RemoveAddonRequestSchema = z.object({
+  addonId: z.string().min(1, "ID do addon é obrigatório"),
+});
+
 // =====================================
 // 3. RESPONSE SCHEMAS
 // =====================================
@@ -194,6 +208,31 @@ export const AddonsResponseSchema = z.object({
   addons: z.array(AddonSchema),
 });
 
+/**
+ * Add addon response
+ */
+export const AddAddonResponseSchema = z.object({
+  subscriptionId: z.string(),
+  addonAdded: z.object({
+    id: z.string(),
+    name: z.string(),
+  }),
+  prorationAmount: z.number(),
+  message: z.string(),
+});
+
+/**
+ * Remove addon response
+ */
+export const RemoveAddonResponseSchema = z.object({
+  subscriptionId: z.string(),
+  addonRemoved: z.object({
+    id: z.string(),
+    name: z.string(),
+  }),
+  message: z.string(),
+});
+
 // =====================================
 // 4. TYPES
 // =====================================
@@ -212,3 +251,7 @@ export type ChangePlanRequest = z.infer<typeof ChangePlanRequestSchema>;
 export type PreviewPlanChangeRequest = z.infer<typeof PreviewPlanChangeRequestSchema>;
 export type PreviewPlanChangeResponse = z.infer<typeof PreviewPlanChangeResponseSchema>;
 export type AddonsResponse = z.infer<typeof AddonsResponseSchema>;
+export type AddAddonRequest = z.infer<typeof AddAddonRequestSchema>;
+export type AddAddonResponse = z.infer<typeof AddAddonResponseSchema>;
+export type RemoveAddonRequest = z.infer<typeof RemoveAddonRequestSchema>;
+export type RemoveAddonResponse = z.infer<typeof RemoveAddonResponseSchema>;
