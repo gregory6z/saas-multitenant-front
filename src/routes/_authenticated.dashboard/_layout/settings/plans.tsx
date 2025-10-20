@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router"
-import { Crown, Gift } from "lucide-react";
+import { Crown, Gift, Mail } from "lucide-react";
 import * as React from "react";
 import { useTranslation } from "react-i18next";
 import { usePlansQuery } from "@/api/queries/plan";
@@ -10,6 +10,7 @@ import { PlanCard } from "@/components/features/plans/plan-card";
 import { PageHeader } from "@/components/shared/page-header";
 import { PlansPageSkeleton } from "@/components/skeletons/plans-page-skeleton";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 export const Route = createFileRoute("/_authenticated/dashboard/_layout/settings/plans")({
@@ -180,6 +181,20 @@ function PlansPage() {
                 />
               );
             })}
+          </div>
+
+          {/* Enterprise Contact */}
+          <div className="flex flex-col items-center gap-4 py-8">
+            <p className="text-center text-muted-foreground max-w-2xl">
+              {t("enterprise.description")}
+            </p>
+            <Button
+              variant="outline"
+              onClick={() => window.open('mailto:contato@saasbot.com', '_blank')}
+            >
+              <Mail className="w-4 h-4" />
+              {t("enterprise.cta")}
+            </Button>
           </div>
 
           {/* Addons Section */}

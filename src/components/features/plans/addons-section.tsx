@@ -94,6 +94,12 @@ export function AddonsSection() {
 
   const getSortOrder = (type: string) => typePriority[type] || 999;
 
+  // Get active addons details
+  const activeAddonsList = React.useMemo(() => {
+    if (!addonsData?.addons) return [];
+    return addonsData.addons.filter((addon) => activeAddons.has(addon.id));
+  }, [addonsData, activeAddons]);
+
   if (isLoading) {
     return (
       <div className="space-y-6">
@@ -130,9 +136,6 @@ export function AddonsSection() {
     return null; // Don't show section if no addons available
   }
 
-  // Count active addons
-  const activeAddonsCount = activeAddons.size;
-
   return (
     <div className="space-y-8">
       {/* Header */}
@@ -145,14 +148,16 @@ export function AddonsSection() {
       </div>
 
       {/* My Addons Card - Only show if has active addons */}
-      {activeAddonsCount > 0 && (
-        <div className="flex items-center gap-2 px-4 py-3 rounded-lg border border-blue-200 bg-blue-50 w-fit shadow-sm">
-          <Sparkles className="w-4 h-4 text-blue-600" />
-          <div className="flex items-center gap-2">
-            <span className="text-sm text-muted-foreground">{t("addons.myAddons")}</span>
-            <Badge className="bg-blue-100 text-blue-700 hover:bg-blue-100 font-semibold">
-              {activeAddonsCount} {activeAddonsCount === 1 ? "ativo" : "ativos"}
-            </Badge>
+      {activeAddonsList.length > 0 && (
+        <div className="flex flex-wrap items-center gap-2 px-4 py-3 rounded-lg border border-blue-200 bg-blue-50 shadow-sm">
+          <Sparkles className="w-4 h-4 text-blue-600 flex-shrink-0" />
+          <span className="text-sm text-muted-foreground">{t("addons.myAddons")}</span>
+          <div className="flex flex-wrap gap-2">
+            {activeAddonsList.map((addon) => (
+              <Badge key={addon.id} className="bg-blue-100 text-blue-700 hover:bg-blue-100 font-semibold">
+                {addon.name}
+              </Badge>
+            ))}
           </div>
         </div>
       )}
